@@ -1,0 +1,145 @@
+#Basic
+%A1                      
+%A1 vj O1                
+%W24 hj Z7
+%F4 ts X1
+%G39 bs X1
+%I10 bs D46
+%D17 te X1
+%G25 be X1
+%D36 om V28
+
+#Stack
+%N35 vj X1
+%D2 vj D21 vj N1
+%N28 vj D36 vj D36 vj Y1
+%Z1 vj Z1 vj Z1 vj Z1 vj Z1
+%X1 vj X1 vj X1 vj X1 vj X1 vj X1
+%N35 vj N35 vj N35 vj N35 vj N35 vj N35
+
+#Row
+%V1 hj V1 hj V1
+%Z1 hj Z1 hj Z1 hj Z1 hj Z1 hj Z1
+
+#Two controls
+%R4 vj X1 hj Q3
+%D2 hj J1 vj N35
+%M17 hj ss D2 vj N5 se
+%ss D2 vj N5 se hj M17
+%X1 hj X1 vj N35
+%A15 vj N23 hj Z1
+%A1 hj B1 vj Z2
+%D21 vj D21 vj Z7 hj Z4 
+%F4 vj X1 hj X1 vj D36
+%D21 vj M17 hj X1 hj M17
+%J1 hj X1 vj Y1 vj Z2
+%D36 hj U1 vj X1 hj F51
+%D2 hj Z1 hj G7 vj N35
+%D21 vj F4 vj X1 hj Z1 vj I9
+%V30 vj N17 vj N17 vj N23 hj N23
+%N37 vj R7 hj R7 vj Z9 vj D40
+%T10 vj X1 hj Z2 vj Z2 hj Z2
+%D21 vj X1 hj Q3 hj X1 vj D36
+%D7 vj N33 hj N33 hj N33 hj N33
+%N35 vj M40 hj M40 hj M40 hj M40 hj M40 hj M40 vj N35
+%D36 hj Z4 vj Z7 hj D21 hj Z1
+%N16 vj N16 vj N16 vj N21 hj N21 hj N21
+%N35 vj X1 vj X1 vj X1 vj X1
+%N35 vj X1 hj X1 hj X1 hj X1
+%D2 hj X1 hj X1 vj X1 hj D2 hj X1 vj X1 hj X1 hj D2
+
+#L1 embedding
+%J15 vj Z11 hj ss D2 vj D21 se
+%F35 hj ss Z1 vj Z4a se
+%O34 vj V28 hj ss M2 vj Z7 se
+%V28 hj ss D36 vj Z4a se vj J15
+%M17 hj ss X1 vj N35 vj N5 se
+%M17 hj ss X1 vj N35 vj N5 se hj S34
+%T22 hj ss N35 vj N34 vj J12 vj N35 se
+%H6 hj ss D21 vj X1 se
+%N35 vj A1 hj ss X1 vj X1 se vj N35
+%N35 vj Q1 hj ss X1 vj F34 hj Z1 se vj I9
+%Z11 hj ss D2 hj D21 vj N25 se
+
+#L2 embedding
+%Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
+%N35 vj A1 hj ss X1 vj Z1 hj ss Z1 vj D21 se se
+%J15 vj Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
+
+#Embedding on left
+%ss M8 vj G1 se hj M40
+%N35 vj ss W24 vj X1 se hj Z1 hj Z1
+%X1 hj N35 vj ss Y1 vj Z2 se hj S29
+ss I10 bs D46 vj I9 se hj M17
+I10 bs ss ss X1 vj D21 se hj D2 se
+
+#Corner - Top Start
+%N35 vj F4 ts X1
+%F4 ts X1 vj W24 vj Z2
+
+#Corner - Bottom Start
+%G25 bs J1
+%G36 bs X1 vj N35
+I10 bs ss I10 bs I10 se
+D36 vj I10 bs D46
+I9 vj N35 vj F20 bs A1
+
+#Corner - Top End
+%G9 te N27
+G9 te ss N27 vj N27 se
+%D17 te X1 vj N37		
+
+#Corner - Bottom End
+N35 vj H6 hj ss G39 be X1 vj D21 se
+
+#Multi-corners
+%G36 bs D21 te X1
+%G25 te J1 be X1
+
+#Corner L1 ebmedding
+N35 vj I10 bs ss X1 vj Z1 se
+S34 hj I10 bs ss X1 vj J12 se
+I10 bs ss D46 vj I9 se hj M17
+G9 bs S34 te ss N27 vj N27 se
+G39 bs X1 te ss X1 hj Z1 se be X1
+N35 vj G9 te X1 hj ss D2 vj D21 se
+
+#Corner and L2 Embedding
+I10 bs ss D2 hj ss X1 vj D21 se se
+F20 bs ss Z11 hj ss X1 vj D21 se vj N35 se
+F20 bs ss ss J1 vj X1 se hj Z11 se vj N35
+F20 bs ss ss J1 vj X1 se hj D2 vj N35 se
+
+#Overstrike
+%D36 om ss V28 hj V28 se
+%ss D36 vj D36 se om V28
+%ss D36 vj D36 se om ss V28 hj V28 se
+D36 om V28 vj N35
+
+#Invalid
+%A1 se
+G9 te ss N27 vj N27 se bs S34
+ss ss D21 vj X1 se se
+ss ss D21 vj Z1 hj A1 se se
+ss D2 hj X1 vj N25 se
+D36 om ss I10 bs X1 se
+
+#Internal ligatures
+G43a G43 bs X1
+I11a I10 bs ss X1 vj N18 se
+L2a M23 hj L2 vj X1 hj X1
+O30a O30 hj O30 hj O30 hj O30
+P9 P8 om I9
+S30 S29 om I9
+W14a V28 hj W14 vj O34
+
+#Cartouche
+%cb M17 Y5 vj N35 R4 vj X1 hj Q3 ce
+
+#Phrases
+%D4 vj D4 M23 hj ss X1 vj N35 se J15 vj Q1 hj ss X1 vj O1 se V30
+%D4 vj Q1 I10 bs ss V28 hj G43 se X1 vj N35 vj M3 vj J1 hj X1
+%G38 vj I9 U7 hj M17 hj M17 vj I9 N35 vj Q1 hj ss X1 vj F34 hj Z1 se vj I9
+
+#Invalid Phrases
+M17 hj ss X1 vj D21 A1 se
