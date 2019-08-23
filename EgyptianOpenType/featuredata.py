@@ -12,7 +12,7 @@ featurename = {
 	'pres' : {'prefix':'pr','name':'Pre-base Substitutions','type':'GSUB'},
 	'psts' : {'prefix':'ps','name':'Post-base Substitutions','type':'GSUB'},
 	'rlig' : {'prefix':'rl','name':'Required Ligatures','type':'GSUB'},
-	'rtlm' : {'prefix':'rt','name':'Right-to-left alternates','type':'GSUB'},
+	'rtlm' : {'prefix':'rt','name':'Right-to-left mirrored forms','type':'GSUB'},
 	'vrt2' : {'prefix':'vr','name':'Vertical Alternates and Rotation','type':'GSUB'}
 }
 
@@ -75,7 +75,7 @@ groupdata = {
 	'quadratFortifieds' : ['QF1','QF2','QF3','QF4','QF5','QF6','QF7','QF8'],
 	'quadratFortifiedsV' : ['QF1V','QF2V','QF3V','QF4V','QF5V','QF6V','QF7V','QF8V'],
 	'rowCounter' : ['vj0B','vj1B','vj2B','v0'],
-	'rowmaxes' : ['rm1','rm2','rm3','rm4','rm5','rm6','rc0','minsizes'],
+	'rowmaxes' : ['rm1','rm2','rm3','rm4','rm5','rm6','rm7','rm8','rc0','minsizes'],
 	'rowplus' : ['rp1','rp2','rp3','rp4','rp5'],
 	'rowspacers0' : ['r0s4p0','r0s3p0','r0s2p0','r0s1p5','r0s1p0','r0s0p5','r0s0p66','r0s0p33','r0s0p25'],
 	'rowspacers0R' : ['r0s4p0R','r0s3p0R','r0s2p0R','r0s1p5R','r0s1p0R','r0s0p5R','r0s0p66R','r0s0p33R','r0s0p25R'],

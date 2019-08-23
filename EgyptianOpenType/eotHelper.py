@@ -2115,6 +2115,23 @@ class EotHelper:
         # [1] Cleanup rm at start of block, Qi rm{1-6} -> Q1
 
         #level 0
+        def overwidemax(level):
+            #Signs > 6h don't cluster by design. Block width needs to be reset to 7 or 8 for these.
+            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'max-H-overwide'
+            contexts = {'left':[],'right':['r0bA','c0bA','h1']}
+            lookupObj['contexts'].append(contexts)
+
+            i = self.pvar['hhu'] #Max oversize width
+            while i > self.pvar['chu']: # Max clustering width
+                ch = 'ch'+str(i)
+                rm = 'rm'+str(i)
+                details = {'sub':[ch],'target':[ch,rm,'dv0']}
+                lookupObj['details'].append(details)
+                i = i - 1
+            
+            return lookupObj
+
         def maxperrow(level): #14 
             # Calculate max width per row and inject after current total width.
             # Also inject dv0 as placeholder per row.
@@ -2126,7 +2143,7 @@ class EotHelper:
             while t >= tmin:
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'max-H-row-'+str(t)+'-'+str(level)
-                # lookupObj['contexts'] = [{'left':['trg'+str(t)],'right':[]}]
+                lookupObj['contexts'] = [{'left':[],'right':['r0bA']}]
                 j = max
                 while j >= 1:
                     if j > t:
@@ -2224,7 +2241,7 @@ class EotHelper:
             if level == 0:
                 lookupObj['contexts'] = [{'left':['Qi'],'right':[]}]
                 i = 1
-                while i <= self.pvar['targetwidthmax'][level]:
+                while i <= self.pvar['hhu']:
                     details = {'sub':['rm'+str(i)],'target':['sh'+str(i)]}
                     lookupObj['details'].append(details)
                     i += 1                
@@ -2275,6 +2292,7 @@ class EotHelper:
 
         lookupObjs = []
         if level == 0:
+            lookupObjs.append(overwidemax(level))
             lookupObjs.extend(maxperrow(level))
             lookupObjs.append(blockstart(level))
         else:
@@ -2583,23 +2601,23 @@ class EotHelper:
                 j += 1
 
             return lookupObj
-        def overwidewidth(level):
-            #Signs > 6h don't cluster by design. Block width needs to be reset to 7 or 8 for these.
-            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'nrm-H-overwide-'+str(level)
-            contexts = {'left':[],'right':['r0bA']} # Include additional context if needed: 'c0bA','sh8' || 'c0bA','sh7'
-            lookupObj['contexts'].append(contexts)
+        # def overwidewidth(level):
+        #     #Signs > 6h don't cluster by design. Block width needs to be reset to 7 or 8 for these.
+        #     lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+        #     lookupObj['name'] = 'nrm-H-overwide-'+str(level)
+        #     contexts = {'left':[],'right':['r0bA']} # Include additional context if needed: 'c0bA','sh8' || 'c0bA','sh7'
+        #     lookupObj['contexts'].append(contexts)
 
-            i = self.pvar['hhu'] #Max oversize width
-            while i > self.pvar['chu']: # Max clustering width
-                sh = 'sh'+str(self.pvar['chu'])
-                dv = 'dv'+str(i - self.pvar['chu'])
-                th = 'sh'+str(i)
-                details = {'sub':[sh,dv],'target':[th]}
-                lookupObj['details'].append(details)
-                i = i - 1
+        #     i = self.pvar['hhu'] #Max oversize width
+        #     while i > self.pvar['chu']: # Max clustering width
+        #         sh = 'sh'+str(self.pvar['chu'])
+        #         dv = 'dv'+str(i - self.pvar['chu'])
+        #         th = 'sh'+str(i)
+        #         details = {'sub':[sh,dv],'target':[th]}
+        #         lookupObj['details'].append(details)
+        #         i = i - 1
             
-            return lookupObj
+        #     return lookupObj
         def cleanupDNDV(level):
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'nrm-H-cleanupDV-'+str(level)
@@ -2745,8 +2763,8 @@ class EotHelper:
         lookupObjs.extend(incrementcells(level))
         lookupObjs.extend(incrementspacers(level))
         lookupObjs.append(unswap(level))
-        if level == 0:
-            lookupObjs.append(overwidewidth(level))
+        # if level == 0:
+        #     lookupObjs.append(overwidewidth(level))
         lookupObjs.append(cleanupDNDV(level))
         lookupObjs.append(swapsizehforshape(level))
         obj = embeddedwidth(level)
@@ -2796,7 +2814,7 @@ class EotHelper:
             lookupObj['name'] = name+'-H-blockmax-'+str(level)+'_E'
             lookupObj['marks'] = 'rowmaxes'
             c = 1
-            max = self.pvar['chu'] # The widest row in a block
+            max = self.pvar['hhu'] # The widest row in a block
             while c <= max:
                 details = {'sub':['rc0','rm'+str(c)],'target':['rm'+str(c)]}
                 lookupObj['details'].append(details)
@@ -2818,7 +2836,15 @@ class EotHelper:
         featuretag = self.setfeaturetag(level)
         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
         lookupObj['name'] = name+'-H-rowmaxmarker-'+str(level)
-        lookupObj['contexts'] = []
+        if level == 0:
+            h = self.pvar['hhu']
+            contexts = []
+            while h > self.pvar['chu']:
+                context = {'left':['ch'+str(h)],'right':[]}
+                contexts.append(context)
+                h = h - 1
+            if len(contexts) > 0:
+                lookupObj['exceptcontexts'] = contexts
         details = {'sub':['dv0'],'target':['rc0','dv0']}
         lookupObj['details'].append(details)
 
@@ -2890,11 +2916,17 @@ class EotHelper:
                     details = {'sub':[width,target,'dv0'],'target':[delta]}
                     lookupObj['details'].append(details)
                 if (j == i): #cleans up ch and rm values
-                    delta = 'dv0'
-                    details = {'sub':[width,target,'dv0'],'target':[delta]}
+                    details = {'sub':[width,target,'dv0'],'target':['dv0']}
                     lookupObj['details'].append(details)
                 j += 1
             i += 1
+        if level == 0:
+            hhu = self.pvar['hhu']
+            chu = self.pvar['chu']
+            while hhu > chu: #cleans up overwide ch values
+                details = {'sub':['ch'+str(hhu),'dv0'],'target':['dv0']}
+                lookupObj['details'].append(details)
+                hhu = hhu - 1
         return lookupObj
     def calculateexcess(self,level,name):
         # The total width of the row is greater than the target width

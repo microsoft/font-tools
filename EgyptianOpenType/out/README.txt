@@ -1,0 +1,1 @@
+The eotgen.py script writes a new font and other files to this location.
