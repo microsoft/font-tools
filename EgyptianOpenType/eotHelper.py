@@ -2840,7 +2840,7 @@ class EotHelper:
             h = self.pvar['hhu']
             contexts = []
             while h > self.pvar['chu']:
-                context = {'left':['ch'+str(h)],'right':[]}
+                context = {'left':['rm'+str(h),'ch'+str(h)],'right':[]}
                 contexts.append(context)
                 h = h - 1
             if len(contexts) > 0:
