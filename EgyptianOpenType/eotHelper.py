@@ -1607,7 +1607,7 @@ class EotHelper:
 
                         return contexts                        
                     def genSub(target):
-                        subname = target[3:]
+                        subname = target[4:]
                         return subname.split('.')
 
                     lookupObj = {'feature':'clig','name':'','marks':'ALL','contexts':[],'details':[]}
@@ -1633,7 +1633,7 @@ class EotHelper:
 
             groupedligatures = {}
             for name in self.ligatures:
-                subname = name[3:] # ignore the first 3 chars which is already determined to be 'lig'
+                subname = name[4:] # ignore the first 4 chars which is already determined to be 'lig.'
                 components = subname.split('.')
                 nomissingcomponent = True
 
