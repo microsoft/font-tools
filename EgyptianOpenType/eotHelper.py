@@ -30,7 +30,7 @@ class EotHelper:
 
         self.abvslines = []
         self.blwslines = []
-        self.cliglines = []
+        self.halnlines = []
         self.defaultLookupObj = { 'feature':'','name':'',
             'marks':'','contexts':[],'details':[]}
         self.errors = []
@@ -56,7 +56,7 @@ class EotHelper:
         """Intialize the Volt OpenType project for the currently instantiated class."""
         def setdefaultfeatures():
             defaultObj = {}
-            defaultObj['clig'] = []
+            defaultObj['haln'] = []
             defaultObj['pres'] = []
             defaultObj['abvs'] = []
             defaultObj['blws'] = []
@@ -69,7 +69,7 @@ class EotHelper:
             return defaultObj
         def setdefaultfeatureindexes():
             defaultObj = {}
-            defaultObj['clig'] = 1
+            defaultObj['haln'] = 1
             defaultObj['pres'] = 1
             defaultObj['abvs'] = 1
             defaultObj['blws'] = 1
@@ -312,16 +312,16 @@ class EotHelper:
 
 ### GSUB
     #Ligatures
-    def clig(self):
-        featuretag = 'clig'
-        if self.pvar['test']['clig'] == 1:
-            print ('CLIG in test mode')
+    def haln(self):
+        featuretag = 'haln'
+        if self.pvar['test']['haln'] == 1:
+            print ('haln in test mode')
         else:
-            self.cliglines = self.GSUBligatures()
+            self.halnlines = self.GSUBligatures()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
             print (featuretag.upper() + ' written: ' + str(n) + ' (5 expected)')
-            self.writelines(self.cliglines)
+            self.writelines(self.halnlines)
 
     #Structure
     def pres(self):
@@ -1526,7 +1526,7 @@ class EotHelper:
             writefile.write(line)        
         return
 
-# C L I G
+# L I G A T U R E S
     def GSUBligatures(self):  
         def genligatures():
             def genligatureLookups(groupedligatures):
@@ -1610,7 +1610,7 @@ class EotHelper:
                         subname = target[4:]
                         return subname.split('.')
 
-                    lookupObj = {'feature':'clig','name':'','marks':'ALL','contexts':[],'details':[]}
+                    lookupObj = {'feature':'haln','name':'','marks':'ALL','contexts':[],'details':[]}
                     lookupObj['name'] = 'ligatures_'+control
                     contexts = genExceptContexts(control)
                     if len(contexts) > 0:
@@ -4324,6 +4324,33 @@ class EotHelper:
             lookupObj['details'] = loadmirrorpairs()
 
             return lookupObj
+        def vsmirrorglyphs():
+            def loadmirrorpairs():
+                subpairs = []
+                # internal pairs
+                for key in internalmirrors:
+                    sub = key
+                    target = internalmirrors[key]
+                    subpair = {'sub':[sub,'VS1'],'target':[target] }
+                    subpairs.append(subpair)
+                # dynamic pairs
+                for mirrorglyph in groupdata['mirror_all']:
+                    baseglyph = mirrorglyph[0:-1] 
+                    if baseglyph in groupdata['glyphs_all']:
+                        subpair = {'sub':[baseglyph,'VS1'],'target':[mirrorglyph] }
+                        subpair = {'sub':[mirrorglyph,'VS1'],'target':[baseglyph] }
+                        subpairs.append(subpair)
+                    elif baseglyph in self.ligatures_all:
+                        subpair = {'sub':[baseglyph,'VS1'],'target':[mirrorglyph] }
+                        subpair = {'sub':[mirrorglyph,'VS1'],'target':[baseglyph] }
+                        subpairs.append(subpair)
+                return subpairs
+
+            lookupObj = {'feature':'psts','name':'','marks':'ALL','contexts':[],'details':[]}
+            lookupObj['name'] = 'vsmirrorglyphs'
+            lookupObj['details'] = loadmirrorpairs()
+
+            return lookupObj
 
         lines = []
         if self.pvar['mirror']:
@@ -4335,6 +4362,9 @@ class EotHelper:
             lines.extend(self.writefeature(lookupObj))
             # Swap RTL sized glyphs
             lookupObj = swaprtlglyphs()
+            lines.extend(self.writefeature(lookupObj))
+            # Swap RTL sized glyphs
+            lookupObj = vsmirrorglyphs()
             lines.extend(self.writefeature(lookupObj))
 
         return lines

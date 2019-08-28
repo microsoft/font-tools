@@ -6,7 +6,7 @@ qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cfb',
 featurename = {
 	'abvs' : {'prefix':'ab','name':'Above-base Substitutions','type':'GSUB'},
 	'blws' : {'prefix':'bl','name':'Below-base Substitutions','type':'GSUB'},	
-	'clig' : {'prefix':'cc','name':'Contextual Ligatures','type':'GSUB'},
+	'haln' : {'prefix':'ha','name':'Halant Forms','type':'GSUB'},
 	'mark' : {'prefix':'ma','name':'Mark Positioning','type':'GPOS'},
 	'mkmk' : {'prefix':'mk','name':'Mark to Mark Positioning','type':'GPOS'},
 	'pres' : {'prefix':'pr','name':'Pre-base Substitutions','type':'GSUB'},
@@ -122,7 +122,8 @@ groupdata = {
 	'stems_12' : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
 	'targetwidth' : ['trg2', 'trg3', 'trg4', 'trg5', 'trg6'],
-	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp']
+	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp'],
+	'vss' : ['VS1','VS2','VS3']
 } 
 
 basetypes = ['QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',

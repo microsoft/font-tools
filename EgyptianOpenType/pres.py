@@ -60,6 +60,14 @@ pres = [
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
+    # Lookup 8 - accommodate variation selectors
+    {'name' : 'Qf_insert', 'marks' : '',
+    'contexts' : [{'left':['Qf'],'right':[]}],
+    'details' : [{'sub':['vss'],'target':['vss','Qf']}]},
+    # Lookup 8 - accommodate variation selectors
+    {'name' : 'Qf_cleanup', 'marks' : '',
+    'contexts' : [{'left':[],'right':[]}],
+    'details' : [{'sub':['Qf','vss'],'target':['vss']}]},
     # Lookup 8 - inserts quadat initial before all ETs
     {'name' : 'Qi_insert', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
