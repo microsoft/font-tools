@@ -30,6 +30,7 @@ groupdata = {
 	'colspacers1R' : ['c1s3p0R','c1s2p0R','c1s1p0R','c1s0p5R','c1s0p33R'],
 	'colspacers2' : ['c2s1p0'],
 	'colspacers2R' : ['c2s1p0R'],
+	'color_all' : [],
 	'controls_a' : ['controls_joiners','ss','se'],
 	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A'],
     'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn4','mn3','mn2','ub'], #controls not grouped for injection

@@ -27,12 +27,10 @@ class EotHelper:
     def __init__(self, pvar):
         """Intialize the Egyptian OpenType helper class with config variable."""
         self.pvar = pvar
-
         self.abvslines = []
         self.blwslines = []
         self.halnlines = []
-        self.defaultLookupObj = { 'feature':'','name':'',
-            'marks':'','contexts':[],'details':[]}
+        self.defaultLookupObj = {'feature':'','name':'','marks':'','contexts':[],'details':[]}
         self.errors = []
         self.filenames = []
         self.gdeflines = []
@@ -997,6 +995,9 @@ class EotHelper:
         group = 'mirror_all'
         details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'color_all'
+        details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
+        anchorgroup(group,[group],details)
         preformatanchor('center','m0','ZERO','ZERO')
         group = 'shapes_0'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
@@ -1073,9 +1074,11 @@ class EotHelper:
                 groupenum += grouptype+' "'+listitem+'" '
     def loadglyphdata(self):
         def calculateGroup(dec, name):
+            variation  = re.search(r'^VS[0-9]$',name)
             hieroglyph = re.search(r'^[A-Z]+[0-9]+[a-z]?v?$',name)
             sizevar = re.search(r'_([0-9][0-9])$',name)
-            mirror  = re.search(r'^[A-Z][0-9]+[a-z]?(_[0-9][0-9])?R$',name)
+            mirror  = re.search(r'^[A-Z]+[0-9]+[a-z]?(_[0-9][0-9])?R$',name)
+            color  = re.search(r'^[A-Z]+[0-9]+[a-z]?(_[0-9][0-9])?R?C$',name)
             shade = re.search(r'^LS_[1-8][1-6]$',name)
             ligature = re.search(r'^lig.*[^R]$',name)
             ligmirror = re.search(r'^lig.*R$',name)
@@ -1086,9 +1089,11 @@ class EotHelper:
                     group = 'Chr'
                 else:    
                     group = 'Chr' # pick up glyphs outside Gardiner set
-                    print(name)
             elif dec > 0: #mapped BMP characters
-                group = 'Cmn'
+                if (variation): #name matches the patter for a variation selector
+                    group = 'VS'
+                else:
+                    group = 'Cmn'
             elif (ligature): #is a ligature
                 if (sizevar):
                     group = 'LigV' #ligature size variant
@@ -1107,6 +1112,8 @@ class EotHelper:
                 group = 'Mirror'
             elif (ligmirror): #name is a ligature and includes R flag
                 group = 'Mirror'
+            elif (color): #name is a color glyph and includes C flag
+                group = 'Color'
             elif (name == ('GB1','placeholder')): # treat these as hieroglyphs
                 group = 'Chr'
             else: #unmapped control characters for OTL
@@ -1143,7 +1150,7 @@ class EotHelper:
                 glyph['type'] = 'B'
             if group in ['Chr','LigR']:
                 glyph['root'] = name
-            if group in ['Chr','Mirror','SVar','LigR','LigV']:
+            if group in ['Chr','Mirror','SVar','LigR','LigV','Color']:
                 glyphObj = glyphTable[name]
                 glyph['maxh'] = glyphObj.xMax
                 glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
@@ -1248,6 +1255,11 @@ class EotHelper:
             if (ggroup == 'Mirror'):
                 if not key in qcontrols:
                     groupdata['mirror_all'].append(key)
+
+            # color group
+            if (ggroup == 'Color'):
+                if not key in qcontrols:
+                    groupdata['color_all'].append(key)
 
         hashtargetsizes()
         savefont()
@@ -3993,7 +4005,6 @@ class EotHelper:
                 #sh{1-8} sv{1-6} -> t$1$2
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'unbalancedOm'
-                i = self.pvar['chu']
                 for it in groupdata['insertionsizes1']:
                     es = 'es'+it[-2:]
                     details = {'sub':[it,'ub'],'target':[es]}
@@ -4324,7 +4335,7 @@ class EotHelper:
             lookupObj['details'] = loadmirrorpairs()
 
             return lookupObj
-        def vsmirrorglyphs():
+        def vsmirrorglyphsL(): # P S T S
             def loadmirrorpairs():
                 subpairs = []
                 # internal pairs
@@ -4333,24 +4344,60 @@ class EotHelper:
                     target = internalmirrors[key]
                     subpair = {'sub':[sub,'VS1'],'target':[target] }
                     subpairs.append(subpair)
-                # dynamic pairs
+                # dynamic mirror pairs
                 for mirrorglyph in groupdata['mirror_all']:
                     baseglyph = mirrorglyph[0:-1] 
                     if baseglyph in groupdata['glyphs_all']:
                         subpair = {'sub':[baseglyph,'VS1'],'target':[mirrorglyph] }
-                        subpair = {'sub':[mirrorglyph,'VS1'],'target':[baseglyph] }
                         subpairs.append(subpair)
                     elif baseglyph in self.ligatures_all:
                         subpair = {'sub':[baseglyph,'VS1'],'target':[mirrorglyph] }
+                        subpairs.append(subpair)
+                return subpairs
+
+            lookupObj = {'feature':'psts','name':'','marks':'ALL','contexts':[],'details':[]}
+            lookupObj['name'] = 'vsmirrorglyphsL'
+            lookupObj['details'] = loadmirrorpairs()
+
+            return lookupObj
+        def vsmirrorglyphsR(): # P S T S
+            def loadmirrorpairs():
+                subpairs = []
+                # dynamic mirror pairs
+                for mirrorglyph in groupdata['mirror_all']:
+                    baseglyph = mirrorglyph[0:-1] 
+                    if baseglyph in groupdata['glyphs_all']:
+                        subpair = {'sub':[mirrorglyph,'VS1'],'target':[baseglyph] }
+                        subpairs.append(subpair)
+                    elif baseglyph in self.ligatures_all:
                         subpair = {'sub':[mirrorglyph,'VS1'],'target':[baseglyph] }
                         subpairs.append(subpair)
                 return subpairs
 
             lookupObj = {'feature':'psts','name':'','marks':'ALL','contexts':[],'details':[]}
-            lookupObj['name'] = 'vsmirrorglyphs'
+            lookupObj['name'] = 'vsmirrorglyphsR'
             lookupObj['details'] = loadmirrorpairs()
 
             return lookupObj
+        def colorglyphs(): # P S T S
+            def loadcolorpairs():
+                subpairs = []
+                for colorglyph in groupdata['color_all']:
+                    baseglyph = colorglyph[0:-1] 
+                    if baseglyph in groupdata['glyphs_all']:
+                        subpair = {'sub':[baseglyph],'target':[colorglyph] }
+                        subpairs.append(subpair)
+                return subpairs
+
+            lookupObj = {'feature':'psts','name':'','marks':'ALL','contexts':[],'details':[]}
+            lookupObj['name'] = 'swapcolorglyphs'
+            subpairs = loadcolorpairs()
+            lookupObj['details'] = subpairs
+
+            if len(subpairs) > 0:
+                return lookupObj
+            else:
+                return -1
 
         lines = []
         if self.pvar['mirror']:
@@ -4363,9 +4410,16 @@ class EotHelper:
             # Swap RTL sized glyphs
             lookupObj = swaprtlglyphs()
             lines.extend(self.writefeature(lookupObj))
-            # Swap RTL sized glyphs
-            lookupObj = vsmirrorglyphs()
+            # Swap LTR<->RTL glyphs with VS1
+            lookupObj = vsmirrorglyphsL()
             lines.extend(self.writefeature(lookupObj))
+            # Swap RTL<->LTR glyphs with VS1
+            lookupObj = vsmirrorglyphsR()
+            lines.extend(self.writefeature(lookupObj))
+            # Swap monochrome to color glyphs with VS3
+            lookupObj = colorglyphs()
+            if lookupObj != -1:
+                lines.extend(self.writefeature(lookupObj))
 
         return lines
 
