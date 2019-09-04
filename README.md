@@ -1,5 +1,8 @@
+# Microsoft Font-tools
 
-# Contributing
+This repo is a home for OSS font-tools developed by Microsoft. Currently the only tool available is Python code for generating OpenType tables for Egyptian Hieroglyphic fonts levergaing the [Egyptian Hieroglyph Format Controls](https://www.unicode.org/charts/PDF/U13430.pdf) which were added to Unicode in version 12.0.
+
+## Contributing
 
 This project welcomes contributions and suggestions.  Most contributions require you to agree to a
 Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us
