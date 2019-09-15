@@ -51,15 +51,16 @@ mkmk = [
     'details' : [
         {'attach':['shapes_0'],'to':['shapes_ts'],'anchor':'left'},
         {'to':['shapes_bs'],'anchor':'left'},
-        {'to':['shapes_cb'],'anchor':'left'}, # not included with multi-corners
+        {'to':['shapes_cb'],'anchor':'left'},
         {'to':['shapes_te'],'anchor':'left'},
         {'to':['shapes_be'],'anchor':'left'},
         {'to':['shapes_om'],'anchor':'center'},
     ]},
-    #Lookup - Corner insertion te, be
+    #Lookup - Corner insertion bs,cb,te,be
     {'name' : 'multi-corners 3', 'marks' : 'shapeinsertions0',
     'details' : [
         {'attach':['shapes_ts'],'to':['shapes_bs'],'anchor':'left'},
+        {'to':['shapes_cb'],'anchor':'left'},
         {'to':['shapes_te'],'anchor':'left'},
         {'to':['shapes_be'],'anchor':'left'},
     ]},
@@ -67,7 +68,7 @@ mkmk = [
     #Lookup - Corner insertion te, be
     {'name' : 'multi-corners 2', 'marks' : 'shapeinsertions0',
     'details' : [
-        {'attach':['shapes_bs'],'to':['shapes_te'],'anchor':'left'},
+        {'attach':['shapes_bs','shapes_cb'],'to':['shapes_te'],'anchor':'left'},
         {'to':['shapes_be'],'anchor':'left'},
     ]},
 

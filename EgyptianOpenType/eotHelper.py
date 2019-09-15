@@ -318,7 +318,7 @@ class EotHelper:
             self.halnlines = self.GSUBligatures()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (5 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (<=5 expected)')
             self.writelines(self.halnlines)
 
     #Structure
@@ -1542,7 +1542,7 @@ class EotHelper:
     def GSUBligatures(self):  
         def genligatures():
             def genligatureLookups(groupedligatures):
-                def genligature(control,targets):
+                def genligature(srtcontrol,targets):
                     def genExceptContexts(control):
                         # Except contexts are needed to prevent ligatures distorting control precedence
                         contexts = []
@@ -1621,7 +1621,7 @@ class EotHelper:
                     def genSub(target):
                         subname = target[4:]
                         return subname.split('.')
-
+                    control = srtcontrol[1:]
                     lookupObj = {'feature':'haln','name':'','marks':'ALL','contexts':[],'details':[]}
                     lookupObj['name'] = 'ligatures_'+control
                     contexts = genExceptContexts(control)
@@ -1635,7 +1635,7 @@ class EotHelper:
                     return lookupObj
 
                 lookupObjs = []
-                for key in groupedligatures:
+                for key in sorted(groupedligatures):
                     targets = groupedligatures[key]
                     if len(targets)>0:
                         lookupObj = genligature(key,targets)
@@ -1658,21 +1658,27 @@ class EotHelper:
                     if len(components) == 3:
                         # collect all ligatures with same control and group in one lookup with exceptions
                         control = components[1]
-                        if control not in groupedligatures:
-                            groupedligatures[control] = []    
+                        if control in qcontrols:
+                            idx = qcontrols.index(control)
+                            srtcontrol = str(idx)+control
+                            if srtcontrol not in groupedligatures:
+                                groupedligatures[srtcontrol] = []    
 
-                        groupedligatures[control].append(name)
+                            groupedligatures[srtcontrol].append(name)
 
                     if len(components) > 3:
                         # collect all and group in one lookup with all controls (^ss,se) as exceptions
                         # We have to make a new lookup for each ligature length because the ligature
                         # lookups includes an except clause.
-                        liglen = 'a'+str(len(components))
+                        srtkey = 'a'
+                        if len(components)-5 <26:
+                            z2a = ('z','x','w','v','u','t','s','r','q','p','o','n','m','l','k','j','i','h','g','f','e','d','c','b','a')
+                            srtkey = z2a[len(components)-5]
+                        liglen = '0a'+srtkey
                         if liglen not in groupedligatures:
                             groupedligatures[liglen] = []    
                         groupedligatures[liglen].append(name)
 
-            # groupedligatures = sorted(groupedligatures)
             return genligatureLookups(groupedligatures)
 
         lines = []
