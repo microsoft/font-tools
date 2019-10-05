@@ -998,6 +998,9 @@ class EotHelper:
         group = 'color_all'
         details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'controls_joiners'
+        details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
+        anchorgroup(group,[group],details)
         preformatanchor('center','m0','ZERO','ZERO')
         group = 'shapes_0'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
@@ -1012,6 +1015,9 @@ class EotHelper:
         details = {'aname':'center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_om'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'genericbases'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
 
@@ -1084,14 +1090,16 @@ class EotHelper:
             ligmirror = re.search(r'^lig.*R$',name)
             if dec > 65535: #mapped SMP characters
                 if name in qcontrols:
-                    group = 'Ctrl'
+                    group = 'Joiner'
                 elif (hieroglyph): #name matches the patter for a hieroglyph
                     group = 'Chr'
                 else:    
-                    group = 'Chr' # pick up glyphs outside Gardiner set
+                    group = 'Chr' #pick up glyphs outside Gardiner set
             elif dec > 0: #mapped BMP characters
                 if (variation): #name matches the patter for a variation selector
                     group = 'VS'
+                elif dec == 9676: #dotted circle as generic base
+                    group = 'Chr'
                 else:
                     group = 'Cmn'
             elif (ligature): #is a ligature
@@ -1114,7 +1122,7 @@ class EotHelper:
                 group = 'Mirror'
             elif (color): #name is a color glyph and includes C flag
                 group = 'Color'
-            elif (name == ('GB1','placeholder')): # treat these as hieroglyphs
+            elif (name == ('GB1','placeholder','dottedcircle')): # treat these as hieroglyphs
                 group = 'Chr'
             else: #unmapped control characters for OTL
                 group = 'Ctrl'
@@ -1150,7 +1158,7 @@ class EotHelper:
                 glyph['type'] = 'B'
             if group in ['Chr','LigR']:
                 glyph['root'] = name
-            if group in ['Chr','Mirror','SVar','LigR','LigV','Color']:
+            if group in ['Chr','Joiner','Mirror','SVar','LigR','LigV','Color']:
                 glyphObj = glyphTable[name]
                 glyph['maxh'] = glyphObj.xMax
                 glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
@@ -2481,6 +2489,7 @@ class EotHelper:
             #Swap dv, h, and eh for dn, hn, and en respectively
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'nrm-H-swap-'+str(level)
+            lookupObj['contexts'] = [{'left':['c'+str(level)+'eA'],'right':[]}]
 
             details = {'sub':['hj'+str(level)+'B'],'target':['cs0']}
             lookupObj['details'].append(details)
@@ -3532,6 +3541,7 @@ class EotHelper:
         def swap(level):
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'nrm-V-swap-'+str(level)
+            lookupObj['contexts'] = [{'left':['r'+str(level)+'eA'],'right':[]}]
 
             details = {'sub':['vj'+str(level)+'B'],'target':['rs0']}
             lookupObj['details'].append(details)
@@ -4255,6 +4265,18 @@ class EotHelper:
                 i = i - 1
 
             return lookupObj
+        def unusedcontrols():
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'unusedcontrols'
+            lookupObj['details'].append({'sub':['vj0B'],'target':['vj']})
+            lookupObj['details'].append({'sub':['hj0B'],'target':['hj']})
+            lookupObj['details'].append({'sub':['its0B','it22'],'target':['ts']})
+            lookupObj['details'].append({'sub':['ibs0B','it22'],'target':['bs']})
+            lookupObj['details'].append({'sub':['ite0B','it22'],'target':['te']})
+            lookupObj['details'].append({'sub':['ibe0B','it22'],'target':['be']})
+            lookupObj['details'].append({'sub':['om0B','it66'],'target':['om']})
+
+            return
 
         lines = []
         lines.extend(self.writefeature(cleanup()))
@@ -4283,7 +4305,8 @@ class EotHelper:
             lines.extend(self.writefeature(cartoucheextensions()))
         if self.pvar['fortified']:
             lines.extend(self.writefeature(fortifiedextensions()))
-  
+        lines.extend(self.writefeature(unusedcontrols()))
+
         return lines
 
 # R T L M

@@ -34,7 +34,7 @@ groupdata = {
 	'controls_a' : ['controls_joiners','ss','se'],
 	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A'],
     'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn4','mn3','mn2','ub'], #controls not grouped for injection
-	'controls_joiners' : ['hj','vj','corners','om'],
+	'controls_joiners' : ['hj','vj','ts','te','bs','be','om'],
 	'corners' : ['ts','te','bs','be'],
 	'corners0a' : ['its0A','ibs0A','cbr0A','ite0A','ibe0A','om0A'],
 	'corners0b' : ['its0B','ibs0B','cbr0B','ite0B','ibe0B','om0B'],
@@ -124,7 +124,8 @@ groupdata = {
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
 	'targetwidth' : ['trg2', 'trg3', 'trg4', 'trg5', 'trg6'],
 	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp'],
-	'vss' : ['VS1','VS2','VS3']
+	'vss' : ['VS1','VS2','VS3'],
+	'genericbases' : ['dottedcircle']
 } 
 
 basetypes = ['QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',
