@@ -83,9 +83,9 @@ pres = [
     {'name' : 'gb1', 'marks' : '',
     'exceptcontexts' : [
         {'left':[],'right':['Qi']},
-        {'left':[],'right':['ss']},
-        {'left':['Qf'],'right':[]}
+        {'left':[],'right':['ss']}
     ],
+    'contexts' : [{'left':['Qf'],'right':[]}],
     'details' : []},
     # Lookup 10 - clean up Qf glyphs
     {'name' : 'Qf_cleanup', 'marks' : '',

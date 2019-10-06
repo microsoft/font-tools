@@ -327,7 +327,7 @@ class EotHelper:
             keys = groupdata['characters_all']
             subpairs = []
             for key in keys:
-                if key != 'GB1':
+                if key not in ['GB1','dottedcircle']:
                     hval = self.glyphdata[key]['ehuh']
                     if hval > self.pvar['hhu']:
                         hval = self.pvar['hhu']
