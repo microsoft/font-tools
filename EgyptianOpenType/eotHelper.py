@@ -4276,7 +4276,7 @@ class EotHelper:
             lookupObj['details'].append({'sub':['ibe0B','it22'],'target':['be']})
             lookupObj['details'].append({'sub':['om0B','it66'],'target':['om']})
 
-            return
+            return lookupObj
 
         lines = []
         lines.extend(self.writefeature(cleanup()))
