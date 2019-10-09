@@ -318,7 +318,7 @@ class EotHelper:
             self.halnlines = self.GSUBligatures()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (<=5 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (<=6 expected)')
             self.writelines(self.halnlines)
 
     #Structure
@@ -327,7 +327,7 @@ class EotHelper:
             keys = groupdata['characters_all']
             subpairs = []
             for key in keys:
-                if key != 'GB1':
+                if key not in ('GB1','dottedcircle'):
                     hval = self.glyphdata[key]['ehuh']
                     if hval > self.pvar['hhu']:
                         hval = self.pvar['hhu']
@@ -381,7 +381,7 @@ class EotHelper:
         else:
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (47 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (49 expected)')
             self.writelines(self.preslines)
 
     #Level 0
@@ -401,7 +401,7 @@ class EotHelper:
             self.rliglines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (210 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (206 expected)')
             self.writelines(self.rliglines)
 
     #Level 1
@@ -421,7 +421,7 @@ class EotHelper:
             self.blwslines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (252 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (244 expected)')
             self.writelines(self.blwslines)
 
     #Level 2
@@ -453,7 +453,7 @@ class EotHelper:
             self.pstslines = self.GSUBresizing()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (40 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (41 expected)')
             self.writelines(self.pstslines)
 
     #Mirroring
@@ -1018,7 +1018,7 @@ class EotHelper:
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'genericbases'
-        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        details = {'aname':'center','xtype':'MID','ytype':'MID','recursive':0}
         anchorgroup(group,[group],details)
 
         # write lines
@@ -4191,7 +4191,7 @@ class EotHelper:
             def loadtargetglyphs():
                 subpairs = []
                 for glyph in groupdata['glyphs_all']:
-                    if glyph != 'placeholder':
+                    if glyph not in ['placeholder','dottedcircle']:
                         hval = self.glyphdata[glyph]['ehuh']
                         if hval > self.pvar['hhu']:
                             hval = self.pvar['hhu']
@@ -4220,9 +4220,10 @@ class EotHelper:
                 for key in self.glyphdata:
                     glyph = self.glyphdata[key]
                     if glyph['group'] in ['Chr','LigR']:
-                        name = glyph['name']
-                        subpair = {'sub':['et00',name],'target':['placeholder'] }
-                        subpairs.append(subpair)
+                        if glyph['hex'] != '0x25cc':
+                            name = glyph['name']                        
+                            subpair = {'sub':['et00',name],'target':['placeholder'] }
+                            subpairs.append(subpair)
                 return subpairs
 
             lookupObjs = []
