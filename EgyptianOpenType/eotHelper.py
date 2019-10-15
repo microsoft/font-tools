@@ -327,7 +327,7 @@ class EotHelper:
             keys = groupdata['characters_all']
             subpairs = []
             for key in keys:
-                if key not in ('GB1','dottedcircle'):
+                if key not in ['GB1','dottedcircle']:
                     hval = self.glyphdata[key]['ehuh']
                     if hval > self.pvar['hhu']:
                         hval = self.pvar['hhu']
@@ -2485,28 +2485,36 @@ class EotHelper:
 
         # [dv{1-5}] h1 eh{1-5} -> eh$1+$2 (per col), csp0 -> csp{h-1/dv}
 
-        def swap(level):
+        def swaps(level):
             #Swap dv, h, and eh for dn, hn, and en respectively
-            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'nrm-H-swap-'+str(level)
-            lookupObj['contexts'] = [{'left':['c'+str(level)+'eA'],'right':[]}]
+            def swaphj(level):
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'nrm-H-swaphj-'+str(level)
+                lookupObj['contexts'] = [{'left':['c'+str(level)+'eA'],'right':[]}]
+                details = {'sub':['hj'+str(level)+'B'],'target':['cs0']}
+                lookupObj['details'].append(details)
+                return lookupObj
+            def swap(level):
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'nrm-H-swaphj-'+str(level)
+                i = 1
+                while i < self.pvar['targetwidthmax'][level]:
+                    details = {'sub':['dv'+str(i)],'target':['dn'+str(i)]}
+                    lookupObj['details'].append(details)
+                    details = {'sub':['h'+str(i)],'target':['hn'+str(i)]}
+                    lookupObj['details'].append(details)
+                    i += 1
+                j = 1
+                while j <= self.pvar['targetwidthmax'][level]:
+                    details = {'sub':['eh'+str(j)],'target':['en'+str(j)]}
+                    lookupObj['details'].append(details)
+                    j += 1
+                return lookupObj
 
-            details = {'sub':['hj'+str(level)+'B'],'target':['cs0']}
-            lookupObj['details'].append(details)
-            i = 1
-            while i < self.pvar['targetwidthmax'][level]:
-                details = {'sub':['dv'+str(i)],'target':['dn'+str(i)]}
-                lookupObj['details'].append(details)
-                details = {'sub':['h'+str(i)],'target':['hn'+str(i)]}
-                lookupObj['details'].append(details)
-                i += 1
-            j = 1
-            while j <= self.pvar['targetwidthmax'][level]:
-                details = {'sub':['eh'+str(j)],'target':['en'+str(j)]}
-                lookupObj['details'].append(details)
-                j += 1
-
-            return lookupObj
+            lookupObjs = []
+            lookupObjs.append(swaphj(level))
+            lookupObjs.append(swap(level))
+            return lookupObjs
         def insertrowboundary(level):
             #Insert a boundary marker in the deltas_cells class to prevent incrementing across rows
             # r{0-2}eB > r$1eB 
@@ -2784,7 +2792,7 @@ class EotHelper:
         featuretag = self.setfeaturetag(level)
 
         lookupObjs = []
-        lookupObjs.append(swap(level))
+        lookupObjs.extend(swaps(level))
         lookupObjs.append(insertrowboundary(level))
         lookupObjs.extend(insertdeltatokens(level))
         lookupObjs.extend(incrementcells(level))
