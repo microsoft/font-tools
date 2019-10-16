@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # egyptian opentype generator data
 
-qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cfb','cfe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtfb','hwtfe']
+qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cfb','cfe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtfb','hwtfe','dottedcircle']
 
 featurename = {
 	'abvs' : {'prefix':'ab','name':'Above-base Substitutions','type':'GSUB'},
@@ -128,7 +128,7 @@ groupdata = {
 	'genericbases' : ['dottedcircle']
 } 
 
-basetypes = ['QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',
+basetypes = ['dottedcircle','QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',
     'QC1','QC2','QC3','QC4','QC5','QC6','QC7','QC8',
     'QF1','QF2','QF3','QF4','QF5','QF6','QF7','QF8',
     'QC1V','QC2V','QC3V','QC4V','QC5V','QC6V','QC7V','QC8V',

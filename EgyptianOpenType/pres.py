@@ -81,14 +81,14 @@ pres = [
     ]},
     # DYNAMIC Lookup 9b - insert GB1 after incomplete controls
     {'name' : 'gb1', 'marks' : '',
-    'contexts' : [
-        {'left':['Qf'],'right':[]}
-    ],
     'exceptcontexts' : [
         {'left':[],'right':['Qi']},
         {'left':[],'right':['ss']}
     ],
-    'contexts' : [{'left':['Qf'],'right':[]}],
+    'contexts' : [
+        {'left':['Qf'],'right':[]},
+        {'left':['Qf','controls_b'],'right':[]}
+    ],
     'details' : []},
     # Lookup 10 - clean up Qf glyphs
     {'name' : 'Qf_cleanup', 'marks' : '',
