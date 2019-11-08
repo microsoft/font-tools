@@ -41,6 +41,7 @@ AABD          ; Vowel_Independent # Lo       TAI VIET VOWEL AN
 
 0840..0858   ; Consonant # Lo  [25] MANDAIC LETTER HALQA..MANDAIC LETTER AIN
 0F00         ; Consonant # Lo       TIBETAN SYLLABLE OM
+0F01         ; Consonant # Lo       TIBETAN MARK GTER YIG MGO TRUNCATED
 0F04..0F06   ; Consonant # Po       TIBETAN MARK INITIAL YIG MGO MDUN MA..TIBETAN MARK CARET YIG MGO PHUR SHAD MA
 19C1..19C7   ; Consonant # Lo   [7] NEW TAI LUE LETTER FINAL V..NEW TAI LUE LETTER FINAL B # Reassigned to avoid clustering with a base consonant
 11003..11004 ; Consonant # Lo   [2] BRAHMI SIGN JIHVAMULIYA..BRAHMI SIGN UPADHMANIYA
