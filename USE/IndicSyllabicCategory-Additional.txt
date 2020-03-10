@@ -10,6 +10,7 @@
 
 # Indic_Syllabic_Category=Bindu
 AA29         ; Bindu             # Mn       CHAM VOWEL SIGN AA
+193A         ; Bindu             # Mn       LIMBU SIGN KEMPHRENG
 10A0C..10A0D ; Bindu             # Mn   [2] KHAROSHTHI VOWEL LENGTH MARK..KHAROSHTHI SIGN DOUBLE RING BELOW
 
 # ================================================
