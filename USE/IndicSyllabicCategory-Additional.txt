@@ -57,7 +57,6 @@ AA29         ; Bindu             # Mn       CHAM VOWEL SIGN AA
 # Indic_Syllabic_Category=Tone_Mark
 1A7B..1A7C   ; Tone_Mark         # Mn   [2] TAI THAM SIGN MAI SAM..TAI THAM SIGN KHUEN-LUE KARAN
 1A7F         ; Tone_Mark         # Mn       TAI THAM COMBINING CRYPTOGRAMMIC DOT
-A982         ; Tone_Mark         # Mn       JAVANESE SIGN LAYAR# Not a repha, because it does not reorder to front of cluster
 
 # ================================================
 
