@@ -1,9 +1,11 @@
 # Override values For Indic_Syllabic_Category
-# Not derivable - compiled based on Unicode 7.0 by Andrew Glass 2014-03-17
-# Not derivable - updated for Unicode 10.0 by Andrew Glass 2017-07-25
-# Not derivable - ammended for Unicode 10.0 by Andrew Glass 2018-09-21
-# Not derivable - ammended for Unicode 12.1 by Andrew Glass 2019-05-24
-# Not derivable - ammended for Unicode 13.0 by Andrew Glass 2020-07-27
+# Not derivable
+# Initial version based on Unicode 7.0 by Andrew Glass 2014-03-17
+# Updated  for Unicode 10.0 by Andrew Glass 2017-07-25
+# Ammended for Unicode 10.0 by Andrew Glass 2018-09-21
+# Updated  for L2/19-083    by Andrew Glass 2019-05-06
+# Updated  for Unicode 12.1 by Andrew Glass 2019-05-24
+# Updated  for Unicode 13.0 by Andrew Glass 2020-07-28
 
 # ================================================
 # OVERRIDES TO ASSIGNED VALUES
@@ -83,6 +85,8 @@ AABD          ; Vowel_Independent # Lo       TAI VIET VOWEL AN
 10AC0..10AC7 ; Consonant # Lo    [8] MANICHAEAN LETTER ALEPH..MANICHAEAN LETTER WAW
 10AC9..10AE4 ; Consonant # Lo   [28] MANICHAEAN LETTER ZAYIN..MANICHAEAN LETTER TAW
 10D00..10D23 ; Consonant # Lo   [36] HANIFI ROHINGYA LETTER A..HANIFI ROHINGYA MARK NA KHONNA
+10E80..10EA9 ; Consonant # Lo   [42] YEZIDI LETTER ELIF..YEZIDI LETTER ET
+10EB0..10EB1 ; Consonant # Lo    [2] YEZIDI LETTER LAM WITH DOT ABOVE..YEZIDI LETTER YOT WITH CIRCUMFLEX ABOVE
 10F30..10F45 ; Consonant # Lo   [22] SOGDIAN LETTER ALEPH..SOGDIAN INDEPENDENT SHIN
 111DA        ; Consonant # Lo        SHARADA EKAM
 #Consider moving HIEROGLYPHS to new category
@@ -91,6 +95,7 @@ AABD          ; Vowel_Independent # Lo       TAI VIET VOWEL AN
 13437..13438 ; Consonant # Lo    [2] EGYPTIAN HIEROGLYPH BEGIN SEGMENT..EGYPTIAN HIEROGLYPH END SEGMENT
 16B00..16B2F ; Consonant # Lo   [48] PAHAWH HMONG VOWEL KEEB..PAHAWH HMONG CONSONANT CAU
 16F45..16F4A ; Consonant # Lo    [6] MIAO LETTER BRI..MIAO LETTER RTE
+18B00..18CD5 ; Consonant # Lo  [470] KHITAN SMALL SCRIPT CHARACTER-18B00..KHITAN SMALL SCRIPT CHARACTER-18CD5
 1BC00..1BC99 ; Consonant # Lo  [139] DUPLOYAN LETTER H..DUPLOYAN AFFIX LOW ARROW
 1E100..1E12C ; Consonant # Lo   [45] NYIAKENG PUACHUE HMONG LETTER MA..NYIAKENG PUACHUE HMONG LETTER W
 1E137..1E13D ; Consonant # Lm    [7] NYIAKENG PUACHUE HMONG SIGN FOR PERSON..NYIAKENG PUACHUE HMONG SYLLABLE LENGTHENER
@@ -161,6 +166,7 @@ FE00..FE0F   ; Modifying_Letter    # Mn  [16] VARIATION SELECTOR-1..VARIATION SE
 # Indic_Syllabic_Category=Virama
 2D7F         ; Virama              # Mn       TIFINAGH CONSONANT JOINER
 13430..13436 ; Virama              # Cf   [7] EGYPTIAN HIEROGLYPH VERTICAL JOINER..EGYPTIAN HIEROGLYPH OVERLAY MIDDLE
+16FE4        ; Virama              # Mn       KHITAN SMALL SCRIPT FILLER
 
 # ================================================
 
@@ -173,6 +179,7 @@ AABD         ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 
 # Indic_Syllabic_Category=Vowel_Dependent
 0B55          ; Vowel_Dependent   # Mn       ORIYA SIGN OVERLINE
+10EAB..10EAC  ; Vowel_Dependent   # Mn   [2] YEZIDI COMBINING HAMZA MARK..YEZIDI COMBINING MADDA MARK
 
 # ================================================
 # ================================================
@@ -180,22 +187,22 @@ AABD         ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 # ================================================
 # ================================================
 
-# USE_Syllabic_Category=Hieroglyph
+# Extended_Syllabic_Category=Hieroglyph
 # 13000..1342E ; Hieroglyph          # Lo [1071] EGYPTIAN HIEROGLYPH A001..EGYPTIAN HIEROGLYPH AA032
 
 # ================================================
 
-# USE_Syllabic_Category=Hieroglyph_Joiner
+# Extended_Syllabic_Category=Hieroglyph_Joiner
 # 13430..13436 ; Hieroglyph_Joiner   # Cf        EGYPTIAN HIEROGLYPH VERTICAL JOINER..EGYPTIAN HIEROGLYPH OVERLAY MIDDLE
 
 # ================================================
 
-# USE_Syllabic_Category= Hieroglyph_Segment_Begin
+# Extended_Syllabic_Category= Hieroglyph_Segment_Begin
 # 13437        ; Hieroglyph_Segment_Begin  # Cf  EGYPTIAN HIEROGLYPH BEGIN SEGMENT
 
 # ================================================
 
-# USE_Syllabic_Category= Hieroglyph_Segment_End
+# Extended_Syllabic_Category= Hieroglyph_Segment_End
 # 13438        ; Hieroglyph_Segment_End    # Cf  EGYPTIAN HIEROGLYPH END SEGMENT 
 
 # ================================================

@@ -1,10 +1,11 @@
 # Override values For Indic_Positional_Category
-# Not derivable - compiled based on Unicode 7.0 by Andrew Glass 2014-03-17
-# Updated for Unicode 10.0 by Andrew Glass 2017-07-25
+# Not derivable
+# Initial version based on Unicode 7.0 by Andrew Glass 2014-03-17
+# Updated  for Unicode 10.0 by Andrew Glass 2017-07-25
 # Ammended for Unicode 10.0 by Andrew Glass 2018-09-21
-# Ammended for Unicode 10.0 by Andrew Glass 2018-09-21
-# Ammended for L2/19-083 by Andrew Glass 2019-05-06
-# Ammended for Unicode 12.1 by Andrew Glass 2019-05-30
+# Updated  for L2/19-083    by Andrew Glass 2019-05-06
+# Updated  for Unicode 12.1 by Andrew Glass 2019-05-30
+# Updated  for Unicode 13.0 by Andrew Glass 2020-07-28
 
 # ================================================
 # ================================================
@@ -16,7 +17,7 @@
 0F72        ; Bottom  # Mn      TIBETAN VOWEL SIGN I # Not really below, but need to override to fit into Universal model
 0F7A..0F7D  ; Bottom  # Mn  [4] TIBETAN VOWEL SIGN E..TIBETAN VOWEL SIGN OO # Not really below, but need to override to fit into Universal model
 0F80        ; Bottom  # Mn      TIBETAN VOWEL SIGN REVERSED I # Not really below, but need to override to fit into Universal model
-A9BE..A9BF  ; Bottom  # Mc  [2] JAVANESE CONSONANT SIGN PENGKAL..JAVANESE CONSONANT SIGN CAKRA
+A9BF        ; Bottom  # Mc      JAVANESE CONSONANT SIGN CAKRA
 11127..11129; Bottom  # Mn  [3] CHAKMA VOWEL SIGN A..CHAKMA VOWEL SIGN II
 1112D       ; Bottom  # Mn      CHAKMA VOWEL SIGN AI
 11130       ; Bottom  # Mn      CHAKMA VOWEL SIGN OI
@@ -24,13 +25,13 @@ A9BE..A9BF  ; Bottom  # Mc  [2] JAVANESE CONSONANT SIGN PENGKAL..JAVANESE CONSON
 # ================================================
 
 # Indic_Positional_Category=Left
-1C29   ; Left   # Mc       LEPCHA VOWEL SIGN OO  # Reduced from Top_And_Left
+1C29        ; Left    # Mc      LEPCHA VOWEL SIGN OO  # Reduced from Top_And_Left
 
 # ================================================
 
 
 # Indic_Positional_Category=Right
-A9BE   ; Right   # Mc        JAVANESE CONSONANT SIGN PENGKAL # Reduced from Bottom_And_Right
+A9BE        ; Right   # Mc      JAVANESE CONSONANT SIGN PENGKAL # Reduced from Bottom_And_Right
 
 # ================================================
 
@@ -74,6 +75,7 @@ AA35         ; Top   # Mn       CHAM CONSONANT SIGN
 # Indic_Positional_Category=Top
 07EB..07F3   ; Top   # Mn   [9] NKO COMBINING SHORT HIGH TONE..NKO COMBINING DOUBLE DOT ABOVE
 1885..1886   ; Top   # Mn   [2] MONGOLIAN LETTER ALI GALI BALUDA..MONGOLIAN LETTER ALI GALI THREE BALUDA
+10EAB..10EAC ; Top   # Mn   [2] YEZIDI COMBINING HAMZA MARK..YEZIDI COMBINING MADDA MARK
 1E944..1E94A ; Top   # Mn   [7] ADLAM ALIF LENGTHENER..ADLAM NUKTA
 10AE5        ; Top   # Mn       MANICHAEAN ABBREVIATION MARK ABOVE
 10D24..10D27 ; Top   # Mn   [4] HANIFI ROHINGYA SIGN HARBAHAY..HANIFI ROHINGYA SIGN TASSI
