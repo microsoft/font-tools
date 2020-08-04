@@ -2,8 +2,6 @@
 # Not derivable
 # Initial version based on Unicode 7.0 by Andrew Glass 2014-03-17
 # Updated  for Unicode 10.0 by Andrew Glass 2017-07-25
-# Ammended for Unicode 10.0 by Andrew Glass 2018-09-21
-# Updated  for L2/19-083    by Andrew Glass 2019-05-06
 # Updated  for Unicode 12.1 by Andrew Glass 2019-05-24
 # Updated  for Unicode 13.0 by Andrew Glass 2020-07-28
 
@@ -15,6 +13,7 @@
 193A          ; Bindu  # Mn       LIMBU SIGN KEMPHRENG
 AA29          ; Bindu  # Mn       CHAM VOWEL SIGN AA
 10A0C..10A0D  ; Bindu  # Mn   [2] KHAROSHTHI VOWEL LENGTH MARK..KHAROSHTHI SIGN DOUBLE RING BELOW
+1172B         ; Bindu  # Mn       AHOM SIGN KILLER
 
 # ================================================
 
@@ -187,22 +186,22 @@ AABD         ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 # ================================================
 # ================================================
 
-# Extended_Syllabic_Category=Hieroglyph
+# USE_Syllabic_Category=Hieroglyph
 # 13000..1342E ; Hieroglyph          # Lo [1071] EGYPTIAN HIEROGLYPH A001..EGYPTIAN HIEROGLYPH AA032
 
 # ================================================
 
-# Extended_Syllabic_Category=Hieroglyph_Joiner
+# USE_Syllabic_Category=Hieroglyph_Joiner
 # 13430..13436 ; Hieroglyph_Joiner   # Cf        EGYPTIAN HIEROGLYPH VERTICAL JOINER..EGYPTIAN HIEROGLYPH OVERLAY MIDDLE
 
 # ================================================
 
-# Extended_Syllabic_Category= Hieroglyph_Segment_Begin
+# USE_Syllabic_Category= Hieroglyph_Segment_Begin
 # 13437        ; Hieroglyph_Segment_Begin  # Cf  EGYPTIAN HIEROGLYPH BEGIN SEGMENT
 
 # ================================================
 
-# Extended_Syllabic_Category= Hieroglyph_Segment_End
+# USE_Syllabic_Category= Hieroglyph_Segment_End
 # 13438        ; Hieroglyph_Segment_End    # Cf  EGYPTIAN HIEROGLYPH END SEGMENT 
 
 # ================================================
