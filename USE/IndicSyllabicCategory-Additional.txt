@@ -12,7 +12,7 @@
 # Indic_Syllabic_Category=Bindu  
 193A          ; Bindu  # Mn       LIMBU SIGN KEMPHRENG
 AA29          ; Bindu  # Mn       CHAM VOWEL SIGN AA
-10A0C..10A0D  ; Bindu  # Mn   [2] KHAROSHTHI VOWEL LENGTH MARK..KHAROSHTHI SIGN DOUBLE RING BELOW
+10A0D         ; Bindu  # Mn       KHAROSHTHI SIGN DOUBLE RING BELOW
 1172B         ; Bindu  # Mn       AHOM SIGN KILLER
 
 # ================================================
@@ -23,7 +23,6 @@ AA29          ; Bindu  # Mn       CHAM VOWEL SIGN AA
 0F04..0F06   ; Consonant # Po       TIBETAN MARK INITIAL YIG MGO MDUN MA..TIBETAN MARK CARET YIG MGO PHUR SHAD MA
 19C1..19C7   ; Consonant # Lo   [7] NEW TAI LUE LETTER FINAL V..NEW TAI LUE LETTER FINAL B # Reassigned to avoid clustering with a base consonant
 25CC         ; Consonant # So       DOTTED CIRCLE
-11003..11004 ; Consonant # Lo   [2] BRAHMI SIGN JIHVAMULIYA..BRAHMI SIGN UPADHMANIYA
 
 # ================================================
 
@@ -80,6 +79,7 @@ AABD          ; Vowel_Independent # Lo       TAI VIET VOWEL AN
 180A         ; Consonant # Po        MONGOLIAN NIRUGU
 1820..1878   ; Consonant # Lo   [88] MONGOLIAN LETTER A..MONGOLIAN LETTER CHA WITH TWO DOTS
 1843         ; Consonant # Lm        MONGOLIAN LETTER TODO LONG VOWEL SIGN
+2D30..2D67   ; Consonant # Lo   [56] TIFINAGH LETTER YA..TIFINAGH LETTER YO
 2D6F         ; Consonant # Lm        TIFINAGH MODIFIER LETTER LABIALIZATION MARK
 10AC0..10AC7 ; Consonant # Lo    [8] MANICHAEAN LETTER ALEPH..MANICHAEAN LETTER WAW
 10AC9..10AE4 ; Consonant # Lo   [28] MANICHAEAN LETTER ZAYIN..MANICHAEAN LETTER TAW
@@ -88,12 +88,13 @@ AABD          ; Vowel_Independent # Lo       TAI VIET VOWEL AN
 10EB0..10EB1 ; Consonant # Lo    [2] YEZIDI LETTER LAM WITH DOT ABOVE..YEZIDI LETTER YOT WITH CIRCUMFLEX ABOVE
 10F30..10F45 ; Consonant # Lo   [22] SOGDIAN LETTER ALEPH..SOGDIAN INDEPENDENT SHIN
 111DA        ; Consonant # Lo        SHARADA EKAM
-#Consider moving HIEROGLYPHS to new category
-13000..1342E ; Consonant # Lo [1071] EGYPTIAN HIEROGLYPH A001..EGYPTIAN HIEROGLYPH AA032
+#HIEROGLYPHS moved to new category
+#13000..1342E ; Consonant # Lo [1071] EGYPTIAN HIEROGLYPH A001..EGYPTIAN HIEROGLYPH AA032
 #For the Begin and End segment to be handled fully correctly, the cluster model needs to be modified.
-13437..13438 ; Consonant # Lo    [2] EGYPTIAN HIEROGLYPH BEGIN SEGMENT..EGYPTIAN HIEROGLYPH END SEGMENT
+#13437..13438 ; Consonant # Lo    [2] EGYPTIAN HIEROGLYPH BEGIN SEGMENT..EGYPTIAN HIEROGLYPH END SEGMENT
 16B00..16B2F ; Consonant # Lo   [48] PAHAWH HMONG VOWEL KEEB..PAHAWH HMONG CONSONANT CAU
-16F45..16F4A ; Consonant # Lo    [6] MIAO LETTER BRI..MIAO LETTER RTE
+16F00..16F4A ; Consonant # Lo   [75] MIAO LETTER PA..MIAO LETTER RTE
+16FE4        ; Consonant # Mn        KHITAN SMALL SCRIPT FILLER
 18B00..18CD5 ; Consonant # Lo  [470] KHITAN SMALL SCRIPT CHARACTER-18B00..KHITAN SMALL SCRIPT CHARACTER-18CD5
 1BC00..1BC99 ; Consonant # Lo  [139] DUPLOYAN LETTER H..DUPLOYAN AFFIX LOW ARROW
 1E100..1E12C ; Consonant # Lo   [45] NYIAKENG PUACHUE HMONG LETTER MA..NYIAKENG PUACHUE HMONG LETTER W
@@ -118,8 +119,8 @@ AABD          ; Vowel_Independent # Lo       TAI VIET VOWEL AN
 # ================================================
 
 # Indic_Syllabic_Category=Modifying_Letter
-# These are here for Mongolian support
-FE00..FE0F   ; Modifying_Letter    # Mn  [16] VARIATION SELECTOR-1..VARIATION SELECTOR-16# Need to treat them as isolated bases so they don't merge with a cluster in invalid scenarios
+FE00..FE0F   ; Modifying_Letter  # Mn  [16] VARIATION SELECTOR-1..VARIATION SELECTOR-16# Need to treat them as isolated bases so they don't merge with a cluster in invalid scenarios
+16F50        ; Modifying_Letter  # Lo       MIAO LETTER NASALIZATION
 
 # ================================================
 
@@ -145,18 +146,15 @@ FE00..FE0F   ; Modifying_Letter    # Mn  [16] VARIATION SELECTOR-1..VARIATION SE
 
 # ================================================
 
-# Indic_Syllabic_Category=Syllable_Modifier
-07FD         ; Syllable_Modifier   # Mn       NKO DANTAYALAN
-
-# ================================================
-
 # Indic_Syllabic_Category=Tone_Mark
 07EB..07F3   ; Tone_Mark           # Mn   [9] NKO COMBINING SHORT HIGH TONE..NKO COMBINING DOUBLE DOT ABOVE
+07FD         ; Tone_Mark           # Mn       NKO DANTAYALAN
 0F86..0F87   ; Tone_Mark           # Mn   [2] TIBETAN SIGN LCI RTAGS..TIBETAN SIGN YANG RTAGS
 17CF         ; Tone_Mark           # Mn       KHMER SIGN AHSDA
 10D24..10D26 ; Tone_Mark           # Mn   [3] HANIFI ROHINGYA SIGN HARBAHAY..HANIFI ROHINGYA SIGN TANA
-16B30..16B36 ; Tone_Mark           # Mn   [7] PAHAWH HMONG MARK CIM TUB..PAHAWH HMONG MARK CIM TAUM
 10F46..10F50 ; Tone_Mark           # Mn  [11] SOGDIAN COMBINING DOT BELOW..SOGDIAN COMBINING STROKE BELOW
+16B30..16B36 ; Tone_Mark           # Mn   [7] PAHAWH HMONG MARK CIM TUB..PAHAWH HMONG MARK CIM TAUM
+16F8F..16F92 ; Tone_Mark           # Mn   [4] MIAO TONE RIGHT..MIAO TONE BELOW
 1E130..1E136 ; Tone_Mark           # Mn   [7] NYIAKENG PUACHUE HMONG TONE-B..NYIAKENG PUACHUE HMONG TONE-D
 1E2EC..1E2EF ; Tone_Mark           # Mn   [4] WANCHO TONE TUP..WANCHO TONE KOINI
 
@@ -165,7 +163,6 @@ FE00..FE0F   ; Modifying_Letter    # Mn  [16] VARIATION SELECTOR-1..VARIATION SE
 # Indic_Syllabic_Category=Virama
 2D7F         ; Virama              # Mn       TIFINAGH CONSONANT JOINER
 13430..13436 ; Virama              # Cf   [7] EGYPTIAN HIEROGLYPH VERTICAL JOINER..EGYPTIAN HIEROGLYPH OVERLAY MIDDLE
-16FE4        ; Virama              # Mn       KHITAN SMALL SCRIPT FILLER
 
 # ================================================
 
@@ -179,6 +176,7 @@ AABD         ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 # Indic_Syllabic_Category=Vowel_Dependent
 0B55          ; Vowel_Dependent   # Mn       ORIYA SIGN OVERLINE
 10EAB..10EAC  ; Vowel_Dependent   # Mn   [2] YEZIDI COMBINING HAMZA MARK..YEZIDI COMBINING MADDA MARK
+16F51..16F87  ; Vowel_Dependent   # Mc  [55] MIAO SIGN ASPIRATION..MIAO VOWEL SIGN UI
 
 # ================================================
 # ================================================
