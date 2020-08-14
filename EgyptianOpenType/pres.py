@@ -269,12 +269,12 @@ pres = [
     'details' : [{'sub':['c2eA','r2eA'],'target':['c2eA']}]},
     # Lookup 39 - insert level 2 min default size
     {'name' : 'default_size_2', 'marks' : '',
-    'contexts' : [{'left':['c1bA'],'right':[]}],
-    'details' : [{'sub':['r2bA'],'target':['mt22','r2bA']}]},
+    'contexts' : [{'left':[],'right':['r2bA']}],
+    'details' : [{'sub':['c1bA'],'target':['c1bA','mt22']}]},
     # Lookup 40 - insert level 1 min default size 
     {'name' : 'default_size_level1', 'marks' : '',
-    'contexts' : [{'left':['c0bA'],'right':[]}],
-    'details' : [{'sub':['r1bA'],'target':['mt43','r1bA']}]},
+    'contexts' : [{'left':[],'right':['r1bA']}],
+    'details' : [{'sub':['c0bA'],'target':['c0bA','mt43']}]},
     # Lookup 40 - move unbalanced ss (i.e., su) to mark mt43,mt22
     {'name' : 'insertunbalancedtoken', 'marks' : 'rowmaxes',
     'contexts' : [{'left':[],'right':['su']}],
