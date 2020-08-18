@@ -32,7 +32,8 @@ A9BF        ; Bottom  # Mc      JAVANESE CONSONANT SIGN CAKRA
 
 # Indic_Positional_Category=Right
 A9BE        ; Right   # Mc      JAVANESE CONSONANT SIGN PENGKAL # Reduced from Bottom_And_Right
-10A0C       ; Right   # Mn      KHAROSHTHI VOWEL LENGTH MARK # Follows vowels and precedes vowel modifiers
+10A0C       ; Right   # Mn      KHAROSHTHI VOWEL LENGTH MARK    # Follows vowels and precedes vowel modifiers
+11942       ; Right   # Mc      DIVES AKURU MEDIAL RA           # Reduced from Bottom_And_Right
 
 # ================================================
 
