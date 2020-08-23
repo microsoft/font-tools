@@ -60,9 +60,9 @@ groupdata = {
 	'groupCounters' : ['grp0','grp1','grp2'],
 	'horizontals2' : ['eh_all','h1','h2','h3','h4','h5','h6','h7','h8'],
 	'insertionmarkers': ['ima','imb','im0'],
-	'insertionsizes1a' : ['it11a','it21a','it22a','it33a','it43a','it44a','it55a','it66a'],
-	'insertionsizes1'  : ['it11' ,'it21' ,'it22' ,'it33' ,'it43' ,'it44' ,'it55' ,'it66'],
-	'insertionsizes1R' : ['it11R','it21R','it22R','it33R','it43R','it44R','it55R','it66R'],
+	'insertionsizes1a' : ['it11a','it21a','it22a','it31a','it33a','it43a','it44a','it55a','it66a'],
+	'insertionsizes1'  : ['it11' ,'it21' ,'it22' ,'it31' ,'it33' ,'it43' ,'it44' ,'it55' ,'it66'],
+	'insertionsizes1R' : ['it11R','it21R','it22R','it31R','it33R','it43R','it44R','it55R','it66R'],
 	'insertions' : ['insertionmarkers','insertionsizes1a'],
 	'minsizes' : ['mt22','mt33','mt44','mt43','su'],
 	'mirror_all' : [],
@@ -80,8 +80,8 @@ groupdata = {
 	'rowplus' : ['rp1','rp2','rp3','rp4','rp5'],
 	'rowspacers0' : ['r0s4p0','r0s3p0','r0s2p0','r0s1p5','r0s1p0','r0s0p5','r0s0p66','r0s0p33','r0s0p25'],
 	'rowspacers0R' : ['r0s4p0R','r0s3p0R','r0s2p0R','r0s1p5R','r0s1p0R','r0s0p5R','r0s0p66R','r0s0p33R','r0s0p25R'],
-	'rowspacers1' : ['r1s3p0','r1s2p0','r1s1p0','r1s0p5','r1s0p33'],
-	'rowspacers1R' : ['r1s3p0R','r1s2p0R','r1s1p0R','r1s0p5R','r1s0p33R'],
+	'rowspacers1' : ['r1s4p0','r1s3p0','r1s2p0','r1s1p0','r1s0p5','r1s0p33'],
+	'rowspacers1R' : ['r1s4p0R','r1s3p0R','r1s2p0R','r1s1p0R','r1s0p5R','r1s0p33R'],
 	'rowspacers2' : ['r2s1p0'],
 	'rowspacers2R' : ['r2s1p0R'],
 	'shapeheights' : ['sv1','sv2','sv3','sv4','sv5','sv6'],
@@ -105,7 +105,7 @@ groupdata = {
 	'spacers_cols2'  : ['cs0','c2s1p0','cs0','cs0','cs0','cs0'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'spacers_deltas' : ['ds0','ds1p0','ds0p5','ds0p66','ds0p33','ds0p25'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'spacers_rows0'    : ['rs0','r0s4p0','r0s3p0','r0s2p0','r0s1p5','r0s1p0','r0s0p5','r0s0p66','r0s0p33','r0s0p25'], # ORDER OF THESE ITEMS IS IMPORTANT
-	'spacers_rows1'    : ['rs0','rs0','r1s3p0','r1s2p0','rs0','r1s1p0','r1s0p5','rs0','r1s0p33','rs0'], # ORDER OF THESE ITEMS IS IMPORTANT
+	'spacers_rows1'    : ['rs0','r1s4p0','r1s3p0','r1s2p0','rs0','r1s1p0','r1s0p5','rs0','r1s0p33','rs0'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'spacers_rows2'    : ['rs0','rs0','rs0','rs0','rs0','r2s1p0','rs0','rs0','rs0','rs0'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'spacers_deltarows': ['ds0','ds4p0','ds3p0','ds2p0','ds1p5','ds1p0','ds0p5','ds0p66','ds0p33','ds0p25'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'stems0-h'  : ['c0h1', 'c0h2', 'c0h3', 'c0h4', 'c0h5', 'c0h6', 'c0h7', 'c0h8', 'colspacers0', 'r0eB'],
@@ -122,7 +122,7 @@ groupdata = {
 	'stems2-vR' : ['r2v1R','r2v2R','r2v3R','r2v4R','r2v5R','r2v6R','r2vbR','rowspacers2R'],
 	'stems_12' : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
-	'targetwidth' : ['trg2', 'trg3', 'trg4', 'trg5', 'trg6'],
+	'targetwidth' : ['trg1','trg2','trg3','trg4','trg5','trg6'],
 	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp'],
 	'vss' : ['VS1','VS2','VS3'],
 	'genericbases' : ['dottedcircle']

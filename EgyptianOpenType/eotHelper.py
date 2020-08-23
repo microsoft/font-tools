@@ -1170,7 +1170,8 @@ class EotHelper:
                 self.errors.append('Too wide [eh104]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuh'])+'.')
             glyph['ehuv'] = int(math.ceil(float(glyph['maxv'])/(float(self.pvar['vfu'])+self.pvar['issp'])))
             if glyph['ehuv'] > self.pvar['vhu']:
-                self.errors.append('Too tall [eh105]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuv'])+'.')
+                if glyph['name'] not in qcontrols:
+                    self.errors.append('Too tall [eh105]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuv'])+'.')
             if group in ['SVar','LigV']:
                 searchObj = re.search(r'^(.*)_([0-9]*)$',name)
                 namedsize= '00'
@@ -1735,7 +1736,6 @@ class EotHelper:
         return lines
     def GSUBcountcols(self,level): #hvm-
         #split et tokens to eh and ev values 
-        #TODO consider skipping et stage altoghether 
         #insert target width maker at the start of each level column
         def converthvmarkers(level):
             #Convert et token to width and height markers
@@ -1975,20 +1975,27 @@ class EotHelper:
                 lookupObj['details'].append(details)
                 j = j - 1
 
-            #inserted block marker alpha
-            # Inject insertion begin token insertion sizer marker
-            # it33 -> it33 ima (insertion marker alpha)
-                
-            for it in groupdata['insertionsizes1']:
-                details = {'sub':[it],'target':[it,'ima']}
-                lookupObj['details'].append(details)
-
             #containing cell start
             # Inject insertion blocking token after outer level cell begin
             #c0bA -> c0bA imb (insertion marker block)
             outer = level - 1
             details = {'sub':['c'+str(outer)+'bA'],'target':['c'+str(outer)+'bA','imb']}
             lookupObj['details'].append(details)
+
+            return lookupObj
+        def cornerinsertiontokens(level):
+            #inserted block marker alpha
+            # Inject insertion begin token insertion sizer marker
+            # it33 -> it33 ima (insertion marker alpha)
+
+            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'ins-H-cornerinstokens'
+            left = 'corners'+str(level - 1)+'b'
+            lookupObj['contexts'] = [{'left':[left],'right':[]}]
+
+            for it in groupdata['insertionsizes1']:
+                details = {'sub':[it],'target':[it,'ima']}
+                lookupObj['details'].append(details)
 
             return lookupObj
         def insertiondeltamarker(level):
@@ -2078,6 +2085,9 @@ class EotHelper:
         def storerowmax(level):
             #copy the max block size to a value next to om0B
             #so it can be used in ps rules to scale block with
+            #TODO:LSEP
+            # it66 -> ih6 it66 (om0B | rm6)
+            # >>> om0B -> om0B ih6 (|insertionsizes1 rm6)
             lookupObjs = []
             i = self.pvar['targetwidthmax'][level]
             while i >= 1:
@@ -2118,6 +2128,7 @@ class EotHelper:
 
         lookupObjs = []
         lookupObjs.append(insertiontokens(level))
+        lookupObjs.append(cornerinsertiontokens(level))
         lookupObjs.append(insertiondeltamarker(level))
         lookupObjs.extend(insertionmaxperrow(level))
         lookupObjs.append(insertmaxcalcmarker(level))
@@ -2867,7 +2878,8 @@ class EotHelper:
 
         return lookupObjs
     def insertrowmaxmarker(self,level,name): #24
-        # Insert rc0 before dv0 to receive block max width per row 
+        # Insert rc0 before dv0 to receive block max width per row
+        # TODO:LSEP 
         featuretag = self.setfeaturetag(level)
         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
         lookupObj['name'] = name+'-H-rowmaxmarker-'+str(level)
@@ -3097,6 +3109,7 @@ class EotHelper:
         #so process in level order with col count as prerequisite
 
         def inserttoken(level):
+            # TODO:LSEP
             if level == 0:
                 ctxt = 0
             else:
@@ -3312,6 +3325,7 @@ class EotHelper:
         return lookupObjs
     def GSUBreduceHeight(self,level):       
         def insertminheighttoken(level):
+            # TODO:LSEP
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'red-V-mintoken-'+str(level)
             if level < 2:
@@ -4037,6 +4051,7 @@ class EotHelper:
                 return lookupObj
             def insertr1sepOm():
                 #sh{1-8} sv{1-6} -> t$1$2
+                # TODO:LSEP
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'insertgroupsep'
                 context = {'left':[],'right':['insertionsizes1']}

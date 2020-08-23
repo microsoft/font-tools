@@ -7,15 +7,15 @@ pvar = {
     'langsysname' : "Default",
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
-    'fontfilename' : "Times Egyptian Italic RC", # Font name
-    'fontsrc' : "../../fonts/te/timesegyptian_italic_rc-COLR.ttf", # Path to source font
-    'fontout' : "out/timesegyptianitalicrc.ttf", # Path to write output font
+    'fontfilename' : "Egyptian Text", # Font name
+    'fontsrc' : "../../fonts/et/egyptiantext-COLR.ttf", # Path to source font
+    'fontout' : "out/egyptiantext.ttf", # Path to write output font
     'hfu' : 314, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'hhu' : 8, # horizontal, hieroglyph units
     'chu' : 6, # composite horizontal units (i.e., excludes wide non-composing widths)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
     'vhu' : 6, # vertical, hieroglyph units
-    'issp' : 25, #Inter-sign spacing (+ allows glyph outlines to overlap, 0 no overlap)
+    'issp' : 20, #Inter-sign spacing (+ allows glyph outlines to overlap, 0 no overlap)
     'vbase' : -284, # vertical baseline for hieroglyphs in font units 
     'scndmax' : [[6,6,6],[12,12,6],[12,12,0]], #Derivatives of chu, summed twice
     'deltamax' : [30,20,15],#Derivatives of max width [(max width * max columns) - max columns]
@@ -28,10 +28,10 @@ pvar = {
     'insertionheightmax' : [0,2,1], #max v for inserted region per level
     'insertionwidthmin' : [4,2,0], #min h for region having insertion per level
     'insertionheightmin' : [3,2,0], #min v for region having insertion per level
-    'insertcobramax' : [00,43,11], #max hv for cobra insertions per level
+    'insertcobramax' : [00,43,22], #max hv for cobra insertions per level
     'targetwidthmin' : [6,2,2], # min ideal h per level
     'targetwidthmax' : [6,6,3], # max ideal h per level
-    'targetheightmin' : [6,2,2],# min ideal v per level
+    'targetheightmin' : [6,2,1],# min ideal v per level
     'targetheightmax' : [6,6,5],# max ideal v per level
     'cyclesperlevel' : [3,3,2], #Used to repeat sum and max substitutions
     'sb'  : 100, # font side bearing

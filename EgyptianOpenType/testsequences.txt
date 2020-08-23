@@ -47,6 +47,7 @@
 %N35 vj X1 vj X1 vj X1 vj X1
 %N35 vj X1 hj X1 hj X1 hj X1
 %D2 hj X1 hj X1 vj X1 hj D2 hj X1 vj X1 hj X1 hj D2
+M23 hj ss X1 vj N35 se
 
 #L1 embedding
 %J15 vj Z11 hj ss D2 vj D21 se
