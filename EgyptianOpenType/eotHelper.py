@@ -869,6 +869,9 @@ class EotHelper:
         group = 'shapes_om'
         details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'shapes_om2'
+        details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'insertionsizes1R'
         details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
@@ -951,10 +954,22 @@ class EotHelper:
         group = 'insertionsizes1R'
         details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'insertionsizes2'
+        details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes2R'
+        details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
         for glyph in groupdata['shapes_bs']:
             preformatanchor('bs',glyph,'ZERO','NYUNIT')
             preformatanchor('be',glyph,'XSUNIT','NYUNIT')
+        for glyph in groupdata['shapes_bs2']:
+            preformatanchor('bs',glyph,'ZERO','NYUNIT')
+            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
         for glyph in groupdata['shapes_cb']:
+            preformatanchor('bs',glyph,'ZERO','NYUNIT')
+            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
+        for glyph in groupdata['shapes_cb2']:
             preformatanchor('bs',glyph,'ZERO','NYUNIT')
             preformatanchor('be',glyph,'XSUNIT','NYUNIT')
 
@@ -965,9 +980,19 @@ class EotHelper:
         group = 'insertionsizes1R'
         details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'insertionsizes2'
+        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes2R'
+        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
         for glyph in groupdata['shapes_te']:
            preformatanchor('te',glyph,'XSUNIT','ZERO')
+        for glyph in groupdata['shapes_te2']:
+           preformatanchor('te',glyph,'XSUNIT','ZERO')
         for glyph in groupdata['shapes_ts']:
+           preformatanchor('te',glyph,'XSUNIT','ZERO')
+        for glyph in groupdata['shapes_ts2']:
            preformatanchor('te',glyph,'XSUNIT','ZERO')
 
         # ibe
@@ -977,13 +1002,25 @@ class EotHelper:
         group = 'insertionsizes1R'
         details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'insertionsizes2'
+        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes2R'
+        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
         for glyph in groupdata['shapes_be']:
+            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
+            preformatanchor('bs',glyph,'ZERO','NYUNIT')
+        for glyph in groupdata['shapes_be2']:
             preformatanchor('be',glyph,'XSUNIT','NYUNIT')
             preformatanchor('bs',glyph,'ZERO','NYUNIT')
 
         # center        
         preformatanchor('MARK_center','m0','ZERO','ZERO')
         group = 'shapes_om'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_om2'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_u'
@@ -1015,6 +1052,9 @@ class EotHelper:
         details = {'aname':'center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_om'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_om2'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'genericbases'
@@ -3325,7 +3365,6 @@ class EotHelper:
         return lookupObjs
     def GSUBreduceHeight(self,level):       
         def insertminheighttoken(level):
-            # TODO:LSEP
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'red-V-mintoken-'+str(level)
             if level < 2:
@@ -4033,12 +4072,28 @@ class EotHelper:
                     while h > 1:
                         v = 6
                         while v > 1:
-                            details = {'sub':[glyph,'ih'+str(h),'iv'+str(v)],'target':[prefix[i]+str(h)+str(v)]}
+                            details = {'sub':[glyph,'ih'+str(h),'iv'+str(v)],'target':[prefix[i]+'2'+str(h)+str(v)]}
                             lookupObj['details'].append(details)
                             v = v - 1
                         h = h - 1
                     i += 1
                 return lookupObj
+
+            def lvl2insertionsizes():
+                #it{1-6}{1-6} -> it2$1$2
+                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'lvl2insertionsizes'
+                contexts = ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_cb2','shapes_om2']
+                for value in contexts:
+                    context = {'left':[value],'right':[]}
+                    lookupObj['contexts'].append(context)
+                for it in groupdata['insertionsizes1']:
+                    es = 'it2'+it[-2:]
+                    details = {'sub':[it],'target':[es]}
+                    lookupObj['details'].append(details)
+
+                return lookupObj
+
             def unbalancedOm():
                 #sh{1-8} sv{1-6} -> t$1$2
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -4053,10 +4108,21 @@ class EotHelper:
                 #sh{1-8} sv{1-6} -> t$1$2
                 # TODO:LSEP
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'insertgroupsep'
+                lookupObj['name'] = 'insertgroupsep1'
                 context = {'left':[],'right':['insertionsizes1']}
                 lookupObj['contexts'].append(context)
                 details = {'sub':['shapes_om'],'target':['r1sep','shapes_om']}
+                lookupObj['details'].append(details)
+
+                return lookupObj
+            def insertr2sepOm():
+                #sh{1-8} sv{1-6} -> t$1$2
+                # TODO:LSEP
+                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'insertgroupsep2'
+                context = {'left':[],'right':['insertionsizes2']}
+                lookupObj['contexts'].append(context)
+                details = {'sub':['shapes_om2'],'target':['r2sep','shapes_om2']}
                 lookupObj['details'].append(details)
 
                 return lookupObj
@@ -4112,8 +4178,10 @@ class EotHelper:
             lookupObjs.append(inserttargetV())
             lookupObjs.extend(copytargetsizeV())
             lookupObjs.append(insertionsizes())
+            lookupObjs.append(lvl2insertionsizes())
             lookupObjs.append(unbalancedOm())
             lookupObjs.append(insertr1sepOm())
+            lookupObjs.append(insertr2sepOm())
             lookupObjs.append(cleanupinsertions())
             lookupObjs.extend(specialcaseinitialunbalanced())
 

@@ -173,15 +173,86 @@ mkmk = [
         {'attach':['stems1-h','stems1-hR'],'to':['shapes_1'],'anchor':'left'},
         {'to':['shapes_u'],'anchor':'left'}
     ]},
+
+    #Lookup - Corner insertion
+    # Corner shapes match the size of the shape they are inserted into. This is so that
+    # the corner anchor points can carry forward with each corner shape.
+    {'name' : 'shapes1-corners2_1', 'marks' : 'shapeinsertions1',
+    'details' : [
+        {'attach':['shapes_1'],'to':['shapes_ts2'],'anchor':'left'},
+        {'to':['shapes_bs2'],'anchor':'left'},
+        {'to':['shapes_cb2'],'anchor':'left'},
+        {'to':['shapes_te2'],'anchor':'left'},
+        {'to':['shapes_be2'],'anchor':'left'},
+        {'to':['shapes_om2'],'anchor':'center'},
+    ]},
+    #Lookup - Corner insertion bs,cb,te,be
+    {'name' : 'multi-corners2_3', 'marks' : 'shapeinsertions1',
+    'details' : [
+        {'attach':['shapes_ts2'],'to':['shapes_bs2'],'anchor':'left'},
+        {'to':['shapes_cb2'],'anchor':'left'},
+        {'to':['shapes_te2'],'anchor':'left'},
+        {'to':['shapes_be2'],'anchor':'left'},
+    ]},
+
+    #Lookup - Corner insertion te, be
+    {'name' : 'multi-corners2_2', 'marks' : 'shapeinsertions1',
+    'details' : [
+        {'attach':['shapes_bs2','shapes_cb2'],'to':['shapes_te2'],'anchor':'left'},
+        {'to':['shapes_be2'],'anchor':'left'},
+    ]},
+
+    #Lookup - Multi-corner insertion be
+    {'name' : 'multi-corners2_1', 'marks' : 'shapeinsertions1',
+    'details' : [
+        {'attach':['shapes_te2'],'to':['shapes_be2'],'anchor':'left'}
+    ]},
+
+    #Lookup - Corner insertion 2
+    {'name' : 'shapes_ts2-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_ts2'],'to':['insertionsizes2'],'anchor':'ts'},
+        {'to':['insertionsizes2R'],'anchor':'te'}
+    ]},
+    #Lookup - Corner insertion 3
+    {'name' : 'shapes_bs2-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_bs2'],'to':['insertionsizes2'],'anchor':'bs'},
+        {'to':['insertionsizes2R'],'anchor':'be'}
+    ]},
+    #Lookup - Corner insertion 3a
+    {'name' : 'shapes_cb2-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_cb2'],'to':['insertionsizes2'],'anchor':'bs'},
+        {'to':['insertionsizes2R'],'anchor':'be'}
+    ]},
+    #Lookup - Corner insertion 4
+    {'name' : 'shapes_te2-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_te2'],'to':['insertionsizes2'],'anchor':'te'},
+        {'to':['insertionsizes2R'],'anchor':'ts'}
+    ]},
+    #Lookup - Corner insertion 5
+    {'name' : 'shapes_be2-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_be2'],'to':['insertionsizes2'],'anchor':'be'},
+        {'to':['insertionsizes2R'],'anchor':'bs'}
+    ]},
+    #Lookup - Overstrike
+    {'name' : 'shapes_om2-shapeses', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_om2'],'to':['shapes_u'],'anchor':'center'}
+    ]},
+
     #Lookup
     {'name' : 'shapes1-row2', 'marks' : '',
     'details' : [
-        {'attach':['shapes_1','shapes_u'],'to':['stems2-v'],'anchor':'left'}
+        {'attach':['shapes_1','shapes_u','insertionsizes2','shapes_om2'],'to':['stems2-v'],'anchor':'left'}
     ]},
     #Lookup
     {'name' : 'shapes1-row2R', 'marks' : '',
     'details' : [
-        {'attach':['shapes_1','shapes_u'],'to':['stems2-vR'],'anchor':'right'}
+        {'attach':['shapes_1','shapes_u','insertionsizes2R','shapes_om2'],'to':['stems2-vR'],'anchor':'right'}
     ]},
     #Lookup
     {'name' : 'rows-rows2', 'marks' : 'stems2-v',
