@@ -1854,13 +1854,9 @@ class EotHelper:
                     details = {'sub':['eh'+str(i),'imb'],'target':['eh'+str(i)]}
                     lookupObj['details'].append(details)
                     i = i - 1
-                i = 0
                 if level == 0:
-                    for src in groupdata['insertionsizes1a']:
-                        trg = groupdata['insertionsizes1'][i]
-                        details = {'sub':[src],'target':[trg]}
-                        lookupObj['details'].append(details)
-                        i += 1
+                    details = {'sub':['it00a'],'target':['it00']}
+                    lookupObj['details'].append(details)
                 return lookupObj
 
             lookupObjs = []
@@ -2032,12 +2028,118 @@ class EotHelper:
             lookupObj['name'] = 'ins-H-cornerinstokens'
             left = 'corners'+str(level - 1)+'b'
             lookupObj['contexts'] = [{'left':[left],'right':[]}]
-
-            for it in groupdata['insertionsizes1']:
-                details = {'sub':[it],'target':[it,'ima']}
-                lookupObj['details'].append(details)
+            details = {'sub':['it00'],'target':['it00','ima']}
+            lookupObj['details'].append(details)
 
             return lookupObj
+        def insertionsize(level):
+            # Copy the size of the containing cell to each insertion.
+            # Lookup the target size of the insertion for the current character.
+            def inserttargetH():
+                # ibs0B -> ibs0B sh0
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'inserttarget-H'
+                for glyph in groupdata['corners'+str(level - 1)+'b']:
+                    details = {'sub':[glyph],'target':[glyph,'sh0']}
+                    lookupObj['details'].append(details)
+                return lookupObj
+            def copytargetsizeH():
+                # (sh5|) sh0 -> sh5
+                def copyshapesizeH(cycle):
+                    lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                    lookupObj['name'] = 'copyshapesizeH-'+str(cycle)
+                    lookupObj['marks'] = 'shapewidths'
+                    context = {'left':['sh'+str(cycle)],'right':[]}
+                    lookupObj['contexts'].append(context)
+                    details = {'sub':['sh0'],'target':['sh'+str(cycle)]}
+                    lookupObj['details'].append(details)
+                    return lookupObj
+                cycle = 6
+                objs = []
+                while cycle >= 1:
+                    objs.append(copyshapesizeH(cycle))
+                    cycle = cycle - 1
+                return objs
+            def inserttargetV():
+                # ih1-5 -> ih1-5 iv0
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'inserttarget-V'
+                context = {'left':['corners'+str(level - 1)+'b'],'right':[]}
+                lookupObj['contexts'].append(context)
+                i = 6
+                while i > 1:
+                    details = {'sub':['sh'+str(i)],'target':['sh'+str(i),'sv0']}
+                    lookupObj['details'].append(details)
+                    i = i - 1
+                return lookupObj
+            def copytargetsizeV():
+                # (o*6|) iv0 -> iv6
+                def copyshapesizeV(cycle):
+                    lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                    lookupObj['name'] = 'copyshapesizeV-'+str(cycle)
+                    lookupObj['marks'] = 'shapeheights'
+                    context = {'left':['sv'+str(cycle)],'right':[]}
+                    lookupObj['contexts'].append(context)
+                    details = {'sub':['sv0'],'target':['sv'+str(cycle)]}
+                    lookupObj['details'].append(details)
+                    return lookupObj
+                cycle = 6
+                objs = []
+                while cycle >= 1:
+                    objs.append(copyshapesizeV(cycle))
+                    cycle = cycle - 1
+                return objs
+            def cornersizes():
+                # ibs0B sh5 sv6 -> bs56
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'insertsize'
+                prefix = ['ts','bs','cb','te','be','om']
+                pad = ''
+                if level == 2:
+                    pad = '2'
+                i = 0
+                for glyph in groupdata['corners'+str(level-1)+'b']:
+                    h = 6
+                    while h > 1:
+                        v = 6
+                        while v > 1:
+                            details = {'sub':[glyph,'sh'+str(h),'sv'+str(v)],'target':[prefix[i]+pad+str(h)+str(v)]}
+                            lookupObj['details'].append(details)
+                            v = v - 1
+                        h = h - 1
+                    i += 1
+                return lookupObj
+            def perglyphsizes():
+                # rules to specify the available insertion size per glyph
+                objs = []
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'perglyphsize   '
+                context = {'left':['I10','bs66'],'right':[]}
+                lookupObj['contexts'].append(context)
+                details = {'sub':['it00'],'target':['it43']}
+                lookupObj['details'].append(details)
+                objs.append(lookupObj)
+                return objs
+            def defaultinsertionsize():
+                # it00 -> it22
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'defaultinssize'
+                context = {'left':['shapes_corners_'+str(level)],'right':[]}
+                lookupObj['contexts'].append(context)
+                details = {'sub':['it00'],'target':['it22']}
+                lookupObj['details'].append(details)
+                return lookupObj
+
+            lookupObjs = []
+            lookupObjs.append(inserttargetH())
+            lookupObjs.extend(copytargetsizeH())
+            lookupObjs.append(inserttargetV())
+            lookupObjs.extend(copytargetsizeV())
+            lookupObjs.append(cornersizes())
+            lookupObjs.extend(perglyphsizes())
+            lookupObjs.append(defaultinsertionsize())
+
+            return lookupObjs
         def insertiondeltamarker(level):
             # Convert insertion marker within the cell to a delta marker
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -2083,27 +2185,27 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def targetmaxcobra(level): #20-23
-            # For levels 1 and 2 force the target max insertion size for cobra
-            # if cobra size is not equal to the ins max size
-            maxcc = self.pvar['insertcobramax'][level]
-            maxc = int(str(maxcc)[0:1])
-            maxh = self.pvar['insertionwidthmax'][level]
-            maxv = self.pvar['insertionheightmax'][level]
-            maxi = str(maxh)+str(maxv)
-            if maxcc != maxi:
-                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'ins-H-target-cobra-'+str(level)
-                left = 'it'+str(maxcc)
-                context = {'left':[left],'right':[]}
-                lookupObj['contexts'].append(context)                 
-                i = self.pvar['chu']
-                while i > maxc:
-                    details = {'sub':['rm'+str(i)],'target':['rm'+str(maxc)]}
-                    lookupObj['details'].append(details)
-                    i = i - 1
+        # def targetmaxcobra(level): #20-23
+        #     # For levels 1 and 2 force the target max insertion size for cobra
+        #     # if cobra size is not equal to the ins max size
+        #     maxcc = self.pvar['insertcobramax'][level]
+        #     maxc = int(str(maxcc)[0:1])
+        #     maxh = self.pvar['insertionwidthmax'][level]
+        #     maxv = self.pvar['insertionheightmax'][level]
+        #     maxi = str(maxh)+str(maxv)
+        #     if maxcc != maxi:
+        #         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+        #         lookupObj['name'] = 'ins-H-target-cobra-'+str(level)
+        #         left = 'it'+str(maxcc)
+        #         context = {'left':[left],'right':[]}
+        #         lookupObj['contexts'].append(context)                 
+        #         i = self.pvar['chu']
+        #         while i > maxc:
+        #             details = {'sub':['rm'+str(i)],'target':['rm'+str(maxc)]}
+        #             lookupObj['details'].append(details)
+        #             i = i - 1
 
-                return lookupObj
+        #         return lookupObj
         def targetmax(level): #20-23
             # For levels 1 and 2, force the target max insertion size
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -2169,13 +2271,16 @@ class EotHelper:
         lookupObjs = []
         lookupObjs.append(insertiontokens(level))
         lookupObjs.append(cornerinsertiontokens(level))
+
+        if level > 0:
+            lookupObjs.extend(insertionsize(level))
         lookupObjs.append(insertiondeltamarker(level))
         lookupObjs.extend(insertionmaxperrow(level))
         lookupObjs.append(insertmaxcalcmarker(level))
         lookupObjs.extend(self.calculatemax(level,'ins'))
-        obj = targetmaxcobra(level)
-        if obj:
-            lookupObjs.append(obj)
+        # obj = targetmaxcobra(level)
+        # if obj:
+        #     lookupObjs.append(obj)
         lookupObjs.append(targetmax(level))
         lookupObjs.extend(storerowmax(level))
         lookupObjs.append(self.insertrowmaxmarker(level,'ins'))
@@ -2745,7 +2850,7 @@ class EotHelper:
             contexts = {'left':[left],'right':[]}
             lookupObj['contexts'].append(contexts)
             if level != 0:
-                context = {'left':['corners'+str(level - 1)+'b'],'right':[]}
+                context = {'left':['shapes_corners_'+str(level)],'right':[]}
                 lookupObj['contexts'].append(context)
             i = 1
             while i <= self.pvar['chu']:
@@ -2965,9 +3070,7 @@ class EotHelper:
         if name == 'max':
             context = 'vj'+str(level)+'A'
             contexts = [{'left':[context],'right':[]}]
-            for context in groupdata['insertionsizes1']:
-                if context not in ['it66']:
-                    contexts.append({'left':[context],'right':[]})
+            contexts.append({'left':['it00'],'right':[]})
             lookupObj['exceptcontexts'] = contexts
         i = 1
         while i <= self.pvar['targetwidthmax'][level]:
@@ -3205,10 +3308,8 @@ class EotHelper:
                 outer = level - 1 
                 details = {'sub':['c'+str(outer)+'bA'],'target':['cvb','c'+str(outer)+'bA']}
                 lookupObj['details'].append(details)
-                if level == 1:
-                    cornerlist = groupdata['corners0b']
-                if level == 2:
-                    cornerlist = groupdata['corners1b']
+                if level >= 1:
+                    cornerlist = groupdata['shapes_corners_'+str(level)]
                 for corner in cornerlist:
                     details = {'sub':[corner],'target':['cvb',corner]}
                     lookupObj['details'].append(details)
@@ -3333,10 +3434,8 @@ class EotHelper:
                 outer = level - 1
                 details = {'sub':['cvb','c'+str(outer)+'bA'],'target':['c'+str(outer)+'bA']}
                 lookupObj['details'].append(details)
-                if level == 1:
-                    cornerlist = groupdata['corners0b']
-                if level == 2:
-                    cornerlist = groupdata['corners1b']
+                if level >= 1:
+                    cornerlist = groupdata['shapes_corners_'+str(level)]
                 for corner in cornerlist:
                     details = {'sub':['cvb',corner],'target':[corner]}
                     lookupObj['details'].append(details)
@@ -3984,101 +4083,7 @@ class EotHelper:
                 i = i - 1
 
             return lookupObj
-        def insertions():
-            def inserttargetH():
-                # ibs0B -> ibs0B ih0
-                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'inserttarget-H'
-                for glyph in groupdata['corners0bNotOM']:
-                    details = {'sub':[glyph],'target':[glyph,'ih0']}
-                    lookupObj['details'].append(details)
-                for glyph in groupdata['corners1bNotOM']:
-                    details = {'sub':[glyph],'target':[glyph,'ih0']}
-                    lookupObj['details'].append(details)
-                return lookupObj
-            def copytargetsizeH():
-                # (o5*|) ih0 -> ih5 iv0
-                def copyshapesizeH(cycle):
-                    lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-                    lookupObj['name'] = 'copyshapesizeH-'+str(cycle)
-                    lookupObj['marks'] = 'shapeinsertions0'
-                    i = 6
-                    # i = self.pvar['targetheightmax'][level] # TODO: repeat and tailor per level
-                    while i > 1:
-                        context = {'left':['o'+str(cycle)+str(i)],'right':[]}
-                        lookupObj['contexts'].append(context)
-                        i = i - 1
-                    details = {'sub':['ih0'],'target':['ih'+str(cycle)]}
-                    lookupObj['details'].append(details)
-                    return lookupObj
-                cycle = 6
-                # i = self.pvar['targetwidthmax'][level] # TODO: repeat and tailor per level
-                objs = []
-                while cycle > 1:
-                    objs.append(copyshapesizeH(cycle))
-                    cycle = cycle - 1
-                return objs
-            def inserttargetV():
-                # ih1-5 -> ih1-5 iv0
-                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'inserttarget-V'
-                i = 6
-                while i > 1:
-                    details = {'sub':['ih'+str(i)],'target':['ih'+str(i),'iv0']}
-                    lookupObj['details'].append(details)
-                    i = i - 1
-                return lookupObj
-            def copytargetsizeV():
-                # (o*6|) iv0 -> iv6
-                def copyshapesizeV(cycle):
-                    lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-                    lookupObj['name'] = 'copyshapesizeV-'+str(cycle)
-                    lookupObj['marks'] = 'shapeinsertions0'
-                    i = 6
-                    # i = self.pvar['targetwidthmax'][level] # TODO: repeat and tailor per level
-                    while i > 1:
-                        context = {'left':['o'+str(i)+str(cycle)],'right':[]}
-                        lookupObj['contexts'].append(context)
-                        i = i - 1
-                    details = {'sub':['iv0'],'target':['iv'+str(cycle)]}
-                    lookupObj['details'].append(details)
-                    return lookupObj
-                cycle = 6
-                # i = self.pvar['targetheightmax'][level] # TODO: repeat and tailor per level
-                objs = []
-                while cycle > 1:
-                    objs.append(copyshapesizeV(cycle))
-                    cycle = cycle - 1
-                return objs
-            def insertionsizes():
-                # ibs0B ih5 iv6 -> bs56
-                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'insertsize'
-                prefix = ['ts','bs','cb','te','be','om']
-                i = 0
-                for glyph in groupdata['corners0b']:
-                    h = 6
-                    while h > 1:
-                        v = 6
-                        while v > 1:
-                            details = {'sub':[glyph,'ih'+str(h),'iv'+str(v)],'target':[prefix[i]+str(h)+str(v)]}
-                            lookupObj['details'].append(details)
-                            v = v - 1
-                        h = h - 1
-                    i += 1
-                i = 0
-                for glyph in groupdata['corners1b']:
-                    h = 6
-                    while h > 1:
-                        v = 6
-                        while v > 1:
-                            details = {'sub':[glyph,'ih'+str(h),'iv'+str(v)],'target':[prefix[i]+'2'+str(h)+str(v)]}
-                            lookupObj['details'].append(details)
-                            v = v - 1
-                        h = h - 1
-                    i += 1
-                return lookupObj
-
+        def unbalancedinsertions():
             def lvl2insertionsizes():
                 #it{1-6}{1-6} -> it2$1$2
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -4093,7 +4098,6 @@ class EotHelper:
                     lookupObj['details'].append(details)
 
                 return lookupObj
-
             def unbalancedOm():
                 #sh{1-8} sv{1-6} -> t$1$2
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -4173,11 +4177,6 @@ class EotHelper:
                 return objs
 
             lookupObjs = []
-            lookupObjs.append(inserttargetH())
-            lookupObjs.extend(copytargetsizeH())
-            lookupObjs.append(inserttargetV())
-            lookupObjs.extend(copytargetsizeV())
-            lookupObjs.append(insertionsizes())
             lookupObjs.append(lvl2insertionsizes())
             lookupObjs.append(unbalancedOm())
             lookupObjs.append(insertr1sepOm())
@@ -4385,7 +4384,7 @@ class EotHelper:
         lookupObjs = swapLevelShapeKeys()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
-        lookupObjs = insertions()
+        lookupObjs = unbalancedinsertions()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
         lines.extend(self.writefeature(tartgetSizes()))

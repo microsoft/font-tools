@@ -50,12 +50,6 @@ pres = [
         {'sub':['te'],'target':['ite0A']},
         {'sub':['be'],'target':['ibe0A']},
         {'sub':['om'],'target':['om0A']}]},
-    # Lookup 6a - swap bs for cobras
-    {'name' : 'mdcBE_merge1', 'marks' : '',
-    'contexts' : [{'left':['cobras'],'right':[]}],
-    'details' : [
-        {'sub':['ibs0A'],'target':['cbr0A']},
-        {'sub':['ibs1A'],'target':['cbr1A']}]},
     # DYNAMIC Lookup 7 - populated with tsg values from group data
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
@@ -158,18 +152,18 @@ pres = [
     {'name' : 'corner_swapandsize', 'marks' : '',
     'exceptcontexts' : [{'left':['Qf'],'right':[]}],
     'details' : [
-        {'sub':['its0A'],'target':['its0B','it22a']},
-        {'sub':['ibs0A'],'target':['ibs0B','it22a']},
-        {'sub':['cbr0A'],'target':['cbr0B','it43a']},
-        {'sub':['ite0A'],'target':['ite0B','it22a']},
-        {'sub':['ibe0A'],'target':['ibe0B','it22a']},
-        {'sub':['om0A'], 'target':['om0B' ,'it66a']},
-        {'sub':['its1A'],'target':['its1B','it11a']},
-        {'sub':['ibs1A'],'target':['ibs1B','it11a']},
-        {'sub':['cbr1A'],'target':['cbr1B','it21a']},
-        {'sub':['ite1A'],'target':['ite1B','it11a']},
-        {'sub':['ibe1A'],'target':['ibe1B','it11a']},
-        {'sub':['om1A'], 'target':['om1B' ,'it44a']},
+        {'sub':['its0A'],'target':['its0B','it00a']},
+        {'sub':['ibs0A'],'target':['ibs0B','it00a']},
+        {'sub':['cbr0A'],'target':['cbr0B','it00a']},
+        {'sub':['ite0A'],'target':['ite0B','it00a']},
+        {'sub':['ibe0A'],'target':['ibe0B','it00a']},
+        {'sub':['om0A'], 'target':['om0B' ,'it00a']},
+        {'sub':['its1A'],'target':['its1B','it00a']},
+        {'sub':['ibs1A'],'target':['ibs1B','it00a']},
+        {'sub':['cbr1A'],'target':['cbr1B','it00a']},
+        {'sub':['ite1A'],'target':['ite1B','it00a']},
+        {'sub':['ibe1A'],'target':['ibe1B','it00a']},
+        {'sub':['om1A'], 'target':['om1B' ,'it00a']},
     ]},
     # Lookup 23 - unbalanced embedding 
     {'name' : 'unbal-embedding', 'marks' : '',
@@ -190,7 +184,7 @@ pres = [
     # Lookup 28 - insert level 1 row begin after unbalanced corner
     # NOTE: This doesn't account for the current level, so level 1 -> 2 unbalanced is a gap
     {'name' : 'unbal-corner', 'marks' : '',
-    'contexts' : [{'left':['insertionsizes1a'],'right':[]}],
+    'contexts' : [{'left':['it00a'],'right':[]}],
     'details' : [{'sub':['su'],'target':['ub','r1bA']}]},
     # Lookup 25 - insert level 1 row begin before level 2 begin
     {'name' : 'r2begin1', 'marks' : 'parens',

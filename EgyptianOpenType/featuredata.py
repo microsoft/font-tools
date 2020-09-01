@@ -33,7 +33,7 @@ groupdata = {
 	'color_all' : [],
 	'controls_a' : ['controls_joiners','ss','se'],
 	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A'],
-    'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn4','mn3','mn2','ub'], #controls not grouped for injection
+    'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn4','mn3','mn2','ub','it00','it00a'], #controls not grouped for injection
 	'controls_joiners' : ['hj','vj','ts','te','bs','be','om'],
 	'corners' : ['ts','te','bs','be'],
 	'corners0a' : ['its0A','ibs0A','cbr0A','ite0A','ibe0A','om0A'],
@@ -86,7 +86,6 @@ groupdata = {
 	'rowspacers1R' : ['r1s4p0R','r1s3p0R','r1s2p0R','r1s1p0R','r1s0p5R','r1s0p33R'],
 	'rowspacers2' : ['r2s1p0'],
 	'rowspacers2R' : ['r2s1p0R'],
-	'shapeheights' : ['sv1','sv2','sv3','sv4','sv5','sv6'],
 	'shapes_0' : ['o86','o85','o84','o83','o82','o81','o76','o75','o74','o73','o72','o71','o66','o65','o64','o63','o62','o61','o56','o55','o54','o53','o52','o51','o46','o45','o44','o43','o42','o41','o36','o35','o34','o33','o32','o31','o26','o25','o24','o23','o22','o21','o16','o15','o14','o13','o12','o11'],
 	'shapes_1' : ['s66','s65','s64','s63','s62','s61','s56','s55','s54','s53','s52','s51','s46','s45','s44','s43','s42','s41','s36','s35','s34','s33','s32','s31','s26','s25','s24','s23','s22','s21','s16','s15','s14','s13','s12','s11'],
 	'shapes_2' : ['i66','i65','i64','i63','i62','i61','i56','i55','i54','i53','i52','i51','i46','i45','i44','i43','i42','i41','i36','i35','i34','i33','i32','i31','i26','i25','i24','i23','i22','i21','i16','i15','i14','i13','i12','i11'],
@@ -106,9 +105,12 @@ groupdata = {
 	'shapes_be2' : ['be266','be265','be264','be263','be262','be256','be255','be254','be253','be252','be246','be245','be244','be243','be242','be236','be235','be234','be233','be232','be226','be225','be224','be223','be222'],
 	'shapes_cb2' : ['cb266','cb265','cb264','cb263','cb262','cb256','cb255','cb254','cb253','cb252','cb246','cb245','cb244','cb243','cb242','cb236','cb235','cb234','cb233','cb232','cb226','cb225','cb224','cb223','cb222'],
 	'shapes_om2' : ['om266','om265','om264','om263','om262','om261','om256','om255','om254','om253','om252','om251','om246','om245','om244','om243','om242','om241','om236','om235','om234','om233','om232','om231','om226','om225','om224','om223','om222','om221','om216','om215','om214','om213','om212','om211'],
+	'shapes_corners_1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','shapes_om'],
+	'shapes_corners_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2'],
 	'shapes_u'  : ['es66','es65','es64','es63','es62','es61','es56','es55','es54','es53','es52','es51','es46','es45','es44','es43','es42','es41','es36','es35','es34','es33','es32','es31','es26','es25','es24','es23','es22','es21','es16','es15','es14','es13','es12','es11'],
 	'shapes_ls' : ['ls66','ls65','ls64','ls63','ls62','ls61','ls56','ls55','ls54','ls53','ls52','ls51','ls46','ls45','ls44','ls43','ls42','ls41','ls36','ls35','ls34','ls33','ls32','ls31','ls26','ls25','ls24','ls23','ls22','ls21','ls16','ls15','ls14','ls13','ls12','ls11'],
-	'shapewidths' : ['sh1','sh2','sh3','sh4','sh5','sh6','sh7','sh8'],
+	'shapewidths' : ['sh0','sh1','sh2','sh3','sh4','sh5','sh6','sh7','sh8'],
+	'shapeheights' : ['sv0','sv1','sv2','sv3','sv4','sv5','sv6'],
 	'spacers_cols0'  : ['cs0','c0s1p0','c0s0p5','c0s0p66','c0s0p33','c0s0p25'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'spacers_cols1'  : ['cs0','c1s1p0','c1s0p5','cs0','c1s0p33','cs0'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'spacers_cols2'  : ['cs0','c2s1p0','cs0','cs0','cs0','cs0'], # ORDER OF THESE ITEMS IS IMPORTANT
