@@ -3070,7 +3070,7 @@ class EotHelper:
         if name == 'max':
             context = 'vj'+str(level)+'A'
             contexts = [{'left':[context],'right':[]}]
-            contexts.append({'left':['it00'],'right':[]})
+            contexts.append({'left':['insertionsizes1'],'right':[]})
             lookupObj['exceptcontexts'] = contexts
         i = 1
         while i <= self.pvar['targetwidthmax'][level]:
