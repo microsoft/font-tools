@@ -2120,6 +2120,18 @@ class EotHelper:
                 lookupObj['details'].append(details)
                 objs.append(lookupObj)
                 return objs
+            def defaultomsize():
+                # it00 -> it66
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'defaultomsize'
+                shapesom = 'shapes_om'
+                if level > 1:
+                    shapesom += str(level)
+                context = {'left':[shapesom],'right':[]}
+                lookupObj['contexts'].append(context)
+                details = {'sub':['it00'],'target':['it66']}
+                lookupObj['details'].append(details)
+                return lookupObj
             def defaultinsertionsize():
                 # it00 -> it22
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -2137,6 +2149,7 @@ class EotHelper:
             lookupObjs.extend(copytargetsizeV())
             lookupObjs.append(cornersizes())
             lookupObjs.extend(perglyphsizes())
+            lookupObjs.append(defaultomsize())
             lookupObjs.append(defaultinsertionsize())
 
             return lookupObjs
@@ -2225,24 +2238,23 @@ class EotHelper:
 
             return lookupObj
         def storerowmax(level):
-            #copy the max block size to a value next to om0B
-            #so it can be used in ps rules to scale block with
-            #TODO:LSEP
-            # it66 -> ih6 it66 (om0B | rm6)
-            # >>> om0B -> om0B ih6 (|insertionsizes1 rm6)
+            #copy the max block size to om value so the overstrike can be centered on the host layer
+            # om66 -> om26 (| it66 rm2)
             lookupObjs = []
             i = self.pvar['targetwidthmax'][level]
+            if i == 6:
+                # substitution of om66 -> om66 is redundant
+                i = 5
             while i >= 1:
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'ins-H-storerowmax-'+str(i)+'-'+str(level)
                 right = 'rm'+str(i)
-                lookupObj['contexts'] = [{'left':['om0B'],'right':[right]}]
-                j = 6
-                while j >= 1:
-                    it = 'it'+str(j)+str(j)
-                    details = {'sub':[it],'target':['ih'+str(i),it]}
-                    lookupObj['details'].append(details)
-                    j = j - 1
+                shapes = 'om'
+                if level > 1:
+                    shapes += str(level)
+                lookupObj['contexts'] = [{'left':[],'right':['insertionsizes'+str(level),right]}]
+                details = {'sub':['om66'],'target':['om'+str(i)+'6']}
+                lookupObj['details'].append(details)
                 i = i - 1
                 lookupObjs.append(lookupObj)
             return lookupObjs
@@ -2285,7 +2297,7 @@ class EotHelper:
         lookupObjs.extend(storerowmax(level))
         lookupObjs.append(self.insertrowmaxmarker(level,'ins'))
         lookupObjs.extend(self.copyblockmaxtorow(level,'ins'))
-        lookupObjs.append(self.swaprowwidth(level,'ins'))
+        lookupObjs.extend(self.swaprowwidth(level,'ins'))
         lookupObjs.append(self.deltaperrow(level,'ins'))
         lookupObjs.append(self.calculateexcess(level,'ins'))
         lookupObjs.append(insertioncleanup(level))
@@ -2484,7 +2496,7 @@ class EotHelper:
         lookupObjs.extend(targetmax(level))
         lookupObjs.append(self.insertrowmaxmarker(level,'max'))
         lookupObjs.extend(self.copyblockmaxtorow(level,'max'))
-        lookupObjs.append(self.swaprowwidth(level,'max'))
+        lookupObjs.extend(self.swaprowwidth(level,'max'))
         lookupObjs.append(blockstartcleanup(level))
         if level > 0:
             lookupObjs.append(unbalancedblockstartcleanup(level))
@@ -2850,7 +2862,7 @@ class EotHelper:
             contexts = {'left':[left],'right':[]}
             lookupObj['contexts'].append(contexts)
             if level != 0:
-                context = {'left':['shapes_corners_'+str(level)],'right':[]}
+                context = {'left':['shapes_cornersom_'+str(level)],'right':[]}
                 lookupObj['contexts'].append(context)
             i = 1
             while i <= self.pvar['chu']:
@@ -3060,24 +3072,40 @@ class EotHelper:
         return objs
     def swaprowwidth(self,level,name): #30
         # dv values was being used to be invisible to inserted rm values. Now we need them back as rm values
-        # 20190803 except context was insertion sizes, but this is a problem for om with group before,
-        # as group width is passed over om and leaves behind dv6. Therefore trimming it66 from except context,
-        # but broader solution may be required to support cases with reduced width.
-        # This is applied at both level 0 and 1, but not sure if workaround to remove it66 is needed at level 0.
+        objs = []
         featuretag = self.setfeaturetag(level)
         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
         lookupObj['name'] = name+'-H-swaprowwidth-'+str(level)
         if name == 'max':
-            context = 'vj'+str(level)+'A'
-            contexts = [{'left':[context],'right':[]}]
-            contexts.append({'left':['insertionsizes1'],'right':[]})
+            contexts = [{'left':['vj'+str(level)+'A'],'right':[]}]
+            if level > 0:
+                contexts.append({'left':['insertionsizes'+str(level)],'right':[]})
             lookupObj['exceptcontexts'] = contexts
         i = 1
         while i <= self.pvar['targetwidthmax'][level]:
             details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
             lookupObj['details'].append(details)
-            i += 1                
-        return lookupObj
+            i += 1
+        objs.append(lookupObj)
+
+        # # Row width sizing needs to be skipped for overstrikes, so we have another rule to revert to rm for
+        # # overstrikes when the level is 1 or 2 and the rule is max.
+        # if level > 0:
+        #     if name == 'max':
+        #         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+        #         lookupObj['name'] = name+'-H-swapomrowwidth-'+str(level)
+        #         shapes = 'shapes_om'
+        #         if level > 1:
+        #             shapes += str(level)
+        #         lookupObj['contexts'].append({'left':[shapes,'insertionsizes'+str(level)],'right':[]})
+        #         i = 1
+        #         while i <= self.pvar['targetwidthmax'][level]:
+        #             details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
+        #             lookupObj['details'].append(details)
+        #             i += 1
+        #         objs.append(lookupObj)
+
+        return objs
     def deltaperrow(self,level,name): #32
         # The total width of the row is less than the target width
         # 0: Target min/max (6); Min width (1); Max delta (5)
@@ -3309,7 +3337,7 @@ class EotHelper:
                 details = {'sub':['c'+str(outer)+'bA'],'target':['cvb','c'+str(outer)+'bA']}
                 lookupObj['details'].append(details)
                 if level >= 1:
-                    cornerlist = groupdata['shapes_corners_'+str(level)]
+                    cornerlist = groupdata['shapes_cornersom_'+str(level)]
                 for corner in cornerlist:
                     details = {'sub':[corner],'target':['cvb',corner]}
                     lookupObj['details'].append(details)
@@ -3435,7 +3463,7 @@ class EotHelper:
                 details = {'sub':['cvb','c'+str(outer)+'bA'],'target':['c'+str(outer)+'bA']}
                 lookupObj['details'].append(details)
                 if level >= 1:
-                    cornerlist = groupdata['shapes_corners_'+str(level)]
+                    cornerlist = groupdata['shapes_cornersom_'+str(level)]
                 for corner in cornerlist:
                     details = {'sub':['cvb',corner],'target':[corner]}
                     lookupObj['details'].append(details)
@@ -4134,12 +4162,14 @@ class EotHelper:
                 # ibs0B ih0 -> ibs0B
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'cleanupinsertions'
-                for glyph in groupdata['corners0b']:
-                    details = {'sub':[glyph,'ih0'],'target':[glyph]}
-                    lookupObj['details'].append(details)
-                for glyph in groupdata['corners1b']:
-                    details = {'sub':[glyph,'ih0'],'target':[glyph]}
-                    lookupObj['details'].append(details)
+                # These should no longer be needed, no corners in this form at this stage.
+                # for glyph in groupdata['corners0b']:
+                #     details = {'sub':[glyph,'ih0'],'target':[glyph]}
+                #     lookupObj['details'].append(details)
+                # for glyph in groupdata['corners1b']:
+                #     details = {'sub':[glyph,'ih0'],'target':[glyph]}
+                #     lookupObj['details'].append(details)
+
                 #om{1-6}6 it66 -> om46
                 i = self.pvar['chu']
                 while i >= 1:
@@ -4361,11 +4391,11 @@ class EotHelper:
             lookupObj['name'] = 'unusedcontrols'
             lookupObj['details'].append({'sub':['vj0B'],'target':['vj']})
             lookupObj['details'].append({'sub':['hj0B'],'target':['hj']})
-            lookupObj['details'].append({'sub':['its0B','it22'],'target':['ts']})
-            lookupObj['details'].append({'sub':['ibs0B','it22'],'target':['bs']})
-            lookupObj['details'].append({'sub':['ite0B','it22'],'target':['te']})
-            lookupObj['details'].append({'sub':['ibe0B','it22'],'target':['be']})
-            lookupObj['details'].append({'sub':['om0B','it66'],'target':['om']})
+            lookupObj['details'].append({'sub':['its0B','sh0','it00','rc0'],'target':['ts']})
+            lookupObj['details'].append({'sub':['ibs0B','sh0','it00','rc0'],'target':['bs']})
+            lookupObj['details'].append({'sub':['ite0B','sh0','it00','rc0'],'target':['te']})
+            lookupObj['details'].append({'sub':['ibe0B','sh0','it00','rc0'],'target':['be']})
+            lookupObj['details'].append({'sub':['om0B' ,'sh0','it00','rc0'],'target':['om']})
 
             return lookupObj
 
