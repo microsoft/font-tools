@@ -16,6 +16,7 @@ from featuredata import basetypes
 from featuredata import qcontrols
 from featuredata import internalmirrors
 from featuredata import mirroring
+from insertions import insertions
 from pres import pres
 from mark import mark
 from mkmk import mkmk
@@ -26,7 +27,9 @@ ver = 110
 class EotHelper:
     def __init__(self, pvar):
         """Intialize the Egyptian OpenType helper class with config variable."""
+
         self.pvar = pvar
+        self.inssizes = self.loadInsertionSizes()
         self.abvslines = []
         self.blwslines = []
         self.halnlines = []
@@ -262,6 +265,31 @@ class EotHelper:
 
         self.writeTestFile(self.testfile)
         return
+
+    def loadInsertionSizes(self):
+        """Initialize per-glyph insertion size variable with data imported from insertions.py."""
+        # obj = {'it43':["'I10','bs66'"]}
+
+        obj = {}
+        for key in insertions:
+            if key != 'default':
+                inssizes = insertions[key]
+                inscontrols = ['ts','bs','te','be']
+                for ic in inscontrols:
+                    if ic in inssizes:
+                        for sizekey in inssizes[ic]:
+                            size = inssizes[ic][sizekey]
+                            if int(size) != -1:
+                                trg = str(size)
+                                context = [key,ic+str(sizekey)]
+
+                                if trg in obj:
+                                    contexts = obj[trg]
+                                    contexts.append(context)
+                                    obj[trg] = contexts
+                                else:
+                                    obj[trg] = [context]
+        return obj
 
 ### GDEF
     def gdef(self):
@@ -2111,14 +2139,27 @@ class EotHelper:
                 return lookupObj
             def perglyphsizes():
                 # rules to specify the available insertion size per glyph
+                def fixcontextforlevel(clist):
+                    cval = clist[1]
+                    cval = re.sub(r'([tb][se])',r'\1_',cval)
+                    clist[1] = re.sub('_','2',cval)
+                    return clist
                 objs = []
-                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'perglyphsize   '
-                context = {'left':['I10','bs66'],'right':[]}
-                lookupObj['contexts'].append(context)
-                details = {'sub':['it00'],'target':['it43']}
-                lookupObj['details'].append(details)
-                objs.append(lookupObj)
+                prfx = 'it'
+                if level == 2:
+                    prfx += '2'
+                for target in sorted(self.inssizes):
+                    contexts = self.inssizes[target]
+                    if len(contexts) > 0:
+                        lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                        lookupObj['name'] = 'perglyphsize_'+target
+                        for context in contexts:
+                            if level == 2:
+                                context = fixcontextforlevel(context)
+                            lookupObj['contexts'].append({'left':context,'right':[]})
+                        details = {'sub':['it00'],'target':[prfx+target]}
+                        lookupObj['details'].append(details)
+                        objs.append(lookupObj)
                 return objs
             def defaultomsize():
                 # it00 -> it66
@@ -2168,7 +2209,7 @@ class EotHelper:
             # (it33 ima|dv0) ch# -> ch# rm
             lookupObjs = []
             max = self.pvar['maxperlevel'][level]
-            for it in groupdata['insertionsizes1']:
+            for it in groupdata['insertionsizes'+str(level)]:
                 size = int(it[2:3])
                 # print (str(level) + '; ' + it + ' : ' + str(size))
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -2198,27 +2239,6 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        # def targetmaxcobra(level): #20-23
-        #     # For levels 1 and 2 force the target max insertion size for cobra
-        #     # if cobra size is not equal to the ins max size
-        #     maxcc = self.pvar['insertcobramax'][level]
-        #     maxc = int(str(maxcc)[0:1])
-        #     maxh = self.pvar['insertionwidthmax'][level]
-        #     maxv = self.pvar['insertionheightmax'][level]
-        #     maxi = str(maxh)+str(maxv)
-        #     if maxcc != maxi:
-        #         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-        #         lookupObj['name'] = 'ins-H-target-cobra-'+str(level)
-        #         left = 'it'+str(maxcc)
-        #         context = {'left':[left],'right':[]}
-        #         lookupObj['contexts'].append(context)                 
-        #         i = self.pvar['chu']
-        #         while i > maxc:
-        #             details = {'sub':['rm'+str(i)],'target':['rm'+str(maxc)]}
-        #             lookupObj['details'].append(details)
-        #             i = i - 1
-
-        #         return lookupObj
         def targetmax(level): #20-23
             # For levels 1 and 2, force the target max insertion size
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -2263,7 +2283,7 @@ class EotHelper:
             # <corners0b> rm3 -> <corners0b>
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'ins-H-insertioncleanup-'+str(level)
-            cornerstart = 'insertionsizes1'
+            cornerstart = 'insertionsizes'+str(level)
 
             i = 1
             while i <= self.pvar['targetwidthmax'][level]:
@@ -2290,9 +2310,6 @@ class EotHelper:
         lookupObjs.extend(insertionmaxperrow(level))
         lookupObjs.append(insertmaxcalcmarker(level))
         lookupObjs.extend(self.calculatemax(level,'ins'))
-        # obj = targetmaxcobra(level)
-        # if obj:
-        #     lookupObjs.append(obj)
         lookupObjs.append(targetmax(level))
         lookupObjs.extend(storerowmax(level))
         lookupObjs.append(self.insertrowmaxmarker(level,'ins'))
@@ -2450,7 +2467,7 @@ class EotHelper:
                     i += 1                
                 details = {'sub':[blockstart,'rc0'],'target':[blockstart]}
                 lookupObj['details'].append(details)
-                for insertion in groupdata['insertionsizes1']:
+                for insertion in groupdata['insertionsizes'+str(level)]:
                     details = {'sub':[insertion,'rc0'],'target':[insertion]}
                     lookupObj['details'].append(details)
             
@@ -2460,7 +2477,7 @@ class EotHelper:
             # Not needed at level 1
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'max-H-rcunbalancedcleanup-'+str(level)
-            contexts = {'left':['insertionsizes1'],'right':[]}
+            contexts = {'left':['insertionsizes'+str(level)],'right':[]}
             lookupObj['contexts'].append(contexts)
             details = {'sub':['ub','rc0'],'target':['ub']}
             lookupObj['details'].append(details)
@@ -3088,22 +3105,22 @@ class EotHelper:
             i += 1
         objs.append(lookupObj)
 
-        # # Row width sizing needs to be skipped for overstrikes, so we have another rule to revert to rm for
-        # # overstrikes when the level is 1 or 2 and the rule is max.
-        # if level > 0:
-        #     if name == 'max':
-        #         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-        #         lookupObj['name'] = name+'-H-swapomrowwidth-'+str(level)
-        #         shapes = 'shapes_om'
-        #         if level > 1:
-        #             shapes += str(level)
-        #         lookupObj['contexts'].append({'left':[shapes,'insertionsizes'+str(level)],'right':[]})
-        #         i = 1
-        #         while i <= self.pvar['targetwidthmax'][level]:
-        #             details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
-        #             lookupObj['details'].append(details)
-        #             i += 1
-        #         objs.append(lookupObj)
+        # Row width sizing needs to be skipped for overstrikes, so we have another rule to revert to rm for
+        # overstrikes when the level is 1 or 2 and the rule is max.
+        if level > 0:
+            if name == 'max':
+                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = name+'-H-swapomrowwidth-'+str(level)
+                shapes = 'shapes_om'
+                if level > 1:
+                    shapes += str(level)
+                lookupObj['contexts'].append({'left':[shapes,'insertionsizes'+str(level)],'right':[]})
+                i = 1
+                while i <= self.pvar['targetwidthmax'][level]:
+                    details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
+                    lookupObj['details'].append(details)
+                    i += 1
+                objs.append(lookupObj)
 
         return objs
     def deltaperrow(self,level,name): #32
@@ -3299,16 +3316,11 @@ class EotHelper:
                         {'left':['sv'+str(i),'ub'],'right':[]},
                     ]
                     # it = 'it'+str(i)+str(i) # START HERE need to include it43
-                    for it in groupdata['insertionsizes1']:
+                    for it in groupdata['insertionsizes'+str(level)]:
                         itv = it[-1:]
                         if int(itv) == i:
                             lookupObj['contexts'].append({'left':[it],'right':[]})
                             lookupObj['contexts'].append({'left':[it,'ub'],'right':[]})
-                    # if i == self.pvar['insertionheightmax'][level]:
-                    #     lookupObj['contexts'].append({'left':['it'+str(i)+str(i)],'right':[]})
-                    # else:
-                    #     if i == self.pvar['insertcobramax'][level]:
-                    #         lookupObj['contexts'].append({'left':['it'+str(i)+str(i)],'right':[]})
                 lookupObj['details'] = [{'sub':['r'+str(level)+'bA'],'target':['trg'+str(i),'r'+str(level)+'bA']}]
                 objs.append(lookupObj)
                 i += 1
@@ -3464,9 +3476,9 @@ class EotHelper:
                 lookupObj['details'].append(details)
                 if level >= 1:
                     cornerlist = groupdata['shapes_cornersom_'+str(level)]
-                for corner in cornerlist:
-                    details = {'sub':['cvb',corner],'target':[corner]}
-                    lookupObj['details'].append(details)
+                    for corner in cornerlist:
+                        details = {'sub':['cvb',corner],'target':[corner]}
+                        lookupObj['details'].append(details)
                 return lookupObj
 
             cycle = 1
