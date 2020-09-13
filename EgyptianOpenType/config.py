@@ -24,10 +24,10 @@ pvar = {
     'el'  : 3, # embedding levels
     'maxperlevel' : [36,30,18], #max sign width per level
     'shapekey' : ['o','s','i'], #sigla used for shape glyphs per level
-    'insertionwidthmax' : [0,5,4], #max h for inserted region per level
-    'insertionheightmax' : [0,5,4], #max v for inserted region per level
-    'insertionwidthmin' : [4,4,0], #min h for region having insertion per level
-    'insertionheightmin' : [2,2,0], #min v for region having insertion per level
+    'insertionwidthmax' : [0,5,2], #max h for inserted region per level
+    'insertionheightmax' : [0,5,2], #max v for inserted region per level
+    'insertionwidthmin' : [4,2,0], #min h for region having insertion per level
+    'insertionheightmin' : [3,2,0], #min v for region having insertion per level
     'insertcobramax' : [00,43,22], #max hv for cobra insertions per level
     'targetwidthmin' : [6,1,1], # min ideal h per level
     'targetwidthmax' : [6,6,3], # max ideal h per level
