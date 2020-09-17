@@ -2211,7 +2211,6 @@ class EotHelper:
             max = self.pvar['maxperlevel'][level]
             for it in groupdata['insertionsizes'+str(level)]:
                 size = int(it[2:3])
-                # print (str(level) + '; ' + it + ' : ' + str(size))
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'ins-H-rowmax-'+str(size)+'-'+str(level)
                 # maxh = self.pvar['insertionwidthmax'][level]
@@ -2246,6 +2245,7 @@ class EotHelper:
 
             maxh = self.pvar['insertionwidthmax'][level]
             maxv = self.pvar['insertionheightmax'][level]
+            print('insertionwidthmax: '+str(maxh))
             left = 'it'+str(maxh)+str(maxv)
             context = {'left':[left],'right':[]}
             lookupObj['contexts'].append(context)
