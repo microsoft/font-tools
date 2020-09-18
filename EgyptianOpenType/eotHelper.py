@@ -9,7 +9,6 @@ import re
 import codecs
 import math
 from pprint import pprint
-# from config import cobrapos
 from featuredata import featurename
 from featuredata import groupdata
 from featuredata import basetypes
@@ -275,20 +274,48 @@ class EotHelper:
             if key != 'default':
                 inssizes = insertions[key]
                 inscontrols = ['ts','bs','te','be']
-                for ic in inscontrols:
+                for ic in inscontrols: # 'ts'
                     if ic in inssizes:
-                        for sizekey in inssizes[ic]:
-                            size = inssizes[ic][sizekey]
-                            if int(size) != -1:
-                                trg = str(size)
-                                context = [key,ic+str(sizekey)]
+                        if len(inssizes[ic])>0:
+                            basesize = list(inssizes[ic].keys())[0]
+                            bh = int(str(basesize)[0:1])
+                            bv = int(str(basesize)[1:])
+                            defsize = inssizes[ic][basesize]
+                            dh = int(str(defsize)[0:1])
+                            dv = int(str(defsize)[1:])
+                            hr = dh/bh
+                            vr = dv/bv
 
-                                if trg in obj:
-                                    contexts = obj[trg]
-                                    contexts.append(context)
-                                    obj[trg] = contexts
+                            ih = self.pvar['chu']
+                            while ih > 1:
+                                iv = self.pvar['vhu']
+                                if bh <= ih:
+                                    th = dh
                                 else:
-                                    obj[trg] = [context]
+                                    th = math.floor(hr*ih)
+                                while iv > 1:
+                                    if bv <= iv:
+                                        tv = dv
+                                    else:
+                                        tv = math.floor(vr*iv)
+
+                                    sizekey = int(str(ih)+str(iv))
+                                    if sizekey in inssizes[ic]:
+                                        thv = inssizes[ic][sizekey]
+                                    else:
+                                        thv = str(th)+str(tv)
+
+                                    if th > 0 and tv > 0:
+                                        context = [key,ic+str(sizekey)]
+                                        if thv in obj:
+                                            contexts = obj[thv]
+                                            contexts.append(context)
+                                            obj[thv] = contexts
+                                        else:
+                                            obj[thv] = [context]
+
+                                    iv -= 1
+                                ih -= 1                                
         return obj
 
 ### GDEF
@@ -2213,8 +2240,6 @@ class EotHelper:
                 size = int(it[2:3])
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'ins-H-rowmax-'+str(size)+'-'+str(level)
-                # maxh = self.pvar['insertionwidthmax'][level]
-                # maxv = self.pvar['insertionheightmax'][level]            
                 lookupObj['contexts'] = [{'left':[it,'ima'],'right':['dv0']},
                                          {'left':[it,'ima','ub'],'right':['dv0']}]
                 j = max
@@ -2245,7 +2270,6 @@ class EotHelper:
 
             maxh = self.pvar['insertionwidthmax'][level]
             maxv = self.pvar['insertionheightmax'][level]
-            print('insertionwidthmax: '+str(maxh))
             left = 'it'+str(maxh)+str(maxv)
             context = {'left':[left],'right':[]}
             lookupObj['contexts'].append(context)
