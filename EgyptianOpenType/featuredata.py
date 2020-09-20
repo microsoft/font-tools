@@ -33,7 +33,7 @@ groupdata = {
 	'color_all' : [],
 	'controls_a' : ['controls_joiners','ss','se'],
 	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A'],
-    'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn4','mn3','mn2','ub','it00','it00a'], #controls not grouped for injection
+  'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn5','mn4','mn3','mn2','mn1','ub','it00','it00a'], #controls not grouped for injection
 	'controls_joiners' : ['hj','vj','ts','te','bs','be','om'],
 	'corners' : ['ts','te','bs','be'],
 	'corners0a' : ['its0A','ibs0A','cbr0A','ite0A','ibe0A','om0A'],
@@ -61,12 +61,12 @@ groupdata = {
 	'horizontals2' : ['eh_all','h1','h2','h3','h4','h5','h6','h7','h8'],
 	'insertionmarkers': ['ima','imb','im0'],
 	# 'insertionsizes1a' : ['it11a' ,'it21a' ,'it22a' ,'it31a' ,'it33a' ,'it43a' ,'it44a' ,'it55a' ,'it66a'],
-	'insertionsizes1'  : [ 'it11'  ,'it12'  ,'it13'  ,'it14'  ,'it15'  ,'it16'  ,'it21'  ,'it22'  ,'it23'  ,'it24'  ,'it25'  ,'it26'  ,'it31'  ,'it32'  ,'it33'  ,'it34'  ,'it35'  ,'it36'  ,'it41'  ,'it42'  ,'it43'  ,'it44'  ,'it45'  ,'it46'  ,'it51'  ,'it52'  ,'it53'  ,'it54'  ,'it55'  ,'it56'  ,'it61'  ,'it62'  ,'it63'  ,'it64'  ,'it65'  ,'it66'],
+	'insertionsizes1'  : [ 'it11','it12','it13','it14','it15','it16','it21','it22','it23','it24','it25','it26','it31','it32','it33','it34','it35','it36','it41','it42','it43','it44','it45','it46','it51','it52','it53','it54','it55','it56','it61','it62','it63','it64','it65','it66'],
 	'insertionsizes1R' : [ 'it11R' ,'it12R' ,'it13R' ,'it14R' ,'it15R' ,'it16R' ,'it21R' ,'it22R' ,'it23R' ,'it24R' ,'it25R' ,'it26R' ,'it31R' ,'it32R' ,'it33R' ,'it34R' ,'it35R' ,'it36R' ,'it41R' ,'it42R' ,'it43R' ,'it44R' ,'it45R' ,'it46R' ,'it51R' ,'it52R' ,'it53R' ,'it54R' ,'it55R' ,'it56R' ,'it61R' ,'it62R' ,'it63R' ,'it64R' ,'it65R' ,'it66R'],
 	'insertionsizes2'  : [ 'it211' ,'it212' ,'it213' ,'it214' ,'it215' ,'it216' ,'it221' ,'it222' ,'it223' ,'it224' ,'it225' ,'it226' ,'it231' ,'it232' ,'it233' ,'it234' ,'it235' ,'it236' ,'it241' ,'it242' ,'it243' ,'it244' ,'it245' ,'it246' ,'it251' ,'it252' ,'it253' ,'it254' ,'it255' ,'it256' ,'it261' ,'it262' ,'it263' ,'it264' ,'it265' ,'it266'],
 	'insertionsizes2R' : [ 'it211R','it212R','it213R','it214R','it215R','it216R','it221R','it222R','it223R','it224R','it225R','it226R','it231R','it232R','it233R','it234R','it235R','it236R','it241R','it242R','it243R','it244R','it245R','it246R','it251R','it252R','it253R','it254R','it255R','it256R','it261R','it262R','it263R','it264R','it265R','it266R'],
 	'insertions' : ['insertionmarkers','insertionsizes1a'],
-	'minsizes' : ['mt22','mt33','mt44','mt43','mt42','su'],
+	'minsizes' : [ 'mt11','mt12','mt13','mt14','mt15','mt16','mt21','mt22','mt23','mt24','mt25','mt26','mt31','mt32','mt33','mt34','mt35','mt36','mt41','mt42','mt43','mt44','mt45','mt46','mt51','mt52','mt53','mt54','mt55','mt56','mt61','mt62','mt63','mt64','mt65','mt66', 'su'],
 	'mirror_all' : [],
 	'normalize' : ['dn1','dn2','dn3','dn4','dn5','hn1','hn2','hn3','hn4','hn5'],
 	'parens' : ['parens_h','parens_v','corners0a','corners1a','om0A'],

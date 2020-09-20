@@ -29,11 +29,12 @@ pvar = {
     'insertionwidthmin' : [4,2,0], #min h for region having insertion per level
     'insertionheightmin' : [3,2,0], #min v for region having insertion per level
     'insertcobramax' : [00,43,22], #max hv for cobra insertions per level
-    'targetwidthmin' : [6,2,1], # min ideal h per level
+    'targetwidthmin' : [6,1,1], # min ideal h per level
     'targetwidthmax' : [6,6,3], # max ideal h per level
-    'targetheightmin' : [6,2,1],# min ideal v per level
+    'targetheightmin' : [6,1,1],# min ideal v per level
     'targetheightmax' : [6,6,5],# max ideal v per level
     'cyclesperlevel' : [3,3,2], #Used to repeat sum and max substitutions
+    'defaultinsertionsize' : 2, #default insertion size per level
     'sb'  : 100, # font side bearing
     'controls' : ['vj','hj','ts','bs','te','be','om','ss','se'],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
@@ -45,6 +46,6 @@ pvar = {
     'cartouchecodes' : ['cb','cfb','hwtb','hwttb','hwtbb','hwtfb','ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe'],
     'fortified' : 1,
     'mirror' : 1,
-    # 'test' : {'font':1,'gdef':1,'groups':1,'haln':1,'pres':1,'abvs':0,'blws':1,'rlig':1,'psts':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':1}
+    # 'test' : {'font':1,'gdef':1,'groups':1,'haln':1,'pres':1,'abvs':0,'blws':0,'rlig':1,'psts':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':1}
     'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }

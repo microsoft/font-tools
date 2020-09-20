@@ -29,6 +29,7 @@ class EotHelper:
 
         self.pvar = pvar
         self.inssizes = self.loadInsertionSizes()
+        self.definssizes = self.loadDefInsertionSizes()
         self.abvslines = []
         self.blwslines = []
         self.halnlines = []
@@ -316,6 +317,36 @@ class EotHelper:
 
                                     iv -= 1
                                 ih -= 1                                
+        return obj
+
+    def loadDefInsertionSizes(self):
+        def getcontextsforsize(size):
+            contexts = []
+            inscontrols = ['ts','bs','te','be']
+            for ic in inscontrols:
+                hs = int(size[0:1])
+                vs = int(size[1:])
+                gh = self.pvar['chu']
+                while gh > 1:
+                    gv = self.pvar['vhu']
+                    while gv > 1:
+                        if math.ceil(gh/3) == hs:
+                            if math.ceil(gv/3) == vs:
+                                contexts.append(ic+str(gh)+str(gv))
+                        gv -= 1
+                    gh -= 1
+
+            return contexts
+        obj = {}
+        ish = self.pvar['defaultinsertionsize']
+        while ish >= 1:
+            isv = self.pvar['defaultinsertionsize']
+            while isv >= 1:
+                ds = str(ish)+str(isv)
+                if ds not in obj:
+                    obj[ds] = getcontextsforsize(ds)
+                isv -= 1
+            ish -= 1
         return obj
 
 ### GDEF
@@ -2200,15 +2231,31 @@ class EotHelper:
                 details = {'sub':['it00'],'target':['it66']}
                 lookupObj['details'].append(details)
                 return lookupObj
-            def defaultinsertionsize():
-                # it00 -> it22
-                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'defaultinssize'
-                context = {'left':['shapes_corners_'+str(level)],'right':[]}
-                lookupObj['contexts'].append(context)
-                details = {'sub':['it00'],'target':['it22']}
-                lookupObj['details'].append(details)
-                return lookupObj
+            def defaultinsertionsizes():
+                # rules to specify the default available insertion size per insertion size
+                def fixcontextforlevel(clist):
+                    cval = clist[0]
+                    cval = re.sub(r'([tb][se])',r'\1_',cval)
+                    clist[0] = re.sub('_','2',cval)
+                    return clist
+                objs = []
+                prfx = 'it'
+                if level == 2:
+                    prfx += '2'
+                for target in self.definssizes:
+                    contexts = self.definssizes[target]
+                    if len(contexts) > 0:
+                        lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                        lookupObj['name'] = 'definssize_'+target
+                        for value in contexts:
+                            context = [value]
+                            if level == 2:
+                                context = fixcontextforlevel(context)
+                            lookupObj['contexts'].append({'left':context,'right':[]})
+                        details = {'sub':['it00'],'target':[prfx+target]}
+                        lookupObj['details'].append(details)
+                        objs.append(lookupObj)
+                return objs
 
             lookupObjs = []
             lookupObjs.append(inserttargetH())
@@ -2218,7 +2265,7 @@ class EotHelper:
             lookupObjs.append(cornersizes())
             lookupObjs.extend(perglyphsizes())
             lookupObjs.append(defaultomsize())
-            lookupObjs.append(defaultinsertionsize())
+            lookupObjs.extend(defaultinsertionsizes())
 
             return lookupObjs
         def insertiondeltamarker(level):
