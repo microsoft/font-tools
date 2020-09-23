@@ -154,13 +154,11 @@ pres = [
     'details' : [
         {'sub':['its0A'],'target':['its0B','it00a']},
         {'sub':['ibs0A'],'target':['ibs0B','it00a']},
-        {'sub':['cbr0A'],'target':['cbr0B','it00a']},
         {'sub':['ite0A'],'target':['ite0B','it00a']},
         {'sub':['ibe0A'],'target':['ibe0B','it00a']},
         {'sub':['om0A'], 'target':['om0B' ,'it00a']},
         {'sub':['its1A'],'target':['its1B','it00a']},
         {'sub':['ibs1A'],'target':['ibs1B','it00a']},
-        {'sub':['cbr1A'],'target':['cbr1B','it00a']},
         {'sub':['ite1A'],'target':['ite1B','it00a']},
         {'sub':['ibe1A'],'target':['ibe1B','it00a']},
         {'sub':['om1A'], 'target':['om1B' ,'it00a']},

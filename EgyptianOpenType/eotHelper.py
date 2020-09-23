@@ -28,7 +28,10 @@ class EotHelper:
         """Intialize the Egyptian OpenType helper class with config variable."""
 
         self.pvar = pvar
-        self.inssizes = self.loadInsertionSizes()
+        self.tssizes = self.loadInsertionSizes('ts')
+        self.bssizes = self.loadInsertionSizes('bs')
+        self.tesizes = self.loadInsertionSizes('te')
+        self.besizes = self.loadInsertionSizes('be')
         self.definssizes = self.loadDefInsertionSizes()
         self.abvslines = []
         self.blwslines = []
@@ -266,57 +269,58 @@ class EotHelper:
         self.writeTestFile(self.testfile)
         return
 
-    def loadInsertionSizes(self):
+    def loadInsertionSizes(self,ic):
         """Initialize per-glyph insertion size variable with data imported from insertions.py."""
         # obj = {'it43':["'I10','bs66'"]}
 
         obj = {}
         for key in insertions:
-            if key != 'default':
-                inssizes = insertions[key]
-                inscontrols = ['ts','bs','te','be']
-                for ic in inscontrols: # 'ts'
-                    if ic in inssizes:
-                        if len(inssizes[ic])>0:
-                            basesize = list(inssizes[ic].keys())[0]
-                            bh = int(str(basesize)[0:1])
-                            bv = int(str(basesize)[1:])
-                            defsize = inssizes[ic][basesize]
-                            dh = int(str(defsize)[0:1])
-                            dv = int(str(defsize)[1:])
-                            hr = dh/bh
-                            vr = dv/bv
+            inssizes = insertions[key]
+            if not key in groupdata['cornerglyphs']:
+                groupdata['cornerglyphs'].append(key)
 
-                            ih = self.pvar['chu']
-                            while ih > 1:
-                                iv = self.pvar['vhu']
-                                if bh <= ih:
-                                    th = dh
+            if ic in inssizes:
+                if len(inssizes[ic])>0:
+                    basesize = list(inssizes[ic].keys())[0]
+                    bh = int(str(basesize)[0:1])
+                    bv = int(str(basesize)[1:])
+                    defsize = inssizes[ic][basesize]
+                    dh = int(str(defsize)[0:1])
+                    dv = int(str(defsize)[1:])
+                    hr = dh/bh
+                    vr = dv/bv
+
+                    ih = self.pvar['chu']
+                    while ih > 1:
+                        iv = self.pvar['vhu']
+                        if bh <= ih:
+                            th = dh
+                        else:
+                            th = math.floor(hr*ih)
+                        while iv > 1:
+                            if bv <= iv:
+                                tv = dv
+                            else:
+                                tv = math.floor(vr*iv)
+
+                            sizekey = int(str(ih)+str(iv))
+                            if sizekey in inssizes[ic]:
+                                thv = inssizes[ic][sizekey]
+                            else:
+                                thv = str(th)+str(tv)
+
+                            if th > 0 and tv > 0:
+                                context = [key,ic+str(sizekey)]
+                                if thv in obj:
+                                    contexts = obj[thv]
+                                    contexts.append(context)
+                                    obj[thv] = contexts
                                 else:
-                                    th = math.floor(hr*ih)
-                                while iv > 1:
-                                    if bv <= iv:
-                                        tv = dv
-                                    else:
-                                        tv = math.floor(vr*iv)
+                                    obj[thv] = [context]
 
-                                    sizekey = int(str(ih)+str(iv))
-                                    if sizekey in inssizes[ic]:
-                                        thv = inssizes[ic][sizekey]
-                                    else:
-                                        thv = str(th)+str(tv)
+                            iv -= 1
+                        ih -= 1                                
 
-                                    if th > 0 and tv > 0:
-                                        context = [key,ic+str(sizekey)]
-                                        if thv in obj:
-                                            contexts = obj[thv]
-                                            contexts.append(context)
-                                            obj[thv] = contexts
-                                        else:
-                                            obj[thv] = [context]
-
-                                    iv -= 1
-                                ih -= 1                                
         return obj
 
     def loadDefInsertionSizes(self):
@@ -399,7 +403,7 @@ class EotHelper:
     def haln(self):
         featuretag = 'haln'
         if self.pvar['test']['haln'] == 1:
-            print ('haln in test mode')
+            print ('HALN in test mode')
         else:
             self.halnlines = self.GSUBligatures()
             n = self.featureindexes[featuretag] - 1
@@ -427,8 +431,8 @@ class EotHelper:
             return subpairs
         def loadgb1subpairs():
             keys = [
-                'vj0A','hj0A','its0A','ibs0A','cbr0A','ite0A','ibe0A','om0A',
-                'vj1A','hj1A','its1A','ibs1A','cbr1A','ite1A','ibe1A','om1A',
+                'vj0A','hj0A','its0A','ibs0A','ite0A','ibe0A','om0A',
+                'vj1A','hj1A','its1A','ibs1A','ite1A','ibe1A','om1A',
                 'vj2A','hj2A','ss'
             ]
             subpairs = []
@@ -734,28 +738,6 @@ class EotHelper:
                         retvalue = int(mtp * self.pvar['hfu']) * -1
                     else:
                         retvalue = 0
-                elif (type == 'XCOBRA'):
-                    searchObj = re.search('^.*([0-9])[0-9]$',glyphname)
-                    if (searchObj):
-                        nv = int(searchObj.group(1))
-                        if (nv > 1 and nv <= self.pvar['hhu']):
-                            key = str('x'+str(searchObj.group(1)))
-                            retvalue = self.pvar['cobrapos'][key]
-                        else:
-                            retvalue = -1
-                    else:
-                        retvalue = -1
-                elif (type == 'YCOBRA'):
-                    searchObj = re.search('^.*([0-9])$',glyphname)
-                    if (searchObj):
-                        nv = int(searchObj.group(1))
-                        if (nv > 1 and nv <= self.pvar['vhu']):
-                            key = str('y'+str(searchObj.group(1)))
-                            retvalue = self.pvar['cobrapos'][key]
-                        else:
-                            retvalue = -1
-                    else:
-                        retvalue = -1
                 elif (type == 'ZERO'):
                     retvalue = int(0)
                 else:
@@ -1052,12 +1034,6 @@ class EotHelper:
         for glyph in groupdata['shapes_bs2']:
             preformatanchor('bs',glyph,'ZERO','NYUNIT')
             preformatanchor('be',glyph,'XSUNIT','NYUNIT')
-        for glyph in groupdata['shapes_cb']:
-            preformatanchor('bs',glyph,'ZERO','NYUNIT')
-            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
-        for glyph in groupdata['shapes_cb2']:
-            preformatanchor('bs',glyph,'ZERO','NYUNIT')
-            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
 
         # ite
         group = 'insertionsizes1'
@@ -1217,7 +1193,7 @@ class EotHelper:
             if dec > 65535: #mapped SMP characters
                 if name in qcontrols:
                     group = 'Joiner'
-                elif (hieroglyph): #name matches the patter for a hieroglyph
+                elif (hieroglyph): #name matches the pattern for a hieroglyph
                     group = 'Chr'
                 else:    
                     group = 'Chr' #pick up glyphs outside Gardiner set
@@ -1553,7 +1529,10 @@ class EotHelper:
                 marks = 'SKIP_MARKS'
                 marktag = '_S'
             else: 
-                marks = ' PROCESS_MARKS "'+marks+'"'
+                if marks[0:1] == '*':
+                    marks = ' PROCESS_MARKS MARK_GLYPH_SET "'+marks.replace('*','')+'"'
+                else:
+                    marks = ' PROCESS_MARKS "'+marks+'"'
                 marktag = '_M'
         else :
             marks = ' PROCESS_MARKS ALL'
@@ -2179,7 +2158,7 @@ class EotHelper:
                 # ibs0B sh5 sv6 -> bs56
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'insertsize'
-                prefix = ['ts','bs','cb','te','be','om']
+                prefix = ['ts','bs','te','be','om']
                 pad = ''
                 if level == 2:
                     pad = '2'
@@ -2197,27 +2176,112 @@ class EotHelper:
                 return lookupObj
             def perglyphsizes():
                 # rules to specify the available insertion size per glyph
+                # cycle through corners and pad context for multi-corners
+                # specify mark filtering set *multicorners{LEVEL} for bs,te,be
                 def fixcontextforlevel(clist):
                     cval = clist[1]
                     cval = re.sub(r'([tb][se])',r'\1_',cval)
                     clist[1] = re.sub('_','2',cval)
                     return clist
+                def derivecontexts(left,ic):
+                    def derive(left,cycle):
+                        if cycle == 1:
+                            val = left
+                        if cycle == 2: #ts
+                            val = [0]*3
+                            val[0] = left[0]
+                            val[1] = re.sub(r'[tb][se]','ts',left[1])
+                            val[2] = left[1]
+                        if cycle == 3: #bs
+                            val = [0]*3
+                            val[0] = left[0]
+                            val[1] = re.sub(r'[tb][se]','bs',left[1])
+                            val[2] = left[1]
+                        if cycle == 4: #te
+                            val = [0]*3
+                            val[0] = left[0]
+                            val[1] = re.sub(r'[tb][se]','te',left[1])
+                            val[2] = left[1]
+                        if cycle == 5: #ts,bs
+                            val = [0]*4
+                            val[0] = left[0]
+                            val[1] = re.sub(r'[tb][se]','ts',left[1])
+                            val[2] = re.sub(r'[tb][se]','bs',left[1])
+                            val[3] = left[1]
+                        if cycle == 6: #ts,te
+                            val = [0]*4
+                            val[0] = left[0]
+                            val[1] = re.sub(r'[tb][se]','ts',left[1])
+                            val[2] = re.sub(r'[tb][se]','te',left[1])
+                            val[3] = left[1]
+                        if cycle == 7: #bs,te
+                            val = [0]*4
+                            val[0] = left[0]
+                            val[1] = re.sub(r'[tb][se]','bs',left[1])
+                            val[2] = re.sub(r'[tb][se]','te',left[1])
+                            val[3] = left[1]
+                        if cycle == 8: #ts,bs,te
+                            val = [0]*5
+                            val[0] = left[0]
+                            val[1] = re.sub(r'[tb][se]','ts',left[1])
+                            val[2] = re.sub(r'[tb][se]','bs',left[1])
+                            val[3] = re.sub(r'[tb][se]','te',left[1])
+                            val[4] = left[1]
+                        return val
+
+                    derivedlist = []
+                    derivedlist.append({'left':derive(left,1),'right':[]})
+
+                    if ic in ['bs','te','be']:
+                        derivedlist.append({'left':derive(left,2),'right':[]})
+
+                    if ic in ['te','be']:
+                        derivedlist.append({'left':derive(left,3),'right':[]})
+                        derivedlist.append({'left':derive(left,5),'right':[]})
+                    if ic in ['be']:
+                        derivedlist.append({'left':derive(left,4),'right':[]})
+                        derivedlist.append({'left':derive(left,5),'right':[]})
+                        derivedlist.append({'left':derive(left,6),'right':[]})
+                        derivedlist.append({'left':derive(left,7),'right':[]})
+                        derivedlist.append({'left':derive(left,8),'right':[]})
+
+                    return derivedlist
+                def loadinssizes(ic):
+                    if ic == 'ts':
+                        inssizes = self.tssizes
+                    if ic == 'bs':
+                        inssizes = self.bssizes
+                    if ic == 'te':
+                        inssizes = self.tesizes
+                    if ic == 'be':
+                        inssizes = self.besizes
+                    return inssizes
                 objs = []
                 prfx = 'it'
                 if level == 2:
                     prfx += '2'
-                for target in sorted(self.inssizes):
-                    contexts = self.inssizes[target]
-                    if len(contexts) > 0:
-                        lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                        lookupObj['name'] = 'perglyphsize_'+target
-                        for context in contexts:
-                            if level == 2:
-                                context = fixcontextforlevel(context)
-                            lookupObj['contexts'].append({'left':context,'right':[]})
-                        details = {'sub':['it00'],'target':[prfx+target]}
-                        lookupObj['details'].append(details)
-                        objs.append(lookupObj)
+                for ic in ['ts','bs','te','be']:
+                    inssizes = loadinssizes(ic)
+                    for target in sorted(inssizes):
+                        contexts = inssizes[target]
+
+                        if len(contexts) > 0:
+                            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                            lookupObj['name'] = 'perglyphsize_'+ic+'_'+target
+                            if ic in ['bs','te','be']:
+                                lookupObj['marks'] = '*multicorners'+str(level)
+
+                            for context in contexts:
+                                if level == 2:
+                                    context = fixcontextforlevel(context)
+
+                                clist = derivecontexts(context, ic)
+                                for item in clist:
+                                    lookupObj['contexts'].append(item)
+
+                            details = {'sub':['it00'],'target':[prfx+target]}
+                            lookupObj['details'].append(details)
+                            objs.append(lookupObj)
                 return objs
             def defaultomsize():
                 # it00 -> it66
@@ -4199,7 +4263,7 @@ class EotHelper:
                 #it{1-6}{1-6} -> it2$1$2
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'lvl2insertionsizes'
-                contexts = ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_cb2','shapes_om2']
+                contexts = ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2']
                 for value in contexts:
                     context = {'left':[value],'right':[]}
                     lookupObj['contexts'].append(context)

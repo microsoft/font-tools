@@ -51,16 +51,14 @@ mkmk = [
     'details' : [
         {'attach':['shapes_0'],'to':['shapes_ts'],'anchor':'left'},
         {'to':['shapes_bs'],'anchor':'left'},
-        {'to':['shapes_cb'],'anchor':'left'},
         {'to':['shapes_te'],'anchor':'left'},
         {'to':['shapes_be'],'anchor':'left'},
         {'to':['shapes_om'],'anchor':'center'},
     ]},
-    #Lookup - Corner insertion bs,cb,te,be
+    #Lookup - Corner insertion bs,te,be
     {'name' : 'multi-corners 3', 'marks' : 'shapeinsertions0',
     'details' : [
         {'attach':['shapes_ts'],'to':['shapes_bs'],'anchor':'left'},
-        {'to':['shapes_cb'],'anchor':'left'},
         {'to':['shapes_te'],'anchor':'left'},
         {'to':['shapes_be'],'anchor':'left'},
     ]},
@@ -68,7 +66,7 @@ mkmk = [
     #Lookup - Corner insertion te, be
     {'name' : 'multi-corners 2', 'marks' : 'shapeinsertions0',
     'details' : [
-        {'attach':['shapes_bs','shapes_cb'],'to':['shapes_te'],'anchor':'left'},
+        {'attach':['shapes_bs'],'to':['shapes_te'],'anchor':'left'},
         {'to':['shapes_be'],'anchor':'left'},
     ]},
 
@@ -88,12 +86,6 @@ mkmk = [
     {'name' : 'shapes_bs-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bs'],'to':['insertionsizes1'],'anchor':'bs'},
-        {'to':['insertionsizes1R'],'anchor':'be'}
-    ]},
-    #Lookup - Corner insertion 3a
-    {'name' : 'shapes_cb-shapesi', 'marks' : '',
-    'details' : [
-        {'attach':['shapes_cb'],'to':['insertionsizes1'],'anchor':'bs'},
         {'to':['insertionsizes1R'],'anchor':'be'}
     ]},
     #Lookup - Corner insertion 4
@@ -181,16 +173,14 @@ mkmk = [
     'details' : [
         {'attach':['shapes_1'],'to':['shapes_ts2'],'anchor':'left'},
         {'to':['shapes_bs2'],'anchor':'left'},
-        {'to':['shapes_cb2'],'anchor':'left'},
         {'to':['shapes_te2'],'anchor':'left'},
         {'to':['shapes_be2'],'anchor':'left'},
         {'to':['shapes_om2'],'anchor':'center'},
     ]},
-    #Lookup - Corner insertion bs,cb,te,be
+    #Lookup - Corner insertion bs,te,be
     {'name' : 'multi-corners2_3', 'marks' : 'shapeinsertions1',
     'details' : [
         {'attach':['shapes_ts2'],'to':['shapes_bs2'],'anchor':'left'},
-        {'to':['shapes_cb2'],'anchor':'left'},
         {'to':['shapes_te2'],'anchor':'left'},
         {'to':['shapes_be2'],'anchor':'left'},
     ]},
@@ -198,7 +188,7 @@ mkmk = [
     #Lookup - Corner insertion te, be
     {'name' : 'multi-corners2_2', 'marks' : 'shapeinsertions1',
     'details' : [
-        {'attach':['shapes_bs2','shapes_cb2'],'to':['shapes_te2'],'anchor':'left'},
+        {'attach':['shapes_bs2'],'to':['shapes_te2'],'anchor':'left'},
         {'to':['shapes_be2'],'anchor':'left'},
     ]},
 
@@ -218,12 +208,6 @@ mkmk = [
     {'name' : 'shapes_bs2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bs2'],'to':['insertionsizes2'],'anchor':'bs'},
-        {'to':['insertionsizes2R'],'anchor':'be'}
-    ]},
-    #Lookup - Corner insertion 3a
-    {'name' : 'shapes_cb2-shapesi', 'marks' : '',
-    'details' : [
-        {'attach':['shapes_cb2'],'to':['insertionsizes2'],'anchor':'bs'},
         {'to':['insertionsizes2R'],'anchor':'be'}
     ]},
     #Lookup - Corner insertion 4
