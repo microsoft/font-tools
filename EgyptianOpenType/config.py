@@ -24,10 +24,10 @@ pvar = {
     'el'  : 3, # embedding levels
     'maxperlevel' : [36,30,18], #max sign width per level
     'shapekey' : ['o','s','i'], #sigla used for shape glyphs per level
-    'insertionwidthmax' : [0,5,3], #max h for inserted region per level
-    'insertionheightmax' : [0,5,3], #max v for inserted region per level
-    'insertionwidthmin' : [4,2,0], #min h for region having insertion per level
-    'insertionheightmin' : [3,2,0], #min v for region having insertion per level
+    'insertionwidthmax' : [0,5,4], #max h for inserted region per level
+    'insertionheightmax' : [0,5,4], #max v for inserted region per level
+    'insertionwidthmin' : [2,2,0], #min h for region having insertion per level
+    'insertionheightmin' : [2,2,0], #min v for region having insertion per level
     'targetwidthmin' : [6,1,1], # min ideal h per level
     'targetwidthmax' : [6,6,3], # max ideal h per level
     'targetheightmin' : [6,1,1],# min ideal v per level
@@ -43,6 +43,6 @@ pvar = {
     'cartouchecodes' : ['cb','cfb','hwtb','hwttb','hwtbb','hwtfb','ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe'],
     'fortified' : 1,
     'mirror' : 1,
-    # 'test' : {'font':1,'gdef':1,'groups':1,'haln':1,'pres':1,'abvs':1,'blws':0,'rlig':1,'psts':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':1}
+    # 'test' : {'font':1,'gdef':1,'groups':1,'haln':1,'pres':1,'abvs':0,'blws':0,'rlig':1,'psts':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':1}
     'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }

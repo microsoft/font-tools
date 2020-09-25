@@ -103,7 +103,7 @@ class EotHelper:
             self.testfile.extend(line)
             return
         def htmlHeader():
-            print('Header')
+            print("\t"+'Header')
             tl("<!DOCTYPE html>\n"+"<html>\n"+"\t<head>\n")
             tl("\t\t<title>Test Page - "+self.pvar['fontfilename']+"</title>\n")
             tl("\t\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>")
@@ -237,7 +237,7 @@ class EotHelper:
                 tl("\t\t</div>\n")
                 return
 
-            print('Body')
+            print("\t"+'Body')
             startPage()
             genTable()                
             endPage()
@@ -249,11 +249,11 @@ class EotHelper:
             return
         def echoTestScope(testscope):
             if testscope == 'A':
-                print("Writing all test cases")
+                print("\t"+"Writing all test cases")
             if testscope == 'F':
-                print("Writing failing test cases")
+                print("\t"+"Writing failing test cases")
             if testscope == 'P':
-                print("Writing passing test cases")
+                print("\t"+"Writing passing test cases")
 
         self.testfile = []
         testscope = testscope.upper()
@@ -471,7 +471,7 @@ class EotHelper:
         else:
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (49 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (48 expected)')
             self.writelines(self.preslines)
 
     #Level 0
@@ -491,7 +491,7 @@ class EotHelper:
             self.rliglines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (206 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (207 expected)')
             self.writelines(self.rliglines)
 
     #Level 1
@@ -511,7 +511,7 @@ class EotHelper:
             self.blwslines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (244 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (332 expected)')
             self.writelines(self.blwslines)
 
     #Level 2
@@ -531,7 +531,7 @@ class EotHelper:
             self.abvslines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (199 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (288 expected)')
             self.writelines(self.abvslines)
 
     #Resizing & post processing
@@ -543,7 +543,7 @@ class EotHelper:
             self.pstslines = self.GSUBresizing()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (41 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (30 expected)')
             self.writelines(self.pstslines)
 
     #Mirroring
@@ -582,7 +582,7 @@ class EotHelper:
                 self.marklines.append(self.writefeature(lookupObj))
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (1 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (2 expected)')
             self.writelines(self.marklines)
 
     def mkmk(self):
@@ -596,7 +596,7 @@ class EotHelper:
                 self.mkmklines.append(self.writefeature(lookupObj))
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (38 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (46 expected)')
             self.writelines(self.mkmklines)
 
 ### LANGSYS
@@ -1551,11 +1551,11 @@ class EotHelper:
                 if 'left' in contextpair:
                     left = formatcontext('LEFT', contextpair['left'])
                     if left == '-1':
-                        print('Left except context missing: '+name)
+                        print("\t"+'Left except context missing: '+name)
                 if 'right' in contextpair:
                     right = formatcontext('RIGHT', contextpair['right'])
                     if right == '-1':
-                        print('Right except context missing: '+name)
+                        print("\t"+'Right except context missing: '+name)
                 contexts += 'EXCEPT_CONTEXT'+"\n"
                 if (left) or (right):
                     contexts += ' '+str(left)+str(right)+"\n"
@@ -1568,11 +1568,11 @@ class EotHelper:
                 if 'left' in contextpair:
                     left = formatcontext('LEFT', contextpair['left'])
                     if left == '-1':
-                        print('Left context missing: '+name)
+                        print("\t"+'Left context missing: '+name)
                 if 'right' in contextpair:
                     right = formatcontext('RIGHT', contextpair['right'])
                     if right == '-1':
-                        print('Right context missing: '+name+str(contextpair['right']))
+                        print("\t"+'Right context missing: '+name+str(contextpair['right']))
                 contexts += 'IN_CONTEXT'+"\n"
                 if (left) or (right):
                     contexts += ' '+str(left)+str(right)+"\n"
@@ -1589,10 +1589,10 @@ class EotHelper:
             for subpair in subpairs:
                 subsource = formatelement(subpair['sub'])
                 if subsource == '-1':
-                    print('Subsource missing: '+name+' : '+str(subpair['sub']))
+                    print("\t"+'Subsource missing: '+name+' : '+str(subpair['sub']))
                 subtarget = formatelement(subpair['target'])
                 #if subtarget == '-1':
-                    #print('Subtarget missing: '+name)
+                    #print("\t"+'Subtarget missing: '+name)
                     #Generates too many tsg values as errors, but these are OK.
                 substitutions += ' SUB'+" "+str(subsource)+"\n"+' WITH'+" "+str(subtarget)+"\n"+'END_SUB'+"\n"
 
@@ -1766,7 +1766,7 @@ class EotHelper:
                 for component in components:
                     if component not in self.glyphdata:
                         nomissingcomponent = False
-                        print(component+' occurs in ligature name, but is not found as an atomic sign.')
+                        print("\t"+component+' occurs in ligature name, but is not found as an atomic sign.')
 
                 if nomissingcomponent:
                     if len(components) == 3:
@@ -2345,18 +2345,29 @@ class EotHelper:
         def insertionmaxperrow(level): 
             # Calculate max width per row and inject after current total width before a delta marker
             # (it33 ima|dv0) ch# -> ch# rm
+
             lookupObjs = []
             max = self.pvar['maxperlevel'][level]
-            for it in groupdata['insertionsizes'+str(level)]:
-                size = int(it[2:3])
+            lvlpfx = ''
+            if level == 2:
+                lvlpfx = '2'
+            ith = self.pvar['chu']
+            while ith >= 1:
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'ins-H-rowmax-'+str(size)+'-'+str(level)
-                lookupObj['contexts'] = [{'left':[it,'ima'],'right':['dv0']},
-                                         {'left':[it,'ima','ub'],'right':['dv0']}]
+                lookupObj['name'] = 'ins-H-rowmax-'+str(ith)+'-'+str(level)
+                contexts = []
+                itv = self.pvar['vhu']
+                while itv >= 1:
+                    ithv = 'it'+lvlpfx+str(ith)+str(itv)
+                    contexts.append({'left':[ithv,'ima'],'right':['dv0']}) # regular
+                    contexts.append({'left':[ithv,'ima','ub'],'right':['dv0']}) #unbalanced
+                    itv -= 1
+                lookupObj['contexts'] = contexts
+
                 j = max
                 while j >= 1:
-                    if j > size:
-                        val = str(size)
+                    if j > ith:
+                        val = str(ith)
                     else:
                         val = str(j)
                     rm = 'rm'+val
@@ -2364,6 +2375,7 @@ class EotHelper:
                     lookupObj['details'].append(details)
                     j = j - 1
                 lookupObjs.append(lookupObj)
+                ith -= 1
 
             return lookupObjs
         def insertmaxcalcmarker(level):
@@ -2374,24 +2386,25 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def targetmax(level): #20-23
-            # For levels 1 and 2, force the target max insertion size
-            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'ins-H-target-'+str(level)
+        # def targetmax(level):
+        #     # For levels 1 and 2, copy target width from insertion size
+        #     # 
+        #     lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+        #     lookupObj['name'] = 'ins-H-target-'+str(level)
 
-            maxh = self.pvar['insertionwidthmax'][level]
-            maxv = self.pvar['insertionheightmax'][level]
-            left = 'it'+str(maxh)+str(maxv)
-            context = {'left':[left],'right':[]}
-            lookupObj['contexts'].append(context)
+        #     maxh = self.pvar['insertionwidthmax'][level]
+        #     maxv = self.pvar['insertionheightmax'][level]
+        #     left = 'it'+str(maxh)+str(maxv)
+        #     context = {'left':[left],'right':[]}
+        #     lookupObj['contexts'].append(context)
                 
-            i = self.pvar['chu']
-            while i > maxh:
-                details = {'sub':['rm'+str(i)],'target':['rm'+str(maxh)]}
-                lookupObj['details'].append(details)
-                i = i - 1
+        #     i = self.pvar['chu']
+        #     while i > maxh:
+        #         details = {'sub':['rm'+str(i)],'target':['rm'+str(maxh)]}
+        #         lookupObj['details'].append(details)
+        #         i = i - 1
 
-            return lookupObj
+        #     return lookupObj
         def storerowmax(level):
             #copy the max block size to om value so the overstrike can be centered on the host layer
             # om66 -> om26 (| it66 rm2)
@@ -2445,7 +2458,7 @@ class EotHelper:
         lookupObjs.extend(insertionmaxperrow(level))
         lookupObjs.append(insertmaxcalcmarker(level))
         lookupObjs.extend(self.calculatemax(level,'ins'))
-        lookupObjs.append(targetmax(level))
+        # lookupObjs.append(targetmax(level))
         lookupObjs.extend(storerowmax(level))
         lookupObjs.append(self.insertrowmaxmarker(level,'ins'))
         lookupObjs.extend(self.copyblockmaxtorow(level,'ins'))
@@ -3761,7 +3774,6 @@ class EotHelper:
             series = self.pvar['redv'][level]
 
             for cycle in series:
-                # print(cycle)
                 obj = swap(level,cycle)
                 lookupObjs.append(obj)  
                 obj = shrink(level,cycle)
