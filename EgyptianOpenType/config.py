@@ -26,10 +26,12 @@ pvar = {
     'shapekey' : ['o','s','i'], #sigla used for shape glyphs per level
     'insertionwidthmax' : [0,5,4], #max h for inserted region per level
     'insertionheightmax' : [0,5,4], #max v for inserted region per level
-    'insertionwidthmin' : [2,2,0], #min h for region having insertion per level
-    'insertionheightmin' : [2,2,0], #min v for region having insertion per level
+    'insertionwidthmin' : [4,2,0], #min h for region having nested block per level
+    'insertionheightmin' : [3,2,0], #min v for region having nested block per level
+    'cornerwidthmin' : [2,2,0], #min h for region having corner per level
+    'cornerheightmin' : [2,2,0], #min v for region having corner per level
     'targetwidthmin' : [6,1,1], # min ideal h per level
-    'targetwidthmax' : [6,6,3], # max ideal h per level
+    'targetwidthmax' : [6,6,4], # max ideal h per level
     'targetheightmin' : [6,1,1],# min ideal v per level
     'targetheightmax' : [6,6,5],# max ideal v per level
     'cyclesperlevel' : [3,3,2], #Used to repeat sum and max substitutions

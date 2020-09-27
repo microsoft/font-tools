@@ -1865,7 +1865,8 @@ class EotHelper:
                     j += 1
                 i += 1
             if (level < 2):
-                minh = self.pvar['insertionwidthmin'][level]
+                # Add min size block to insertion
+                minh = self.pvar['insertionwidthmin'][level] # Nested insertion
                 minv = self.pvar['insertionheightmin'][level]
                 details = {'sub':['mt'+str(minh)+str(minv)],'target':['eh'+str(minh),'mn'+str(minh),'ev'+str(minv)]}
                 lookupObj['details'].append(details)
@@ -1881,7 +1882,7 @@ class EotHelper:
                 lookupObj['name'] = 'hvm-H-insertionmarkers-'+str(level)
                 i = self.pvar['chu']
                 if level < 2:
-                    min = self.pvar['insertionwidthmin'][level]
+                    min = self.pvar['cornerwidthmin'][level] # Corner insertion
                 while i >= min:
                     details = {'sub':['eh'+str(i)],'target':['eh'+str(i),'im0']}
                     lookupObj['details'].append(details)
@@ -1897,8 +1898,8 @@ class EotHelper:
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'hvm-H-nminmarker-'+str(level)
                 lookupObj['marks'] = 'insertions'
-                minh = self.pvar['insertionwidthmin'][level]
-                minv = self.pvar['insertionheightmin'][level]
+                minh = self.pvar['cornerwidthmin'][level]  # Corner insertion
+                minv = self.pvar['cornerheightmin'][level]
                 context = 'it'+str(minh)+str(minv)
                 lookupObj['contexts'].append({'left':[],'right':[context]})
                 details = {'sub':['im0'],'target':['mn'+str(minh)]}
@@ -1909,7 +1910,7 @@ class EotHelper:
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'hvm-H-insertioncleanup-'+str(level)
                 i = self.pvar['chu']
-                min = self.pvar['insertionwidthmin'][level]
+                min = self.pvar['cornerwidthmin'][level]  # Corner insertion
                 while i >= min:
                     details = {'sub':['eh'+str(i),'im0'],'target':['eh'+str(i)]}
                     lookupObj['details'].append(details)
@@ -2497,8 +2498,7 @@ class EotHelper:
             max = self.pvar['maxperlevel'][level]
             lookupObjs = []
             t = self.pvar['targetwidthmax'][level]
-            # tmin = self.pvar['targetwidthmin'][level]
-            tmin = t # TEST CLOSING OFF THE VARIATION SUPPORT AT THIS POINT - AVOIDS NEED FOR CONTEXT
+            tmin = t 
             while t >= tmin:
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'max-H-row-'+str(t)+'-'+str(level)
@@ -2685,9 +2685,11 @@ class EotHelper:
                 #     Eh6 -> th6
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'red-H-swap'+str(cycle)+'-'+str(level)
-                minh = self.pvar['insertionwidthmin'][level]
-                if cycle == minh:
-                    lookupObj['exceptcontexts'] = [{'left':[],'right':['mn'+str(minh)]}]
+                # Nested and corner insertions
+                insertionmins = [self.pvar['cornerwidthmin'][level],self.pvar['insertionwidthmin'][level]]
+                lookupObj['exceptcontexts'] = []
+                if cycle in insertionmins:
+                    lookupObj['exceptcontexts'].append({'left':[],'right':['mn'+str(cycle)]})
                 sub = 'eh'+str(cycle)
                 target = 'th'+str(cycle)
                 lookupObj['details'] = [{'sub':[sub],'target':[target]}]
@@ -2789,10 +2791,13 @@ class EotHelper:
                 details.append({'sub':sub,'target':target})
                 t = t - 1
             if (level < 2):
-                min = self.pvar['insertionwidthmin'][level]
+                # Get the lower of the corner and nested insertion values
+                minh = min([self.pvar['insertionwidthmin'][level],self.pvar['cornerwidthmin'][level]])
                 i = self.pvar['chu']
-                while i >= min:
-                    details.append({'sub':['eh'+str(i),'mn'+str(min)],'target':['eh'+str(i)]})
+                while i >= minh:
+                    details.append({'sub':['eh'+str(i),'mn'+str(self.pvar['insertionwidthmin'][level])],'target':['eh'+str(i)]})
+                    if self.pvar['insertionwidthmin'][level] != self.pvar['cornerwidthmin'][level]:
+                        details.append({'sub':['eh'+str(i),'mn'+str(self.pvar['cornerwidthmin'][level])],'target':['eh'+str(i)]})
                     i = i - 1
             lookupObj['details'] = details
             return lookupObj
@@ -3703,9 +3708,10 @@ class EotHelper:
                 #     rm6 -> th6
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'red-V-swap-'+str(cycle)+'-'+str(level)
-                minv = self.pvar['insertionheightmin'][level]
-                if cycle == minv:
-                    lookupObj['exceptcontexts'] = [{'left':[],'right':['mn'+str(minv)]}]
+                minsv = [self.pvar['insertionheightmin'][level],self.pvar['cornerheightmin'][level]]
+                lookupObj['exceptcontexts'] = []
+                if cycle in minsv:
+                    lookupObj['exceptcontexts'].append([{'left':[],'right':['mn'+str(cycle)]}])
                 sub = 'rm'+str(cycle)
                 target = 'th'+str(cycle)
                 lookupObj['details'] = [{'sub':[sub],'target':[target]}]
@@ -3949,7 +3955,7 @@ class EotHelper:
                         # Increment (rp{1-5}|) xv{1-5} -> sv$1+$2
                         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                         lookupObj['name'] = 'nrm-V-expand-'+str(contextcycle)+'-'+str(swapcycle)+'-'+str(level)
-                        lookupObj['marks'] = 'expansion_all'
+                        lookupObj['marks'] = '*expansion_lvl'+str(level)
                         lookupObj['contexts'] = [{'left':['rp'+str(contextcycle)],'right':[]}]
                         lookupObj['details'] = [{'sub':['xv'+str(swapcycle)],'target':['sv'+str(cyclesum)]}]
 
