@@ -121,9 +121,9 @@ class EotHelper:
             tl("\t\t\t.pass {background-color: #c9f0b4;}\n")
             tl("\t\t\t.stable {background-color: lightseagreen;}\n")
             tl("\t\t\t.pointer {cursor: pointer;}\n")
-            tl("\t\t\t.letter-inner {font-family: '"+self.pvar['fontfilename']+"'; font-size: 72px; line-height:75px;  background-color: #FFF; width:32px; }\n")
+            tl("\t\t\t.letter-inner {font-family: '"+self.pvar['fontfilename']+"'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
             tl("\t\t\t.letter-inner span {margin:0px; border:none; padding:0px; }\n")
-            tl("\t\t\t.letter-stable {font-family: '"+self.pvar['reffontname']+"'; font-size: 72px; line-height:75px;  background-color: #FFF; width:32px; }\n")
+            tl("\t\t\t.letter-stable {font-family: '"+self.pvar['reffontname']+"'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
             tl("\t\t\t.label {font-size: 10pt;}\n")
             tl("\t\t</style>\n")
             tl("\t</head>\n")
@@ -143,7 +143,7 @@ class EotHelper:
                 return                
             def genTable():
                 testfile = open('testsequences.txt',"r")
-                widetests = ['Cartouche','Phrases','Invalid Phrases']
+                widetests = ['Enclosures','Phrases','Invalid Phrases','Internal ligatures','Max cluster size','Invalid']
                 self.wide = False
                 for line in testfile:
                     key = line[0:1]
@@ -226,8 +226,9 @@ class EotHelper:
                     tl("\t\t\t\t</div>\n")
                     return
 
-                if len(test) > 0:
-                    writeCell(block,'R',' stable','letter-stable')
+                # Suppressing stable version.
+                # if len(test) > 0:
+                #     writeCell(block,'R',' stable','letter-stable')
                 writeCell(block,label,test,'letter-inner')
                 return
             def genHeading(label):
