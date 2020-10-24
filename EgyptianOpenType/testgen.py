@@ -9,7 +9,7 @@ from config import pvar
 if len(sys.argv) > 1:
     testscope = sys.argv[1]
 else:
-    testscope = 'A'
+    testscope = 'A' # A[ll], F[ailing], P[assing]
 
 print ('Font: '+ pvar['fontfilename'])
 eothelper = EotHelper(pvar)

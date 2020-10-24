@@ -69,7 +69,7 @@
 %Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
 %N35 vj A1 hj ss X1 vj Z1 hj ss Z1 vj D21 se se
 %J15 vj Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
-%ss I10 bs D46 vj I9 se hj M17
+ss I10 bs D46 vj I9 se hj M17
 I10 bs ss ss X1 vj D21 se hj D2 se
 
 #Corner - Top Start
@@ -79,21 +79,22 @@ I10 bs ss ss X1 vj D21 se hj D2 se
 #Corner - Bottom Start
 %G25 bs J1
 %G36 bs X1 vj N35
-I10 bs ss I10 bs I10 se
 %D36 vj I10 bs D46
 %I9 vj N35 vj F20 bs A1
+I10 bs ss I10 bs I10 se
 
 #Corner - Top End
 %G9 te N27
-G9 te ss N27 vj N27 se
 %D17 te X1 vj N37		
+G9 te ss N27 vj N27 se
 
 #Corner - Bottom End
-%N35 vj H6 hj ss G39 be X1 vj D21 se
+N35 vj H6 hj ss G39 be X1 vj D21 se
 
 #Multi-corners (Broken in HarfBuzz #2558)
-%G36 bs D21 te X1
-%G25 te J1 be X1
+G36 bs D21 te X1
+G25 bs D21 te X1
+G25 te J1 be X1
 
 #Corner L1 ebmedding
 N35 vj I10 bs ss X1 vj Z1 se
@@ -110,8 +111,8 @@ F20 bs ss ss J1 vj X1 se hj Z11 se vj N35
 F20 bs ss ss J1 vj X1 se hj D2 vj N35 se
 
 #Overstrike
-D36 om ss V28 hj V28 se
 %ss D36 vj D36 se om V28
+D36 om ss V28 hj V28 se
 ss D36 vj D36 se om ss V28 hj V28 se
 D36 om V28 vj N35
 
