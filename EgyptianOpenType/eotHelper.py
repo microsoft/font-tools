@@ -1,4 +1,3 @@
-#!/usr/bin/python
 # egyptian opentype helper
 
 import os
@@ -26,6 +25,7 @@ ver = 110
 class EotHelper:
     def __init__(self, pvar):
         """Intialize the Egyptian OpenType helper class with config variable."""
+        print(sys.version)
 
         self.pvar = pvar
         self.tssizes = self.loadInsertionSizes('ts')
