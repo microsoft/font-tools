@@ -2436,7 +2436,7 @@ class EotHelper:
             cornerstart = 'insertionsizes'+str(level)
 
             i = 1
-            while i <= self.pvar['targetwidthmax'][level]:
+            while i <= self.pvar['chu']:
                 details = {'sub':[cornerstart,'rm'+str(i)],'target':[cornerstart]}
                 lookupObj['details'].append(details)
                 i += 1                
@@ -3229,7 +3229,7 @@ class EotHelper:
         objs = []
         i = 1
         featuretag = self.setfeaturetag(level)
-        while i <= self.pvar['targetwidthmax'][level]:
+        while i <= self.pvar['chu']:
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = name+'-H-blocktomaxrow-'+str(i)+'-'+str(level)
             lookupObj['marks'] = 'rowmaxes'
@@ -3253,7 +3253,7 @@ class EotHelper:
                 contexts.append({'left':['insertionsizes'+str(level)],'right':[]})
             lookupObj['exceptcontexts'] = contexts
         i = 1
-        while i <= self.pvar['targetwidthmax'][level]:
+        while i <= self.pvar['chu']:
             details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
             lookupObj['details'].append(details)
             i += 1
@@ -3270,7 +3270,7 @@ class EotHelper:
                     shapes += str(level)
                 lookupObj['contexts'].append({'left':[shapes,'insertionsizes'+str(level)],'right':[]})
                 i = 1
-                while i <= self.pvar['targetwidthmax'][level]:
+                while i <= self.pvar['chu']:
                     details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
                     lookupObj['details'].append(details)
                     i += 1
@@ -3289,22 +3289,18 @@ class EotHelper:
         lookupObj['name'] = name+'-H-rowdelta-'+str(level)
 
         #The rm value is between or within tmin/tmax
-        # tmin = self.pvar['targetwidthmin'][level] 
-        tmin = 1
-        tmax = self.pvar['targetwidthmax'][level]
-
-        i = tmin # target size
-        while i <= tmax:
+        i = 1 # target size
+        while i <= self.pvar['chu']:
             target = 'rm'+str(i)
             j = 1
-            while j <= self.pvar['targetwidthmax'][level]: #max width of row having delta
+            while j <= self.pvar['chu']: #max width of row having delta
                 width = 'ch'+str(j)
                 if (j < i):
                     d = i - j
                     delta = 'dn'+str(d)
                     details = {'sub':[width,target,'dv0'],'target':[delta]}
                     lookupObj['details'].append(details)
-                if (j == i): #cleans up ch and rm values
+                if (j >= i): #cleans up ch and rm values
                     details = {'sub':[width,target,'dv0'],'target':['dv0']}
                     lookupObj['details'].append(details)
                 j += 1
@@ -4250,7 +4246,7 @@ class EotHelper:
                     if level == 0:
                         i = self.pvar['hhu']
                     else:
-                        i = self.pvar['targetwidthmax'][level]
+                        i = self.pvar['chu']
                     while i >= 1:
                         details = {'sub':['c'+str(level)+'bA','h'+str(i)],'target':['c'+str(level)+'h'+str(i)]}
                         lookupObj['details'].append(details)
@@ -4415,12 +4411,12 @@ class EotHelper:
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'swapLevelShapes-'+str(level)
                 i = 1
-                while i <= self.pvar['targetwidthmax'][level]:
+                while i <= self.pvar['chu']:
                     context = {'left':['c'+str(level)+'h'+str(i)],'right':[]}
                     lookupObj['contexts'].append(context)
                     i += 1
                 levelkey = self.pvar['shapekey'][level]
-                i = self.pvar['targetwidthmax'][level]
+                i = self.pvar['chu']
                 while i >= 1:
                     j = self.pvar['vhu']
                     while j >= 1:

@@ -6,10 +6,10 @@ pvar = {
     'scripttag' : "egyp",
     'langsysname' : "Default",
     'langsystag' : "dflt",
-    'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
-    'fontfilename' : "Egyptian Text", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantext-COLR.ttf", # Path to source font
-    'fontout' : "out/egyptiantext.ttf", # Path to write output font
+    'reffontname' : "Egyptian Text", # Used in test file to show reference form relative to current version
+    'fontfilename' : "New Gardiner OT", # Font name
+    'fontsrc' : "../../fonts/newgardiner/newgardiner_ot-COLR.ttf", # Path to source font
+    'fontout' : "out/newgardinerot.ttf", # Path to write output font
     'hfu' : 314, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'hhu' : 8, # horizontal, hieroglyph units
     'chu' : 6, # composite horizontal units (i.e., excludes wide non-composing widths)
