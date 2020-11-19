@@ -3300,7 +3300,7 @@ class EotHelper:
                     delta = 'dn'+str(d)
                     details = {'sub':[width,target,'dv0'],'target':[delta]}
                     lookupObj['details'].append(details)
-                if (j >= i): #cleans up ch and rm values
+                if (j == i): #cleans up ch and rm values
                     details = {'sub':[width,target,'dv0'],'target':['dv0']}
                     lookupObj['details'].append(details)
                 j += 1
@@ -3326,7 +3326,7 @@ class EotHelper:
 
         #The rm value is between or within tmin/tmax
         tmin = self.pvar['targetwidthmin'][level] 
-        tmax = self.pvar['targetwidthmax'][level]
+        tmax = self.pvar['chu']
 
         i = tmin # target size
         while i <= tmax:
