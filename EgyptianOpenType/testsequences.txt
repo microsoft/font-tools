@@ -80,7 +80,7 @@ I10 bs ss ss X1 vj D21 se hj D2 se
 %G25 bs J1
 %G36 bs X1 vj N35
 %D36 vj I10 bs D46
-%I9 vj N35 vj F20 bs A1
+I9 vj N35 vj F20 bs A1
 I10 bs ss I10 bs I10 se
 
 #Corner - Top End

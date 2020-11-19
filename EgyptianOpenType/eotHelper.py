@@ -113,6 +113,7 @@ class EotHelper:
             tl("\t\t\t.page {margin: 0px auto; text-align: center}\n")
             tl("\t\t\th2 {clear: left; margin: 0px auto; text-align: center; display: block;padding-top: 30px;padding-bottom: 12px;}\n")
             tl("\t\t\t.row {clear: left}\n")
+            tl("\t\t\t.cellN {margin: 1px; float: left; height:100px; width: 75px; background-color: #DDD; text-align: left;}\n")
             tl("\t\t\t.cellL {margin: 1px; float: left; height:100px; width: 150px; background-color: #DDD; text-align: left;}\n")
             tl("\t\t\t.rowLabel {font-size: 11pt;margin-top:30px;}\n")
             tl("\t\t\t.cellWide {margin: 1px; float: left; height:100px; width: 300px; background-color: #FFF; text-align: left;}\n")
@@ -145,6 +146,7 @@ class EotHelper:
                 testfile = open('testsequences.txt',"r")
                 widetests = ['Enclosures','Phrases','Invalid Phrases','Internal ligatures','Max cluster size','Invalid']
                 self.wide = False
+                lineno = 1
                 for line in testfile:
                     key = line[0:1]
                     ps = ''
@@ -165,20 +167,22 @@ class EotHelper:
                             ps = ' fail'
                         if len(line)>1:
                             if testscope == 'A': # Write all test cases
-                                genRow(line,ps)
+                                genRow(lineno,line,ps)
                             if testscope == 'F': # Write failing test cases
                                 if key != '%':
-                                    genRow(line,ps)
+                                    genRow(lineno,line,ps)
                             if testscope == 'P': # Write passing test cases
                                 if key == '%':
-                                    genRow(line,ps)
+                                    genRow(lineno,line,ps)
+                    lineno += 1
                 return
-            def genRow(line,ps):
+            def genRow(lineno,line,ps):
                 tl("\t\t\t<div class='row'>\n")
+                genLabel(str(lineno)+'.','cellN')
                 glyphseq = re.sub(r'\s+\(.*','',line)    
                 seq = glyphseq.split()
                 if len(seq) >= 1:
-                    genLabel(glyphseq)
+                    genLabel(glyphseq,'cellL')
                     if self.wide:
                         block = ''
                         for el in seq:
@@ -205,10 +209,10 @@ class EotHelper:
                             j += 1
                 tl("\t\t\t</div>\n")
                 return
-            def genLabel(label):
+            def genLabel(label, cellclass):
                 label = label.replace('\r', '').replace('\n', '')
-                tl("\t\t\t\t<div class='cellL'>\n")
-                tl("\t\t\t\t\t<div class='letter'>\n")
+                tl("\t\t\t\t<div class='"+cellclass+"'>\n")
+                tl("\t\t\t\t\t<div class='Letter'>\n")
                 tl("\t\t\t\t\t\t<span class='rowLabel'>"+label+"</span>\n")
                 tl("\t\t\t\t\t</div>\n")
                 tl("\t\t\t\t</div>\n")
