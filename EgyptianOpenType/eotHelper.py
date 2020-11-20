@@ -113,6 +113,7 @@ class EotHelper:
             tl("\t\t\t.page {margin: 0px auto; text-align: center}\n")
             tl("\t\t\th2 {clear: left; margin: 0px auto; text-align: center; display: block;padding-top: 30px;padding-bottom: 12px;}\n")
             tl("\t\t\t.row {clear: left}\n")
+            tl("\t\t\t.cellN {margin: 1px; float: left; height:100px; width: 75px; background-color: #DDD; text-align: left;}\n")
             tl("\t\t\t.cellL {margin: 1px; float: left; height:100px; width: 150px; background-color: #DDD; text-align: left;}\n")
             tl("\t\t\t.rowLabel {font-size: 11pt;margin-top:30px;}\n")
             tl("\t\t\t.cellWide {margin: 1px; float: left; height:100px; width: 300px; background-color: #FFF; text-align: left;}\n")
@@ -145,6 +146,7 @@ class EotHelper:
                 testfile = open('testsequences.txt',"r")
                 widetests = ['Enclosures','Phrases','Invalid Phrases','Internal ligatures','Max cluster size','Invalid']
                 self.wide = False
+                lineno = 1
                 for line in testfile:
                     key = line[0:1]
                     ps = ''
@@ -165,20 +167,22 @@ class EotHelper:
                             ps = ' fail'
                         if len(line)>1:
                             if testscope == 'A': # Write all test cases
-                                genRow(line,ps)
+                                genRow(lineno,line,ps)
                             if testscope == 'F': # Write failing test cases
                                 if key != '%':
-                                    genRow(line,ps)
+                                    genRow(lineno,line,ps)
                             if testscope == 'P': # Write passing test cases
                                 if key == '%':
-                                    genRow(line,ps)
+                                    genRow(lineno,line,ps)
+                    lineno += 1
                 return
-            def genRow(line,ps):
+            def genRow(lineno,line,ps):
                 tl("\t\t\t<div class='row'>\n")
+                genLabel(str(lineno)+'.','cellN')
                 glyphseq = re.sub(r'\s+\(.*','',line)    
                 seq = glyphseq.split()
                 if len(seq) >= 1:
-                    genLabel(glyphseq)
+                    genLabel(glyphseq,'cellL')
                     if self.wide:
                         block = ''
                         for el in seq:
@@ -205,10 +209,10 @@ class EotHelper:
                             j += 1
                 tl("\t\t\t</div>\n")
                 return
-            def genLabel(label):
+            def genLabel(label, cellclass):
                 label = label.replace('\r', '').replace('\n', '')
-                tl("\t\t\t\t<div class='cellL'>\n")
-                tl("\t\t\t\t\t<div class='letter'>\n")
+                tl("\t\t\t\t<div class='"+cellclass+"'>\n")
+                tl("\t\t\t\t\t<div class='Letter'>\n")
                 tl("\t\t\t\t\t\t<span class='rowLabel'>"+label+"</span>\n")
                 tl("\t\t\t\t\t</div>\n")
                 tl("\t\t\t\t</div>\n")
@@ -2436,7 +2440,7 @@ class EotHelper:
             cornerstart = 'insertionsizes'+str(level)
 
             i = 1
-            while i <= self.pvar['targetwidthmax'][level]:
+            while i <= self.pvar['chu']:
                 details = {'sub':[cornerstart,'rm'+str(i)],'target':[cornerstart]}
                 lookupObj['details'].append(details)
                 i += 1                
@@ -3229,7 +3233,7 @@ class EotHelper:
         objs = []
         i = 1
         featuretag = self.setfeaturetag(level)
-        while i <= self.pvar['targetwidthmax'][level]:
+        while i <= self.pvar['chu']:
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = name+'-H-blocktomaxrow-'+str(i)+'-'+str(level)
             lookupObj['marks'] = 'rowmaxes'
@@ -3243,6 +3247,7 @@ class EotHelper:
         return objs
     def swaprowwidth(self,level,name): #30
         # dv values was being used to be invisible to inserted rm values. Now we need them back as rm values
+        # TODO using mark filter sets would make this unnecessary
         objs = []
         featuretag = self.setfeaturetag(level)
         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -3251,9 +3256,10 @@ class EotHelper:
             contexts = [{'left':['vj'+str(level)+'A'],'right':[]}]
             if level > 0:
                 contexts.append({'left':['insertionsizes'+str(level)],'right':[]})
+                contexts.append({'left':['insertionsizes'+str(level),'ub'],'right':[]})
             lookupObj['exceptcontexts'] = contexts
         i = 1
-        while i <= self.pvar['targetwidthmax'][level]:
+        while i <= self.pvar['chu']:
             details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
             lookupObj['details'].append(details)
             i += 1
@@ -3270,7 +3276,7 @@ class EotHelper:
                     shapes += str(level)
                 lookupObj['contexts'].append({'left':[shapes,'insertionsizes'+str(level)],'right':[]})
                 i = 1
-                while i <= self.pvar['targetwidthmax'][level]:
+                while i <= self.pvar['chu']:
                     details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
                     lookupObj['details'].append(details)
                     i += 1
@@ -3289,15 +3295,11 @@ class EotHelper:
         lookupObj['name'] = name+'-H-rowdelta-'+str(level)
 
         #The rm value is between or within tmin/tmax
-        # tmin = self.pvar['targetwidthmin'][level] 
-        tmin = 1
-        tmax = self.pvar['targetwidthmax'][level]
-
-        i = tmin # target size
-        while i <= tmax:
+        i = 1 # target size
+        while i <= self.pvar['chu']:
             target = 'rm'+str(i)
             j = 1
-            while j <= self.pvar['targetwidthmax'][level]: #max width of row having delta
+            while j <= self.pvar['chu']: #max width of row having delta
                 width = 'ch'+str(j)
                 if (j < i):
                     d = i - j
@@ -3330,7 +3332,7 @@ class EotHelper:
 
         #The rm value is between or within tmin/tmax
         tmin = self.pvar['targetwidthmin'][level] 
-        tmax = self.pvar['targetwidthmax'][level]
+        tmax = self.pvar['chu']
 
         i = tmin # target size
         while i <= tmax:
@@ -4250,7 +4252,7 @@ class EotHelper:
                     if level == 0:
                         i = self.pvar['hhu']
                     else:
-                        i = self.pvar['targetwidthmax'][level]
+                        i = self.pvar['chu']
                     while i >= 1:
                         details = {'sub':['c'+str(level)+'bA','h'+str(i)],'target':['c'+str(level)+'h'+str(i)]}
                         lookupObj['details'].append(details)
@@ -4415,12 +4417,12 @@ class EotHelper:
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'swapLevelShapes-'+str(level)
                 i = 1
-                while i <= self.pvar['targetwidthmax'][level]:
+                while i <= self.pvar['chu']:
                     context = {'left':['c'+str(level)+'h'+str(i)],'right':[]}
                     lookupObj['contexts'].append(context)
                     i += 1
                 levelkey = self.pvar['shapekey'][level]
-                i = self.pvar['targetwidthmax'][level]
+                i = self.pvar['chu']
                 while i >= 1:
                     j = self.pvar['vhu']
                     while j >= 1:

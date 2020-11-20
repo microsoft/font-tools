@@ -33,7 +33,7 @@ groupdata = {
 	'color_all' : [],
 	'controls_a' : ['controls_joiners','ss','se'],
 	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A'],
-  'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn5','mn4','mn3','mn2','mn1','ub','it00','it00a'], #controls not grouped for injection
+	'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn5','mn4','mn3','mn2','mn1','ub','it00','it00a'], #controls not grouped for injection
 	'controls_joiners' : ['hj','vj','ts','te','bs','be','om'],
 	'cornerglyphs' : [],
 	'corners' : ['ts','te','bs','be'],
@@ -111,6 +111,7 @@ groupdata = {
 	'shapes_cornersom_1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','shapes_om'],
 	'shapes_corners_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2'],
 	'shapes_cornersom_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2'],
+	# Unbalanced shapes are used in corner insertions and need to be split so they can be reversed for RTL in mkmk
 	'shapes_u'  : ['es66','es65','es64','es63','es62','es61','es56','es55','es54','es53','es52','es51','es46','es45','es44','es43','es42','es41','es36','es35','es34','es33','es32','es31','es26','es25','es24','es23','es22','es21','es16','es15','es14','es13','es12','es11'],
 	'shapes_ls' : ['ls66','ls65','ls64','ls63','ls62','ls61','ls56','ls55','ls54','ls53','ls52','ls51','ls46','ls45','ls44','ls43','ls42','ls41','ls36','ls35','ls34','ls33','ls32','ls31','ls26','ls25','ls24','ls23','ls22','ls21','ls16','ls15','ls14','ls13','ls12','ls11'],
 	'shapewidths' : ['sh0','sh1','sh2','sh3','sh4','sh5','sh6','sh7','sh8'],
@@ -131,8 +132,8 @@ groupdata = {
 	'stems1-hR' : ['c1h1R','c1h2R','c1h3R','c1h4R','c1h5R','c1h6R','colspacers1R','r1eBR'],
 	'stems1-v'  : ['r1v1', 'r1v2', 'r1v3', 'r1v4', 'r1v5', 'r1v6', 'rowspacers1','insertionsizes1','r1sep'],
 	'stems1-vR' : ['r1v1R','r1v2R','r1v3R','r1v4R','r1v5R','r1v6R','rowspacers1R','insertionsizes1R','r1sepR'],
-	'stems2-h'  : ['c2h1', 'c2h2', 'c2h3', 'c2h4', 'colspacers2', 'r2eB'],
-	'stems2-hR' : ['c2h1R','c2h2R','c2h3R','c2h4R','colspacers2R','r2eBR'],
+	'stems2-h'  : ['c2h1', 'c2h2', 'c2h3', 'c2h4', 'c2h5', 'c2h6', 'colspacers2', 'r2eB'],
+	'stems2-hR' : ['c2h1R','c2h2R','c2h3R','c2h4R','c2h5R','c2h6R','colspacers2R','r2eBR'],
 	'stems2-v'  : ['r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6', 'r2vb','rowspacers2','insertionsizes2','r2sep'],
 	'stems2-vR' : ['r2v1R','r2v2R','r2v3R','r2v4R','r2v5R','r2v6R','r2vbR','rowspacers2R','insertionsizes2R','r2sepR'],
 	'stems_12' : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],

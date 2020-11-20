@@ -80,25 +80,29 @@ mkmk = [
     {'name' : 'shapes_ts-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_ts'],'to':['insertionsizes1'],'anchor':'ts'},
-        {'to':['insertionsizes1R'],'anchor':'te'}
+        {'to':['insertionsizes1R'],'anchor':'te'},
+        {'to':['shapes_u'],'anchor':'ts'}
     ]},
     #Lookup - Corner insertion 3
     {'name' : 'shapes_bs-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bs'],'to':['insertionsizes1'],'anchor':'bs'},
-        {'to':['insertionsizes1R'],'anchor':'be'}
+        {'to':['insertionsizes1R'],'anchor':'be'},
+        {'to':['shapes_u'],'anchor':'bs'}
     ]},
     #Lookup - Corner insertion 4
     {'name' : 'shapes_te-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_te'],'to':['insertionsizes1'],'anchor':'te'},
-        {'to':['insertionsizes1R'],'anchor':'ts'}
+        {'to':['insertionsizes1R'],'anchor':'ts'},
+        {'to':['shapes_u'],'anchor':'te'}
     ]},
     #Lookup - Corner insertion 5
     {'name' : 'shapes_be-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_be'],'to':['insertionsizes1'],'anchor':'be'},
-        {'to':['insertionsizes1R'],'anchor':'bs'}
+        {'to':['insertionsizes1R'],'anchor':'bs'},
+        {'to':['shapes_u'],'anchor':'be'}
     ]},
     #Lookup - Overstrike
     {'name' : 'shapes_om-shapeses', 'marks' : '',
@@ -202,25 +206,29 @@ mkmk = [
     {'name' : 'shapes_ts2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_ts2'],'to':['insertionsizes2'],'anchor':'ts'},
-        {'to':['insertionsizes2R'],'anchor':'te'}
+        {'to':['insertionsizes2R'],'anchor':'te'},
+        {'to':['shapes_u'],'anchor':'ts'}
     ]},
     #Lookup - Corner insertion 3
     {'name' : 'shapes_bs2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bs2'],'to':['insertionsizes2'],'anchor':'bs'},
-        {'to':['insertionsizes2R'],'anchor':'be'}
+        {'to':['insertionsizes2R'],'anchor':'be'},
+        {'to':['shapes_u'],'anchor':'bs'}
     ]},
     #Lookup - Corner insertion 4
     {'name' : 'shapes_te2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_te2'],'to':['insertionsizes2'],'anchor':'te'},
-        {'to':['insertionsizes2R'],'anchor':'ts'}
+        {'to':['insertionsizes2R'],'anchor':'ts'},
+        {'to':['shapes_u'],'anchor':'te'}
     ]},
     #Lookup - Corner insertion 5
     {'name' : 'shapes_be2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_be2'],'to':['insertionsizes2'],'anchor':'be'},
-        {'to':['insertionsizes2R'],'anchor':'bs'}
+        {'to':['insertionsizes2R'],'anchor':'bs'},
+        {'to':['shapes_u'],'anchor':'be'}
     ]},
     #Lookup - Overstrike
     {'name' : 'shapes_om2-shapeses', 'marks' : '',
