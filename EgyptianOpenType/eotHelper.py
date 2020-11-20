@@ -3247,6 +3247,7 @@ class EotHelper:
         return objs
     def swaprowwidth(self,level,name): #30
         # dv values was being used to be invisible to inserted rm values. Now we need them back as rm values
+        # TODO using mark filter sets would make this unnecessary
         objs = []
         featuretag = self.setfeaturetag(level)
         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -3255,6 +3256,7 @@ class EotHelper:
             contexts = [{'left':['vj'+str(level)+'A'],'right':[]}]
             if level > 0:
                 contexts.append({'left':['insertionsizes'+str(level)],'right':[]})
+                contexts.append({'left':['insertionsizes'+str(level),'ub'],'right':[]})
             lookupObj['exceptcontexts'] = contexts
         i = 1
         while i <= self.pvar['chu']:

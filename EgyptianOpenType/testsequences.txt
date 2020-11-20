@@ -80,7 +80,7 @@ I10 bs ss ss X1 vj D21 se hj D2 se
 %G25 bs J1
 %G36 bs X1 vj N35
 %D36 vj I10 bs D46
-I9 vj N35 vj F20 bs A1
+%I9 vj N35 vj F20 bs A1
 I10 bs ss I10 bs I10 se
 
 #Corner - Top End
@@ -97,9 +97,9 @@ G25 bs D21 te X1
 G25 te J1 be X1
 
 #Corner L1 ebmedding
-N35 vj I10 bs ss X1 vj Z1 se
-S34 hj I10 bs ss X1 vj J12 se
-I10 bs ss D46 vj I9 se hj M17
+%N35 vj I10 bs ss X1 vj Z1 se
+%S34 hj I10 bs ss X1 vj J12 se
+%I10 bs ss D46 vj I9 se hj M17
 G9 bs S34 te ss N27 vj N27 se
 G39 bs X1 te ss X1 hj Z1 se be X1
 N35 vj G9 te X1 hj ss D2 vj D21 se
