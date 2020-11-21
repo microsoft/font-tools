@@ -1020,6 +1020,11 @@ class EotHelper:
         details = {'aname':'left','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
 
+        # its
+        group = 'shapes_u'
+        details = {'aname':'MARK_ts','xtype':'ZERO','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+
         # ibs
         group = 'insertionsizes1'
         details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
@@ -1053,6 +1058,9 @@ class EotHelper:
         group = 'insertionsizes2R'
         details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'shapes_u'
+        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
         for glyph in groupdata['shapes_te']:
            preformatanchor('te',glyph,'XSUNIT','ZERO')
         for glyph in groupdata['shapes_te2']:
@@ -1074,6 +1082,9 @@ class EotHelper:
         anchorgroup(group,[group],details)
         group = 'insertionsizes2R'
         details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_u'
+        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         for glyph in groupdata['shapes_be']:
             preformatanchor('be',glyph,'XSUNIT','NYUNIT')
