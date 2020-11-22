@@ -81,23 +81,32 @@ pres = [
     ],
     'contexts' : [
         {'left':['Qf'],'right':[]},
-        {'left':['Qf','controls_b'],'right':[]}
+        {'left':['Qf','controls_b'],'right':[]},
+        {'left':['Qf','controls_b','ss'],'right':[]}
     ],
     'details' : []},
     # Lookup 10 - clean up Qf glyphs
     {'name' : 'Qf_cleanup', 'marks' : '',
     'contexts' : [
         {'left':[],'right':['Qi']},
-        {'left':[],'right':['ss','Qi']}
+        {'left':[],'right':['ss','Qi']},
+        {'left':[],'right':['ss','ss','Qi']}
     ],
     'details' : [{'sub':['Qf','controls_b'],'target':['controls_b']}]},
     # Lookup 11 - clean up Qi glyphs
     {'name' : 'Qi_cleanup', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [{'sub':['controls_b','Qi'],'target':['controls_b']}]},
-    # Lookup 12 - clean up embedded Qi glyphs
+    # Lookup 12a - clean up embedded Qi glyphs
+    {'name' : 'Qi_dblss', 'marks' : '',
+    'contexts' : [{'left':['controls_b'],'right':['ss','Qi']}],
+    'details' : [{'sub':['ss'],'target':['su']}]},
+    # Lookup 12b - clean up embedded Qi glyphs
     {'name' : 'Qi_cleanup2', 'marks' : '',
-    'contexts' : [{'left':['controls_b'],'right':[]}],
+    'contexts' : [
+        {'left':['controls_b'],'right':[]},
+        {'left':['su'],'right':[]}
+    ],
     'details' : [{'sub':['ss','Qi'],'target':['su']}]},
     # Lookup 13 - Insert level 0 row begin marker
     {'name' : 'Qi_rbegin', 'marks' : '',
@@ -179,11 +188,18 @@ pres = [
         {'sub':['vj0A'],'target':['r0eA','vj0A','r0bA']},
         {'sub':['hj0A'],'target':['r0eA','hj0A','r0bA']},
     ]},
-    # Lookup 28 - insert level 1 row begin after unbalanced corner
-    # NOTE: This doesn't account for the current level, so level 1 -> 2 unbalanced is a gap
-    {'name' : 'unbal-corner', 'marks' : '',
-    'contexts' : [{'left':['it00a'],'right':[]}],
+    # Lookup 28a - insert level 1 row begin after unbalanced corner
+    {'name' : 'unbal-corner1', 'marks' : '',
+    'contexts' : [{'left':['corners0b','it00a'],'right':[]}],
     'details' : [{'sub':['su'],'target':['ub','r1bA']}]},
+    # Lookup 28b - insert level 1 row begin after unbalanced corner
+    {'name' : 'unbal-corner2', 'marks' : '',
+    'contexts' : [{'left':['corners1b','it00a'],'right':[]}],
+    'details' : [{'sub':['su'],'target':['ub','r2bA']}]},
+    # Lookup 28c - insert level 1 row begin after unbalanced corner
+    {'name' : 'unbal-dblcorner', 'marks' : '',
+    'contexts' : [{'left':['ub','r1bA'],'right':[]}],
+    'details' : [{'sub':['su'],'target':['ub','r2bA']}]},
     # Lookup 25 - insert level 1 row begin before level 2 begin
     {'name' : 'r2begin1', 'marks' : 'parens',
     'contexts' : [{'left':[],'right':['r2bA']}],
@@ -261,7 +277,10 @@ pres = [
     'details' : [{'sub':['c2eA','r2eA'],'target':['c2eA']}]},
     # Lookup 39 - insert level 2 min default size
     {'name' : 'default_size_2', 'marks' : '',
-    'contexts' : [{'left':[],'right':['r2bA']}],
+    'contexts' : [
+        {'left':[],'right':['r2bA']},
+        {'left':[],'right':['ub','r2bA']}
+    ],
     'details' : [{'sub':['c1bA'],'target':['c1bA','mt22']}]},
     # Lookup 40 - insert level 1 min default size 
     {'name' : 'default_size_level1', 'marks' : '',

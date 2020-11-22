@@ -69,7 +69,7 @@
 %Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
 %N35 vj A1 hj ss X1 vj Z1 hj ss Z1 vj D21 se se
 %J15 vj Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
-ss I10 bs D46 vj I9 se hj M17
+%ss I10 bs D46 vj I9 se hj M17
 I10 bs ss ss X1 vj D21 se hj D2 se
 
 #Corner - Top Start
@@ -86,7 +86,7 @@ I9 vj N35 vj F20 bs A1
 #Corner - Top End
 %G9 te N27
 %D17 te X1 vj N37		
-G9 te ss N27 vj N27 se
+%G9 te ss N27 vj N27 se
 
 #Corner - Bottom End
 N35 vj H6 hj ss G39 be X1 vj D21 se
