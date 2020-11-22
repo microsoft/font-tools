@@ -146,7 +146,7 @@ pres = [
         {'sub':['corners0a'],'target':['corners0a','r1bA']},
     ]},
     # Lookup 17 - level 2 row begin afer corner before 2 end
-    {'name' : 'r2b_corner', 'marks' : 'parens',
+    {'name' : 'r2b_corner', 'marks' : '*parensub',
     'contexts' : [{'left':[],'right':['r2eA']}],
     'details' : [{'sub':['corners0a'],'target':['corners0a','r1bA','r2bA']},]},
     # Lookup 19 - level 2 row end before corner 1 between two r2 begins

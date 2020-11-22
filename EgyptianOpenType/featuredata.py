@@ -74,6 +74,7 @@ groupdata = {
 	'multicorners2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','it00','cornerglyphs','c1eA'],
 	'normalize' : ['dn1','dn2','dn3','dn4','dn5','hn1','hn2','hn3','hn4','hn5'],
 	'parens' : ['parens_h','parens_v','corners0a','corners1a','om0A'],
+	'parensub' : ['parens_h','parens_v','corners0a','corners1a','om0A','su'],
 	'parens_h' : ['c0bA','c0eA','c1bA','c1eA','c2bA','c2eA'],
 	'parens_v' : ['r0bA','r0eA','r1bA','r1eA','r2bA','r2eA'],
 	'quadratBases'      : ['QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8'],

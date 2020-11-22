@@ -70,7 +70,7 @@
 %N35 vj A1 hj ss X1 vj Z1 hj ss Z1 vj D21 se se
 %J15 vj Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
 %ss I10 bs D46 vj I9 se hj M17
-I10 bs ss ss X1 vj D21 se hj D2 se
+%I10 bs ss ss X1 vj D21 se hj D2 se
 
 #Corner - Top Start
 %N35 vj F4 ts X1
@@ -80,7 +80,7 @@ I10 bs ss ss X1 vj D21 se hj D2 se
 %G25 bs J1
 %G36 bs X1 vj N35
 %D36 vj I10 bs D46
-I9 vj N35 vj F20 bs A1
+%I9 vj N35 vj F20 bs A1
 %I10 bs ss I10 bs I10 se
 
 #Corner - Top End
@@ -105,10 +105,10 @@ G39 bs X1 te ss X1 hj Z1 se be X1
 N35 vj G9 te X1 hj ss D2 vj D21 se
 
 #Corner and L2 Embedding
-I10 bs ss D2 hj ss X1 vj D21 se se
-F20 bs ss Z11 hj ss X1 vj D21 se vj N35 se
+%I10 bs ss D2 hj ss X1 vj D21 se se
+%F20 bs ss Z11 hj ss X1 vj D21 se vj N35 se
 F20 bs ss ss J1 vj X1 se hj Z11 se vj N35
-F20 bs ss ss J1 vj X1 se hj D2 vj N35 se
+%F20 bs ss ss J1 vj X1 se hj D2 vj N35 se
 
 #Overstrike
 %ss D36 vj D36 se om V28
