@@ -120,7 +120,7 @@ mkmk = [
         {'attach':['shapes_0','shapes_u','insertionsizes1R','shapes_om'],'to':['stems1-vR'],'anchor':'right'},
     ]},
     #Lookup
-    {'name' : 'rows-rows1', 'marks' : 'stems1-v',
+    {'name' : 'rows-rows1', 'marks' : '*stems1-vx',
     'exceptcontexts' : [
         {'left':['insertionsizes1'],'right':[]},
         {'left':['r1sep'],'right':[]}
@@ -247,7 +247,7 @@ mkmk = [
         {'attach':['shapes_1','shapes_u','insertionsizes2R','shapes_om2'],'to':['stems2-vR'],'anchor':'right'}
     ]},
     #Lookup
-    {'name' : 'rows-rows2', 'marks' : 'stems2-v',
+    {'name' : 'rows-rows2', 'marks' : '*stems2-vx',
     'exceptcontexts' : [
         {'left':['r2vb'],'right':[]}
     ],

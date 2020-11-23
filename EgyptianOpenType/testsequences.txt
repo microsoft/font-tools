@@ -64,6 +64,7 @@
 %ss M8 vj G1 se hj M40
 %N35 vj ss W24 vj X1 se hj Z1 hj Z1
 %X1 hj N35 vj ss Y1 vj Z2 se hj S29
+%ss Y1 vj Z2 se hj S29 vj X1 hj N35
 
 #L2 embedding
 %Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
@@ -71,6 +72,8 @@
 %J15 vj Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
 %ss I10 bs D46 vj I9 se hj M17
 %I10 bs ss ss X1 vj D21 se hj D2 se
+ss D2 hj ss D21 vj X1 se vj N25 se hj Z11 vj N35
+ss ss D21 vj X1 se hj D2 vj N25 se hj Z11 vj N35
 
 #Corner - Top Start
 %N35 vj F4 ts X1
@@ -102,7 +105,7 @@ G25 te J1 be X1
 %I10 bs ss D46 vj I9 se hj M17
 G9 bs S34 te ss N27 vj N27 se
 G39 bs X1 te ss X1 hj Z1 se be X1
-N35 vj G9 te X1 hj ss D2 vj D21 se
+%N35 vj G9 te X1 hj ss D2 vj D21 se
 
 #Corner and L2 Embedding
 %I10 bs ss D2 hj ss X1 vj D21 se se

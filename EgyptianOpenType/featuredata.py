@@ -132,10 +132,12 @@ groupdata = {
 	'stems1-h'  : ['c1h1', 'c1h2', 'c1h3', 'c1h4', 'c1h5', 'c1h6', 'colspacers1','r1eB'],
 	'stems1-hR' : ['c1h1R','c1h2R','c1h3R','c1h4R','c1h5R','c1h6R','colspacers1R','r1eBR'],
 	'stems1-v'  : ['r1v1', 'r1v2', 'r1v3', 'r1v4', 'r1v5', 'r1v6', 'rowspacers1','insertionsizes1','r1sep'],
+	'stems1-vx' : ['r1v1', 'r1v2', 'r1v3', 'r1v4', 'r1v5', 'r1v6', 'rowspacers1','insertionsizes1','r1sep','c0eA'], #NEED R VERSION
 	'stems1-vR' : ['r1v1R','r1v2R','r1v3R','r1v4R','r1v5R','r1v6R','rowspacers1R','insertionsizes1R','r1sepR'],
 	'stems2-h'  : ['c2h1', 'c2h2', 'c2h3', 'c2h4', 'c2h5', 'c2h6', 'colspacers2', 'r2eB'],
 	'stems2-hR' : ['c2h1R','c2h2R','c2h3R','c2h4R','c2h5R','c2h6R','colspacers2R','r2eBR'],
 	'stems2-v'  : ['r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6', 'r2vb','rowspacers2','insertionsizes2','r2sep'],
+	'stems2-vx'  : ['r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6', 'r2vb','rowspacers2','insertionsizes2','r2sep','c0eA'], #NEED R VERSION
 	'stems2-vR' : ['r2v1R','r2v2R','r2v3R','r2v4R','r2v5R','r2v6R','r2vbR','rowspacers2R','insertionsizes2R','r2sepR'],
 	'stems_12' : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
