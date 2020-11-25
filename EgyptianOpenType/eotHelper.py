@@ -422,7 +422,7 @@ class EotHelper:
             keys = groupdata['characters_all']
             subpairs = []
             for key in keys:
-                if key not in ['GB1','dottedcircle']:
+                if key not in ['GB1','dottedcircle','O33a']:
                     hval = self.glyphdata[key]['ehuh']
                     if hval > self.pvar['hhu']:
                         hval = self.pvar['hhu']
@@ -4203,8 +4203,8 @@ class EotHelper:
             #Swap cartouche beginnings before a quadrat
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'cartouchebegin'
-            context = {'left':[],'right':['Qi']}
-            lookupObj['contexts'].append(context)
+            # context = {'left':[],'right':['Qi']}
+            # lookupObj['contexts'].append(context)
             cartA = ['cb','cfb','hwtb','hwttb','hwtbb','hwtfb']
             cartB = ['csL','cfsL','hwtsL','hwttsL','hwtbsL','hfsL']
             i = 0
@@ -4219,10 +4219,10 @@ class EotHelper:
             #Swap cartouche ends after a quadrat
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'cartoucheend'
-            context = {'left':['r0eB'],'right':[]}
-            lookupObj['contexts'].append(context)
-            cartA = ['ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe']
-            cartB = ['ceL', 'creL','cfeL','hwteL','hwtteL','hwtbeL','hfeL']
+            # context = {'left':['Qi'],'right':[]}
+            # lookupObj['contexts'].append(context)
+            cartA = ['ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe','O33a']
+            cartB = ['ceL', 'creL','cfeL','hwteL','hwtteL','hwtbeL','hfeL','O33aEL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -4240,6 +4240,8 @@ class EotHelper:
                 details = {'sub':['Qi','sh'+str(i)],'target':['QB'+str(i)]}
                 lookupObj['details'].append(details)
                 i = i - 1
+            details = {'sub':['space'],'target':['QB3']}
+            lookupObj['details'].append(details)
 
             return lookupObj
         def columnWidth():

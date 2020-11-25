@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # egyptian opentype generator data
 
-qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cfb','cfe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtfb','hwtfe','dottedcircle']
+qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cfb','cfe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtfb','hwtfe','dottedcircle','O33aEL','O33aER','O33aEB']
 
 featurename = {
 	'abvs' : {'prefix':'ab','name':'Above-base Substitutions','type':'GSUB'},
@@ -18,9 +18,9 @@ featurename = {
 
 groupdata = {
 	'bases_all' : ['quadratBases','quadratCartouches','quadratFortifieds','quadratCartouchesV','quadratFortifiedsV'],
-	'cartoucheendsL' : ['csL','creL','ceL','hwtsL','hwteL','hwttsL','hwtteL','hwtbsL','hwtbeL','cfsL', 'cfeL','hfsL','hfeL'],
-	'cartoucheendsR' : ['csR','creR','ceR','hwtsR','hwteR','hwttsR','hwtteR','hwtbsR','hwtbeR','cfsR', 'cfeR','hfsR','hfeR'],
-	'cartoucheendsV' : ['csT','creB','ceB','hwtsT','hwteB','hwttsT','hwtteB','hwtbsT','hwtbeB','cfsT', 'cfeB','hfsT','hfeB'],
+	'cartoucheendsL' : ['csL','creL','ceL','hwtsL','hwteL','hwttsL','hwtteL','hwtbsL','hwtbeL','cfsL', 'cfeL','hfsL','hfeL','O33aEL'],
+	'cartoucheendsR' : ['csR','creR','ceR','hwtsR','hwteR','hwttsR','hwtteR','hwtbsR','hwtbeR','cfsR', 'cfeR','hfsR','hfeR','O33aER'],
+	'cartoucheendsV' : ['csT','creB','ceB','hwtsT','hwteB','hwttsT','hwtteB','hwtbsT','hwtbeB','cfsT', 'cfeB','hfsT','hfeB','O33aEB'],
 	'characters_all' : ['GB1'],
 	# 'cobras' : ['F20','I1','I10','I11','I31','M10','V22','V23','V23a'],
 	'colCounter' : ['hj2B','hj1B','hj0B','h0'],
