@@ -122,7 +122,6 @@ mkmk = [
     #Lookup
     {'name' : 'rows-rows1', 'marks' : '*stems1-vx',
     'exceptcontexts' : [
-        {'left':['insertionsizes1'],'right':[]},
         {'left':['r1sep'],'right':[]}
     ],
     'details' : [
@@ -131,7 +130,6 @@ mkmk = [
     #Lookup
     {'name' : 'rows-rows1R', 'marks' : 'stems1-vR',
     'exceptcontexts' : [
-        {'left':['insertionsizes1R'],'right':[]},
         {'left':['r1sepR'],'right':[]}
     ],
     'details' : [

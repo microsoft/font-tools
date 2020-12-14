@@ -4240,8 +4240,9 @@ class EotHelper:
                 details = {'sub':['Qi','sh'+str(i)],'target':['QB'+str(i)]}
                 lookupObj['details'].append(details)
                 i = i - 1
-            details = {'sub':['space'],'target':['QB3']}
-            lookupObj['details'].append(details)
+            # CONVERT SPACE TO QB3 - TODO convert space to dedicated filler control glyph
+            # details = {'sub':['space'],'target':['QB3']}
+            # lookupObj['details'].append(details)
 
             return lookupObj
         def columnWidth():
