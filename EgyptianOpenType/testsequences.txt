@@ -98,6 +98,7 @@ N35 vj H6 hj ss G39 be X1 vj D21 se
 %G36 bs D21 te X1
 %G25 bs D21 te X1
 %G25 te J1 be X1
+%G25 bs D21 te N5 be X1
 
 #Corner L1 ebmedding
 %N35 vj I10 bs ss X1 vj Z1 se
@@ -111,11 +112,11 @@ N35 vj H6 hj ss G39 be X1 vj D21 se
 %I10 bs ss D2 hj ss X1 vj D21 se se
 %F20 bs ss Z11 hj ss X1 vj D21 se vj N35 se
 F20 bs ss ss J1 vj X1 se hj Z11 se vj N35
-F20 bs ss ss J1 vj X1 se hj D2 vj N35 se
+%F20 bs ss ss J1 vj X1 se hj D2 vj N35 se
 
 #Overstrike
 %ss D36 vj D36 se om V28
-D36 om ss V28 hj V28 se
+%D36 om ss V28 hj V28 se
 ss D36 vj D36 se om ss V28 hj V28 se
 D36 om V28 vj N35
 

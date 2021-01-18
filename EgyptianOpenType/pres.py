@@ -108,23 +108,39 @@ pres = [
         {'left':['su'],'right':[]}
     ],
     'details' : [{'sub':['ss','Qi'],'target':['su']}]},
-    # Lookup 17 - Insert level 0 row begin marker
+    # # Lookup 17 - Insert level 1 row begin marker for dbl unbalanced begin
+    # {'name' : 'Qi_dblss_begin', 'marks' : '',
+    # 'contexts' : [{'left':['ss','ss'],'right':[]}],
+    # 'details' : [{'sub':['Qi'],'target':['Qi','ub','r1bA']}]},
+    # # Lookup 18 - Double to single unbalanced begin
+    # {'name' : 'Qi_dblss_cleanup', 'marks' : '',
+    # 'contexts' : [{'left':['ss'],'right':['ub']}],
+    # 'details' : [{'sub':['ss','Qi'],'target':['Qi']}]},
+    # # Lookup 19 - Insert level 1 row begin marker for dbl unbalanced begin
+    # {'name' : 'Qi_ss_begin', 'marks' : '',
+    # 'contexts' : [{'left':['ss'],'right':[]}],
+    # 'details' : [{'sub':['Qi'],'target':['Qi','ub','r0bA']}]},
+    # # Lookup 20 - Double to single unbalanced begin
+    # {'name' : 'Qi_ss_cleanup', 'marks' : '',
+    # 'contexts' : [{'left':[],'right':['ub']}],
+    # 'details' : [{'sub':['ss','Qi'],'target':['Qi']}]},
+    # Lookup 21 - Insert level 0 row begin marker
     {'name' : 'Qi_rbegin', 'marks' : '',
-    'contexts' : [{'left':[],'right':[]}],
+    'exceptcontexts' : [{'left':[],'right':['ub','r0bA']}],
     'details' : [{'sub':['Qi'],'target':['Qi','r0bA']}]},
-    # Lookup 18 - clean up embedded Qi glyphs
+    # Lookup 22 - clean up embedded Qi glyphs
     {'name' : 'Qi_cleanup3', 'marks' : '',
     'contexts' : [{'left':['ss'],'right':[]}],
     'details' : [{'sub':['Qi'],'target':['Qi','ub']}]},
-    # Lookup 19 - clean up embedded Qi glyphs
+    # Lookup 23 - clean up embedded Qi glyphs
     {'name' : 'Qi_cleanup4', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [{'sub':['ss','Qi'],'target':['Qi']}]},
-    # Lookup 20 - Insert level 0 row end marker
+    # Lookup 24 - Insert level 0 row end marker
     {'name' : 'Qf_rend', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [{'sub':['Qf'],'target':['r0eA','Qf']}]},
-    # Lookup 21 - level 2 row begin and end
+    # Lookup 25 - level 2 row begin and end
     {'name' : 'r2', 'marks' : '',
     'contexts' : [{'left':[],'right':['et_all']}],
     'details' : [
@@ -132,11 +148,11 @@ pres = [
         {'sub':['hj2A'],'target':['r2eA','hj2A','r2bA']},
         {'sub':['corners1a'],'target':['corners1a','r2bA']},
     ]},
-    # Lookup 22 - level 2 row end before corner after 2 begin
+    # Lookup 26 - level 2 row end before corner after 2 begin
     {'name' : 'r2e_corner', 'marks' : 'parens',
     'contexts' : [{'left':['r2bA'],'right':[]}],
     'details' : [{'sub':['corners1a'],'target':['r2eA','corners1a']},]},
-    # Lookup 23 - level 1 row begin and end
+    # Lookup 27 - level 1 row begin and end
     # moved above r2b_corner to fix over inclusion of level 2, e.g., F20 bs ss Z11 hj ss X1 vj D21 se vj N35 se
     {'name' : 'r1', 'marks' : '',
     'contexts' : [{'left':[],'right':['et_all']}],
@@ -145,31 +161,37 @@ pres = [
         {'sub':['hj1A'],'target':['r1eA','hj1A','r1bA']},
         {'sub':['corners0a'],'target':['corners0a','r1bA']},
     ]},
-    # Lookup 24 - level 1 row begin
+    # Lookup 28 - level 1 row begin
     {'name' : 'r1_su', 'marks' : '',
-    'contexts' : [{'left':['corners0a'],'right':['et_all']}],
+    'contexts' : [
+        {'left':['corners0a'],'right':['et_all']},
+        {'left':['corners0a'],'right':['su','et_all']}
+    ],
     'details' : [
         {'sub':['su'],'target':['su','r1bA']},
     ]},
-    # Lookup 25 - level 2 row begin
+    # Lookup 29 - level 2 row begin
     {'name' : 'r2_su', 'marks' : '',
-    'contexts' : [{'left':['corners1a'],'right':['et_all']}],
+    'contexts' : [
+        {'left':['corners1a'],'right':['et_all']},
+        {'left':['corners1a','su','r1bA'],'right':['et_all']}
+    ],
     'details' : [
         {'sub':['su'],'target':['su','r2bA']},
     ]},
-    # Lookup 26 - level 2 row begin afer corner before 2 end
+    # Lookup 30 - level 2 row begin afer corner before 2 end
     {'name' : 'r2b_corner', 'marks' : '*parensub',
     'contexts' : [{'left':[],'right':['r2eA']}],
     'details' : [{'sub':['corners0a'],'target':['corners0a','r1bA','r2bA']},]},
-    # Lookup 27 - level 2 row end before corner 1 between two r2 begins
+    # Lookup 31 - level 2 row end before corner 1 between two r2 begins
     {'name' : 'r2_om2', 'marks' : 'parens',
     'contexts' : [{'left':['r2bA'],'right':['r2bA']}],
     'details' : [{'sub':['corners1a'],'target':['r2eA','corners1a']},]},
-    # Lookup 28 - level 1 row end before corner 1 between two r2 begins
+    # Lookup 32 - level 1 row end before corner 1 between two r2 begins
     {'name' : 'r1_om1', 'marks' : 'parens',
     'contexts' : [{'left':['r1bA'],'right':['r1bA']}],
     'details' : [{'sub':['corners0a'],'target':['r1eA','corners0a']},]},
-    # Lookup 29 - level 1 row begin afer corner before 1 end
+    # Lookup 33 - level 1 row begin afer corner before 1 end
     {'name' : 'corner_swapandsize', 'marks' : '',
     'exceptcontexts' : [{'left':['Qf'],'right':[]}],
     'details' : [
@@ -184,7 +206,7 @@ pres = [
         {'sub':['ibe1A'],'target':['ibe1B','it00a']},
         {'sub':['om1A'], 'target':['om1B' ,'it00a']},
     ]},
-    # Lookup 30 - unbalanced embedding 
+    # Lookup 34 - unbalanced embedding 
     {'name' : 'unbal-embedding', 'marks' : '',
     'contexts' : [{'left':[],'right':['su']}],
     'details' : [
@@ -193,14 +215,14 @@ pres = [
         {'sub':['vj1A'],'target':['r1eA','vj1A','r1bA','r2bA']},
         {'sub':['hj1A'],'target':['r1eA','hj1A','r1bA','r2bA']}
     ]},
-    # Lookup 31 - insert level 0 row boundaries around joiners
+    # Lookup 35 - insert level 0 row boundaries around joiners
     {'name' : 'r0', 'marks' : '',
     'contexts' : [{'left':[],'right':['et_all']}],
     'details' : [
         {'sub':['vj0A'],'target':['r0eA','vj0A','r0bA']},
         {'sub':['hj0A'],'target':['r0eA','hj0A','r0bA']},
     ]},
-    # Lookup 32 - insert level 1 row begin after unbalanced corner
+    # Lookup 36 - insert level 1 row begin after unbalanced corner
     {'name' : 'unbal-corner', 'marks' : '',
     'contexts' : [
         {'left':['corners0b','it00a'],'right':['r1bA']},
@@ -322,4 +344,15 @@ pres = [
     {'name' : 'default_size_level1', 'marks' : 'rowmaxes',
     'exceptcontexts' : [{'left':[],'right':['mt22']}],
     'details' : [{'sub':['mt43'],'target':['et66']}]},
+    # Lookup 53 - isolated dbl segment 1
+    {'name' : 'isolated_dblss1', 'marks' : '',
+    'contexts' : [{'left':[],'right':['ss']}],
+    'details' : [{'sub':['ss'],'target':['Qi','ub','r0bA','c0bA']}]},
+    # Lookup 53 - isolated dbl segment 2
+    {'name' : 'isolated_dblss2', 'marks' : '',
+    'contexts' : [{'left':['Qi','ub','r0bA','c0bA'],'right':[]}],
+    'details' : [{'sub':['ss'],'target':['ub','r1bA','c1bA','et66','tsh666564636261565554535251464544434241363534333231262524232221161514131211','GB1','c1eA','r1eA','c0eA','r0eA','Qf']}]},
+    # Lookup 53 - isolated segment start
+    {'name' : 'isolated_ss', 'marks' : '',
+    'details' : [{'sub':['ss'],'target':['Qi','ub','r0bA','c0bA','et66','tsh666564636261565554535251464544434241363534333231262524232221161514131211','GB1','c0eA','r0eA','Qf']}]},
 ]

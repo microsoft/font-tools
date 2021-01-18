@@ -103,12 +103,14 @@ class EotHelper:
             self.testfile.extend(line)
             return
         def htmlHeader():
-            print("\t"+'Header')
             tl("<!DOCTYPE html>\n"+"<html>\n"+"\t<head>\n")
             tl("\t\t<title>Test Page - "+self.pvar['fontfilename']+"</title>\n")
             tl("\t\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>")
             tl("\t\t<style type='text/css'>\n")
-            tl("\t\t\t@font-face {font-family: '"+self.pvar['fontfilename']+"';}\n")
+            tl("\t\t\t@font-face {font-family: '"+self.pvar['fontfilename']+"';\n")
+            tl("\t\t\tsrc: url(egyptiantext.ttf) format(\"truetype\");}\n")
+            tl("\t\t\t@font-face {font-family: 'EgyptianTextPrior';\n")
+            tl("\t\t\tsrc: url(egyptiantext_prior.ttf) format(\"truetype\");}\n")
             tl("\t\t\tbody {background-color:#AAA; color: #555; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }\n")
             tl("\t\t\t.page {margin: 0px auto; text-align: center}\n")
             tl("\t\t\th2 {clear: left; margin: 0px auto; text-align: center; display: block;padding-top: 30px;padding-bottom: 12px;}\n")
@@ -124,7 +126,7 @@ class EotHelper:
             tl("\t\t\t.pointer {cursor: pointer;}\n")
             tl("\t\t\t.letter-inner {font-family: '"+self.pvar['fontfilename']+"'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
             tl("\t\t\t.letter-inner span {margin:0px; border:none; padding:0px; }\n")
-            tl("\t\t\t.letter-stable {font-family: '"+self.pvar['reffontname']+"'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
+            tl("\t\t\t.letter-stable {font-family: 'EgyptianTextPrior'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
             tl("\t\t\t.label {font-size: 10pt;}\n")
             tl("\t\t</style>\n")
             tl("\t</head>\n")
@@ -230,9 +232,9 @@ class EotHelper:
                     tl("\t\t\t\t</div>\n")
                     return
 
-                # Suppressing stable version.
-                # if len(test) > 0:
-                #     writeCell(block,'R',' stable','letter-stable')
+                # Comment next two lines to suppress stable version.
+                if len(test) > 0:
+                    writeCell(block,'R',' stable','letter-stable')
                 writeCell(block,label,test,'letter-inner')
                 return
             def genHeading(label):
@@ -242,7 +244,6 @@ class EotHelper:
                 tl("\t\t</div>\n")
                 return
 
-            print("\t"+'Body')
             startPage()
             genTable()                
             endPage()
