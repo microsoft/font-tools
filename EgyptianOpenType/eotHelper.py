@@ -103,12 +103,14 @@ class EotHelper:
             self.testfile.extend(line)
             return
         def htmlHeader():
-            print("\t"+'Header')
             tl("<!DOCTYPE html>\n"+"<html>\n"+"\t<head>\n")
             tl("\t\t<title>Test Page - "+self.pvar['fontfilename']+"</title>\n")
             tl("\t\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>")
             tl("\t\t<style type='text/css'>\n")
-            tl("\t\t\t@font-face {font-family: '"+self.pvar['fontfilename']+"';}\n")
+            tl("\t\t\t@font-face {font-family: '"+self.pvar['fontfilename']+"';\n")
+            tl("\t\t\tsrc: url(egyptiantext.ttf) format(\"truetype\");}\n")
+            tl("\t\t\t@font-face {font-family: 'EgyptianTextPrior';\n")
+            tl("\t\t\tsrc: url(egyptiantext_prior.ttf) format(\"truetype\");}\n")
             tl("\t\t\tbody {background-color:#AAA; color: #555; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }\n")
             tl("\t\t\t.page {margin: 0px auto; text-align: center}\n")
             tl("\t\t\th2 {clear: left; margin: 0px auto; text-align: center; display: block;padding-top: 30px;padding-bottom: 12px;}\n")
@@ -124,7 +126,7 @@ class EotHelper:
             tl("\t\t\t.pointer {cursor: pointer;}\n")
             tl("\t\t\t.letter-inner {font-family: '"+self.pvar['fontfilename']+"'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
             tl("\t\t\t.letter-inner span {margin:0px; border:none; padding:0px; }\n")
-            tl("\t\t\t.letter-stable {font-family: '"+self.pvar['reffontname']+"'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
+            tl("\t\t\t.letter-stable {font-family: 'EgyptianTextPrior'; font-size: 60px; line-height:75px;  background-color: #FFF; width:32px; }\n")
             tl("\t\t\t.label {font-size: 10pt;}\n")
             tl("\t\t</style>\n")
             tl("\t</head>\n")
@@ -230,9 +232,9 @@ class EotHelper:
                     tl("\t\t\t\t</div>\n")
                     return
 
-                # Suppressing stable version.
-                # if len(test) > 0:
-                #     writeCell(block,'R',' stable','letter-stable')
+                # Comment next two lines to suppress stable version.
+                if len(test) > 0:
+                    writeCell(block,'R',' stable','letter-stable')
                 writeCell(block,label,test,'letter-inner')
                 return
             def genHeading(label):
@@ -242,7 +244,6 @@ class EotHelper:
                 tl("\t\t</div>\n")
                 return
 
-            print("\t"+'Body')
             startPage()
             genTable()                
             endPage()
@@ -422,7 +423,7 @@ class EotHelper:
             keys = groupdata['characters_all']
             subpairs = []
             for key in keys:
-                if key not in ['GB1','dottedcircle']:
+                if key not in ['GB1','dottedcircle','O33a']:
                     hval = self.glyphdata[key]['ehuh']
                     if hval > self.pvar['hhu']:
                         hval = self.pvar['hhu']
@@ -1020,6 +1021,11 @@ class EotHelper:
         details = {'aname':'left','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
 
+        # its
+        group = 'shapes_u'
+        details = {'aname':'MARK_ts','xtype':'ZERO','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+
         # ibs
         group = 'insertionsizes1'
         details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
@@ -1053,6 +1059,9 @@ class EotHelper:
         group = 'insertionsizes2R'
         details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'shapes_u'
+        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
         for glyph in groupdata['shapes_te']:
            preformatanchor('te',glyph,'XSUNIT','ZERO')
         for glyph in groupdata['shapes_te2']:
@@ -1074,6 +1083,9 @@ class EotHelper:
         anchorgroup(group,[group],details)
         group = 'insertionsizes2R'
         details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_u'
+        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         for glyph in groupdata['shapes_be']:
             preformatanchor('be',glyph,'XSUNIT','NYUNIT')
@@ -4192,8 +4204,8 @@ class EotHelper:
             #Swap cartouche beginnings before a quadrat
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'cartouchebegin'
-            context = {'left':[],'right':['Qi']}
-            lookupObj['contexts'].append(context)
+            # context = {'left':[],'right':['Qi']}
+            # lookupObj['contexts'].append(context)
             cartA = ['cb','cfb','hwtb','hwttb','hwtbb','hwtfb']
             cartB = ['csL','cfsL','hwtsL','hwttsL','hwtbsL','hfsL']
             i = 0
@@ -4208,10 +4220,10 @@ class EotHelper:
             #Swap cartouche ends after a quadrat
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'cartoucheend'
-            context = {'left':['r0eB'],'right':[]}
-            lookupObj['contexts'].append(context)
-            cartA = ['ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe']
-            cartB = ['ceL', 'creL','cfeL','hwteL','hwtteL','hwtbeL','hfeL']
+            # context = {'left':['Qi'],'right':[]}
+            # lookupObj['contexts'].append(context)
+            cartA = ['ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe','O33a']
+            cartB = ['ceL', 'creL','cfeL','hwteL','hwtteL','hwtbeL','hfeL','O33aEL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -4229,6 +4241,9 @@ class EotHelper:
                 details = {'sub':['Qi','sh'+str(i)],'target':['QB'+str(i)]}
                 lookupObj['details'].append(details)
                 i = i - 1
+            # CONVERT SPACE TO QB3 - TODO convert space to dedicated filler control glyph
+            # details = {'sub':['space'],'target':['QB3']}
+            # lookupObj['details'].append(details)
 
             return lookupObj
         def columnWidth():

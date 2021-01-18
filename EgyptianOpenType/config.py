@@ -19,7 +19,7 @@ pvar = {
     'vbase' : -284, # vertical baseline for hieroglyphs in font units 
     'scndmax' : [[6,6,6],[12,12,6],[12,12,0]], #Derivatives of chu, summed twice
     'deltamax' : [30,20,15],#Derivatives of max width [(max width * max columns) - max columns]
-    'redv': [[6,5,3,4,3,2],[6,5,4,3,2],[6,5,4,3,2]], #Set size reduction priority sequence, see decrementloop()
+    'redv': [[6,5,3,4,3,2],[6,5,4,2,3,2],[6,5,4,2,3,2]], #Set size reduction priority sequence, see decrementloop()
     'redh': [[6,5,4,3,2],[6,5,4,3,2],[6,5,4,3,2]], #Set size reduction priority sequence, see decrementloop()
     'el'  : 3, # embedding levels
     'maxperlevel' : [36,30,18], #max sign width per level
