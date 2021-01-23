@@ -617,11 +617,12 @@ class EotHelper:
                 else:
                     testkey = key
                 if not self.pvar['test'][testkey] == 1:
-                    al('DEF_FEATURE NAME "'+featurename[key]['name']+'" TAG "'+key+'"\n')
-                    for feature in self.features[key]:
-                        al(' LOOKUP "'+feature+'"')
-                    al('\n')
-                    al('END_FEATURE\n')
+                    if len(self.features[key]) > 0:
+                        al('DEF_FEATURE NAME "'+featurename[key]['name']+'" TAG "'+key+'"\n')
+                        for feature in self.features[key]:
+                            al(' LOOKUP "'+feature+'"')
+                        al('\n')
+                        al('END_FEATURE\n')
             return
 
         al('\n')
@@ -1334,18 +1335,21 @@ class EotHelper:
         def hashtargetsizes():
             groupdata['tsh'] = []
             for key in self.targetsizes:
-                tshash = ''
-                for size in sorted(self.targetsizes[key], reverse = True):
-                    tshash += size
-                self.glyphdata[key]['tshash'] = str(tshash)
-                if not tshash in self.tshashes:
-                    self.tshashes.append(tshash)
-                    tsg = 'tsh'+(tshash)
-                    groupdata['tsh'].append(tsg)
-                    gid = insertglyphs(tsg)
-                    glyph = {'id':gid,'name':tsg,'root':'','dec':0,'hex':0x0,'group':'','type':'M','maxh':0,'maxv':0,'ehuh':0,'ehuv':0,'tshash':''}
-                    self.glyphdata[tsg] = glyph
-                    self.injectedglyphcount += 1
+                if key in self.glyphdata:
+                    tshash = ''
+                    for size in sorted(self.targetsizes[key], reverse = True):
+                        tshash += size
+                    self.glyphdata[key]['tshash'] = str(tshash)
+                    if not tshash in self.tshashes:
+                        self.tshashes.append(tshash)
+                        tsg = 'tsh'+(tshash)
+                        groupdata['tsh'].append(tsg)
+                        gid = insertglyphs(tsg)
+                        glyph = {'id':gid,'name':tsg,'root':'','dec':0,'hex':0x0,'group':'','type':'M','maxh':0,'maxv':0,'ehuh':0,'ehuv':0,'tshash':''}
+                        self.glyphdata[tsg] = glyph
+                        self.injectedglyphcount += 1
+                else:
+                    self.errors.append('Missing base glyph '+str(key)+' for variant sizes')
         def savefont():
             print ('Saving font...')
             if self.pvar['test']['font'] == 1:
@@ -4650,8 +4654,11 @@ class EotHelper:
                 for key in internalmirrors:
                     sub = key
                     target = internalmirrors[key]
-                    subpair = {'sub':[sub],'target':[target] }
-                    subpairs.append(subpair)
+                    if sub in groupdata['glyphs_all'] and target in groupdata['glyphs_all']:
+                        subpair = {'sub':[sub],'target':[target] }
+                        subpairs.append(subpair)
+                    else:
+                        self.errors.append('Missing mirror glyph '+target+' for base '+sub)
                 # dynamic pairs
                 for mirrorglyph in groupdata['mirror_all']:
                     baseglyph = mirrorglyph[0:-1] 
@@ -4744,15 +4751,15 @@ class EotHelper:
             lookupObj = swaprtlglyphs()
             lines.extend(self.writefeature(lookupObj))
             # Swap LTR<->RTL glyphs with VS1
-            lookupObj = vsmirrorglyphsL()
-            lines.extend(self.writefeature(lookupObj))
+            # lookupObj = vsmirrorglyphsL()
+            # lines.extend(self.writefeature(lookupObj))
             # Swap RTL<->LTR glyphs with VS1
-            lookupObj = vsmirrorglyphsR()
-            lines.extend(self.writefeature(lookupObj))
+            # lookupObj = vsmirrorglyphsR()
+            # lines.extend(self.writefeature(lookupObj))
             # Swap monochrome to color glyphs with VS3
-            lookupObj = colorglyphs()
-            if lookupObj != -1:
-                lines.extend(self.writefeature(lookupObj))
+            # lookupObj = colorglyphs()
+            # if lookupObj != -1:
+            #     lines.extend(self.writefeature(lookupObj))
 
         return lines
 
