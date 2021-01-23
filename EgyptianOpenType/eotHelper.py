@@ -20,7 +20,24 @@ from mark import mark
 from mkmk import mkmk
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables._g_l_y_f import Glyph
-ver = 110
+ver = 200
+
+# version 2 requirements
+# 1. Enclosures
+    # a. invoke with control
+        # esb, ese, ewb, ewe;
+    # b. double enclosures
+        # qss1-8
+        # qsw1-8
+        # qws1-8
+        # qww1-8
+# 2. Middle insertion
+    # a. center
+    # b. top and bottom
+    # c. expanded enclosing glyph
+# 3. Shading
+# 4. Mirroring and rotation
+# 5. TCMs
 
 class EotHelper:
     def __init__(self, pvar):
