@@ -4239,11 +4239,9 @@ class EotHelper:
 
             return lookupObj
         def cartoucheend():
-            #Swap cartouche ends after a quadrat
+            #Swap cartouche ends
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'cartoucheend'
-            # context = {'left':['Qi'],'right':[]}
-            # lookupObj['contexts'].append(context)
             cartA = ['ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe','O33a']
             cartB = ['ceL', 'creL','cfeL','hwteL','hwtteL','hwtbeL','hfeL','O33aEL']
             i = 0
@@ -4581,7 +4579,8 @@ class EotHelper:
         def fortifiedextensions():
             lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
             lookupObj['name'] = 'fortifiedextensions'
-            lefts = ['cfsL','hfsL','quadratFortifieds']
+            lookupObj['exceptcontexts'] = [{'left': ['ewe'], 'right':[]}]
+            lefts = ['ewb','quadratFortifieds']
             for left in lefts:
                 context = {'left': [left], 'right':[]}
                 lookupObj['contexts'].append(context)
@@ -4601,7 +4600,14 @@ class EotHelper:
                 details = {'sub':['esb','QC'+str(i)],'target':['QC'+str(i)]}
                 lookupObj['details'].append(details)
                 i = i - 1
+            i = self.pvar['hhu']
+            while i >= 1:
+                details = {'sub':['ewb','QF'+str(i)],'target':['QF'+str(i)]}
+                lookupObj['details'].append(details)
+                i = i - 1
             details = {'sub':['r0eB','ese'],'target':['r0eB']}
+            lookupObj['details'].append(details)
+            details = {'sub':['r0eB','ewe'],'target':['r0eB']}
             lookupObj['details'].append(details)
             return lookupObj
         def unusedcontrols():
