@@ -1,7 +1,10 @@
 #!/usr/bin/python
 # egyptian opentype generator data
 
-qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cfb','cfe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtfb','hwtfe','dottedcircle','O33aEL','O33aER','O33aEB']
+qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cfb','cfe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtfb','hwtfe','dottedcircle','O33aEL','O33aER','O33aEB',
+	#V2ProtoControls
+	'esb','ese','ewb','ewe'
+]
 
 featurename = {
 	'abvs' : {'prefix':'ab','name':'Above-base Substitutions','type':'GSUB'},
@@ -155,7 +158,8 @@ basetypes = ['dottedcircle','QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',
 	'csL','creL','ceL','hwtsL','hwteL','hwttsL','hwtteL','hwtbsL','hwtbeL','cfsL', 'cfeL','hfsL','hfeL','O33aEL',
 	'csR','creR','ceR','hwtsR','hwteR','hwttsR','hwtteR','hwtbsR','hwtbeR','cfsR', 'cfeR','hfsR','hfeR','O33aER',
 	'csT','creB','ceB','hwtsT','hwteB','hwttsT','hwtteB','hwtbsT','hwtbeB','cfsT', 'cfeB','hfsT','hfeB','O33aEB',
-	'Qf','Qi','vjV','hjV','tsV','bsV','teV','beV','omV','ssV','seV'
+	'Qf','Qi','vjV','hjV','tsV','bsV','teV','beV','omV','ssV','seV',
+	'esb','ese','ewb','ewe'
 ]
 
 internalmirrors = {

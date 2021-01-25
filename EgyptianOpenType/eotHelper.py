@@ -72,6 +72,7 @@ class EotHelper:
         self.ligatures = []
         self.ligatures_all = []
         self.fontsrc = TTFont(pvar['fontsrc'])
+        print(pvar['fontsrc'])
     
     def initializeVTP(self):
         """Intialize the Volt OpenType project for the currently instantiated class."""
@@ -4565,7 +4566,8 @@ class EotHelper:
         def cartoucheextensions():
             lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
             lookupObj['name'] = 'cartoucheextensions'
-            lefts = ['csL','hwtsL','hwttsL','hwtbsL','quadratCartouches']
+            lookupObj['exceptcontexts'] = [{'left': ['ese'], 'right':[]}]
+            lefts = ['esb','quadratCartouches']
             for left in lefts:
                 context = {'left': [left], 'right':[]}
                 lookupObj['contexts'].append(context)
@@ -4589,6 +4591,18 @@ class EotHelper:
                 lookupObj['details'].append(details)
                 i = i - 1
 
+            return lookupObj
+        def cartouchecleanup():
+            #Remove cartouche controls
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'cartouchecleanup'
+            i = self.pvar['hhu']
+            while i >= 1:
+                details = {'sub':['esb','QC'+str(i)],'target':['QC'+str(i)]}
+                lookupObj['details'].append(details)
+                i = i - 1
+            details = {'sub':['r0eB','ese'],'target':['r0eB']}
+            lookupObj['details'].append(details)
             return lookupObj
         def unusedcontrols():
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -4630,6 +4644,7 @@ class EotHelper:
             lines.extend(self.writefeature(cartoucheextensions()))
         if self.pvar['fortified']:
             lines.extend(self.writefeature(fortifiedextensions()))
+        lines.extend(self.writefeature(cartouchecleanup()))
         lines.extend(self.writefeature(unusedcontrols()))
 
         return lines
