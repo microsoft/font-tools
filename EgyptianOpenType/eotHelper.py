@@ -126,7 +126,7 @@ class EotHelper:
             tl("\t\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>")
             tl("\t\t<style type='text/css'>\n")
             tl("\t\t\t@font-face {font-family: '"+self.pvar['fontfilename']+"';\n")
-            tl("\t\t\tsrc: url("+self.pvar['fontfilename']+") format(\"truetype\");}\n")
+            tl("\t\t\tsrc: url("+self.pvar['fontout']+") format(\"truetype\");}\n")
             tl("\t\t\t@font-face {font-family: 'EgyptianTextPrior';\n")
             tl("\t\t\tsrc: url(egyptiantext_prior.ttf) format(\"truetype\");}\n")
             tl("\t\t\tbody {background-color:#AAA; color: #555; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }\n")
