@@ -126,7 +126,7 @@ class EotHelper:
             tl("\t\t<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>")
             tl("\t\t<style type='text/css'>\n")
             tl("\t\t\t@font-face {font-family: '"+self.pvar['fontfilename']+"';\n")
-            tl("\t\t\tsrc: url(egyptiantext.ttf) format(\"truetype\");}\n")
+            tl("\t\t\tsrc: url("+self.pvar['fontfilename']+") format(\"truetype\");}\n")
             tl("\t\t\t@font-face {font-family: 'EgyptianTextPrior';\n")
             tl("\t\t\tsrc: url(egyptiantext_prior.ttf) format(\"truetype\");}\n")
             tl("\t\t\tbody {background-color:#AAA; color: #555; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }\n")
@@ -397,7 +397,7 @@ class EotHelper:
             return gdefline
 
         # Main
-        font = TTFont(self.pvar['fontout'])
+        font = TTFont('out/'+self.pvar['fontout'])
         for name in font.getGlyphOrder():
             if name in self.glyphdata:
                 glyph = self.glyphdata[name]
@@ -1374,7 +1374,7 @@ class EotHelper:
                 self.fontsave = 'Font save suppressed'
             else: 
                 if self.injectedglyphcount > 0:
-                    self.fontsrc.save(self.pvar['fontout'])
+                    self.fontsrc.save('out/'+self.pvar['fontout'])
                     self.fontsave = 'Glyphs added: '+str(self.injectedglyphcount)
                 else:
                     self.fontsave = 'No glyphs added'
@@ -1561,6 +1561,11 @@ class EotHelper:
         if 'reversal' in lookupObj:
             if lookupObj['reversal'] == 1:
                 reversal = ' REVERSAL'
+        #bases
+        bases = 'PROCESS_BASE'
+        if 'bases' in lookupObj:
+            if lookupObj['bases'] == 'SKIP':
+                bases = 'SKIP_BASE'
         #marks
         marks = lookupObj['marks']
         if marks:
@@ -1618,7 +1623,7 @@ class EotHelper:
                 contexts += 'END_CONTEXT'+"\n"
 
         #append to list of subpairs
-        line = 'DEF_LOOKUP "'+lookupname+'" PROCESS_BASE '+marks+' DIRECTION LTR'+reversal+"\n"
+        line = 'DEF_LOOKUP "'+lookupname+'" '+bases+' '+marks+' DIRECTION LTR'+reversal+"\n"
         line += contexts
 
         #substitutions        
@@ -4222,14 +4227,44 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def cartouchebegin():
-            #Swap cartouche beginnings before a quadrat
+        def extensionbeginout():
+            #Outer extension begin - o
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'cartouchebegin'
-            # context = {'left':[],'right':['Qi']}
-            # lookupObj['contexts'].append(context)
-            cartA = ['cb','cfb','hwtb','hwttb','hwtbb','hwtfb']
-            cartB = ['csL','cfsL','hwtsL','hwttsL','hwtbsL','hfsL']
+            lookupObj['name'] = 'extensionbeginouter'
+            context = {'left':[],'right':['eob']}
+            lookupObj['contexts'].append(context)
+            details = {'sub':['cb'],'target':['cobL']}
+            lookupObj['details'].append(details)
+
+            return lookupObj
+        def extensionbeginfortified():
+            #Double extension begin - f
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionbeginfortified'
+            context = {'left':[],'right':['efb']}
+            lookupObj['contexts'].append(context)
+            details = {'sub':['cwb'],'target':['cfbL']}
+            lookupObj['details'].append(details)
+            details = {'sub':['hwtwb'],'target':['hwbL']}
+            lookupObj['details'].append(details)
+
+            return lookupObj
+        def extensionbegindbl():
+            #Double extension begin - d
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionbegindbl'
+            context = {'left':[],'right':['edb']}
+            lookupObj['contexts'].append(context)
+            details = {'sub':['cb'],'target':['cdbL']}
+            lookupObj['details'].append(details)
+
+            return lookupObj
+        def extensionbegin():
+            #extension begin
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionbegin'
+            cartA = ['cb','cwb','hwtb','hwttb','hwtbb','hwtwb']
+            cartB = ['cbL','cwbL','hwtbL','hwttbL','hwtbbL','hwbL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -4238,12 +4273,44 @@ class EotHelper:
                 i += 1
 
             return lookupObj
-        def cartoucheend():
-            #Swap cartouche ends
+        def extensionendout():
+            #Outer extension end
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'cartoucheend'
-            cartA = ['ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe','O33a']
-            cartB = ['ceL', 'creL','cfeL','hwteL','hwtteL','hwtbeL','hfeL','O33aEL']
+            lookupObj['name'] = 'extensionendouter'
+            context = {'left':['eoe'],'right':[]}
+            lookupObj['contexts'].append(context)
+            details = {'sub':['ce'],'target':['coeL']}
+            lookupObj['details'].append(details)
+
+            return lookupObj
+        def extensionenddbl():
+            #Double extension end
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionenddbl'
+            context = {'left':['ede'],'right':[]}
+            lookupObj['contexts'].append(context)
+            details = {'sub':['ce'],'target':['cdeL']}
+            lookupObj['details'].append(details)
+
+            return lookupObj
+        def extensionendfortified():
+            #Double extension end
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionendfortified'
+            context = {'left':['efe'],'right':[]}
+            lookupObj['contexts'].append(context)
+            details = {'sub':['cwe'],'target':['cfeL']}
+            lookupObj['details'].append(details)
+            details = {'sub':['hwtwe'],'target':['hfeL']}
+            lookupObj['details'].append(details)
+
+            return lookupObj
+        def extensionend():
+            #Swap extension ends
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionend'
+            cartA = ['ce','cre','cwe','hwte','hwtte','hwtbe','hwtwe','O33a']
+            cartB = ['ceL', 'creL','cweL','hwteL','hwtteL','hwtbeL','hweL','O33aeL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -4561,26 +4628,49 @@ class EotHelper:
             lookupObjs.append(lookupObj)
 
             return lookupObjs
-        def cartoucheextensions():
+        def extensionswap():
+            #Swap extension beginnings before a quadrat
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionswap'
+            for source in groupdata['extensioncontrols']:
+                target = source+'V'
+                details = {'sub':[source],'target':[target]}
+                lookupObj['details'].append(details)
+
+            return lookupObj
+        def extensionsout():
             lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
-            lookupObj['name'] = 'cartoucheextensions'
-            lookupObj['exceptcontexts'] = [{'left': ['ese'], 'right':[]}]
-            lefts = ['esb','quadratCartouches']
+            lookupObj['name'] = 'extensionsouter'
+            # lefts = ['eobV','edeV','eseV','cdeL','quadratOuters']
+            lefts = ['eobV','edeV','cdeL','cfeL','quadratOuters']
             for left in lefts:
                 context = {'left': [left], 'right':[]}
                 lookupObj['contexts'].append(context)
             i = self.pvar['hhu']
             while i >= 1:
-                details = {'sub':['QB'+str(i)],'target':['QC'+str(i)]}
+                details = {'sub':['QB'+str(i)],'target':['QO'+str(i)]}
                 lookupObj['details'].append(details)
                 i = i - 1
 
             return lookupObj
-        def fortifiedextensions():
+        def extensionsdbl():
             lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
-            lookupObj['name'] = 'fortifiedextensions'
-            lookupObj['exceptcontexts'] = [{'left': ['ewe'], 'right':[]}]
-            lefts = ['ewb','quadratFortifieds']
+            lookupObj['name'] = 'extensionsdbl'
+            lefts = ['edbV','quadratDoubles']
+            for left in lefts:
+                context = {'left': [left], 'right':[]}
+                lookupObj['contexts'].append(context)
+            i = self.pvar['hhu']
+            while i >= 1:
+                details = {'sub':['QB'+str(i)],'target':['QD'+str(i)]}
+                lookupObj['details'].append(details)
+                i = i - 1
+
+            return lookupObj
+        def extensionsfortified():
+            lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionsfortified'
+            lefts = ['efbV','quadratFortifieds']
             for left in lefts:
                 context = {'left': [left], 'right':[]}
                 lookupObj['contexts'].append(context)
@@ -4591,23 +4681,67 @@ class EotHelper:
                 i = i - 1
 
             return lookupObj
-        def cartouchecleanup():
-            #Remove cartouche controls
+        def extensionssingle():
+            lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionsingles'
+            lookupObj['exceptcontexts'] = [{'left': ['eseV'], 'right':[]}]
+            lefts = ['esbV','quadratSingles']
+            for left in lefts:
+                context = {'left': [left], 'right':[]}
+                lookupObj['contexts'].append(context)
+            i = self.pvar['hhu']
+            while i >= 1:
+                details = {'sub':['QB'+str(i)],'target':['QC'+str(i)]}
+                lookupObj['details'].append(details)
+                i = i - 1
+
+            return lookupObj
+        def extensionswalls():
+            lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
+            lookupObj['name'] = 'walls'
+            lookupObj['exceptcontexts'] = [{'left': ['eweV'], 'right':[]}]
+            lefts = ['ewbV','quadratWalls']
+            for left in lefts:
+                context = {'left': [left], 'right':[]}
+                lookupObj['contexts'].append(context)
+            i = self.pvar['hhu']
+            while i >= 1:
+                details = {'sub':['QB'+str(i)],'target':['QW'+str(i)]}
+                lookupObj['details'].append(details)
+                i = i - 1
+
+            return lookupObj
+        def extensioncleanup():
+            #Remove extension controls by context
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'cartouchecleanup'
-            i = self.pvar['hhu']
-            while i >= 1:
-                details = {'sub':['esb','QC'+str(i)],'target':['QC'+str(i)]}
-                lookupObj['details'].append(details)
-                i = i - 1
-            i = self.pvar['hhu']
-            while i >= 1:
-                details = {'sub':['ewb','QF'+str(i)],'target':['QF'+str(i)]}
-                lookupObj['details'].append(details)
-                i = i - 1
-            details = {'sub':['r0eB','ese'],'target':['r0eB']}
+            lookupObj['name'] = 'extensioncleanup'
+            details = {'sub':['eobV','edbV','quadratDoubles'],'target':['quadratDoubles']}
             lookupObj['details'].append(details)
-            details = {'sub':['r0eB','ewe'],'target':['r0eB']}
+            details = {'sub':['eobV','efbV','quadratFortifieds'],'target':['quadratFortifieds']}
+            lookupObj['details'].append(details)
+            details = {'sub':['esbV','quadratSingles'],'target':['quadratSingles']}
+            lookupObj['details'].append(details)
+            details = {'sub':['eobV','quadratOuters'],'target':['quadratOuters']}
+            lookupObj['details'].append(details)
+            details = {'sub':['edbV','quadratDoubles'],'target':['quadratDoubles']}
+            lookupObj['details'].append(details)
+            details = {'sub':['ewbV','quadratWalls'],'target':['quadratWalls']}
+            lookupObj['details'].append(details)
+            details = {'sub':['efbV','quadratFortifieds'],'target':['quadratFortifieds']}
+            lookupObj['details'].append(details)
+            details = {'sub':['eobV','cdbL'],'target':['cdbL']}
+            lookupObj['details'].append(details)
+            details = {'sub':['eobV','cfbL'],'target':['cfbL']}
+            lookupObj['details'].append(details)
+            details = {'sub':['r0eB','extensioncontrolseV'],'target':['r0eB']}
+            lookupObj['details'].append(details)
+
+            #Normalize unused extension controls
+            details = {'sub':['eobV'],'target':['esbV']}
+            lookupObj['details'].append(details)
+            details = {'sub':['edbV'],'target':['esbV']}
+            lookupObj['details'].append(details)
+            details = {'sub':['efbV'],'target':['esbV']}
             lookupObj['details'].append(details)
             return lookupObj
         def unusedcontrols():
@@ -4625,9 +4759,15 @@ class EotHelper:
 
         lines = []
         lines.extend(self.writefeature(cleanup()))
-        if self.pvar['cartouche']:
-            lines.extend(self.writefeature(cartouchebegin()))
-            lines.extend(self.writefeature(cartoucheend()))
+        if self.pvar['extensions']:
+            lines.extend(self.writefeature(extensionbeginout()))
+            lines.extend(self.writefeature(extensionbegindbl()))
+            lines.extend(self.writefeature(extensionbeginfortified()))
+            lines.extend(self.writefeature(extensionbegin()))
+            lines.extend(self.writefeature(extensionendout()))
+            lines.extend(self.writefeature(extensionenddbl()))
+            lines.extend(self.writefeature(extensionendfortified()))
+            lines.extend(self.writefeature(extensionend()))
         lines.extend(self.writefeature(quadratWidth()))
         lookupObjs = columnWidth()
         for lookupObj in lookupObjs:
@@ -4646,11 +4786,14 @@ class EotHelper:
         lookupObjs = placeholderglyphs()
         for lookupObj in lookupObjs:
             lines.append(self.writefeature(lookupObj))
-        if self.pvar['cartouche']:
-            lines.extend(self.writefeature(cartoucheextensions()))
-        if self.pvar['fortified']:
-            lines.extend(self.writefeature(fortifiedextensions()))
-        lines.extend(self.writefeature(cartouchecleanup()))
+        if self.pvar['extensions']:
+            lines.extend(self.writefeature(extensionswap()))
+            lines.extend(self.writefeature(extensionsout()))
+            lines.extend(self.writefeature(extensionsdbl()))
+            lines.extend(self.writefeature(extensionsfortified()))
+            lines.extend(self.writefeature(extensionssingle()))
+            lines.extend(self.writefeature(extensionswalls()))
+        lines.extend(self.writefeature(extensioncleanup()))
         lines.extend(self.writefeature(unusedcontrols()))
 
         return lines
@@ -4674,13 +4817,13 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def swaprtlcartouches():
+        def swaprtlextensions():
             lookupObj = {'feature':'rtlm','name':'','marks':'ALL','contexts':[],'details':[]}
-            lookupObj['name'] = 'swaprtlcartouches'
+            lookupObj['name'] = 'swaprtlextensions'
 
-            for ceL in groupdata['cartoucheendsL']:
-                index = groupdata['cartoucheendsL'].index(ceL)
-                ceR = groupdata['cartoucheendsR'][index]
+            for ceL in groupdata['extensionendsL']:
+                index = groupdata['extensionendsL'].index(ceL)
+                ceR = groupdata['extensionendsR'][index]
                 details = {'sub':[ceL],'target':[ceR]}
                 lookupObj['details'].append(details)
 
@@ -4779,13 +4922,10 @@ class EotHelper:
 
         lines = []
         if self.pvar['mirror']:
-            # Swap RTL stems
             lookupObj = swaprtlstems()
             lines.extend(self.writefeature(lookupObj))            
-            # Swap RTL cartouches
-            lookupObj = swaprtlcartouches()
+            lookupObj = swaprtlextensions()
             lines.extend(self.writefeature(lookupObj))
-            # Swap RTL sized glyphs
             lookupObj = swaprtlglyphs()
             lines.extend(self.writefeature(lookupObj))
             # Swap LTR<->RTL glyphs with VS1
@@ -4803,38 +4943,56 @@ class EotHelper:
 
 # V R T 2
     def GSUBvert(self):
-        def swaprtlcartouches():
+        def swaprtlextensions():
             lookupObj = {'feature':'vrt2','name':'','marks':'ALL','contexts':[],'details':[]}
-            lookupObj['name'] = 'swapvertcartouches'
+            lookupObj['name'] = 'swapvertextensions'
 
-            for ceL in groupdata['cartoucheendsL']:
-                index = groupdata['cartoucheendsL'].index(ceL)
-                ceV = groupdata['cartoucheendsV'][index]
+            for ceL in groupdata['extensionendsL']:
+                index = groupdata['extensionendsL'].index(ceL)
+                ceV = groupdata['extensionendsV'][index]
                 details = {'sub':[ceL],'target':[ceV]}
                 lookupObj['details'].append(details)
 
-            for ceR in groupdata['cartoucheendsR']:
-                index = groupdata['cartoucheendsR'].index(ceR)
-                ceV = groupdata['cartoucheendsV'][index]
+            for ceR in groupdata['extensionendsR']:
+                index = groupdata['extensionendsR'].index(ceR)
+                ceV = groupdata['extensionendsV'][index]
                 details = {'sub':[ceR],'target':[ceV]}
                 lookupObj['details'].append(details)
 
-            for qcH in groupdata['quadratCartouches']:
-                index = groupdata['quadratCartouches'].index(qcH)
-                qcV = groupdata['quadratCartouchesV'][index]
+            for qcH in groupdata['quadratSingles']:
+                index = groupdata['quadratSingles'].index(qcH)
+                qcV = groupdata['quadratSinglesV'][index]
                 details = {'sub':[qcH],'target':[qcV]}
                 lookupObj['details'].append(details)
 
-            for qfH in groupdata['quadratFortifieds']:
-                index = groupdata['quadratFortifieds'].index(qfH)
-                qfV = groupdata['quadratFortifiedsV'][index]
-                details = {'sub':[qfH],'target':[qfV]}
+            for qcH in groupdata['quadratWalls']:
+                index = groupdata['quadratWalls'].index(qcH)
+                qcV = groupdata['quadratWallsV'][index]
+                details = {'sub':[qcH],'target':[qcV]}
+                lookupObj['details'].append(details)
+    
+            for qcH in groupdata['quadratOuters']:
+                index = groupdata['quadratOuters'].index(qcH)
+                qcV = groupdata['quadratOutersV'][index]
+                details = {'sub':[qcH],'target':[qcV]}
+                lookupObj['details'].append(details)
+    
+            for qcH in groupdata['quadratDoubles']:
+                index = groupdata['quadratDoubles'].index(qcH)
+                qcV = groupdata['quadratDoublesV'][index]
+                details = {'sub':[qcH],'target':[qcV]}
+                lookupObj['details'].append(details)
+    
+            for qcH in groupdata['quadratFortifieds']:
+                index = groupdata['quadratFortifieds'].index(qcH)
+                qcV = groupdata['quadratFortifiedsV'][index]
+                details = {'sub':[qcH],'target':[qcV]}
                 lookupObj['details'].append(details)
     
             return lookupObj
 
         lines = []
-        lines.extend(self.writefeature(swaprtlcartouches()))
+        lines.extend(self.writefeature(swaprtlextensions()))
 
         return lines
 

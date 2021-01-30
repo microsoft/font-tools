@@ -2,6 +2,33 @@
 # egyptian opentype generator data
 
 pres = [
+    # Lookup 0 - extensions outer dbl extensions begin outer
+    {'name' : 'extensionsouterB', 'bases':'SKIP','marks' : 'extensioncontrols',
+    'contexts' : [
+        {'left':[],'right':['esb']},
+        {'left':[],'right':['ewb']}],
+    'details' : [{'sub':['esb'],'target':['eob']}]},
+    # Lookup 0 - extensions dbl extensions begin inner
+    {'name' : 'extensionsinnerB', 'bases':'SKIP','marks' : 'extensioncontrols',
+    'contexts' : [{'left':['eob'],'right':[]}],
+    'details' : [
+        {'sub':['esb'],'target':['edb']},
+        {'sub':['ewb'],'target':['efb']}
+        ]},
+    # Lookup 0 - extensions dbl extensions end inner
+    {'name' : 'extensionsdblE', 'bases':'SKIP','marks' : 'extensioncontrols',
+    'contexts' : [{'left':[],'right':['ese']}],
+    'details' : [
+        {'sub':['ese'],'target':['ede']},
+        {'sub':['ewe'],'target':['efe']}
+    ]},
+    # Lookup 0 - extensions dbl extensions end outer
+    {'name' : 'extensionsouterE', 'bases':'SKIP','marks' : 'extensioncontrols',
+    'contexts' : [
+        {'left':['ede'],'right':[]},
+        {'left':['efe'],'right':[]}
+        ],
+    'details' : [{'sub':['ese'],'target':['eoe']}]},
     # Lookup 1 - convert embedded joiners to level 2 joiners
     {'name' : 'mdcLevel2_joiners', 'marks' : 'controls_a',
     'contexts' : [

@@ -1,3 +1,24 @@
+#Enclosures
+cb esb A1 B1 vj O1 C1 ese ce
+esb A1 B1 C1 ese ce
+cb A1 B1 C1 ce
+cb esb A1 B1 C1 ese
+cb esb A1 cb esb B1 ese ce C1 ese ce
+cb esb A1 esb B1 ese ce C1 ese ce
+cb esb A1 cb B1 ce C1 ese ce
+cb esb A1 cb esb B1 ese C1 ese ce
+esb A1 cb esb B1 ese ce C1 ese ce
+cb A1 cb esb B1 ese ce C1 ce
+cfb ewb A1 B1 vj O1 C1 ewe cfe 
+
+%cb M17 Y5 vj N35 R4 vj X1 hj Q3 ce
+%hwtb R8 hwtbe
+%hwtb X1 vj Q3 hwtte
+%hwttb G7 hwte
+%hwtbb G25 te J1 hwte
+%hwtfb O1 hwtfe
+%cfb A1 hj B1 vj Z2 cfe
+
 #Basic
 %A1                      
 %A1 vj O1                
@@ -139,15 +160,6 @@ O30a O30 hj O30 hj O30 hj O30
 P9 P8 om I9
 S30 S29 om I9
 W14a V28 hj W14 vj O34
-
-#Enclosures
-%cb M17 Y5 vj N35 R4 vj X1 hj Q3 ce
-%hwtb R8 hwtbe
-%hwtb X1 vj Q3 hwtte
-%hwttb G7 hwte
-%hwtbb G25 te J1 hwte
-%hwtfb O1 hwtfe
-%cfb A1 hj B1 vj Z2 cfe
 
 #Phrases
 %D4 vj D4 M23 hj ss X1 vj N35 se J15 vj Q1 hj ss X1 vj O1 se V30

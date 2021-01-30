@@ -9,7 +9,7 @@ pvar = {
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text", # Font name
     'fontsrc' : "../../fonts/et/egyptiantextV2Proto-COLR.ttf", # Path to source font
-    'fontout' : "out/egyptiantextV2Proto.ttf", # Path to write output font
+    'fontout' : "egyptiantextV2Proto.ttf", # Path to write output font
     'hfu' : 314, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'hhu' : 8, # horizontal, hieroglyph units
     'chu' : 6, # composite horizontal units (i.e., excludes wide non-composing widths)
@@ -41,10 +41,9 @@ pvar = {
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
     'useproxycontrols': 0, # use proxy code points for controls
     'proxycontrols' : [78691,78692,78693,78694,78695,78696,78697,78698,78699],
-    'cartouche' : 0,
-    'cartouchecodes' : ['cb','cfb','hwtb','hwttb','hwtbb','hwtfb','ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe'],
-    'fortified' : 0,
+    'extensions' : 1,
+    # 'cartouchecodes' : ['cb','cwb','hwtb','hwttb','hwtbb','hwtwb','ce','cre','cwe','hwte','hwtte','hwtbe','hwtwe'],
     'mirror' : 1,
-    # 'test' : {'font':1,'gdef':1,'groups':1,'haln':1,'pres':1,'abvs':0,'blws':0,'rlig':1,'psts':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':1}
+    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':1,'blws':1,'rlig':1,'psts':0,'rtlm':1,'vrt2':1,'gpos':1,'langsys':0,'anchors':1,'coda':0}
     'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }
