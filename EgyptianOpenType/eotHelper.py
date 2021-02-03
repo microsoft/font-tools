@@ -2696,7 +2696,7 @@ class EotHelper:
         lookupObjs = []
         if level == 0:
             if self.pvar['hhu'] > self.pvar['chu']:
-            lookupObjs.append(overwidemax(level))
+                lookupObjs.append(overwidemax(level))
             lookupObjs.extend(maxperrow(level))
             lookupObjs.append(blockstart(level))
         else:
@@ -4794,7 +4794,7 @@ class EotHelper:
             lines.extend(self.writefeature(extensionsfortified()))
             lines.extend(self.writefeature(extensionssingle()))
             lines.extend(self.writefeature(extensionswalls()))
-        lines.extend(self.writefeature(extensioncleanup()))
+            lines.extend(self.writefeature(extensioncleanup()))
         lines.extend(self.writefeature(unusedcontrols()))
 
         return lines
