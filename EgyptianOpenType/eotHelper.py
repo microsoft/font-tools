@@ -1303,10 +1303,10 @@ class EotHelper:
             else :
                 glyph['maxh'] = 0
                 glyph['maxv'] = 0
-            glyph['ehuh'] = int(math.ceil(float(glyph['maxh'])/(float(self.pvar['hfu'])+self.pvar['issp'])))
+            glyph['ehuh'] = int(math.ceil((float(glyph['maxh'])-self.pvar['issp'])/(float(self.pvar['hfu']))))
             if glyph['ehuh'] > self.pvar['hhu']:
                 self.errors.append('Too wide [eh104]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuh'])+'.')
-            glyph['ehuv'] = int(math.ceil(float(glyph['maxv'])/(float(self.pvar['vfu'])+self.pvar['issp'])))
+            glyph['ehuv'] = int(math.ceil((float(glyph['maxv'])-self.pvar['issp'])/(float(self.pvar['vfu']))))
             if glyph['ehuv'] > self.pvar['vhu']:
                 if glyph['name'] not in qcontrols:
                     self.errors.append('Too tall [eh105]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuv'])+'.')
@@ -2695,6 +2695,7 @@ class EotHelper:
 
         lookupObjs = []
         if level == 0:
+            if self.pvar['hhu'] > self.pvar['chu']:
             lookupObjs.append(overwidemax(level))
             lookupObjs.extend(maxperrow(level))
             lookupObjs.append(blockstart(level))
