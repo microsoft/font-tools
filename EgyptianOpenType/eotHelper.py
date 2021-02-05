@@ -23,7 +23,7 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # version 2 requirements
-# 1. Enclosures
+# 1. Enclosures 
     # a. invoke with control
         # esb, ese, ewb, ewe;
     # b. double enclosures
@@ -31,12 +31,20 @@ ver = 200
         # qsw1-8
         # qws1-8
         # qww1-8
-# 2. Middle insertion
+# 2. Shading
+    # a. Fill character
+        # FB1
+    # b. Sign shading
+        # 
+    # c. Corner shading
+# 3. Mirroring and rotation
+    # a. Mirror
+    # b. Rotation
+    # c. Mirror and rotation
+# 4. Middle insertion
     # a. center
     # b. top and bottom
     # c. expanded enclosing glyph
-# 3. Shading
-# 4. Mirroring and rotation
 # 5. TCMs
 
 class EotHelper:
@@ -1260,7 +1268,7 @@ class EotHelper:
                 group = 'Mirror'
             elif (color): #name is a color glyph and includes C flag
                 group = 'Color'
-            elif (name == ('GB1','placeholder','dottedcircle')): # treat these as hieroglyphs
+            elif (name == ('GB1','FB1','placeholder','dottedcircle')): # treat these as hieroglyphs
                 group = 'Chr'
             else: #unmapped control characters for OTL
                 group = 'Ctrl'
@@ -1298,8 +1306,18 @@ class EotHelper:
                 glyph['root'] = name
             if group in ['Chr','Joiner','Mirror','SVar','LigR','LigV','Color']:
                 glyphObj = glyphTable[name]
-                glyph['maxh'] = glyphObj.xMax
-                glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
+                if name[0:2] == 'FB':
+                    if name == 'FB1':
+                        glyph['maxh'] = self.pvar['hfu'] * 6
+                        glyph['maxv'] = self.pvar['vfu'] * 6
+                    else:
+                        hval = re.sub(r'FB1_(\d)\d',r'\1',name)
+                        vval = re.sub(r'FB1_\d(\d)',r'\1',name)
+                        glyph['maxh'] = self.pvar['hfu'] * int(hval)
+                        glyph['maxv'] = self.pvar['vfu'] * int(vval)
+                else:
+                    glyph['maxh'] = glyphObj.xMax
+                    glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
             else :
                 glyph['maxh'] = 0
                 glyph['maxv'] = 0

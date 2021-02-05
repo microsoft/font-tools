@@ -66,6 +66,7 @@ groupdata = {
 	'extensionendsL' : ['cbL','creL','ceL','hwtbL','hwteL','hwttbL','hwtteL','hwtbbL','hwtbeL','cwbL', 'cweL','hfbL','hfeL','O33aeL'],
 	'extensionendsR' : ['cbR','creR','ceR','hwtbR','hwteR','hwttbR','hwtteR','hwtbbR','hwtbeR','cwbR', 'cweR','hfbR','hfeR','O33aeR'],
 	'extensionendsV' : ['cbT','creB','ceB','hwtbT','hwteB','hwttbT','hwtteB','hwtbbT','hwtbeB','cwbT', 'cweB','hfbT','hfeB','O33aeB'],
+	'fillbases' : ['FB1_65','FB1_64','FB1_63','FB1_62','FB1_61','FB1_56','FB1_55','FB1_54','FB1_53','FB1_52','FB1_51','FB1_46','FB1_45','FB1_44','FB1_43','FB1_42','FB1_41','FB1_36','FB1_35','FB1_34','FB1_33','FB1_32','FB1_31','FB1_26','FB1_25','FB1_24','FB1_23','FB1_22','FB1_21','FB1_16','FB1_15','FB1_14','FB1_13','FB1_12','FB1_11'],
 	'glyphs_all' : ['placeholder'],
 	'groupCounters' : ['grp0','grp1','grp2'],
 	'horizontals2' : ['eh_all','h1','h2','h3','h4','h5','h6','h7','h8'],
