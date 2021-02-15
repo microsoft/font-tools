@@ -7,9 +7,9 @@ pvar = {
     'langsysname' : "Default",
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
-    'fontfilename' : "Egyptian Text", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantext-COLR.ttf", # Path to source font
-    'fontout' : "egyptiantext.ttf", # Path to write output font
+    'fontfilename' : "Egyptian Text Proto", # Font name
+    'fontsrc' : "../../fonts/et/egyptiantextV2Proto-COLR.ttf", # Path to source font
+    'fontout' : "egyptiantextV2Proto.ttf", # Path to write output font
     'hfu' : 314, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'hhu' : 8, # horizontal, hieroglyph units
     'chu' : 6, # composite horizontal units (i.e., excludes wide non-composing widths)
@@ -19,7 +19,7 @@ pvar = {
     'vbase' : -284, # vertical baseline for hieroglyphs in font units 
     'scndmax' : [[6,6,6],[12,12,6],[12,12,0]], #Derivatives of chu, summed twice
     'deltamax' : [30,20,15],#Derivatives of max width [(max width * max columns) - max columns]
-    'redv': [[6,5,3,4,3,2],[6,5,4,3,2],[6,5,4,3,2]], #Set size reduction priority sequence, see decrementloop()
+    'redv': [[6,5,3,4,3,2],[6,5,4,2,3,2],[6,5,4,2,3,2]], #Set size reduction priority sequence, see decrementloop()
     'redh': [[6,5,4,3,2],[6,5,4,3,2],[6,5,4,3,2]], #Set size reduction priority sequence, see decrementloop()
     'el'  : 3, # embedding levels
     'maxperlevel' : [36,30,18], #max sign width per level
@@ -41,10 +41,9 @@ pvar = {
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
     'useproxycontrols': 0, # use proxy code points for controls
     'proxycontrols' : [78691,78692,78693,78694,78695,78696,78697,78698,78699],
-    'cartouche' : 1,
-    'cartouchecodes' : ['cb','cfb','hwtb','hwttb','hwtbb','hwtfb','ce','cre','cfe','hwte','hwtte','hwtbe','hwtfe'],
-    'fortified' : 1,
+    'extensions' : 1,
+    # 'cartouchecodes' : ['cb','cwb','hwtb','hwttb','hwtbb','hwtwb','ce','cre','cwe','hwte','hwtte','hwtbe','hwtwe'],
     'mirror' : 1,
-    'test' : {'font':1,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':1,'blws':1,'rlig':1,'psts':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':0,'anchors':0,'coda':0}
-    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
+    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':1,'abvs':1,'blws':1,'rlig':1,'psts':0,'rtlm':1,'vrt2':1,'gpos':1,'langsys':0,'anchors':1,'coda':0}
+    'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }

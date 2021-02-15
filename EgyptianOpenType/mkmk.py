@@ -306,5 +306,10 @@ mkmk = [
     'details' : [
         {'attach':['m0'],'to':['glyphs_all'],'anchor':'center'},
         {'to':['mirror_all'],'anchor':'center'}
+    ]},
+    #Lookup
+    {'name' : 'shades', 'marks' : '*shadesmkmk',
+    'details' : [
+        {'attach':['m0'],'to':['shapes_df'],'anchor':'center'}
     ]}
 ]

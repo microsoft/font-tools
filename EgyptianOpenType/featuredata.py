@@ -3,7 +3,7 @@
 
 qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
 	#V2ProtoControls
-	'esb','ese','ewb','ewe'
+	'esb','ese','ewb','ewe','df'
 ]
 
 featurename = {
@@ -78,6 +78,7 @@ groupdata = {
 	'insertions' : ['insertionmarkers','insertionsizes1a'],
 	'minsizes' : [ 'mt11','mt12','mt13','mt14','mt15','mt16','mt21','mt22','mt23','mt24','mt25','mt26','mt31','mt32','mt33','mt34','mt35','mt36','mt41','mt42','mt43','mt44','mt45','mt46','mt51','mt52','mt53','mt54','mt55','mt56','mt61','mt62','mt63','mt64','mt65','mt66', 'su'],
 	'mirror_all' : [],
+	'modifiers' : ['df'],
 	'multicorners1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','it00','cornerglyphs','c0eA'],
 	'multicorners2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','it00','cornerglyphs','c1eA'],
 	'normalize' : ['dn1','dn2','dn3','dn4','dn5','hn1','hn2','hn3','hn4','hn5'],
@@ -105,6 +106,8 @@ groupdata = {
 	'rowspacers1R' : ['r1s4p0R','r1s3p0R','r1s2p0R','r1s1p0R','r1s0p5R','r1s0p33R'],
 	'rowspacers2' : ['r2s1p0'],
 	'rowspacers2R' : ['r2s1p0R'],
+	'shadegroupH' : ['sh8','sh7','sh6','sh5','sh4','sh3','sh2','sh1','df'],
+	'shadegroupV' : ['sv6','sv5','sv4','sv3','sv2','sv1','df6','df5','df4','df3','df2','df1'],
 	'shapes_0' : ['o86','o85','o84','o83','o82','o81','o76','o75','o74','o73','o72','o71','o66','o65','o64','o63','o62','o61','o56','o55','o54','o53','o52','o51','o46','o45','o44','o43','o42','o41','o36','o35','o34','o33','o32','o31','o26','o25','o24','o23','o22','o21','o16','o15','o14','o13','o12','o11'],
 	'shapes_1' : ['s66','s65','s64','s63','s62','s61','s56','s55','s54','s53','s52','s51','s46','s45','s44','s43','s42','s41','s36','s35','s34','s33','s32','s31','s26','s25','s24','s23','s22','s21','s16','s15','s14','s13','s12','s11'],
 	'shapes_2' : ['i66','i65','i64','i63','i62','i61','i56','i55','i54','i53','i52','i51','i46','i45','i44','i43','i42','i41','i36','i35','i34','i33','i32','i31','i26','i25','i24','i23','i22','i21','i16','i15','i14','i13','i12','i11'],
@@ -126,6 +129,8 @@ groupdata = {
 	'shapes_cornersom_1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','shapes_om'],
 	'shapes_corners_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2'],
 	'shapes_cornersom_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2'],
+	'shapes_df' : ['df86','df76','df66','df65','df64','df63','df62','df61','df56','df55','df54','df53','df52','df51','df46','df45','df44','df43','df42','df41','df36','df35','df34','df33','df32','df31','df26','df25','df24','df23','df22','df21','df16','df15','df14','df13','df12','df11'],
+	'shadesmkmk' : ['m0','shapes_df'],
 	# Unbalanced shapes are used in corner insertions and need to be split so they can be reversed for RTL in mkmk
 	'shapes_u'  : ['es66','es65','es64','es63','es62','es61','es56','es55','es54','es53','es52','es51','es46','es45','es44','es43','es42','es41','es36','es35','es34','es33','es32','es31','es26','es25','es24','es23','es22','es21','es16','es15','es14','es13','es12','es11'],
 	'shapes_ls' : ['ls66','ls65','ls64','ls63','ls62','ls61','ls56','ls55','ls54','ls53','ls52','ls51','ls46','ls45','ls44','ls43','ls42','ls41','ls36','ls35','ls34','ls33','ls32','ls31','ls26','ls25','ls24','ls23','ls22','ls21','ls16','ls15','ls14','ls13','ls12','ls11'],
@@ -157,7 +162,6 @@ groupdata = {
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
 	'targetwidth' : ['trg1','trg2','trg3','trg4','trg5','trg6'],
 	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp'],
-	'vss' : ['VS1','VS2','VS3'],
 	'genericbases' : ['dottedcircle']
 } 
 
@@ -178,7 +182,8 @@ basetypes = ['dottedcircle',
 	'cbR','creR','ceR','hwtbR','hwteR','hwttbR','hwtteR','hwtbbR','hwtbeR','cwbR', 'cweR','hfbR','hfeR','O33aeR',
 	'cbT','creB','ceB','hwtbT','hwteB','hwttbT','hwtteB','hwtbbT','hwtbeB','cwbT', 'cweB','hfbT','hfeB','O33aeB',
 	'Qf','Qi','vjV','hjV','tsV','bsV','teV','beV','omV','ssV','seV',
-	'esbV','eseV','ewbV','eweV','eobV','eoeV','edbV','edeV','efbV','efeV','cdbL','cdeL','cfeL','cobL','coeL'
+	'esbV','eseV','ewbV','eweV','eobV','eoeV','edbV','edeV','efbV','efeV','cdbL','cdeL','cfeL','cobL','coeL',
+	'dfV',
 ]
 
 internalmirrors = {

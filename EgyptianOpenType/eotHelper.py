@@ -1132,6 +1132,9 @@ class EotHelper:
         group = 'shapes_u'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'shapes_df'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'glyphs_all'
         details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
         anchorgroup(group,[group],details)
@@ -4386,11 +4389,49 @@ class EotHelper:
             lookupObjs.append(column())
 
             return lookupObjs
+        def shadeSizes():
+            #df -> df$1 (sh{1-8}|)
+            #df{1-6} -> df{1-6}$1 (sv{1-6}|)
+            def shadeSizeHs(cycle):
+                lookupObj = {'feature':'psts','name':'','marks':'*shadegroupH','contexts':[],'details':[]}
+                lookupObj['name'] = 'shadesize_H'+str(cycle)
+                context = {'left':['sh'+str(cycle)],'right':[]}
+                lookupObj['contexts'].append(context)
+                if cycle <= self.pvar['chu']:
+                    details = {'sub':['df'],'target':['df'+str(cycle)]}
+                    lookupObj['details'].append(details)
+                else:
+                    details = {'sub':['df'],'target':['df'+str(cycle)+'6']}
+                    lookupObj['details'].append(details)
+                return lookupObj
+            def shadeSizeVs(cycle):
+                lookupObj = {'feature':'psts','name':'','marks':'*shadegroupV','contexts':[],'details':[]}
+                lookupObj['name'] = 'shadesize_V'+str(cycle)
+                context = {'left':['sv'+str(cycle)],'right':[]}
+                lookupObj['contexts'].append(context)
+                h = self.pvar['chu']
+                while h >= 1:
+                    details = {'sub':['df'+str(h)],'target':['df'+str(h)+str(cycle)]}
+                    lookupObj['details'].append(details)
+                    h = h - 1
+                return lookupObj
+
+            lookupObjs = []
+            h = self.pvar['hhu']
+            while h >= 1:
+                lookupObjs.append(shadeSizeHs(h))
+                h = h - 1
+            v = self.pvar['vhu']
+            while v >= 1:
+                lookupObjs.append(shadeSizeVs(v))
+                v = v - 1
+
+            return lookupObjs
         def shapeSize():
             #sh{1-8} sv{1-6} -> t$1$2
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'shapesize'
-            i = self.pvar['hhu']
+            lookupObj['name'] = 'shadesize'
+            i = self.pvar['chu']
             while i >= 1:
                 j = self.pvar['vhu']
                 while j >= 1:
@@ -4789,6 +4830,9 @@ class EotHelper:
             lines.extend(self.writefeature(extensionend()))
         lines.extend(self.writefeature(quadratWidth()))
         lookupObjs = columnWidth()
+        for lookupObj in lookupObjs:
+            lines.extend(self.writefeature(lookupObj))
+        lookupObjs = shadeSizes()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
         lines.extend(self.writefeature(shapeSize()))
