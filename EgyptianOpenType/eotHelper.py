@@ -35,17 +35,22 @@ ver = 200
     # a. Fill character
         # FB1
     # b. Sign shading
-        # 
+        # df
     # c. Corner shading
+        # sts, sbs, ste, sbe
 # 3. Mirroring and rotation
     # a. Mirror
+        # MR
     # b. Rotation
+        # R90, R180, R270
     # c. Mirror and rotation
+        # MR R90, MR R180, MR R270
 # 4. Middle insertion
     # a. center
     # b. top and bottom
     # c. expanded enclosing glyph
 # 5. TCMs
+    # LB RB
 
 class EotHelper:
     def __init__(self, pvar):
@@ -1235,6 +1240,7 @@ class EotHelper:
             mirror  = re.search(r'^[A-Z]+[0-9]+[a-z]?(_[0-9][0-9])?R$',name)
             color  = re.search(r'^[A-Z]+[0-9]+[a-z]?(_[0-9][0-9])?R?C$',name)
             shade = re.search(r'^LS_[1-8][1-6]$',name)
+            qshade = re.search(r'DQ[0-9]\_[0-9]+',name)
             ligature = re.search(r'^lig.*[^R]$',name)
             ligmirror = re.search(r'^lig.*R$',name)
             if dec > 65535: #mapped SMP characters
@@ -1261,7 +1267,9 @@ class EotHelper:
                     if name not in self.ligatures:
                         self.ligatures.append(name)
                         self.ligatures_all.append(name)
-            elif (shade): #name includes glyph size in ehu
+            elif (shade): #sign shade
+                group = 'Shade'
+            elif (qshade): #quarter shade
                 group = 'Shade'
             elif (sizevar): #name includes glyph size in ehu
                 group = 'SVar'
@@ -4427,6 +4435,29 @@ class EotHelper:
                 v = v - 1
 
             return lookupObjs
+        def quarterShadeSizes():
+            #DQ6_{[..]} -> DQ$1_{[..]} (QB{1-8}|)
+            def shadeSizes(cycle):
+                lookupObj = {'feature':'psts','name':'','marks':'NONE','contexts':[],'details':[]}
+                lookupObj['name'] = 'quartershade_H'+str(cycle)
+                context = {'left':['QB'+str(cycle)],'right':[]}
+                lookupObj['contexts'].append(context)
+                forms = ['_1','_2','_3','_4','_12','_13','_14','_23','_24','_34','_123','_124','_134','_234','_1234']
+                for f in forms:
+                    sub = 'DQ6'+f
+                    target = 'DQ'+str(cycle)+f
+                    details = {'sub':[sub],'target':[target]}
+                    lookupObj['details'].append(details)
+                return lookupObj
+            lookupObjs = []
+            h = self.pvar['hhu']
+            while h >= 1:
+                if h != self.pvar['chu']:
+                    # Exclude default size from remap, DQ6_n -> DQ6_n
+                    lookupObjs.append(shadeSizes(h))
+                h = h - 1
+
+            return lookupObjs
         def shapeSize():
             #sh{1-8} sv{1-6} -> t$1$2
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -4833,6 +4864,9 @@ class EotHelper:
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
         lookupObjs = shadeSizes()
+        for lookupObj in lookupObjs:
+            lines.extend(self.writefeature(lookupObj))
+        lookupObjs = quarterShadeSizes()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
         lines.extend(self.writefeature(shapeSize()))

@@ -2,6 +2,26 @@
 # egyptian opentype generator data
 
 pres = [
+    # Lookup - quarter shades
+    {'name' : 'quarterShades', 'marks' : '',
+    'contexts' : [{'left':[],'right':[]}],
+    'details' : [
+        {'sub':['sts','sbs','ste','sbe'],'target':['DQ6_1234']},
+        {'sub':['sts','sbs','ste'],'target':['DQ6_123']},
+        {'sub':['sts','sbs','sbe'],'target':['DQ6_124']},
+        {'sub':['sts','ste','sbe'],'target':['DQ6_134']},
+        {'sub':['sbs','ste','sbe'],'target':['DQ6_234']},
+        {'sub':['sts','sbs'],'target':['DQ6_12']},
+        {'sub':['sts','ste'],'target':['DQ6_13']},
+        {'sub':['sts','sbe'],'target':['DQ6_14']},
+        {'sub':['sbs','ste'],'target':['DQ6_23']},
+        {'sub':['sbs','sbe'],'target':['DQ6_24']},
+        {'sub':['ste','sbe'],'target':['DQ6_34']},
+        {'sub':['sts'],'target':['DQ6_1']},
+        {'sub':['sbs'],'target':['DQ6_2']},
+        {'sub':['ste'],'target':['DQ6_3']},
+        {'sub':['sbe'],'target':['DQ6_4']},
+    ]},
     # Lookup - extensions outer dbl extensions begin outer
     {'name' : 'extensionsouterB', 'bases':'SKIP','marks' : 'extensioncontrols',
     'contexts' : [
