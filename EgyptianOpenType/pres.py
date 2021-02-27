@@ -97,6 +97,18 @@ pres = [
         {'sub':['te'],'target':['ite0A']},
         {'sub':['be'],'target':['ibe0A']},
         {'sub':['om'],'target':['om0A']}]},
+    # DYNAMIC Lookup - populated with r90 values from group data
+    {'name' : 'rninety', 'marks' : '',
+    'contexts' : [{'left':[],'right':[]}],
+    'details' : []},
+    # DYNAMIC Lookup - populated with r180 values from group data
+    {'name' : 'roneeighty', 'marks' : '',
+    'contexts' : [{'left':[],'right':[]}],
+    'details' : []},
+    # DYNAMIC Lookup - populated with r90 values from group data
+    {'name' : 'rtwoseventy', 'marks' : '',
+    'contexts' : [{'left':[],'right':[]}],
+    'details' : []},
     # DYNAMIC Lookup - populated with tsg values from group data
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],

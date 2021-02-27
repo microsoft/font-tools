@@ -3,7 +3,7 @@
 
 qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
 	#V2ProtoControls
-	'esb','ese','ewb','ewe','df'
+	'esb','ese','ewb','ewe','df','mr','r90','r180','r270'
 ]
 
 featurename = {
@@ -78,12 +78,12 @@ groupdata = {
 	'insertionsizes2R' : [ 'it211R','it212R','it213R','it214R','it215R','it216R','it221R','it222R','it223R','it224R','it225R','it226R','it231R','it232R','it233R','it234R','it235R','it236R','it241R','it242R','it243R','it244R','it245R','it246R','it251R','it252R','it253R','it254R','it255R','it256R','it261R','it262R','it263R','it264R','it265R','it266R'],
 	'insertions' : ['insertionmarkers','insertionsizes1a'],
 	'minsizes' : [ 'mt11','mt12','mt13','mt14','mt15','mt16','mt21','mt22','mt23','mt24','mt25','mt26','mt31','mt32','mt33','mt34','mt35','mt36','mt41','mt42','mt43','mt44','mt45','mt46','mt51','mt52','mt53','mt54','mt55','mt56','mt61','mt62','mt63','mt64','mt65','mt66', 'su'],
-	'mirror_all' : [],
-	'modifiers' : ['df'],
+	'mirror_all'    : [],
+	'modifiers'     : ['df','mr','r90','r180','r270'],
 	'multicorners1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','it00','cornerglyphs','c0eA'],
 	'multicorners2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','it00','cornerglyphs','c1eA'],
-	'normalize' : ['dn1','dn2','dn3','dn4','dn5','hn1','hn2','hn3','hn4','hn5'],
-	'parens' : ['parens_h','parens_v','corners0a','corners1a','om0A'],
+	'normalize'     : ['dn1','dn2','dn3','dn4','dn5','hn1','hn2','hn3','hn4','hn5'],
+	'parens'   : ['parens_h','parens_v','corners0a','corners1a','om0A'],
 	'parensub' : ['parens_h','parens_v','corners0a','corners1a','om0A','su'],
 	'parens_h' : ['c0bA','c0eA','c1bA','c1eA','c2bA','c2eA'],
 	'parens_v' : ['r0bA','r0eA','r1bA','r1eA','r2bA','r2eA'],
