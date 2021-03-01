@@ -10,5 +10,9 @@ mark = [
     {'name' : 'gb', 'marks' : '',
     'details' : [
         {'attach':['dottedcircle'],'to':['controls_joiners'] ,'anchor':'center'}
-    ]},        
+    ]},
+    {'name' : 'damagedquarters', 'marks' : 'dq_all',
+    'details' : [
+        {'attach':['bases_all'],'to':['dq_all'],'anchor':'a1'}
+    ]}
 ]

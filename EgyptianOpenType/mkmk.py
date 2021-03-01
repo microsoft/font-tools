@@ -308,7 +308,7 @@ mkmk = [
         {'to':['mirror_all'],'anchor':'center'}
     ]},
     #Lookup
-    {'name' : 'shades', 'marks' : '*shadesmkmk',
+    {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
     'details' : [
         {'attach':['m0'],'to':['shapes_df'],'anchor':'center'}
     ]}

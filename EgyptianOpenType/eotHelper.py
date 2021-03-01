@@ -859,6 +859,9 @@ class EotHelper:
         group = 'stems0-v'
         details = {'aname':'MARK_a1','xtype':'ZERO','ytype':'ZERO','recursive':1}
         anchorgroup(group,[group],details)
+        group = 'dq_all'
+        details = {'aname':'MARK_a1','xtype':'PADDING','ytype':'ZERO','recursive':1}
+        anchorgroup(group,[group],details)
         group = 'bases_all'
         details = {'aname':'a1','xtype':'PADDING','ytype':'YFULL','recursive':1}
         anchorgroup(group,[group],details)
@@ -4484,10 +4487,24 @@ class EotHelper:
                 v = v - 1
 
             return lookupObjs
+
+        def mirrorquartershades():
+            lookupObj = {'feature':'rtlm','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'mirrorquartershades'
+            lookupObj['details'].append({'sub':['DQ6_12'],'target':['DQ6_34']})
+            lookupObj['details'].append({'sub':['DQ6_14'],'target':['DQ6_23']})
+            lookupObj['details'].append({'sub':['DQ6_23'],'target':['DQ6_14']})
+            lookupObj['details'].append({'sub':['DQ6_34'],'target':['DQ6_12']})
+            lookupObj['details'].append({'sub':['DQ6_123'],'target':['DQ6_134']})
+            lookupObj['details'].append({'sub':['DQ6_124'],'target':['DQ6_234']})
+            lookupObj['details'].append({'sub':['DQ6_134'],'target':['DQ6_123']})
+            lookupObj['details'].append({'sub':['DQ6_234'],'target':['DQ6_124']})
+
+            return lookupObj
         def quarterShadeSizes():
             #DQ6_{[..]} -> DQ$1_{[..]} (QB{1-8}|)
             def shadeSizes(cycle):
-                lookupObj = {'feature':'psts','name':'','marks':'NONE','contexts':[],'details':[]}
+                lookupObj = {'feature':'psts','name':'','marks':'dq_all','contexts':[],'details':[]}
                 lookupObj['name'] = 'quartershade_H'+str(cycle)
                 context = {'left':['QB'+str(cycle)],'right':[]}
                 lookupObj['contexts'].append(context)
@@ -4548,7 +4565,6 @@ class EotHelper:
                 return lookupObj
             def insertr1sepOm():
                 #sh{1-8} sv{1-6} -> t$1$2
-                # TODO:LSEP
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'insertgroupsep1'
                 context = {'left':[],'right':['insertionsizes1']}
@@ -4559,7 +4575,6 @@ class EotHelper:
                 return lookupObj
             def insertr2sepOm():
                 #sh{1-8} sv{1-6} -> t$1$2
-                # TODO:LSEP
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'insertgroupsep2'
                 context = {'left':[],'right':['insertionsizes2']}
@@ -4572,13 +4587,6 @@ class EotHelper:
                 # ibs0B ih0 -> ibs0B
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'cleanupinsertions'
-                # These should no longer be needed, no corners in this form at this stage.
-                # for glyph in groupdata['corners0b']:
-                #     details = {'sub':[glyph,'ih0'],'target':[glyph]}
-                #     lookupObj['details'].append(details)
-                # for glyph in groupdata['corners1b']:
-                #     details = {'sub':[glyph,'ih0'],'target':[glyph]}
-                #     lookupObj['details'].append(details)
 
                 #om{1-6}6 it66 -> om46
                 i = self.pvar['chu']
@@ -4915,6 +4923,7 @@ class EotHelper:
         lookupObjs = shadeSizes()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
+        lines.extend(self.writefeature(mirrorquartershades()))
         lookupObjs = quarterShadeSizes()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
