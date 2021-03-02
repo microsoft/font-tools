@@ -37,7 +37,9 @@ pres = [
         ]},
     # Lookup - extensions dbl extensions end inner
     {'name' : 'extensionsdblE', 'bases':'SKIP','marks' : 'extensioncontrols',
-    'contexts' : [{'left':[],'right':['ese']}],
+    'contexts' : [
+        {'left':['edb'],'right':[]},
+        {'left':['efb'],'right':[]}],
     'details' : [
         {'sub':['ese'],'target':['ede']},
         {'sub':['ewe'],'target':['efe']}

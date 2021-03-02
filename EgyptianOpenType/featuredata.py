@@ -189,8 +189,14 @@ basetypes = ['dottedcircle',
 	'cbL','creL','ceL','hwtbL','hwteL','hwttbL','hwtteL','hwtbbL','hwtbeL','cwbL', 'cweL','hfbL','hfeL','O33aeL',
 	'cbR','creR','ceR','hwtbR','hwteR','hwttbR','hwtteR','hwtbbR','hwtbeR','cwbR', 'cweR','hfbR','hfeR','O33aeR',
 	'cbT','creB','ceB','hwtbT','hwteB','hwttbT','hwtteB','hwtbbT','hwtbeB','cwbT', 'cweB','hfbT','hfeB','O33aeB',
+	'cdbL','cdreL','cdeL','hwtdsL','hwtdeL','hwtdtsL','hwtdteL','hwtdbsL','hwtdbeL','cfbL', 'cfeL','hfbL','hfeL','O33adeL',
+	'cdbR','cdreR','cdeR','hwtdsR','hwtdeR','hwtdtsR','hwtdteR','hwtdbsR','hwtdbeR','cfbR', 'cfeR','hfbR','hfeR','O33adeR',
+	'cdbT','cdreB','cdeB','hwtdsT','hwtdeB','hwtdtsT','hwtdteB','hwtdbsT','hwtdbeB','cfbT', 'cfeB','hfbT','hfeB','O33adeB',
+	'cobL','coreL','coeL','hwtosL','hwtoeL','hwtotsL','hwtoteL','hwtobsL','hwtobeL','O33aoeL',
+	'cobR','coreR','coeR','hwtosR','hwtoeR','hwtotsR','hwtoteR','hwtobsR','hwtobeR','O33aoeR',
+	'cobT','coreB','coeB','hwtosT','hwtoeB','hwtotsT','hwtoteB','hwtobsT','hwtobeB','O33aoeB',
 	'Qf','Qi','vjV','hjV','tsV','bsV','teV','beV','omV','ssV','seV',
-	'esbV','eseV','ewbV','eweV','eobV','eoeV','edbV','edeV','efbV','efeV','cdbL','cdeL','cfeL','cobL','coeL','dfV'
+	'esbV','eseV','ewbV','eweV','eobV','eoeV','edbV','edeV','efbV','efeV','dfV'
 	]
 
 internalmirrors = {

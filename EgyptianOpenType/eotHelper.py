@@ -26,31 +26,39 @@ ver = 200
 # 1. Enclosures 
     # a. invoke with control
         # esb, ese, ewb, ewe;
+        # TODO make end control visible if extension not active
+        # TODO remove visible end control for shaded preceding
     # b. double enclosures
-        # qss1-8
-        # qsw1-8
-        # qws1-8
-        # qww1-8
 # 2. Shading
     # a. Fill character
         # FB1
     # b. Sign shading
         # df
+        # TODO Add cartouche end cap shading
     # c. Corner shading
         # sts, sbs, ste, sbe
+        # TODO add /12 keyboard support
+        # QUESTION - should shade include vertical height of enclosing lines
 # 3. Mirroring and rotation
     # a. Mirror
         # MR
     # b. Rotation
         # R90, R180, R270
+        # TODO sample legs rotation, M17 rotation
     # c. Mirror and rotation
         # MR R90, MR R180, MR R270
+        # NOTE - Always rotation control before mirror control
 # 4. Middle insertion
     # a. center
     # b. top and bottom
     # c. expanded enclosing glyph
 # 5. TCMs
     # LB RB
+    # QUESTION - syntax for TCMs
+        #   TCMStart hj A1 hj TCMEnd
+        #   TCMStart A1 TCMEnd
+        #   A1 TCMPair - this doesn't support extended enclosures
+
 
 class EotHelper:
     def __init__(self, pvar):
@@ -4315,8 +4323,32 @@ class EotHelper:
             lookupObj['name'] = 'extensionbeginouter'
             context = {'left':[],'right':['eob']}
             lookupObj['contexts'].append(context)
-            details = {'sub':['cb'],'target':['cobL']}
+            cartA = ['cb','hwtb','hwttb','hwtbb']
+            cartB = ['cobL','hwtosL','hwtotsL','hwtobsL']
+            i = 0
+            for source in cartA:
+                target = cartB[i]
+                details = {'sub':[source],'target':[target]}
+                lookupObj['details'].append(details)
+                i += 1
+
+            return lookupObj
+        def extensionbegindbl():
+            #Double extension begin - d
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionbegindbl'
+            context = {'left':[],'right':['edb']}
+            lookupObj['contexts'].append(context)
+            details = {'sub':['cb'],'target':['cdbL']}
             lookupObj['details'].append(details)
+            cartA = ['cb','hwtb','hwttb','hwtbb']
+            cartB = ['cdbL','hwtdsL','hwtdtsL','hwtdbsL']
+            i = 0
+            for source in cartA:
+                target = cartB[i]
+                details = {'sub':[source],'target':[target]}
+                lookupObj['details'].append(details)
+                i += 1
 
             return lookupObj
         def extensionbeginfortified():
@@ -4328,16 +4360,6 @@ class EotHelper:
             details = {'sub':['cwb'],'target':['cfbL']}
             lookupObj['details'].append(details)
             details = {'sub':['hwtwb'],'target':['hwbL']}
-            lookupObj['details'].append(details)
-
-            return lookupObj
-        def extensionbegindbl():
-            #Double extension begin - d
-            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'extensionbegindbl'
-            context = {'left':[],'right':['edb']}
-            lookupObj['contexts'].append(context)
-            details = {'sub':['cb'],'target':['cdbL']}
             lookupObj['details'].append(details)
 
             return lookupObj
@@ -4361,8 +4383,14 @@ class EotHelper:
             lookupObj['name'] = 'extensionendouter'
             context = {'left':['eoe'],'right':[]}
             lookupObj['contexts'].append(context)
-            details = {'sub':['ce'],'target':['coeL']}
-            lookupObj['details'].append(details)
+            cartA = ['ce','cre','hwte','hwtte','hwtbe','O33a']
+            cartB = ['coeL','coreL','hwtoeL','hwtoteL','hwtobeL','O33aoeL']
+            i = 0
+            for source in cartA:
+                target = cartB[i]
+                details = {'sub':[source],'target':[target]}
+                lookupObj['details'].append(details)
+                i += 1
 
             return lookupObj
         def extensionenddbl():
@@ -4371,8 +4399,14 @@ class EotHelper:
             lookupObj['name'] = 'extensionenddbl'
             context = {'left':['ede'],'right':[]}
             lookupObj['contexts'].append(context)
-            details = {'sub':['ce'],'target':['cdeL']}
-            lookupObj['details'].append(details)
+            cartA = ['ce','cre','hwte','hwtte','hwtbe','O33a']
+            cartB = ['cdeL','cdreL','hwtdeL','hwtdteL','hwtdbeL','O33adeL']
+            i = 0
+            for source in cartA:
+                target = cartB[i]
+                details = {'sub':[source],'target':[target]}
+                lookupObj['details'].append(details)
+                i += 1
 
             return lookupObj
         def extensionendfortified():
@@ -4789,8 +4823,7 @@ class EotHelper:
         def extensionsout():
             lookupObj = {'feature':'psts','name':'','marks':'SKIP','contexts':[],'details':[]}
             lookupObj['name'] = 'extensionsouter'
-            # lefts = ['eobV','edeV','eseV','cdeL','quadratOuters']
-            lefts = ['eobV','edeV','cdeL','cfeL','quadratOuters']
+            lefts = ['eobV','edeV','cdeL','cdreL','hwtdeL','hwtdteL','hwtdbeL','O33adeL','cfeL','hfeL','quadratOuters']
             for left in lefts:
                 context = {'left': [left], 'right':[]}
                 lookupObj['contexts'].append(context)
