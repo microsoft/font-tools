@@ -2,6 +2,30 @@
 # egyptian opentype generator data
 
 pres = [
+    # Lookup - tcm start
+    {'name' : 'tcm_open', 'marks' : '',
+    'contexts' : [{'left':[],'right':['characters_all']}],
+    'details' : [
+        {'sub':['uni27E8'],'target':['tcab']},
+        {'sub':['bracketleft'],'target':['tcbb']},
+        {'sub':['braceleft'],'target':['tccb']},
+        {'sub':['tophalfbracketL'],'target':['tchb']},
+        {'sub':['uni27EE'],'target':['tcpb']},
+        {'sub':['uni27E6'],'target':['tcrb']},
+        {'sub':['bar'],'target':['tcv']},
+    ]},
+    # Lookup - tcm end
+    {'name' : 'tcm_open', 'marks' : '',
+    'contexts' : [{'left':['characters_all'],'right':[]}],
+    'details' : [
+        {'sub':['uni27E9'],'target':['tcae']},
+        {'sub':['bracketright'],'target':['tcbe']},
+        {'sub':['braceright'],'target':['tcce']},
+        {'sub':['tophalfbracketR'],'target':['tche']},
+        {'sub':['uni27EF'],'target':['tcpe']},
+        {'sub':['uni27E7'],'target':['tcre']},
+        {'sub':['bar'],'target':['tcv']},
+    ]},
     # Lookup - quarter shades
     {'name' : 'quarterShades', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
@@ -100,15 +124,15 @@ pres = [
         {'sub':['be'],'target':['ibe0A']},
         {'sub':['om'],'target':['om0A']}]},
     # DYNAMIC Lookup - populated with r90 values from group data
-    {'name' : 'rninety', 'marks' : '',
+    {'name' : 'rninety', 'marks' : '*rotate_all',
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
     # DYNAMIC Lookup - populated with r180 values from group data
-    {'name' : 'roneeighty', 'marks' : '',
+    {'name' : 'roneeighty', 'marks' : '*rotate_all',
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
     # DYNAMIC Lookup - populated with r90 values from group data
-    {'name' : 'rtwoseventy', 'marks' : '',
+    {'name' : 'rtwoseventy', 'marks' : '*rotate_all',
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
     # DYNAMIC Lookup - populated with tsg values from group data
@@ -127,6 +151,18 @@ pres = [
     {'name' : 'Qi_insert', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [{'sub':['et_all'],'target':['Qi','et_all']}]},
+    # # Lookup - tcm start - MOVED UP
+    # {'name' : 'tcm_open', 'marks' : '',
+    # 'contexts' : [{'left':[],'right':['Qi']}],
+    # 'details' : [{'sub':['bracketleft'],'target':['tcbb']}]},
+    # # Lookup - tcm end
+    # {'name' : 'tcm_open', 'marks' : '',
+    # 'contexts' : [{'left':['Qf'],'right':[]}],
+    # 'details' : [{'sub':['bracketright'],'target':['tcbe']}]},
+    # # DYNAMIC Lookup - populated with tsg values from group data
+    # {'name' : 'tcm', 'marks' : '',
+    # 'contexts' : [{'left':[],'right':[]}],
+    # 'details' : []},
     # Lookup - clean up cleanup glyphs
     {'name' : 'mdcB_cleanup', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],

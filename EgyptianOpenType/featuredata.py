@@ -3,8 +3,11 @@
 
 qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
 	#V2ProtoControls
-	'esb','ese','ewb','ewe','df','mr','r90','r180','r270'
+	'esb','ese','ewb','ewe','df','mr','r90','r180','r270',
 ]
+
+# Egyptian Characters that don't participate in shaping
+punctuation = ['VP']
 
 featurename = {
 	'abvs' : {'prefix':'ab','name':'Above-base Substitutions','type':'GSUB'},
@@ -31,10 +34,10 @@ groupdata = {
 	'colspacers1R' : ['c1s3p0R','c1s2p0R','c1s1p0R','c1s0p5R','c1s0p33R'],
 	'colspacers2' : ['c2s1p0'],
 	'colspacers2R' : ['c2s1p0R'],
-	'color_all' : [],
+	# 'color_all' : [],
 	'controls_a' : ['controls_joiners','ss','se'],
 	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A'],
-	'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn5','mn4','mn3','mn2','mn1','ub','it00','it00a'], #controls not grouped for injection
+	'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn5','mn4','mn3','mn2','mn1','ub','it00','it00a','et06','tsh06'], #controls not grouped for injection
 	'controls_joiners' : ['hj','vj','ts','te','bs','be','om'],
 	'cornerglyphs' : [],
 	'corners' : ['ts','te','bs','be'],
@@ -52,7 +55,8 @@ groupdata = {
 	'deltas_spacers' : ['spacers_deltarows','cs0','rs0'],
 	'deltas_all' : ['dd1','dv0','deltas','th6','th5','th4','th3','th2'],
 	'dCells' : ['dc0','dc1','dc2','dc3','dc4','dc5'],
-	'dq_all' : ['DQ1_1','DQ1_12','DQ1_123','DQ1_1234','DQ1_124','DQ1_13','DQ1_134','DQ1_14','DQ1_2','DQ1_23','DQ1_234','DQ1_24','DQ1_3','DQ1_34','DQ1_4',
+	'dq_all' : ['DQH_1','DQH_12','DQH_123','DQH_1234','DQH_124','DQH_13','DQH_134','DQH_14','DQH_2','DQH_23','DQH_234','DQH_24','DQH_3','DQH_34','DQH_4',
+		'DQ1_1','DQ1_12','DQ1_123','DQ1_1234','DQ1_124','DQ1_13','DQ1_134','DQ1_14','DQ1_2','DQ1_23','DQ1_234','DQ1_24','DQ1_3','DQ1_34','DQ1_4',
 		'DQ2_1','DQ2_12','DQ2_123','DQ2_1234','DQ2_124','DQ2_13','DQ2_134','DQ2_14','DQ2_2','DQ2_23','DQ2_234','DQ2_24','DQ2_3','DQ2_34','DQ2_4',
 		'DQ3_1','DQ3_12','DQ3_123','DQ3_1234','DQ3_124','DQ3_13','DQ3_134','DQ3_14','DQ3_2','DQ3_23','DQ3_234','DQ3_24','DQ3_3','DQ3_34','DQ3_4',
 		'DQ4_1','DQ4_12','DQ4_123','DQ4_1234','DQ4_124','DQ4_13','DQ4_134','DQ4_14','DQ4_2','DQ4_23','DQ4_234','DQ4_24','DQ4_3','DQ4_34','DQ4_4',
@@ -74,10 +78,10 @@ groupdata = {
 	'extensionendsL' : ['cbL','creL','ceL','hwtbL','hwteL','hwttbL','hwtteL','hwtbbL','hwtbeL','cwbL', 'cweL','hfbL','hfeL','O33aeL'],
 	'extensionendsR' : ['cbR','creR','ceR','hwtbR','hwteR','hwttbR','hwtteR','hwtbbR','hwtbeR','cwbR', 'cweR','hfbR','hfeR','O33aeR'],
 	'extensionendsV' : ['cbT','creB','ceB','hwtbT','hwteB','hwttbT','hwtteB','hwtbbT','hwtbeB','cwbT', 'cweB','hfbT','hfeB','O33aeB'],
-	'fillbases' : ['FB1_65','FB1_64','FB1_63','FB1_62','FB1_61','FB1_56','FB1_55','FB1_54','FB1_53','FB1_52','FB1_51','FB1_46','FB1_45','FB1_44','FB1_43','FB1_42','FB1_41','FB1_36','FB1_35','FB1_34','FB1_33','FB1_32','FB1_31','FB1_26','FB1_25','FB1_24','FB1_23','FB1_22','FB1_21','FB1_16','FB1_15','FB1_14','FB1_13','FB1_12','FB1_11'],
+	'fillbases' : ['BF1_65','BF1_64','BF1_63','BF1_62','BF1_61','BF1_56','BF1_55','BF1_54','BF1_53','BF1_52','BF1_51','BF1_46','BF1_45','BF1_44','BF1_43','BF1_42','BF1_41','BF1_36','BF1_35','BF1_34','BF1_33','BF1_32','BF1_31','BF1_26','BF1_25','BF1_24','BF1_23','BF1_22','BF1_21','BF1_16','BF1_15','BF1_14','BF1_13','BF1_12','BF1_11'],
 	'glyphs_all' : ['placeholder'],
 	'groupCounters' : ['grp0','grp1','grp2'],
-	'horizontals2' : ['eh_all','h1','h2','h3','h4','h5','h6','h7','h8'],
+	'horizontals2' : ['eh_all','h1','h2','h3','h4','h5','h6','h7','h8'], # unused, test and remove
 	'insertionmarkers': ['ima','imb','im0'],
 	'insertionsizes1'  : [ 'it11','it12','it13','it14','it15','it16','it21','it22','it23','it24','it25','it26','it31','it32','it33','it34','it35','it36','it41','it42','it43','it44','it45','it46','it51','it52','it53','it54','it55','it56','it61','it62','it63','it64','it65','it66'],
 	'insertionsizes1R' : [ 'it11R' ,'it12R' ,'it13R' ,'it14R' ,'it15R' ,'it16R' ,'it21R' ,'it22R' ,'it23R' ,'it24R' ,'it25R' ,'it26R' ,'it31R' ,'it32R' ,'it33R' ,'it34R' ,'it35R' ,'it36R' ,'it41R' ,'it42R' ,'it43R' ,'it44R' ,'it45R' ,'it46R' ,'it51R' ,'it52R' ,'it53R' ,'it54R' ,'it55R' ,'it56R' ,'it61R' ,'it62R' ,'it63R' ,'it64R' ,'it65R' ,'it66R'],
@@ -105,6 +109,7 @@ groupdata = {
 	'quadratDoublesV'    : ['QD1V','QD2V','QD3V','QD4V','QD5V','QD6V','QD7V','QD8V'],
 	'quadratFortifieds'  : ['QF1', 'QF2', 'QF3', 'QF4', 'QF5', 'QF6', 'QF7', 'QF8'],
 	'quadratFortifiedsV' : ['QF1V','QF2V','QF3V','QF4V','QF5V','QF6V','QF7V','QF8V'],
+	'rotate_all' : ['r90','r180','r270','A1'], # fill dynamically
 	'rowCounter' : ['vj0B','vj1B','vj2B','v0'],
 	'rowmaxes' : ['rm1','rm2','rm3','rm4','rm5','rm6','rm7','rm8','rc0','minsizes'],
 	'rowplus' : ['rp1','rp2','rp3','rp4','rp5'],
@@ -168,14 +173,15 @@ groupdata = {
 	'stems2-vR' : ['r2v1R','r2v2R','r2v3R','r2v4R','r2v5R','r2v6R','r2vbR','rowspacers2R','insertionsizes2R','r2sepR'],
 	'stems_12' : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
-	'targetwidth' : ['trg1','trg2','trg3','trg4','trg5','trg6'],
+	'targetwidth': ['trg1','trg2','trg3','trg4','trg5','trg6'],
+	# 'tcm_all'    : ['tcab','tcae','tcbb','tcbe','tccb','tcce','tchb','tche','tcpb','tcpe','tcrb','tcre','tcv'],
 	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp'],
 	'genericbases' : ['dottedcircle']
 } 
 
 
 # TODO - derive base types from groups
-basetypes = ['dottedcircle',
+basetypes = ['dottedcircle','VP',
     'QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',
     'QC1','QC2','QC3','QC4','QC5','QC6','QC7','QC8',
     'QW1','QW2','QW3','QW4','QW5','QW6','QW7','QW8',
@@ -186,12 +192,13 @@ basetypes = ['dottedcircle',
 	'QO1V','QO2V','QO3V','QO4V','QO5V','QO6V','QO7V','QO8V'
 	'QD1V','QD2V','QD3V','QD4V','QD5V','QD6V','QD7V','QD8V',
     'QF1V','QF2V','QF3V','QF4V','QF5V','QF6V','QF7V','QF8V',
+	'QBH','QCH','QWH','QOH','QDH','QFH',
 	'cbL','creL','ceL','hwtbL','hwteL','hwttbL','hwtteL','hwtbbL','hwtbeL','cwbL', 'cweL','hfbL','hfeL','O33aeL',
 	'cbR','creR','ceR','hwtbR','hwteR','hwttbR','hwtteR','hwtbbR','hwtbeR','cwbR', 'cweR','hfbR','hfeR','O33aeR',
 	'cbT','creB','ceB','hwtbT','hwteB','hwttbT','hwtteB','hwtbbT','hwtbeB','cwbT', 'cweB','hfbT','hfeB','O33aeB',
-	'cdbL','cdreL','cdeL','hwtdsL','hwtdeL','hwtdtsL','hwtdteL','hwtdbsL','hwtdbeL','cfbL', 'cfeL','hfbL','hfeL','O33adeL',
-	'cdbR','cdreR','cdeR','hwtdsR','hwtdeR','hwtdtsR','hwtdteR','hwtdbsR','hwtdbeR','cfbR', 'cfeR','hfbR','hfeR','O33adeR',
-	'cdbT','cdreB','cdeB','hwtdsT','hwtdeB','hwtdtsT','hwtdteB','hwtdbsT','hwtdbeB','cfbT', 'cfeB','hfbT','hfeB','O33adeB',
+	'cdbL','cdreL','cdeL','hwtdsL','hwtdeL','hwtdtsL','hwtdteL','hwtdbsL','hwtdbeL','cfbL', 'cfeL','O33adeL',
+	'cdbR','cdreR','cdeR','hwtdsR','hwtdeR','hwtdtsR','hwtdteR','hwtdbsR','hwtdbeR','cfbR', 'cfeR','O33adeR',
+	'cdbT','cdreB','cdeB','hwtdsT','hwtdeB','hwtdtsT','hwtdteB','hwtdbsT','hwtdbeB','cfbT', 'cfeB','O33adeB',
 	'cobL','coreL','coeL','hwtosL','hwtoeL','hwtotsL','hwtoteL','hwtobsL','hwtobeL','O33aoeL',
 	'cobR','coreR','coeR','hwtosR','hwtoeR','hwtotsR','hwtoteR','hwtobsR','hwtobeR','O33aoeR',
 	'cobT','coreB','coeB','hwtosT','hwtoeB','hwtotsT','hwtoteB','hwtobsT','hwtobeB','O33aoeB',

@@ -12,6 +12,7 @@ from featuredata import featurename
 from featuredata import groupdata
 from featuredata import basetypes
 from featuredata import qcontrols
+from featuredata import punctuation
 from featuredata import internalmirrors
 from featuredata import mirroring
 from insertions import insertions
@@ -31,7 +32,7 @@ ver = 200
     # b. double enclosures
 # 2. Shading
     # a. Fill character
-        # FB1
+        # BF1
     # b. Sign shading
         # df
         # TODO Add cartouche end cap shading
@@ -501,6 +502,15 @@ class EotHelper:
                     subpair = {'sub':[key],'target':[et,tsh,key,'Qf'] }
                     subpairs.append(subpair)
             return subpairs
+        # def loadtcmsubpairs():
+        #     keys = groupdata['tcm_all']
+        #     subpairs = []
+        #     for key in keys:
+        #         et = 'et06'
+        #         tsh = 'tsh06'
+        #         subpair = {'sub':[key],'target':['Qi',et,tsh,key,'Qf'] }
+        #         subpairs.append(subpair)
+        #     return subpairs
         def loadgb1subpairs():
             keys = [
                 'vj0A','hj0A','its0A','ibs0A','ite0A','ibe0A','om0A',
@@ -539,6 +549,9 @@ class EotHelper:
             if (lookupObj['name'] == 'tsg'):#DYNAMIC FEATURE TSG
                 subpairs = loadtsgsubpairs()
                 lookupObj['details'] = subpairs
+            # if (lookupObj['name'] == 'tcm'):#DYNAMIC FEATURE TSG
+            #     subpairs = loadtcmsubpairs()
+            #     lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'gb1'):#DYNAMIC FEATURE GB1
                 subpairs = loadgb1subpairs()
                 lookupObj['details'] = subpairs
@@ -1284,19 +1297,24 @@ class EotHelper:
             mirror     = re.search(r'^[A-Z]+[0-9]+[a-z]?(_[0-9][0-9])?R$',name)
             ninetyC    = re.search(r'^[A-Z]+[0-9]+[a-z]?n$',name)
             ninetyS    = re.search(r'^[A-Z]+[0-9]+[a-z]?n_[0-9][0-9]$',name)
-            oneeightyC  = re.search(r'^[A-Z]+[0-9]+[a-z]?o$',name)
-            oneeightyS  = re.search(r'^[A-Z]+[0-9]+[a-z]?o_[0-9][0-9]$',name)
+            oneeightyC = re.search(r'^[A-Z]+[0-9]+[a-z]?o$',name)
+            oneeightyS = re.search(r'^[A-Z]+[0-9]+[a-z]?o_[0-9][0-9]$',name)
             twoseventyC= re.search(r'^[A-Z]+[0-9]+[a-z]?t$',name)
             twoseventyS= re.search(r'^[A-Z]+[0-9]+[a-z]?t_[0-9][0-9]$',name)
             shade      = re.search(r'^LS_[1-8][1-6]$',name)
             qshade     = re.search(r'DQ[0-9]\_[0-9]+',name)
             ligature   = re.search(r'^lig.*[^R]$',name)
             ligmirror  = re.search(r'^lig.*R$',name)
+            tcm        = re.search(r'^tc[abchpr][be]$',name)
+            tcmvar     = re.search(r'^tc[abchpr][be]_[0-9][0-9]$',name)
+
             if dec > 65535: #mapped SMP characters
                 if name in qcontrols:
                     group = 'Joiner'
                 elif (hieroglyph): #name matches the pattern for a hieroglyph
                     group = 'Chr'
+                elif name in punctuation:
+                    group = 'Cmn'
                 else:    
                     group = 'Chr' #pick up glyphs outside Gardiner set
             elif dec > 0: #mapped BMP characters
@@ -1344,7 +1362,11 @@ class EotHelper:
                 group = 'Mirror'
             elif (ligmirror): #name is a ligature and includes R flag
                 group = 'Mirror'
-            elif (name == ('GB1','FB1','placeholder','dottedcircle')): # treat these as hieroglyphs
+            elif (tcm): #composing text critical mark
+                group = 'Chr'
+            elif (tcmvar): #text critical mark size variant
+                group = 'SVar'
+            elif (name == ('GB1','BF1','BQ1','BS1','placeholder','dottedcircle')): # treat these as hieroglyphs
                 group = 'Chr'
             else: #unmapped control characters for OTL
                 group = 'Ctrl'
@@ -1382,24 +1404,36 @@ class EotHelper:
                 glyph['root'] = name
             if group in ['Chr','Joiner','Mirror','SVar','LigR','LigV']:
                 glyphObj = glyphTable[name]
-                if name[0:2] == 'FB':
-                    if name == 'FB1':
+                if name[0:2] in ['BF','BQ','BS']:
+                    if name == 'BF1':
                         glyph['maxh'] = self.pvar['hfu'] * 6
                         glyph['maxv'] = self.pvar['vfu'] * 6
+                    elif name == 'BQ1':
+                        glyph['maxh'] = self.pvar['hfu'] * 3
+                        glyph['maxv'] = self.pvar['vfu'] * 3
+                    elif name == 'BS1':
+                        glyph['maxh'] = self.pvar['hfu'] * 1
+                        glyph['maxv'] = self.pvar['vfu'] * 1
                     else:
-                        hval = re.sub(r'FB1_(\d)\d',r'\1',name)
-                        vval = re.sub(r'FB1_\d(\d)',r'\1',name)
+                        hval = re.sub(r'B[FQ]1_(\d)\d',r'\1',name)
+                        vval = re.sub(r'B[FQ]1_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
                 else:
-                    glyph['maxh'] = glyphObj.xMax
-                    glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
+                    if hasattr(glyphObj, 'xMax'):
+                        glyph['maxh'] = glyphObj.xMax
+                    else:
+                        print("Error: xMax missing for "+str(glyph['name']))
+                    if hasattr(glyphObj, 'yMax'):
+                        glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
+                    else:
+                        print("Error: yMax missing for "+str(glyph['name']))
             else :
                 glyph['maxh'] = 0
                 glyph['maxv'] = 0
             glyph['ehuh'] = int(math.ceil((float(glyph['maxh'])-self.pvar['issp'])/(float(self.pvar['hfu']))))
             if glyph['ehuh'] > self.pvar['hhu']:
-                self.errors.append('Too wide [eh104]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuh'])+'.')
+                self.errors.append('Too wide [eh104]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuh'])+'.')           
             glyph['ehuv'] = int(math.ceil((float(glyph['maxv'])-self.pvar['issp'])/(float(self.pvar['vfu']))))
             if glyph['ehuv'] > self.pvar['vhu']:
                 if glyph['name'] not in qcontrols:
@@ -1413,7 +1447,7 @@ class EotHelper:
                     glyph['root'] = root
                 ehv = str(glyph['ehuh']) + str(glyph['ehuv'])
                 if namedsize != ehv:
-                    self.errors.append('Wrong size [eh112]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+ehv+'.')
+                    self.errors.append('Wrong size [eh1450]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+ehv+'.')
 
             self.glyphdata[name] = glyph
     def loadgroups(self):
@@ -4810,6 +4844,13 @@ class EotHelper:
             lookupObjs.append(lookupObj)
 
             return lookupObjs
+        # def tcmbases():
+        #     lookupObj = {'feature':'psts','tcmbases':'','marks':'','contexts':[],'details':[]}
+        #     lookupObj['name'] = 'cleanup'
+        #     details = {'sub':['VP'],'target':['QB2','VP']}
+        #     lookupObj['details'].append(details)
+
+        #     return lookupObj
         def extensionswap():
             #Swap extension beginnings before a quadrat
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -4972,6 +5013,7 @@ class EotHelper:
         lines.extend(self.writefeature(tartgetSizes()))
         lines.extend(self.writefeature(targetglyphs()))
         lookupObjs = placeholderglyphs()
+        # lookupObjs = tcmbases()
         for lookupObj in lookupObjs:
             lines.append(self.writefeature(lookupObj))
         if self.pvar['extensions']:
