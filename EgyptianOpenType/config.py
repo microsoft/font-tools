@@ -46,5 +46,5 @@ pvar = {
     'fortified' : 1,
     'mirror' : 1,
     # 'test' : {'font':1,'gdef':1,'groups':1,'haln':1,'pres':1,'abvs':0,'blws':0,'rlig':1,'psts':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':1}
-    'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
+    'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }
