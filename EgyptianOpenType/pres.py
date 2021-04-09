@@ -3,29 +3,30 @@
 
 pres = [
     # Lookup - tcm start
-    {'name' : 'tcm_open', 'marks' : '',
-    'contexts' : [{'left':[],'right':['characters_all']}],
-    'details' : [
-        {'sub':['uni27E8'],'target':['tcab']},
-        {'sub':['bracketleft'],'target':['tcbb']},
-        {'sub':['braceleft'],'target':['tccb']},
-        {'sub':['tophalfbracketL'],'target':['tchb']},
-        {'sub':['uni27EE'],'target':['tcpb']},
-        {'sub':['uni27E6'],'target':['tcrb']},
-        {'sub':['bar'],'target':['tcv']},
-    ]},
+    # TODO: Move these substitutions to the Default langauge
+    # {'name' : 'tcm_open', 'marks' : '',
+    # 'contexts' : [{'left':[],'right':['characters_latn']}],
+    # 'details' : [
+    #     {'sub':['uni27E8'],'target':['uni27E8.latn']},
+    #     {'sub':['bracketleft'],'target':['bracketleft.latn']},
+    #     {'sub':['braceleft'],'target':['braceleft.latn']},
+    #     {'sub':['tophalfbracketL'],'target':['tophalfbracketL.latn']},
+    #     {'sub':['uni27EE'],'target':['uni27EE.latn']},
+    #     {'sub':['uni27E6'],'target':['uni27E6.latn']},
+    #     {'sub':['bar'],'target':['bar.latn']},
+    # ]},
     # Lookup - tcm end
-    {'name' : 'tcm_open', 'marks' : '',
-    'contexts' : [{'left':['characters_all'],'right':[]}],
-    'details' : [
-        {'sub':['uni27E9'],'target':['tcae']},
-        {'sub':['bracketright'],'target':['tcbe']},
-        {'sub':['braceright'],'target':['tcce']},
-        {'sub':['tophalfbracketR'],'target':['tche']},
-        {'sub':['uni27EF'],'target':['tcpe']},
-        {'sub':['uni27E7'],'target':['tcre']},
-        {'sub':['bar'],'target':['tcv']},
-    ]},
+    # {'name' : 'tcm_open', 'marks' : '',
+    # 'contexts' : [{'left':['characters_latn'],'right':[]}],
+    # 'details' : [
+    #     {'sub':['uni27E9'],'target':['uni27E9.latn']},
+    #     {'sub':['bracketright'],'target':['bracketright.latn']},
+    #     {'sub':['braceright'],'target':['braceright.latn']},
+    #     {'sub':['tophalfbracketR'],'target':['tophalfbracketR.latn']},
+    #     {'sub':['uni27EF'],'target':['uni27EF.latn']},
+    #     {'sub':['uni27E7'],'target':['tcuni27E7re.latn']},
+    #     {'sub':['bar'],'target':['bar.latn']},
+    # ]},
     # Lookup - quarter shades
     {'name' : 'quarterShades', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
@@ -107,7 +108,8 @@ pres = [
         {'sub':['bs'],'target':['ibs1A']},
         {'sub':['te'],'target':['ite1A']},
         {'sub':['be'],'target':['ibe1A']},
-        {'sub':['om'],'target':['om1A']}]},
+        {'sub':['om'],'target':['om1A']},
+        {'sub':['im'],'target':['im1A']}]},
     # Lookup - merge level 1 embedding controls
     {'name' : 'mdcBE_merge1', 'marks' : 'controls_a',
     'contexts' : [{'left':[],'right':[]}],
@@ -122,7 +124,8 @@ pres = [
         {'sub':['bs'],'target':['ibs0A']},
         {'sub':['te'],'target':['ite0A']},
         {'sub':['be'],'target':['ibe0A']},
-        {'sub':['om'],'target':['om0A']}]},
+        {'sub':['om'],'target':['om0A']},
+        {'sub':['im'],'target':['im0A']}]},
     # DYNAMIC Lookup - populated with r90 values from group data
     {'name' : 'rninety', 'marks' : '*rotate_all',
     'contexts' : [{'left':[],'right':[]}],
@@ -297,11 +300,13 @@ pres = [
         {'sub':['ite0A'],'target':['ite0B','it00a']},
         {'sub':['ibe0A'],'target':['ibe0B','it00a']},
         {'sub':['om0A'], 'target':['om0B' ,'it00a']},
+        {'sub':['im0A'], 'target':['im0B' ,'it00a']},
         {'sub':['its1A'],'target':['its1B','it00a']},
         {'sub':['ibs1A'],'target':['ibs1B','it00a']},
         {'sub':['ite1A'],'target':['ite1B','it00a']},
         {'sub':['ibe1A'],'target':['ibe1B','it00a']},
         {'sub':['om1A'], 'target':['om1B' ,'it00a']},
+        {'sub':['im1A'], 'target':['im1B' ,'it00a']},
     ]},
     # Lookup - unbalanced embedding 
     {'name' : 'unbal-embedding', 'marks' : '',

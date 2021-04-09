@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # egyptian opentype generator data
 
-qcontrols = ['vj','hj','ts','bs','te','be','om','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
+qcontrols = ['vj','hj','ts','bs','te','be','om','im','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
 	#V2ProtoControls
 	'esb','ese','ewb','ewe','df','mr','r90','r180','r270',
 ]
@@ -36,16 +36,16 @@ groupdata = {
 	'colspacers2R' : ['c2s1p0R'],
 	# 'color_all' : [],
 	'controls_a' : ['controls_joiners','ss','se'],
-	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A'],
+	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A','im0A','im1A'],
 	'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn5','mn4','mn3','mn2','mn1','ub','it00','it00a','et06','tsh06'], #controls not grouped for injection
-	'controls_joiners' : ['hj','vj','ts','te','bs','be','om'],
+	'controls_joiners' : ['hj','vj','ts','te','bs','be','om','im'],
 	'cornerglyphs' : [],
 	'corners' : ['ts','te','bs','be'],
-	'corners0a' : ['its0A','ibs0A','ite0A','ibe0A','om0A'],
-	'corners0b' : ['its0B','ibs0B','ite0B','ibe0B','om0B'],
+	'corners0a' : ['its0A','ibs0A','ite0A','ibe0A','om0A','im0A'],
+	'corners0b' : ['its0B','ibs0B','ite0B','ibe0B','om0B','im0B'],
 	'corners0bNotOM' : ['its0B','ibs0B','ite0B','ibe0B'],
-	'corners1a' : ['its1A','ibs1A','ite1A','ibe1A','om1A'],
-	'corners1b' : ['its1B','ibs1B','ite1B','ibe1B','om1B'],
+	'corners1a' : ['its1A','ibs1A','ite1A','ibe1A','om1A','im1A'],
+	'corners1b' : ['its1B','ibs1B','ite1B','ibe1B','om1B','im1B'],
 	'corners1bNotOM' : ['its1B','ibs1B','ite1B','ibe1B'],
 	'counters_h' : ['ch0','ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8','ch9','ch10','ch11','ch12','ch13','ch14','ch15','ch16','ch17','ch18','ch19','ch20','ch21','ch22','ch23','ch24','ch25','ch26','ch27','ch28','ch29','ch30','ch31','ch32','ch33','ch34','ch35','ch36','chb'],
 	'counters_v' : ['cv0','cv1','cv2','cv3','cv4','cv5','cv6','cv7','cv8','cv9','cv10','cv11','cv12','cv13','cv14','cv15','cv16','cv17','cv18','cv19','cv20','cv21','cv22','cv23','cv24','cv25','cv26','cv27','cv28','cv29','cv30','cv31','cv32','cv33','cv34','cv35','cv36','cvb'],
@@ -133,15 +133,17 @@ groupdata = {
 	'shapes_te' : ['te66','te65','te64','te63','te62','te56','te55','te54','te53','te52','te46','te45','te44','te43','te42','te36','te35','te34','te33','te32','te26','te25','te24','te23','te22'],
 	'shapes_be' : ['be66','be65','be64','be63','be62','be56','be55','be54','be53','be52','be46','be45','be44','be43','be42','be36','be35','be34','be33','be32','be26','be25','be24','be23','be22'],
 	'shapes_om' : ['om66','om65','om64','om63','om62','om61','om56','om55','om54','om53','om52','om51','om46','om45','om44','om43','om42','om41','om36','om35','om34','om33','om32','om31','om26','om25','om24','om23','om22','om21','om16','om15','om14','om13','om12','om11'],
+	'shapes_mm' : ['mm66','mm65','mm64','mm63','mm62','mm61','mm56','mm55','mm54','mm53','mm52','mm51','mm46','mm45','mm44','mm43','mm42','mm41','mm36','mm35','mm34','mm33','mm32','mm31','mm26','mm25','mm24','mm23','mm22','mm21','mm16','mm15','mm14','mm13','mm12','mm11'],
 	'shapes_ts2' : ['ts266','ts265','ts264','ts263','ts262','ts256','ts255','ts254','ts253','ts252','ts246','ts245','ts244','ts243','ts242','ts236','ts235','ts234','ts233','ts232','ts226','ts225','ts224','ts223','ts222'],
 	'shapes_bs2' : ['bs266','bs265','bs264','bs263','bs262','bs256','bs255','bs254','bs253','bs252','bs246','bs245','bs244','bs243','bs242','bs236','bs235','bs234','bs233','bs232','bs226','bs225','bs224','bs223','bs222'],
 	'shapes_te2' : ['te266','te265','te264','te263','te262','te256','te255','te254','te253','te252','te246','te245','te244','te243','te242','te236','te235','te234','te233','te232','te226','te225','te224','te223','te222'],
 	'shapes_be2' : ['be266','be265','be264','be263','be262','be256','be255','be254','be253','be252','be246','be245','be244','be243','be242','be236','be235','be234','be233','be232','be226','be225','be224','be223','be222'],
 	'shapes_om2' : ['om266','om265','om264','om263','om262','om261','om256','om255','om254','om253','om252','om251','om246','om245','om244','om243','om242','om241','om236','om235','om234','om233','om232','om231','om226','om225','om224','om223','om222','om221','om216','om215','om214','om213','om212','om211'],
+	'shapes_mm2' : ['mm266','mm265','mm264','mm263','mm262','mm261','mm256','mm255','mm254','mm253','mm252','mm251','mm246','mm245','mm244','mm243','mm242','mm241','mm236','mm235','mm234','mm233','mm232','mm231','mm226','mm225','mm224','mm223','mm222','mm221','mm216','mm215','mm214','mm213','mm212','mm211'],
 	'shapes_corners_1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be'],
-	'shapes_cornersom_1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','shapes_om'],
+	'shapes_cornersom_1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','shapes_om','shapes_mm'],
 	'shapes_corners_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2'],
-	'shapes_cornersom_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2'],
+	'shapes_cornersom_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2','shapes_mm2'],
 	'shapes_df' : ['df86','df76','df66','df65','df64','df63','df62','df61','df56','df55','df54','df53','df52','df51','df46','df45','df44','df43','df42','df41','df36','df35','df34','df33','df32','df31','df26','df25','df24','df23','df22','df21','df16','df15','df14','df13','df12','df11'],
 	'shadesmkmk' : ['m0','shapes_df'],
 	# Unbalanced shapes are used in corner insertions and need to be split so they can be reversed for RTL in mkmk

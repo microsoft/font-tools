@@ -27,7 +27,6 @@ ver = 200
 # 1. Enclosures 
     # a. invoke with control
         # esb, ese, ewb, ewe;
-        # TODO make end control visible if extension not active
         # TODO remove visible end control for shaded preceding
     # b. double enclosures
 # 2. Shading
@@ -38,17 +37,13 @@ ver = 200
         # TODO Add cartouche end cap shading
     # c. Corner shading
         # sts, sbs, ste, sbe
-        # TODO add /12 keyboard support
-        # QUESTION - should shade include vertical height of enclosing lines
 # 3. Mirroring and rotation
     # a. Mirror
         # MR
     # b. Rotation
         # R90, R180, R270
-        # TODO sample legs rotation, M17 rotation
     # c. Mirror and rotation
         # MR R90, MR R180, MR R270
-        # NOTE - Always rotation control before mirror control
 # 4. Middle insertion
     # a. center
     # b. top and bottom
