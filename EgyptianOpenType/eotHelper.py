@@ -66,6 +66,9 @@ class EotHelper:
         self.bssizes = self.loadInsertionSizes('bs')
         self.tesizes = self.loadInsertionSizes('te')
         self.besizes = self.loadInsertionSizes('be')
+        self.misizes = self.loadInsertionSizes('mi')
+        self.tisizes = self.loadInsertionSizes('ti')
+        self.bisizes = self.loadInsertionSizes('bi')
         self.definssizes = self.loadDefInsertionSizes()
         self.abvslines = []
         self.blwslines = []
@@ -370,7 +373,7 @@ class EotHelper:
     def loadDefInsertionSizes(self):
         def getcontextsforsize(size):
             contexts = []
-            inscontrols = ['ts','bs','te','be']
+            inscontrols = ['ts','bs','te','be','mi'] #,'ti','bi'
             for ic in inscontrols:
                 hs = int(size[0:1])
                 vs = int(size[1:])
@@ -1098,6 +1101,12 @@ class EotHelper:
         group = 'stems2-vR'
         details = {'aname':'MARK_left','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'shapes_mi'
+        details = {'aname':'MARK_left','xtype':'ZERO','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_mi2'
+        details = {'aname':'MARK_left','xtype':'ZERO','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'shapes_0'
         details = {'aname':'left','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
@@ -1183,6 +1192,19 @@ class EotHelper:
 
         # center        
         preformatanchor('MARK_center','m0','ZERO','ZERO')
+
+        group = 'insertionsizes1'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes1R'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes2'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes2R'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'shapes_om'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
@@ -1216,6 +1238,12 @@ class EotHelper:
         anchorgroup(group,[group],details)
         group = 'shapes_u'
         details = {'aname':'center','xtype':'XMID','ytype':'YMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_mi'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_mi2'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_om'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
@@ -2321,7 +2349,7 @@ class EotHelper:
                 # ibs0B sh5 sv6 -> bs56
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'insertsize'
-                prefix = ['ts','bs','te','be','om']
+                prefix = ['ts','bs','te','be','mi','om']
                 pad = ''
                 if level == 2:
                     pad = '2'
@@ -2446,6 +2474,52 @@ class EotHelper:
                             lookupObj['details'].append(details)
                             objs.append(lookupObj)
                 return objs
+            def insertionsize():
+                # rules to specify the available middle insertion size per glyph
+                # only one middle insertion per glyph
+                # specify mark filtering set *multicorners{LEVEL} for im
+                def fixcontextforlevel(clist):
+                    cval = clist[1]
+                    cval = re.sub(r'([mtb]i)',r'\1_',cval)
+                    clist[1] = re.sub('_','2',cval)
+                    return clist
+                def derivecontexts(left,ic):
+                    derivedlist = []
+                    derivedlist.append({'left':left,'right':[]})
+
+                    return derivedlist
+                def loadinssizes(ic):
+                    if ic == 'mi':
+                        inssizes = self.misizes
+                    if ic == 'ti':
+                        inssizes = self.tisizes
+                    if ic == 'bi':
+                        inssizes = self.bisizes
+                    return inssizes
+                objs = []
+                prfx = 'it'
+                if level == 2:
+                    prfx += '2'
+                for ic in ['mi']: #['mi','ti','bi']
+                    inssizes = loadinssizes(ic)
+                    for target in sorted(inssizes):
+                        contexts = inssizes[target]
+
+                        if len(contexts) > 0:
+                            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                            lookupObj['name'] = 'perglyphsize_'+ic+'_'+target
+                            for context in contexts:
+                                if level == 2:
+                                    context = fixcontextforlevel(context)
+
+                                clist = derivecontexts(context, ic)
+                                for item in clist:
+                                    lookupObj['contexts'].append(item)
+
+                            details = {'sub':['it00'],'target':[prfx+target]}
+                            lookupObj['details'].append(details)
+                            objs.append(lookupObj)
+                return objs
             def defaultomsize():
                 # it00 -> it66
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -2462,7 +2536,7 @@ class EotHelper:
                 # rules to specify the default available insertion size per insertion size
                 def fixcontextforlevel(clist):
                     cval = clist[0]
-                    cval = re.sub(r'([tb][se])',r'\1_',cval)
+                    cval = re.sub(r'([tbm][sei])',r'\1_',cval)
                     clist[0] = re.sub('_','2',cval)
                     return clist
                 objs = []
@@ -2491,6 +2565,7 @@ class EotHelper:
             lookupObjs.extend(copytargetsizeV())
             lookupObjs.append(cornersizes())
             lookupObjs.extend(perglyphsizes())
+            lookupObjs.extend(insertionsize())
             lookupObjs.append(defaultomsize())
             lookupObjs.extend(defaultinsertionsizes())
 
@@ -4606,7 +4681,7 @@ class EotHelper:
                 #it{1-6}{1-6} -> it2$1$2
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'lvl2insertionsizes'
-                contexts = ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2']
+                contexts = ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_mi2','shapes_om2']
                 for value in contexts:
                     context = {'left':[value],'right':[]}
                     lookupObj['contexts'].append(context)
