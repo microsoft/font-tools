@@ -124,8 +124,18 @@ groupdata = {
 	'shapes_0' : ['o86','o85','o84','o83','o82','o81','o76','o75','o74','o73','o72','o71','o66','o65','o64','o63','o62','o61','o56','o55','o54','o53','o52','o51','o46','o45','o44','o43','o42','o41','o36','o35','o34','o33','o32','o31','o26','o25','o24','o23','o22','o21','o16','o15','o14','o13','o12','o11'],
 	'shapes_1' : ['s66','s65','s64','s63','s62','s61','s56','s55','s54','s53','s52','s51','s46','s45','s44','s43','s42','s41','s36','s35','s34','s33','s32','s31','s26','s25','s24','s23','s22','s21','s16','s15','s14','s13','s12','s11'],
 	'shapes_2' : ['i66','i65','i64','i63','i62','i61','i56','i55','i54','i53','i52','i51','i46','i45','i44','i43','i42','i41','i36','i35','i34','i33','i32','i31','i26','i25','i24','i23','i22','i21','i16','i15','i14','i13','i12','i11'],
-	'shapeinsertions0' : ['shapes_0','ih0','iv0','shapes_ts','shapes_bs','shapes_te','shapes_be','shapes_mi','shapes_om'],
-	'shapeinsertions1' : ['shapes_1','shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_mi2','shapes_om2'], # ih0 and iv0 not included. . .
+	'shape_ins0_ts' : ['shapes_0','ih0','iv0','shapes_ts'], # include bs,te,be to force order
+	'shape_ins0_bs' : ['shapes_0','ih0','iv0','shapes_bs'], # include te,be to force order
+	'shape_ins0_te' : ['shapes_0','ih0','iv0','shapes_te'], # include be to force order
+	'shape_ins0_be' : ['shapes_0','ih0','iv0','shapes_be'],
+	'shape_ins0_om' : ['shapes_0','ih0','iv0','shapes_om'],
+	'shape_ins0_mi' : ['shapes_0','ih0','iv0','shapes_mi'],
+	'shape_ins1_ts' : ['shapes_0','shapes_ts2'], # ih0 and iv0 not included. . .
+	'shape_ins1_bs' : ['shapes_0','shapes_bs2'],
+	'shape_ins1_te' : ['shapes_0','shapes_te2'],
+	'shape_ins1_be' : ['shapes_0','shapes_be2'],
+	'shape_ins1_om' : ['shapes_0','shapes_om2'],
+	'shape_ins1_mi' : ['shapes_0','shapes_mi2'],
 	'insertionsizes' : ['ih1','ih2','ih3','ih4','ih5','ih6','iv2','iv3','iv4','iv5','iv6'],
 	'shapes_insert0_POS' : ['o66','o65','o64','o63','o62','o56','o55','o54','o53','o52','o46','o45','o44','o43','o42','o36','o35','o34','o33','o32','o26','o25','o24','o23','o22'],
 	'shapes_ts' : ['ts66','ts65','ts64','ts63','ts62','ts56','ts55','ts54','ts53','ts52','ts46','ts45','ts44','ts43','ts42','ts36','ts35','ts34','ts33','ts32','ts26','ts25','ts24','ts23','ts22'],

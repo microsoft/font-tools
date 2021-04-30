@@ -8,7 +8,7 @@ pres = [
     # 'contexts' : [{'left':[],'right':['characters_latn']}],
     # 'details' : [
     #     {'sub':['uni27E8'],'target':['uni27E8.latn']},
-    #     {'sub':['bracketleft'],'target':['bracketleft.latn']},
+    #     {'sub':['tcbb'],'target':['bracketleft.latn']},
     #     {'sub':['braceleft'],'target':['braceleft.latn']},
     #     {'sub':['tophalfbracketL'],'target':['tophalfbracketL.latn']},
     #     {'sub':['uni27EE'],'target':['uni27EE.latn']},
@@ -20,7 +20,7 @@ pres = [
     # 'contexts' : [{'left':['characters_latn'],'right':[]}],
     # 'details' : [
     #     {'sub':['uni27E9'],'target':['uni27E9.latn']},
-    #     {'sub':['bracketright'],'target':['bracketright.latn']},
+    #     {'sub':['tcbe'],'target':['bracketright.latn']},
     #     {'sub':['braceright'],'target':['braceright.latn']},
     #     {'sub':['tophalfbracketR'],'target':['tophalfbracketR.latn']},
     #     {'sub':['uni27EF'],'target':['uni27EF.latn']},
@@ -109,7 +109,7 @@ pres = [
         {'sub':['te'],'target':['ite1A']},
         {'sub':['be'],'target':['ibe1A']},
         {'sub':['om'],'target':['om1A']},
-        {'sub':['im'],'target':['im1A']}]},
+        {'sub':['mi'],'target':['mi1A']}]},
     # Lookup - merge level 1 embedding controls
     {'name' : 'mdcBE_merge1', 'marks' : 'controls_a',
     'contexts' : [{'left':[],'right':[]}],
@@ -125,7 +125,7 @@ pres = [
         {'sub':['te'],'target':['ite0A']},
         {'sub':['be'],'target':['ibe0A']},
         {'sub':['om'],'target':['om0A']},
-        {'sub':['im'],'target':['im0A']}]},
+        {'sub':['mi'],'target':['mi0A']}]},
     # DYNAMIC Lookup - populated with r90 values from group data
     {'name' : 'rninety', 'marks' : '*rotate_all',
     'contexts' : [{'left':[],'right':[]}],
@@ -300,13 +300,13 @@ pres = [
         {'sub':['ite0A'],'target':['ite0B','it00a']},
         {'sub':['ibe0A'],'target':['ibe0B','it00a']},
         {'sub':['om0A'], 'target':['om0B' ,'it00a']},
-        {'sub':['im0A'], 'target':['im0B' ,'it00a']},
+        {'sub':['mi0A'], 'target':['mi0B' ,'it00a']},
         {'sub':['its1A'],'target':['its1B','it00a']},
         {'sub':['ibs1A'],'target':['ibs1B','it00a']},
         {'sub':['ite1A'],'target':['ite1B','it00a']},
         {'sub':['ibe1A'],'target':['ibe1B','it00a']},
         {'sub':['om1A'], 'target':['om1B' ,'it00a']},
-        {'sub':['im1A'], 'target':['im1B' ,'it00a']},
+        {'sub':['mi1A'], 'target':['mi1B' ,'it00a']},
     ]},
     # Lookup - unbalanced embedding 
     {'name' : 'unbal-embedding', 'marks' : '',

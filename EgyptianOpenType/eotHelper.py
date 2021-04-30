@@ -1036,9 +1036,9 @@ class EotHelper:
         group = 'shapes_om2'
         details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'insertionsizes1R'
-        details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
-        anchorgroup(group,[group],details)
+        # group = 'insertionsizes1R'
+        # details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        # anchorgroup(group,[group],details)
 
         # left
         group = 'stems0-hR'
@@ -1123,72 +1123,101 @@ class EotHelper:
         anchorgroup(group,[group],details)
 
         # ibs
-        group = 'insertionsizes1'
-        details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes1R'
-        details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes2'
-        details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes2R'
-        details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
+        # group = 'insertionsizes1'
+        # details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes1R'
+        # details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes2'
+        # details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes2R'
+        # details = {'aname':'MARK_bs','xtype':'ZERO','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'shapes_0'
+        # details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'shapes_1'
+        # details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        # anchorgroup(group,[group],details)
+
+        for glyph in groupdata['shapes_0']:
+            preformatanchor('bs',glyph,'ZERO','NYUNIT')
+            preformatanchor('te',glyph,'XSUNIT','ZERO')
+            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
+        for glyph in groupdata['shapes_1']:
+            preformatanchor('bs',glyph,'ZERO','NYUNIT')
+            preformatanchor('te',glyph,'XSUNIT','ZERO')
+            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
+
         for glyph in groupdata['shapes_bs']:
-            preformatanchor('bs',glyph,'ZERO','NYUNIT')
-            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
+            preformatanchor('MARK_bs',glyph,'ZERO','NYUNIT')
+            preformatanchor('MARK_be',glyph,'XSUNIT','NYUNIT') # RTL
         for glyph in groupdata['shapes_bs2']:
-            preformatanchor('bs',glyph,'ZERO','NYUNIT')
-            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
+            preformatanchor('MARK_bs',glyph,'ZERO','NYUNIT')
+            preformatanchor('MARK_be',glyph,'XSUNIT','NYUNIT') # RTL
+
+        for glyph in groupdata['shapes_te']:
+            preformatanchor('MARK_te',glyph,'XSUNIT','ZERO')
+            preformatanchor('MARK_ts',glyph,'ZERO','ZERO') # RTL
+        for glyph in groupdata['shapes_te2']:
+            preformatanchor('MARK_te',glyph,'XSUNIT','ZERO')
+            preformatanchor('MARK_ts',glyph,'ZERO','ZERO') # RTL
+        for glyph in groupdata['shapes_be']:
+            preformatanchor('MARK_be',glyph,'XSUNIT','NYUNIT')
+            preformatanchor('MARK_bs',glyph,'ZERO','NYUNIT') # RTL
+        for glyph in groupdata['shapes_be2']:
+            preformatanchor('MARK_be',glyph,'XSUNIT','NYUNIT')
+            preformatanchor('MARK_bs',glyph,'ZERO','NYUNIT') # RTL
 
         # ite
-        group = 'insertionsizes1'
-        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes1R'
-        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes2'
-        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes2R'
-        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'shapes_u'
-        details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'YUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        for glyph in groupdata['shapes_te']:
-           preformatanchor('te',glyph,'XSUNIT','ZERO')
-        for glyph in groupdata['shapes_te2']:
-           preformatanchor('te',glyph,'XSUNIT','ZERO')
-        for glyph in groupdata['shapes_ts']:
-           preformatanchor('te',glyph,'XSUNIT','ZERO')
-        for glyph in groupdata['shapes_ts2']:
-           preformatanchor('te',glyph,'XSUNIT','ZERO')
+        # group = 'insertionsizes1'
+        # details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes1R'
+        # details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes2'
+        # details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes2R'
+        # details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'shapes_u'
+        # details = {'aname':'MARK_te','xtype':'XSUNIT','ytype':'YUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # for glyph in groupdata['shapes_te']:
+        #    preformatanchor('te',glyph,'XSUNIT','ZERO')
+        # for glyph in groupdata['shapes_te2']:
+        #    preformatanchor('te',glyph,'XSUNIT','ZERO')
+        # for glyph in groupdata['shapes_ts']:
+        #    preformatanchor('te',glyph,'XSUNIT','ZERO')
+        # for glyph in groupdata['shapes_ts2']:
+        #    preformatanchor('te',glyph,'XSUNIT','ZERO')
 
         # ibe
-        group = 'insertionsizes1'
-        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes1R'
-        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes2'
-        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'insertionsizes2R'
-        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
-        anchorgroup(group,[group],details)
-        group = 'shapes_u'
-        details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
-        anchorgroup(group,[group],details)
-        for glyph in groupdata['shapes_be']:
-            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
-            preformatanchor('bs',glyph,'ZERO','NYUNIT')
-        for glyph in groupdata['shapes_be2']:
-            preformatanchor('be',glyph,'XSUNIT','NYUNIT')
-            preformatanchor('bs',glyph,'ZERO','NYUNIT')
+        # group = 'insertionsizes1'
+        # details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes1R'
+        # details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes2'
+        # details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'insertionsizes2R'
+        # details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'NYUNIT','recursive':0}
+        # anchorgroup(group,[group],details)
+        # group = 'shapes_u'
+        # details = {'aname':'MARK_be','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        # anchorgroup(group,[group],details)
+        # for glyph in groupdata['shapes_be']:
+        #     preformatanchor('MARK_be',glyph,'XSUNIT','NYUNIT')
+        #     preformatanchor('MARK_bs',glyph,'ZERO','NYUNIT') #RTL be
+        # for glyph in groupdata['shapes_be2']:
+        #     preformatanchor('MARK_be',glyph,'XSUNIT','NYUNIT')
+        #     preformatanchor('MARK_bs',glyph,'ZERO','NYUNIT') #RTL be
 
         # center        
         preformatanchor('MARK_center','m0','ZERO','ZERO')
@@ -1196,19 +1225,25 @@ class EotHelper:
         group = 'insertionsizes1'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'insertionsizes1R'
-        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
-        anchorgroup(group,[group],details)
+        # group = 'insertionsizes1R'
+        # details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        # anchorgroup(group,[group],details)
         group = 'insertionsizes2'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'insertionsizes2R'
-        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
-        anchorgroup(group,[group],details)
+        # group = 'insertionsizes2R'
+        # details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        # anchorgroup(group,[group],details)
         group = 'shapes_om'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_om2'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_mi'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_mi2'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_u'
@@ -1239,16 +1274,40 @@ class EotHelper:
         group = 'shapes_u'
         details = {'aname':'center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'shapes_mi'
+        group = 'shapes_ts'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'shapes_mi2'
+        group = 'shapes_bs'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_te'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_be'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_om'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'shapes_mi'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_ts2'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_bs2'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_te2'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_be2'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'shapes_om2'
+        details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_mi2'
         details = {'aname':'center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'genericbases'
