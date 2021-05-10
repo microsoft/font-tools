@@ -24,26 +24,6 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # version 2 requirements
-# 1. Enclosures 
-    # a. invoke with control
-        # esb, ese, ewb, ewe;
-        # TODO remove visible end control for shaded preceding
-    # b. double enclosures
-# 2. Shading
-    # a. Fill character
-        # BF1
-    # b. Sign shading
-        # df
-        # TODO Add cartouche end cap shading
-    # c. Corner shading
-        # sts, sbs, ste, sbe
-# 3. Mirroring and rotation
-    # a. Mirror
-        # MR
-    # b. Rotation
-        # R90, R180, R270
-    # c. Mirror and rotation
-        # MR R90, MR R180, MR R270
 # 4. Middle insertion
     # a. center
     # b. top and bottom
@@ -59,16 +39,10 @@ ver = 200
 class EotHelper:
     def __init__(self, pvar):
         """Intialize the Egyptian OpenType helper class with config variable."""
-        print(sys.version)
+        # print(sys.version)
 
         self.pvar = pvar
-        self.tssizes = self.loadInsertionSizes('ts')
-        self.bssizes = self.loadInsertionSizes('bs')
-        self.tesizes = self.loadInsertionSizes('te')
-        self.besizes = self.loadInsertionSizes('be')
-        self.misizes = self.loadInsertionSizes('mi')
-        self.tisizes = self.loadInsertionSizes('ti')
-        self.bisizes = self.loadInsertionSizes('bi')
+        self.loadInsertionContextsAndGroups()
         self.definssizes = self.loadDefInsertionSizes()
         self.abvslines = []
         self.blwslines = []
@@ -316,9 +290,72 @@ class EotHelper:
         self.writeTestFile(self.testfile)
         return
 
+    def loadInsertionContextsAndGroups(self):
+        def loadbases(ins):
+            def testbase(map,ins):
+                if ins in nonadjs:
+                    array = [ins]
+                else:
+                    array = adjs
+
+                test = False
+                for key in array:
+                    if key in map:
+                        test = True
+                return test
+
+            truekeys = []
+            for key in insertions:
+                perglyphmap = insertions[key]
+                if testbase(perglyphmap,ins):
+                    if key not in truekeys:
+                        truekeys.append(key)
+            return truekeys
+        def loadMappings(ins):
+            if ins in nonadjs:
+                array = [ins]
+            else:
+                array = adjs
+
+            mappings = {}
+            for key in sorted(insertions):
+                values = insertions[key]
+
+                keyset = {}
+                for k in array:
+                    if k in values:
+                        keyset[k] = values[k]
+
+                        valkey = hash(tuple(keyset))
+                        if valkey not in mappings:
+                            mappings[valkey] = [values]
+                            # Getting too many keys in the set of values for the 
+                            mappings[valkey].append(key)
+                        else:
+                            mappings[valkey].append(key)
+
+            return mappings
+        def getinsertionObj(ins):
+            # knownmappings = {}
+
+            retobj = []
+            retobj.append(loadbases(ins))
+            retobj.append(loadMappings(ins))
+
+            return retobj
+
+        self.insertionmappings = {'ad':[],'bs':[],'te':[],'be':[]}
+        adjs = ['ts','ti','mi','bi']
+        nonadjs = ['bs','te','be']
+
+        for ins in self.insertionmappings:
+            self.insertionmappings[ins] = getinsertionObj(ins)            
+        return
+
     def loadInsertionSizes(self,ic):
         """Initialize per-glyph insertion size variable with data imported from insertions.py."""
         # obj = {'it43':["'I10','bs66'"]}
+        # obj = bs66 -> bs43 (I10)
 
         obj = {}
         for key in insertions:
@@ -2313,7 +2350,7 @@ class EotHelper:
         # Inserted groups need to have their block width calculated without impacting
         # the width of the enclosing sign's row. For example: N35 vj G9 te X1 hj ss D2 vj D21 se
         # Inserted groups must be level 1 or level 2. So process these levels before GSUBmaxWidth
-        # The resulting form is inert to GSUBmaxWidth processing above the level of the insertion
+        # The resulting form is invisible to GSUBmaxWidth processing above the level of the insertion
 
         def insertiontokens(level):
             # Inject insertion marker after all per-row summed width tokens (ch#)
@@ -2428,6 +2465,7 @@ class EotHelper:
                 # rules to specify the available insertion size per glyph
                 # cycle through corners and pad context for multi-corners
                 # specify mark filtering set *multicorners{LEVEL} for bs,te,be
+                # bs56 -> bs42 (G9|)
                 def fixcontextforlevel(clist):
                     cval = clist[1]
                     cval = re.sub(r'([tb][se])',r'\1_',cval)
@@ -2496,43 +2534,90 @@ class EotHelper:
                         derivedlist.append({'left':derive(left,8),'right':[]})
 
                     return derivedlist
-                def loadinssizes(ic):
-                    if ic == 'ts':
-                        inssizes = self.tssizes
-                    if ic == 'bs':
-                        inssizes = self.bssizes
-                    if ic == 'te':
-                        inssizes = self.tesizes
-                    if ic == 'be':
-                        inssizes = self.besizes
-                    return inssizes
-                objs = []
-                prfx = 'it'
-                if level == 2:
-                    prfx += '2'
-                for ic in ['ts','bs','te','be']:
-                    inssizes = loadinssizes(ic)
-                    for target in sorted(inssizes):
-                        contexts = inssizes[target]
+                def loadMarks(ic,obj):
+                    markset = ''
+                    if ic in ['bs','te','be']:
+                        for g in obj:
+                            if g in self.glyphdata:
+                                markset = 'insmarkset'+ic
+                                groupdata[markset].append(g)
+                    return '*'+markset
+                def loadContexts(obj):
+                    contexts = []
+                    for g in obj:
+                        if g in self.glyphdata:
+                            context = {'left':[g],'right':[]}
+                            contexts.append(context)
+                    return contexts
+                def loadDetails(obj):
+                    def extendsizes(obj):
+                        basesize = list(obj.keys())[0]
+                        bh = int(str(basesize)[0:1])
+                        bv = int(str(basesize)[1:])
+                        defsize = obj[basesize]
+                        dh = int(str(defsize)[0:1])
+                        dv = int(str(defsize)[1:])
+                        hr = dh/bh
+                        vr = dv/bv
 
+                        ih = self.pvar['chu']
+                        while ih > 1:
+                            iv = self.pvar['vhu']
+                            if bh <= ih:
+                                th = dh
+                            else:
+                                th = math.floor(hr*ih)
+                            if th == 0:
+                                th = 1
+
+                            while iv > 1:
+                                if bv <= iv:
+                                    tv = dv
+                                else:
+                                    tv = math.floor(vr*iv)
+                                if tv == 0:
+                                    tv = 1
+
+                                sizekey = int(str(ih)+str(iv))
+                                if sizekey not in obj:
+                                    obj[sizekey] = str(th)+str(tv)
+
+                                iv -= 1
+                            ih -= 1                                
+                        return obj
+                    details = []
+                    for key in obj:
+                        sizes = extendsizes(obj[key])
+                        prefix = key
+                        if level == 2:
+                            prefix += str(2)
+                        for size in sizes:
+                            sub = prefix + str(size)
+                            target = prefix + str(sizes[size])
+                            detail = {'sub':[sub],'target':[target]}
+                            details.append(detail)
+                    return details
+                objs = []
+                for ic in ['ad','bs','te','be']:
+                    inssizes = self.insertionmappings[ic]
+                    marks = loadMarks(ic,inssizes.pop(0))
+                    cycle = 1
+                    keys = []
+                    for key in inssizes[0]:
+                        keys.append(key)
+                        mapclass = inssizes[0][key]
+                        details  = loadDetails( mapclass.pop(0))
+                        contexts = loadContexts(mapclass)
                         if len(contexts) > 0:
                             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                            lookupObj['name'] = 'perglyphsize_'+ic+'_'+target
-                            if ic in ['bs','te','be']:
-                                lookupObj['marks'] = '*multicorners'+str(level)
-
-                            for context in contexts:
-                                if level == 2:
-                                    context = fixcontextforlevel(context)
-
-                                clist = derivecontexts(context, ic)
-                                for item in clist:
-                                    lookupObj['contexts'].append(item)
-
-                            details = {'sub':['it00'],'target':[prfx+target]}
-                            lookupObj['details'].append(details)
-                            objs.append(lookupObj)
+                            lookupObj['name'] = 'perglyphsize_'+ic+'_'+str(cycle)
+                            lookupObj['marks']    = marks
+                            lookupObj['contexts'] = contexts
+                            lookupObj['details']  = details
+                        objs.append(lookupObj)
+                        cycle += 1
                 return objs
+
             def insertionsize():
                 # rules to specify the available middle insertion size per glyph
                 # only one middle insertion per glyph
@@ -2547,20 +2632,12 @@ class EotHelper:
                     derivedlist.append({'left':left,'right':[]})
 
                     return derivedlist
-                def loadinssizes(ic):
-                    if ic == 'mi':
-                        inssizes = self.misizes
-                    if ic == 'ti':
-                        inssizes = self.tisizes
-                    if ic == 'bi':
-                        inssizes = self.bisizes
-                    return inssizes
                 objs = []
                 prfx = 'it'
                 if level == 2:
                     prfx += '2'
                 for ic in ['mi']: #['mi','ti','bi']
-                    inssizes = loadinssizes(ic)
+                    inssizes = self.insertionmappings[ic]
                     for target in sorted(inssizes):
                         contexts = inssizes[target]
 
@@ -2624,7 +2701,8 @@ class EotHelper:
             lookupObjs.extend(copytargetsizeV())
             lookupObjs.append(cornersizes())
             lookupObjs.extend(perglyphsizes())
-            lookupObjs.extend(insertionsize())
+            # lookupObjs.extend(perglyphinssize())
+            # lookupObjs.extend(insertionsize())
             lookupObjs.append(defaultomsize())
             lookupObjs.extend(defaultinsertionsizes())
 
