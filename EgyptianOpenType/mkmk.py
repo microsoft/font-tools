@@ -69,10 +69,20 @@ mkmk = [
     'details' : [
         {'attach':['shapes_0'],'to':['shapes_om'],'anchor':'left'},
     ]},
+    #Lookup - Insertion ti
+    {'name' : 'shapes0-ti', 'marks' : '*shape_ins0_ti',
+    'details' : [
+        {'attach':['shapes_0'],'to':['shapes_ti'],'anchor':'ti'}
+    ]},
     #Lookup - Insertion mi
     {'name' : 'shapes0-mi', 'marks' : '*shape_ins0_mi',
     'details' : [
         {'attach':['shapes_0'],'to':['shapes_mi'],'anchor':'center'}
+    ]},
+    #Lookup - Insertion bi
+    {'name' : 'shapes0-bi', 'marks' : '*shape_ins0_bi',
+    'details' : [
+        {'attach':['shapes_0'],'to':['shapes_bi'],'anchor':'bi'}
     ]},
     #Lookup - Corner insertion 2
     {'name' : 'shapes_ts-shapesi', 'marks' : '',
@@ -102,12 +112,26 @@ mkmk = [
         # {'to':['insertionsizes1R'],'anchor':'bs'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
-    #Lookup - Middle insertion
+    #Lookup - Middle-top insertion
+    {'name' : 'shapes_ti-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_ti'],'to':['insertionsizes1'],'anchor':'ti'},
+        # {'to':['insertionsizes1R'],'anchor':'ti'},
+        {'to':['shapes_u'],'anchor':'ti'}
+    ]},
+    #Lookup - Middle-middle insertion
     {'name' : 'shapes_mi-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_mi'],'to':['insertionsizes1'],'anchor':'center'},
         # {'to':['insertionsizes1R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
+    ]},
+    #Lookup - Middle-bottom insertion
+    {'name' : 'shapes_bi-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_bi'],'to':['insertionsizes1'],'anchor':'bi'},
+        # {'to':['insertionsizes1R'],'anchor':'center'},
+        {'to':['shapes_u'],'anchor':'bi'}
     ]},
     #Lookup - Overstrike
     {'name' : 'shapes_om-shapeses', 'marks' : '',
@@ -199,9 +223,19 @@ mkmk = [
         {'attach':['shapes_1'],'to':['shapes_om2'],'anchor':'left'},
     ]},
     #Lookup - Insertion mi
+    {'name' : 'shapes1-ti', 'marks' : '*shape_ins1_ti',
+    'details' : [
+        {'attach':['shapes_1'],'to':['shapes_ti2'],'anchor':'ti'}
+    ]},
+    #Lookup - Insertion mi
     {'name' : 'shapes1-mi', 'marks' : '*shape_ins1_mi',
     'details' : [
         {'attach':['shapes_1'],'to':['shapes_mi2'],'anchor':'center'}
+    ]},
+    #Lookup - Insertion mi
+    {'name' : 'shapes1-bi', 'marks' : '*shape_ins1_bi',
+    'details' : [
+        {'attach':['shapes_1'],'to':['shapes_bi2'],'anchor':'bi'}
     ]},
     #Lookup - Corner insertion 2
     {'name' : 'shapes_ts2-shapesi', 'marks' : '',
@@ -231,12 +265,26 @@ mkmk = [
         # {'to':['insertionsizes1R'],'anchor':'bs'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
-    #Lookup - Middle insertion
+    #Lookup - Middle-top insertion
+    {'name' : 'shapes_ti2-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_ti2'],'to':['insertionsizes2'],'anchor':'ti'},
+        # {'to':['insertionsizes2R'],'anchor':'ti'},
+        {'to':['shapes_u'],'anchor':'ti'}
+    ]},
+    #Lookup - Middle-middle insertion
     {'name' : 'shapes_mi2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_mi2'],'to':['insertionsizes2'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'center'},
+        # {'to':['insertionsizes2R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
+    ]},
+    #Lookup - Middle-bottom insertion
+    {'name' : 'shapes_bi2-shapesi', 'marks' : '',
+    'details' : [
+        {'attach':['shapes_bi2'],'to':['insertionsizes2'],'anchor':'bi'},
+        # {'to':['insertionsizes2R'],'anchor':'center'},
+        {'to':['shapes_u'],'anchor':'bi'}
     ]},
     #Lookup - Overstrike
     {'name' : 'shapes_om2-shapeses', 'marks' : '',

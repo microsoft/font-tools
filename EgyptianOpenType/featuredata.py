@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # egyptian opentype generator data
 
-qcontrols = ['vj','hj','ts','bs','te','be','om','mi','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
+qcontrols = ['vj','hj','ts','bs','te','be','om','ti','mi','bi','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
 	#V2ProtoControls
 	'esb','ese','ewb','ewe','df','mr','r90','r180','r270',
 ]
@@ -34,17 +34,17 @@ groupdata = {
 	'colspacers2' : ['c2s1p0'],
 	'colspacers2R' : ['c2s1p0R'],
 	'controls_a' : ['controls_joiners','ss','se'],
-	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a','om0A','om1A','mi0A','mi1A'],
+	'controls_b' : ['hj1A','vj1A','hj0A','vj0A','hj2A','vj2A','corners0a','corners1a'],
 	'controls_ng': ['Qi','Qf','m0','cleanup','ins1l0','ins1','et00','dda','mn5','mn4','mn3','mn2','mn1','ub','it00','it00a','et06','tsh06'], #controls not grouped for injection
-	'controls_joiners' : ['hj','vj','ts','te','bs','be','om','mi'],
+	'controls_joiners' : ['hj','vj','ts','te','bs','be','om','ti','mi','bi'],
 	'cornerglyphs' : [],
 	'corners' : ['ts','te','bs','be'],
-	'corners0a' : ['its0A','ibs0A','ite0A','ibe0A','mi0A','om0A'],
-	'corners0b' : ['its0B','ibs0B','ite0B','ibe0B','mi0B','om0B'],
-	'corners0bNotOM' : ['its0B','ibs0B','ite0B','ibe0B','mi0B'],
-	'corners1a' : ['its1A','ibs1A','ite1A','ibe1A','mi1A','om1A'],
-	'corners1b' : ['its1B','ibs1B','ite1B','ibe1B','mi1B','om1B'],
-	'corners1bNotOM' : ['its1B','ibs1B','ite1B','ibe1B','mi1B'],
+	'corners0a' : ['its0A','ibs0A','ite0A','ibe0A','ti0A','mi0A','bi0A','om0A'],
+	'corners0b' : ['its0B','ibs0B','ite0B','ibe0B','ti0B','mi0B','bi0B','om0B'],
+	'corners0bNotOM' : ['its0B','ibs0B','ite0B','ibe0B','ti0B','mi0B','bi0B'],
+	'corners1a' : ['its1A','ibs1A','ite1A','ibe1A','ti1A','mi1A','bi1A','om1A'],
+	'corners1b' : ['its1B','ibs1B','ite1B','ibe1B','ti1B','mi1B','bi1B','om1B'],
+	'corners1bNotOM' : ['its1B','ibs1B','ite1B','ibe1B','bi1B','mi1B','bi1B'],
 	'counters_h' : ['ch0','ch1','ch2','ch3','ch4','ch5','ch6','ch7','ch8','ch9','ch10','ch11','ch12','ch13','ch14','ch15','ch16','ch17','ch18','ch19','ch20','ch21','ch22','ch23','ch24','ch25','ch26','ch27','ch28','ch29','ch30','ch31','ch32','ch33','ch34','ch35','ch36','chb'],
 	'counters_v' : ['cv0','cv1','cv2','cv3','cv4','cv5','cv6','cv7','cv8','cv9','cv10','cv11','cv12','cv13','cv14','cv15','cv16','cv17','cv18','cv19','cv20','cv21','cv22','cv23','cv24','cv25','cv26','cv27','cv28','cv29','cv30','cv31','cv32','cv33','cv34','cv35','cv36','cvb'],
 	'deltas'     : ['dv1','dv2','dv3','dv4','dv5','dv6','dv7','dv8','dv9','dv10','dv11','dv12','dv13','dv14','dv15','dv16','dv17','dv18','dv19','dv20','dv21','dv22','dv23','dv24','dv25','dv26','dv27','dv28','dv29','dv30'],
@@ -131,13 +131,17 @@ groupdata = {
 	'shape_ins0_te' : ['shapes_0','ih0','iv0','shapes_te'], # include be to force order
 	'shape_ins0_be' : ['shapes_0','ih0','iv0','shapes_be'],
 	'shape_ins0_om' : ['shapes_0','ih0','iv0','shapes_om'],
+	'shape_ins0_ti' : ['shapes_0','ih0','iv0','shapes_ti'],
 	'shape_ins0_mi' : ['shapes_0','ih0','iv0','shapes_mi'],
+	'shape_ins0_bi' : ['shapes_0','ih0','iv0','shapes_bi'],
 	'shape_ins1_ts' : ['shapes_0','shapes_ts2'], # ih0 and iv0 not included. . .
 	'shape_ins1_bs' : ['shapes_0','shapes_bs2'],
 	'shape_ins1_te' : ['shapes_0','shapes_te2'],
 	'shape_ins1_be' : ['shapes_0','shapes_be2'],
 	'shape_ins1_om' : ['shapes_0','shapes_om2'],
+	'shape_ins1_ti' : ['shapes_0','shapes_ti2'],
 	'shape_ins1_mi' : ['shapes_0','shapes_mi2'],
+	'shape_ins1_bi' : ['shapes_0','shapes_bi2'],
 	'insertionsizes' : ['ih1','ih2','ih3','ih4','ih5','ih6','iv2','iv3','iv4','iv5','iv6'],
 	'shapes_insert0_POS' : ['o66','o65','o64','o63','o62','o56','o55','o54','o53','o52','o46','o45','o44','o43','o42','o36','o35','o34','o33','o32','o26','o25','o24','o23','o22'],
 	'shapes_ts' : ['ts66','ts65','ts64','ts63','ts62','ts61','ts56','ts55','ts54','ts53','ts52','ts51','ts46','ts45','ts44','ts43','ts42','ts41','ts36','ts35','ts34','ts33','ts32','ts31','ts26','ts25','ts24','ts23','ts22','ts21','ts16','ts15','ts14','ts13','ts12','ts11'],
