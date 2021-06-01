@@ -25,16 +25,21 @@ ver = 200
 
 # version 2 requirements
 # 4. Middle insertion
-    # a. center
-    # b. top and bottom
-    # c. expanded enclosing glyph
-    # pres 015
+    # c. expanded enclosing glyph - when to expand?
+    # pres 016 - expansion
 # 5. TCMs
     # LB RB
     # QUESTION - syntax for TCMs
-        #   TCMStart hj A1 hj TCMEnd
         #   TCMStart A1 TCMEnd
-        #   A1 TCMPair - this doesn't support extended enclosures
+        #   TCMStart hj A1 hj TCMEnd
+# 6. Baseline alignment with stylistic set for Heiratic
+    # Stylistic set to bottom align singletons
+    # substitue m0 for level 0 into b0 and align to baseline
+    # after psts, rules for ss01:
+    # QB6 r0v1 c0h6 o66 m0 O34 c0eA r0eB >>> QB6 r0v1 c0h6 o66 b0 O34 c0eA r0eB
+    # m0 -> b0 (^ c1eA,c0eA|;|c0eA c0eA) {class m0 + }
+# Verse point
+# Bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
 
 
 class EotHelper:
@@ -2670,18 +2675,30 @@ class EotHelper:
                 i = i - 1
                 lookupObjs.append(lookupObj)
             return lookupObjs
-        def insertioncleanup(level): #33
-            # Clean up the row max token (rm#) at the beginning of the containing cell (c{0-1}bA|)
-            # <corners0b> rm3 -> <corners0b>
+        def insshrinkclean(level):
+            # insertion width reduces to block width
+            # it([1-6])([1-6]) rm([1-6]) -> it(lesser of $1 | $3)$2
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'ins-H-insertioncleanup-'+str(level)
-            cornerstart = 'insertionsizes'+str(level)
+            lookupObj['name'] = 'ins-H-insshrinkclean-'+str(level)
+            prefix = 'it'
+            if level == 2:
+                prefix = 'it2'
 
-            i = 1
-            while i <= self.pvar['chu']:
-                details = {'sub':[cornerstart,'rm'+str(i)],'target':[cornerstart]}
-                lookupObj['details'].append(details)
-                i += 1                
+            # cycle rm
+            r = self.pvar['chu']
+            while r >= 1:
+                # cycle h
+                h = self.pvar['chu']
+                while h >= 1:
+                    # cycle v
+                    t = min(h,r)
+                    v = self.pvar['vhu']
+                    while v >= 1:
+                        details = {'sub':[prefix+str(h)+str(v),'rm'+str(r)],'target':[prefix+str(t)+str(v)]}
+                        lookupObj['details'].append(details)
+                        v -= 1
+                    h -= 1                
+                r -= 1                
 
             details = {'sub':['im0'],'target':['dv0']}
             lookupObj['details'].append(details)
@@ -2709,7 +2726,7 @@ class EotHelper:
         lookupObjs.extend(self.swaprowwidth(level,'ins'))
         lookupObjs.append(self.deltaperrow(level,'ins'))
         lookupObjs.append(self.calculateexcess(level,'ins'))
-        lookupObjs.append(insertioncleanup(level))
+        lookupObjs.append(insshrinkclean(level))
 
         return lookupObjs
     def GSUBmaxWidth(self,lookupObj,level): #max-
@@ -4779,6 +4796,7 @@ class EotHelper:
             return lookupObjs
         def mapTargetSize():
             #sh{1-8} sv{1-6} -> t$1$2
+            #exclude stems12 since o shapes are resued for insertion plates
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'maptargetsize'
             lookupObj['exceptcontexts'] = [{'left':[],'right':['stems_12']}]
