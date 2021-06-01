@@ -17,6 +17,7 @@ featurename = {
 	'mkmk' : {'prefix':'mk','name':'Mark to Mark Positioning','type':'GPOS'},
 	'pres' : {'prefix':'pr','name':'Pre-base Substitutions','type':'GSUB'},
 	'psts' : {'prefix':'ps','name':'Post-base Substitutions','type':'GSUB'},
+	'ss01' : {'prefix':'s1','name':'Stylistic Set 1','type':'GSUB'},
 	'rlig' : {'prefix':'rl','name':'Required Ligatures','type':'GSUB'},
 	'rtlm' : {'prefix':'rt','name':'Right-to-left mirrored forms','type':'GSUB'},
 	'vrt2' : {'prefix':'vr','name':'Vertical Alternates and Rotation','type':'GSUB'}
@@ -165,7 +166,7 @@ groupdata = {
 	'shapes_corners_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2'],
 	'shapes_cornersom_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2','shapes_mm2'],
 	'shapes_df' : ['df86','df76','df66','df65','df64','df63','df62','df61','df56','df55','df54','df53','df52','df51','df46','df45','df44','df43','df42','df41','df36','df35','df34','df33','df32','df31','df26','df25','df24','df23','df22','df21','df16','df15','df14','df13','df12','df11'],
-	'shadesmkmk' : ['m0','shapes_df'],
+	'shadesmkmk' : ['m0','b0','shapes_df'],
 	# Unbalanced shapes are used in corner insertions and need to be split so they can be reversed for RTL in mkmk
 	'shapes_u'  : ['es66','es65','es64','es63','es62','es61','es56','es55','es54','es53','es52','es51','es46','es45','es44','es43','es42','es41','es36','es35','es34','es33','es32','es31','es26','es25','es24','es23','es22','es21','es16','es15','es14','es13','es12','es11'],
 	'shapes_ls' : ['ls66','ls65','ls64','ls63','ls62','ls61','ls56','ls55','ls54','ls53','ls52','ls51','ls46','ls45','ls44','ls43','ls42','ls41','ls36','ls35','ls34','ls33','ls32','ls31','ls26','ls25','ls24','ls23','ls22','ls21','ls16','ls15','ls14','ls13','ls12','ls11'],
@@ -194,6 +195,7 @@ groupdata = {
 	'stems2-vx'  : ['r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6', 'r2vb','rowspacers2','insertionsizes2','r2sep','c0eA','shapes_corners_2'], #NEED R VERSION
 	'stems2-vR' : ['r2v1R','r2v2R','r2v3R','r2v4R','r2v5R','r2v6R','r2vbR','rowspacers2R','insertionsizes2R','r2sepR'],
 	'stems_12' : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],
+	'ss01baselines' : ['m0'],
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
 	'targetwidth': ['trg1','trg2','trg3','trg4','trg5','trg6'],
 	# 'tcm_all'    : ['tcab','tcae','tcbb','tcbe','tccb','tcce','tchb','tche','tcpb','tcpe','tcrb','tcre','tcv'],

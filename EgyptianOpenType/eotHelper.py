@@ -33,11 +33,7 @@ ver = 200
         #   TCMStart A1 TCMEnd
         #   TCMStart hj A1 hj TCMEnd
 # 6. Baseline alignment with stylistic set for Heiratic
-    # Stylistic set to bottom align singletons
-    # substitue m0 for level 0 into b0 and align to baseline
-    # after psts, rules for ss01:
-    # QB6 r0v1 c0h6 o66 m0 O34 c0eA r0eB >>> QB6 r0v1 c0h6 o66 b0 O34 c0eA r0eB
-    # m0 -> b0 (^ c1eA,c0eA|;|c0eA c0eA) {class m0 + }
+    
 # Verse point
 # Bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
 
@@ -62,6 +58,7 @@ class EotHelper:
         self.mkmklines = []
         self.preslines = []
         self.pstslines = []
+        self.ss01lines = []
         self.rliglines = []
         self.rotated090 = []
         self.rotated180 = []
@@ -86,6 +83,7 @@ class EotHelper:
             defaultObj['blws'] = []
             defaultObj['rlig'] = []
             defaultObj['psts'] = []
+            defaultObj['ss01'] = []
             defaultObj['rtlm'] = []
             defaultObj['vrt2'] = []
             defaultObj['mark'] = []
@@ -99,6 +97,7 @@ class EotHelper:
             defaultObj['blws'] = 1
             defaultObj['rlig'] = 1
             defaultObj['psts'] = 1
+            defaultObj['ss01'] = 1
             defaultObj['rtlm'] = 1
             defaultObj['vrt2'] = 1
             defaultObj['mark'] = 1
@@ -597,6 +596,18 @@ class EotHelper:
             self.lookupcount += n
             print (featuretag.upper() + ' written: ' + str(n) + ' (62 expected)')
             self.writelines(self.pstslines)
+
+    #Stylistic variants
+    def ss01(self):
+        featuretag = 'ss01'
+        if self.pvar['test'][featuretag] == 1:
+            print ('SS01 in test mode')
+        else:
+            self.ss01lines = self.GSUBbaseline()
+            n = self.featureindexes[featuretag] - 1
+            self.lookupcount += n
+            print (featuretag.upper() + ' written: ' + str(n) + ' (1 expected)')
+            self.writelines(self.ss01lines)
 
     #Mirroring
     def rtlm(self):
@@ -1142,6 +1153,7 @@ class EotHelper:
         anchorgroup(group,[group],details)
 
         # ibm
+        preformatanchor('MARK_bi','b0','ZERO','ZERO')
         group = 'shapes_bi'
         details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
@@ -1157,6 +1169,7 @@ class EotHelper:
         group = 'shapes_u'
         details = {'aname':'MARK_bi','xtype':'XMID','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        preformatanchor('bi','b0','ZERO','ZERO')
         group = 'shapes_0'
         details = {'aname':'bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
@@ -1168,6 +1181,15 @@ class EotHelper:
         anchorgroup(group,[group],details)
         group = 'shapes_bi2'
         details = {'aname':'bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_df'
+        details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'glyphs_all'
+        details = {'aname':'MARK_bi','xtype':'MID','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'mirror_all'
+        details = {'aname':'MARK_bi','xtype':'MID','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
 
         # center        
@@ -5123,6 +5145,26 @@ class EotHelper:
             lines.extend(self.writefeature(extensioncleanup()))
         lines.extend(self.writefeature(unusedcontrols()))
 
+        return lines
+
+# S S 0 1
+    def GSUBbaseline(self):
+        def swapglyphanchor():
+            lookupObj = {'feature':'ss01','name':'','marks':'*ss01baselines','contexts':[],'details':[]}
+            lookupObj['name'] = 'swapglyphanchor'
+            lookupObj['exceptcontexts'] = [
+                {'left':['m0'],'right':[]},
+                {'left':[],'right':['m0']},
+            ]
+            details = {'sub':['m0'],'target':['b0']}
+            lookupObj['details'].append(details)
+
+            return lookupObj
+
+        lines = []
+        if self.pvar['baseline']:
+            lookupObj = swapglyphanchor()
+            lines.extend(self.writefeature(lookupObj))            
         return lines
 
 # R T L M

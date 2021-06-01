@@ -354,9 +354,10 @@ mkmk = [
         {'attach':['stems2-hR'],'to':['shapes_2'],'anchor':'left'}
     ]},
     #Lookup
-    {'name' : 'm0', 'marks' : '',
+    {'name' : 'm0b0', 'marks' : '',
     'details' : [
-        {'attach':['shapes_0','shapes_1','shapes_2','shapes_u'],'to':['m0'],'anchor':'center'}
+        {'attach':['shapes_0','shapes_1','shapes_2','shapes_u'],'to':['m0'],'anchor':'center'},
+        {'to':['b0'],'anchor':'bi'}
     ]},
     #Lookup
     {'name' : 'glyphs', 'marks' : '',
@@ -368,5 +369,16 @@ mkmk = [
     {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
     'details' : [
         {'attach':['m0'],'to':['shapes_df'],'anchor':'center'}
+    ]},
+    #Lookup
+    {'name' : 'glyphs', 'marks' : '',
+    'details' : [
+        {'attach':['b0'],'to':['glyphs_all'],'anchor':'bi'},
+        {'to':['mirror_all'],'anchor':'bi'}
+    ]},
+    #Lookup
+    {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
+    'details' : [
+        {'attach':['b0'],'to':['shapes_df'],'anchor':'bi'}
     ]}
 ]
