@@ -67,7 +67,7 @@ mkmk = [
     #Lookup - Insertion om
     {'name' : 'shapes0-om', 'marks' : '*shape_ins0_om',
     'details' : [
-        {'attach':['shapes_0'],'to':['shapes_om'],'anchor':'left'},
+        {'attach':['shapes_0'],'to':['shapes_om'],'anchor':'center'},
     ]},
     #Lookup - Insertion ti
     {'name' : 'shapes0-ti', 'marks' : '*shape_ins0_ti',
@@ -134,19 +134,20 @@ mkmk = [
         {'to':['shapes_u'],'anchor':'bi'}
     ]},
     #Lookup - Overstrike
-    {'name' : 'shapes_om-shapeses', 'marks' : '',
+    {'name' : 'shapes_om-shapesi', 'marks' : '',
     'details' : [
-        {'attach':['shapes_om'],'to':['shapes_u'],'anchor':'center'}
+        {'attach':['shapes_om'],'to':['insertionsizes1'],'anchor':'center'},
+        {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup
     {'name' : 'shapes0-row1', 'marks' : '',
     'details' : [
-        {'attach':['shapes_0','shapes_u','insertionsizes1','shapes_om'],'to':['stems1-v'],'anchor':'left'},
+        {'attach':['shapes_0','shapes_u','insertionsizes1'],'to':['stems1-v'],'anchor':'left'},
     ]},
     #Lookup
     {'name' : 'shapes0-row1R', 'marks' : '',
     'details' : [
-        {'attach':['shapes_0','shapes_u','insertionsizes1R','shapes_om'],'to':['stems1-vR'],'anchor':'right'},
+        {'attach':['shapes_0','shapes_u','insertionsizes1R'],'to':['stems1-vR'],'anchor':'right'},
     ]},
     #Lookup
     {'name' : 'rows-rows1', 'marks' : '*stems1-vx',
@@ -220,7 +221,7 @@ mkmk = [
     #Lookup - Insertion om
     {'name' : 'shapes1-om', 'marks' : '*shape_ins1_om',
     'details' : [
-        {'attach':['shapes_1'],'to':['shapes_om2'],'anchor':'left'},
+        {'attach':['shapes_1'],'to':['shapes_om2'],'anchor':'center'},
     ]},
     #Lookup - Insertion mi
     {'name' : 'shapes1-ti', 'marks' : '*shape_ins1_ti',
@@ -287,19 +288,20 @@ mkmk = [
         {'to':['shapes_u'],'anchor':'bi'}
     ]},
     #Lookup - Overstrike
-    {'name' : 'shapes_om2-shapeses', 'marks' : '',
+    {'name' : 'shapes_om2-shapesi', 'marks' : '',
     'details' : [
-        {'attach':['shapes_om2'],'to':['shapes_u'],'anchor':'center'}
+        {'attach':['shapes_om2'],'to':['insertionsizes2'],'anchor':'center'},
+        {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup
     {'name' : 'shapes1-row2', 'marks' : '',
     'details' : [
-        {'attach':['shapes_1','shapes_u','insertionsizes2','shapes_om2'],'to':['stems2-v'],'anchor':'left'}
+        {'attach':['shapes_1','shapes_u','insertionsizes2'],'to':['stems2-v'],'anchor':'left'}
     ]},
     #Lookup
     {'name' : 'shapes1-row2R', 'marks' : '',
     'details' : [
-        {'attach':['shapes_1','shapes_u','insertionsizes2R','shapes_om2'],'to':['stems2-vR'],'anchor':'right'}
+        {'attach':['shapes_1','shapes_u','insertionsizes2R'],'to':['stems2-vR'],'anchor':'right'}
     ]},
     #Lookup
     {'name' : 'rows-rows2', 'marks' : '*stems2-vx',

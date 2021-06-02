@@ -24,7 +24,10 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # version 2 requirements
+    # Shade cartouche end caps
+    # Sign quarter shades
 # 4. Middle insertion
+    # TODO SECOND PASS IS NOT REWINDING 2482
     # c. expanded enclosing glyph - when to expand?
     # pres 016 - expansion
 # 5. TCMs
@@ -32,7 +35,7 @@ ver = 200
     # QUESTION - syntax for TCMs
         #   TCMStart A1 TCMEnd
         #   TCMStart hj A1 hj TCMEnd
-# 6. Baseline alignment with stylistic set for Heiratic
+# Groups[]
     
 # Verse point
 # Bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
@@ -2557,7 +2560,7 @@ class EotHelper:
                 # rules to specify the default available insertion size per insertion size
                 def loaddetails():
                     details = []
-                    ics = ['ts','bs','te','be','ti','mi','bi']
+                    ics = ['ts','bs','te','be','ti','mi','bi','om']
                     infix = ''
                     if level == 2:
                         infix = '2'
@@ -2598,7 +2601,7 @@ class EotHelper:
             lookupObjs.append(cornersizes())
             lookupObjs.extend(perglyphsizes())
             # lookupObjs.extend(insertionsize())
-            lookupObjs.append(defaultomsize())
+            # lookupObjs.append(defaultomsize())
             lookupObjs.append(defaultinsertionsizes())
             lookupObjs.append(insertiondeepclean())
 
@@ -3553,6 +3556,7 @@ class EotHelper:
                 if level > 1:
                     shapes += str(level)
                 lookupObj['contexts'].append({'left':[shapes,'insertionsizes'+str(level)],'right':[]})
+                lookupObj['contexts'].append({'left':[shapes,'insertionsizes'+str(level), 'ub'],'right':[]})
                 i = 1
                 while i <= self.pvar['chu']:
                     details = {'sub':['dv'+str(i)],'target':['rm'+str(i)]}
@@ -4766,21 +4770,6 @@ class EotHelper:
                 lookupObj['details'].append(details)
 
                 return lookupObj
-            def cleanupinsertions():
-                # ibs0B ih0 -> ibs0B
-                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'cleanupinsertions'
-
-                #om{1-6}6 it66 -> om46
-                i = self.pvar['chu']
-                while i >= 1:
-                    j = self.pvar['chu']
-                    while j >= 1:
-                        details = {'sub':['om'+str(j)+str(i),'it'+str(i)+str(i)],'target':['om'+str(j)+str(i)]}
-                        lookupObj['details'].append(details)
-                        j = j - 1
-                    i = i - 1
-                return lookupObj
             def specialcaseinitialunbalanced():
                 objs = []
                 # o66 -> es66 (ub r0v6 c0h6|) - only horizontals needed
@@ -4812,7 +4801,6 @@ class EotHelper:
             lookupObjs.append(unbalancedOm())
             lookupObjs.append(insertr1sepOm())
             lookupObjs.append(insertr2sepOm())
-            lookupObjs.append(cleanupinsertions())
             lookupObjs.extend(specialcaseinitialunbalanced())
 
             return lookupObjs
