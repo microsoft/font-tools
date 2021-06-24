@@ -26,16 +26,19 @@ ver = 200
 # version 2 requirements
     # Shade cartouche end caps
     # Sign quarter shades
+    # inventory of rotated signs
+    # 
 # 4. Middle insertion
     # TODO SECOND PASS IS NOT REWINDING 2482
     # c. expanded enclosing glyph - when to expand?
-    # pres 016 - expansion
+    # pres016 - expansion
 # 5. TCMs
     # LB RB
     # QUESTION - syntax for TCMs
         #   TCMStart A1 TCMEnd
         #   TCMStart hj A1 hj TCMEnd
 # Groups[]
+#  All signs on baseline in Hieratic texts. Need to scope the set of complex strucutres which use the baseline
     
 # Verse point
 # Bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
@@ -462,15 +465,6 @@ class EotHelper:
                     subpair = {'sub':[key],'target':[et,tsh,key,'Qf'] }
                     subpairs.append(subpair)
             return subpairs
-        # def loadtcmsubpairs():
-        #     keys = groupdata['tcm_all']
-        #     subpairs = []
-        #     for key in keys:
-        #         et = 'et06'
-        #         tsh = 'tsh06'
-        #         subpair = {'sub':[key],'target':['Qi',et,tsh,key,'Qf'] }
-        #         subpairs.append(subpair)
-        #     return subpairs
         def loadgb1subpairs():
             keys = [
                 'vj0A','hj0A','its0A','ibs0A','ite0A','ibe0A','om0A',
@@ -509,9 +503,6 @@ class EotHelper:
             if (lookupObj['name'] == 'tsg'):#DYNAMIC FEATURE TSG
                 subpairs = loadtsgsubpairs()
                 lookupObj['details'] = subpairs
-            # if (lookupObj['name'] == 'tcm'):#DYNAMIC FEATURE TSG
-            #     subpairs = loadtcmsubpairs()
-            #     lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'gb1'):#DYNAMIC FEATURE GB1
                 subpairs = loadgb1subpairs()
                 lookupObj['details'] = subpairs
@@ -853,9 +844,12 @@ class EotHelper:
         details = {'aname':'MARK_a1','xtype':'ZERO','ytype':'ZERO','recursive':1}
         anchorgroup(group,[group],details)
         group = 'dq_all'
-        details = {'aname':'MARK_a1','xtype':'PADDING','ytype':'ZERO','recursive':1}
+        details = {'aname':'MARK_a1','xtype':'PADDING','ytype':'YFULL','recursive':1}
         anchorgroup(group,[group],details)
         group = 'bases_all'
+        details = {'aname':'a1','xtype':'PADDING','ytype':'YFULL','recursive':1}
+        anchorgroup(group,[group],details)
+        group = 'extensionendsL'
         details = {'aname':'a1','xtype':'PADDING','ytype':'YFULL','recursive':1}
         anchorgroup(group,[group],details)
 
@@ -4597,9 +4591,6 @@ class EotHelper:
                 details = {'sub':['Qi','sh'+str(i)],'target':['QB'+str(i)]}
                 lookupObj['details'].append(details)
                 i = i - 1
-            # CONVERT SPACE TO QB3 - TODO convert space to dedicated filler control glyph
-            # details = {'sub':['space'],'target':['QB3']}
-            # lookupObj['details'].append(details)
 
             return lookupObj
         def columnWidth():
@@ -4695,10 +4686,29 @@ class EotHelper:
                 lookupObj['name'] = 'quartershade_H'+str(cycle)
                 context = {'left':['QB'+str(cycle)],'right':[]}
                 lookupObj['contexts'].append(context)
+                if cycle == 2:
+                    e2s = ['cbL','creL','ceL','hwttbL','hwtteL','hwtbbL','hwtbeL','cwbL', 'cweL']
+                    for c in e2s:
+                        context = {'left':[c],'right':[]}
+                        lookupObj['contexts'].append(context)
                 forms = ['_1','_2','_3','_4','_12','_13','_14','_23','_24','_34','_123','_124','_134','_234','_1234']
                 for f in forms:
                     sub = 'DQ6'+f
                     target = 'DQ'+str(cycle)+f
+                    details = {'sub':[sub],'target':[target]}
+                    lookupObj['details'].append(details)
+                return lookupObj
+            def halfShade():
+                lookupObj = {'feature':'psts','name':'','marks':'dq_all','contexts':[],'details':[]}
+                lookupObj['name'] = 'quartershade_Hhalf'
+                e2s = ['hwtbL','hwteL']
+                for c in e2s:
+                    context = {'left':[c],'right':[]}
+                    lookupObj['contexts'].append(context)
+                forms = ['_1','_2','_3','_4','_12','_13','_14','_23','_24','_34','_123','_124','_134','_234','_1234']
+                for f in forms:
+                    sub = 'DQ6'+f
+                    target = 'DQH'+f
                     details = {'sub':[sub],'target':[target]}
                     lookupObj['details'].append(details)
                 return lookupObj
@@ -4709,7 +4719,7 @@ class EotHelper:
                     # Exclude default size from remap, DQ6_n -> DQ6_n
                     lookupObjs.append(shadeSizes(h))
                 h = h - 1
-
+            lookupObjs.append(halfShade())
             return lookupObjs
         def shapeSize():
             #sh{1-8} sv{1-6} -> t$1$2
@@ -4756,6 +4766,8 @@ class EotHelper:
                 lookupObj['name'] = 'insertgroupsep1'
                 context = {'left':[],'right':['insertionsizes1']}
                 lookupObj['contexts'].append(context)
+                context = {'left':[],'right':['shapes_u']}
+                lookupObj['contexts'].append(context)
                 details = {'sub':['shapes_om'],'target':['r1sep','shapes_om']}
                 lookupObj['details'].append(details)
 
@@ -4765,6 +4777,8 @@ class EotHelper:
                 lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'insertgroupsep2'
                 context = {'left':[],'right':['insertionsizes2']}
+                lookupObj['contexts'].append(context)
+                context = {'left':[],'right':['shapes_u']}
                 lookupObj['contexts'].append(context)
                 details = {'sub':['shapes_om2'],'target':['r2sep','shapes_om2']}
                 lookupObj['details'].append(details)
@@ -4956,10 +4970,14 @@ class EotHelper:
 
         #     return lookupObj
         def extensionswap():
-            #Swap extension beginnings before a quadrat
+            #Swap extension ends to visible
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'extensionswap'
-            for source in groupdata['extensioncontrols']:
+            lookupObj['name'] = 'extensionendswap'
+            for source in groupdata['extensioncontrolsb']:
+                target = source+'V'
+                details = {'sub':[source],'target':[target]}
+                lookupObj['details'].append(details)
+            for source in groupdata['extensioncontrolse']:
                 target = source+'V'
                 details = {'sub':[source],'target':[target]}
                 lookupObj['details'].append(details)
@@ -5037,10 +5055,10 @@ class EotHelper:
                 i = i - 1
 
             return lookupObj
-        def extensioncleanup():
-            #Remove extension controls by context
+        def extensionbgncleanup():
+            #Remove extension begin controls by context
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'extensioncleanup'
+            lookupObj['name'] = 'extensionbgncleanup'
             details = {'sub':['eobV','edbV','quadratDoubles'],'target':['quadratDoubles']}
             lookupObj['details'].append(details)
             details = {'sub':['eobV','efbV','quadratFortifieds'],'target':['quadratFortifieds']}
@@ -5059,8 +5077,6 @@ class EotHelper:
             lookupObj['details'].append(details)
             details = {'sub':['eobV','cfbL'],'target':['cfbL']}
             lookupObj['details'].append(details)
-            details = {'sub':['r0eB','extensioncontrolseV'],'target':['r0eB']}
-            lookupObj['details'].append(details)
 
             #Normalize unused extension controls
             details = {'sub':['eobV'],'target':['esbV']}
@@ -5069,6 +5085,15 @@ class EotHelper:
             lookupObj['details'].append(details)
             details = {'sub':['efbV'],'target':['esbV']}
             lookupObj['details'].append(details)
+            return lookupObj
+        def extensionendcleanup():
+            #Remove extension end controls by context
+            #Filtered so shaded extensions don't block the cleanup
+            lookupObj = {'feature':'psts','name':'','marks':'*extensionscleanup','contexts':[],'details':[]}
+            lookupObj['name'] = 'extensionendcleanup'
+            details = {'sub':['r0eB','extensioncontrolse'],'target':['r0eB']}
+            lookupObj['details'].append(details)
+
             return lookupObj
         def unusedcontrols():
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -5124,13 +5149,14 @@ class EotHelper:
         for lookupObj in lookupObjs:
             lines.append(self.writefeature(lookupObj))
         if self.pvar['extensions']:
+            lines.extend(self.writefeature(extensionendcleanup()))
             lines.extend(self.writefeature(extensionswap()))
             lines.extend(self.writefeature(extensionsout()))
             lines.extend(self.writefeature(extensionsdbl()))
             lines.extend(self.writefeature(extensionsfortified()))
             lines.extend(self.writefeature(extensionssingle()))
             lines.extend(self.writefeature(extensionswalls()))
-            lines.extend(self.writefeature(extensioncleanup()))
+            lines.extend(self.writefeature(extensionbgncleanup()))
         lines.extend(self.writefeature(unusedcontrols()))
 
         return lines

@@ -8,7 +8,6 @@ pres = [
     # 'contexts' : [{'left':[],'right':['characters_latn']}],
     # 'details' : [
     #     {'sub':['uni27E8'],'target':['uni27E8.latn']},
-    #     {'sub':['tcbb'],'target':['bracketleft.latn']},
     #     {'sub':['braceleft'],'target':['braceleft.latn']},
     #     {'sub':['tophalfbracketL'],'target':['tophalfbracketL.latn']},
     #     {'sub':['uni27EE'],'target':['uni27EE.latn']},
@@ -20,7 +19,6 @@ pres = [
     # 'contexts' : [{'left':['characters_latn'],'right':[]}],
     # 'details' : [
     #     {'sub':['uni27E9'],'target':['uni27E9.latn']},
-    #     {'sub':['tcbe'],'target':['bracketright.latn']},
     #     {'sub':['braceright'],'target':['braceright.latn']},
     #     {'sub':['tophalfbracketR'],'target':['tophalfbracketR.latn']},
     #     {'sub':['uni27EF'],'target':['uni27EF.latn']},
@@ -86,6 +84,14 @@ pres = [
     'details' : [
         {'sub':['hj'],'target':['hj2A']},
         {'sub':['vj'],'target':['vj2A']}]},
+    # Lookup - convert embedded tcbb to level 2
+    {'name' : 'Level2_tcb', 'marks' : '*tcb12',
+    'contexts' : [{'left':['ss','ss'],'right':['se','se']}],
+    'details' : [{'sub':['tcbb'],'target':['tcbb2']}]},
+    # Lookup - convert embedded tcbe to level 2
+    {'name' : 'Level2_tce', 'marks' : '*tce12',
+    'contexts' : [{'left':['ss','ss'],'right':['se','se']}],
+    'details' : [{'sub':['tcbe'],'target':['tcbe2']}]},
     # Lookup - merge level 2 embedding controls
     {'name' : 'mdcBE_merge2', 'marks' : 'controls_a',
     'contexts' : [{'left':[],'right':[]}],
@@ -112,11 +118,19 @@ pres = [
         {'sub':['ti'],'target':['ti1A']},
         {'sub':['mi'],'target':['mi1A']},
         {'sub':['bi'],'target':['bi1A']}]},
+    # Lookup - convert embedded tcbb to level 1
+    {'name' : 'Level1_tcb', 'marks' : '*tcb12',
+    'contexts' : [{'left':['ss'],'right':['se']}],
+    'details' : [{'sub':['tcbb'],'target':['tcbb1']}]},
+    # Lookup - convert embedded tcbe to level 1
+    {'name' : 'Level1_tce', 'marks' : '*tce12',
+    'contexts' : [{'left':['ss'],'right':['se']}],
+    'details' : [{'sub':['tcbe'],'target':['tcbe1']}]},
     # Lookup - merge level 1 embedding controls
     {'name' : 'mdcBE_merge1', 'marks' : 'controls_a',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [{'sub':['ss','se'],'target':['cleanup']}]},
-    # Lookup - convert remaining joiners to level 0 joiners
+    # Lookup - convert remaining joiners and tcbs to level 0 joiners
     {'name' : 'mdcLevel0', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [
@@ -129,7 +143,9 @@ pres = [
         {'sub':['om'],'target':['om0A']},
         {'sub':['ti'],'target':['ti0A']},
         {'sub':['mi'],'target':['mi0A']},
-        {'sub':['bi'],'target':['bi0A']}]},
+        {'sub':['bi'],'target':['bi0A']},
+        {'sub':['tcbb'],'target':['tcbb0']},
+        {'sub':['tcbe'],'target':['tcbe0']}]},
     # DYNAMIC Lookup - populated with r90 values from group data
     {'name' : 'rninety', 'marks' : '*rotate_all',
     'contexts' : [{'left':[],'right':[]}],
@@ -146,7 +162,7 @@ pres = [
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
-    # Lookup - expand bases with insertions TODO
+    # Lookup - expand bases with insertions TODO: auto expand based on glyph name trigger
     {'name' : 'EXPANSION', 'marks' : '',
     'contexts' : [{'left':[],'right':['tsh665655544544332211','D32','Qf','bi0A']}],
     'details' : [{'sub':['et56'],'target':['et66']}]},
@@ -160,26 +176,19 @@ pres = [
     'details' : [{'sub':['Qf','modifiers'],'target':['modifiers']}]},
     # Lookup - inserts quadat initial before all ETs
     {'name' : 'Qi_insert', 'marks' : '',
-    'contexts' : [{'left':[],'right':[]}],
-    'details' : [{'sub':['et_all'],'target':['Qi','et_all']}]},
-    # # Lookup - tcm start - MOVED UP
-    # {'name' : 'tcm_open', 'marks' : '',
-    # 'contexts' : [{'left':[],'right':['Qi']}],
-    # 'details' : [{'sub':['bracketleft'],'target':['tcbb']}]},
-    # # Lookup - tcm end
-    # {'name' : 'tcm_open', 'marks' : '',
-    # 'contexts' : [{'left':['Qf'],'right':[]}],
-    # 'details' : [{'sub':['bracketright'],'target':['tcbe']}]},
-    # # DYNAMIC Lookup - populated with tsg values from group data
-    # {'name' : 'tcm', 'marks' : '',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : []},
+    'contexts' : [],
+    'exceptcontexts' : [
+        {'left':['tcbb_all'],'right':[]}],
+    'details' : [
+        {'sub':['et_all'],'target':['Qi','et_all']},
+        {'sub':['tcbb_all'],'target':['Qi','tcbb_all']},
+        ]},
     # Lookup - clean up cleanup glyphs
     {'name' : 'mdcB_cleanup', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [
         {'sub':['cleanup','cleanup','Qi'],'target':['Qi']},
-        {'sub':['cleanup','Qi'],'target':['Qi']}
+        {'sub':['cleanup','Qi'],'target':['Qi']},
     ]},
     # DYNAMIC Lookup - insert GB1 after incomplete controls
     {'name' : 'gb1', 'marks' : '',
@@ -198,19 +207,23 @@ pres = [
     'contexts' : [
         {'left':[],'right':['Qi']},
         {'left':[],'right':['ss','Qi']},
-        {'left':[],'right':['ss','ss','Qi']}
+        {'left':[],'right':['ss','ss','Qi']},
     ],
     'details' : [{'sub':['Qf','controls_b'],'target':['controls_b']}]},
     # Lookup - clean up Qi glyphs
     {'name' : 'Qi_cleanup', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [{'sub':['controls_b','Qi'],'target':['controls_b']}]},
+    # Lookup - clean up Qi glyphs
+    {'name' : 'Qi_cleanup_tcb', 'marks' : '',
+    'contexts' : [{'left':['controls_b'],'right':[]}],
+    'details' : [{'sub':['tcbb_all','Qi'],'target':['tcbb_all']}]},
     # Lookup - clean up embedded Qi glyphs
     {'name' : 'Qi_dblss', 'marks' : '',
     'contexts' : [{'left':['controls_b'],'right':['ss','Qi']}],
     'details' : [{'sub':['ss'],'target':['su']}]},
     # Lookup - clean up embedded Qi glyphs
-    {'name' : 'Qi_cleanup2', 'marks' : '',
+    {'name' : 'Qi_cleanup_su', 'marks' : '',
     'contexts' : [
         {'left':['controls_b'],'right':[]},
         {'left':['su'],'right':[]}
@@ -250,7 +263,9 @@ pres = [
     'details' : [{'sub':['Qf'],'target':['r0eA','Qf']}]},
     # Lookup - level 2 row begin and end
     {'name' : 'r2', 'marks' : '',
-    'contexts' : [{'left':[],'right':['et_all']}],
+    'contexts' : [{'left':[],'right':['et_all']},
+        {'left':[],'right':['tcbb_all','et_all']},
+    ],
     'details' : [
         {'sub':['vj2A'],'target':['r2eA','vj2A','r2bA']},
         {'sub':['hj2A'],'target':['r2eA','hj2A','r2bA']},
@@ -263,7 +278,9 @@ pres = [
     # Lookup - level 1 row begin and end
     # moved above r2b_corner to fix over inclusion of level 2, e.g., F20 bs ss Z11 hj ss X1 vj D21 se vj N35 se
     {'name' : 'r1', 'marks' : '',
-    'contexts' : [{'left':[],'right':['et_all']}],
+    'contexts' : [{'left':[],'right':['et_all']},
+        {'left':[],'right':['tcbb_all','et_all']},
+    ],
     'details' : [
         {'sub':['vj1A'],'target':['r1eA','vj1A','r1bA']},
         {'sub':['hj1A'],'target':['r1eA','hj1A','r1bA']},
@@ -331,7 +348,10 @@ pres = [
     ]},
     # Lookup - insert level 0 row boundaries around joiners
     {'name' : 'r0', 'marks' : '',
-    'contexts' : [{'left':[],'right':['et_all']}],
+    'contexts' : [
+        {'left':[],'right':['et_all']},
+        {'left':[],'right':['tcbb_all','et_all']},
+        ],
     'details' : [
         {'sub':['vj0A'],'target':['r0eA','vj0A','r0bA']},
         {'sub':['hj0A'],'target':['r0eA','hj0A','r0bA']},
@@ -340,8 +360,7 @@ pres = [
     {'name' : 'unbal-corner', 'marks' : '',
     'contexts' : [
         {'left':['corners0b'],'right':['r1bA']},
-        {'left':['corners1b'],'right':['r2bA']},
-    ],
+        {'left':['corners1b'],'right':['r2bA']}],
     'details' : [{'sub':['su'],'target':['ub']}]},
     # # Lookup - insert level 1 row begin after unbalanced corner
     # {'name' : 'unbal-corner1', 'marks' : '',
@@ -374,9 +393,20 @@ pres = [
         {'sub':['r1bA'],'target':['r1bA','r2bA']}
     ]},
     # Lookup - insert up-level row end after level 1 begin
-    {'name' : 'r1begin', 'marks' : 'parens',
+    {'name' : 'r1begin', 'marks' : '*parenstcbe0',
     'contexts' : [{'left':['r1bA'],'right':[]}],
     'details' : [{'sub':['r0eA'],'target':['r1eA','r0eA']}]},
+    # Lookup - insert up-level row end after level 1 begin
+    {'name' : 'r1begin_tcbe0', 'marks' : '*parenstcbe0',
+    'contexts' : [{'left':['r1bA'],'right':['r0eA']}],
+    'details' : [{'sub':['tcbe0'],'target':['r1eA','tcbe0']}]},
+    # Lookup - insert up-level row begin before level 1 end 
+    {'name' : 'r1end_tcbb0', 'marks' : '*parenstcbb0',
+    'contexts' : [
+        {'left':['r0bA'],'right':['r1eA']},
+        {'left':['r0bA'],'right':['c1eA']}
+    ],
+    'details' : [{'sub':['tcbb0'],'target':['tcbb0','r1bA']}]},
     # Lookup - insert up-level row begin before level 1 end 
     {'name' : 'r1end', 'marks' : 'parens',
     'contexts' : [
@@ -439,8 +469,16 @@ pres = [
     'details' : [{'sub':['c1bA'],'target':['c1bA','mt22']}]},
     # Lookup - insert level 1 min default size 
     {'name' : 'default_size_level1', 'marks' : '',
-    'contexts' : [{'left':[],'right':['r1bA']}],
+    'contexts' : [
+        {'left':[],'right':['r1bA']},
+    ],
     'details' : [{'sub':['c0bA'],'target':['c0bA','mt43']}]},
+    # Lookup - insert level 1 min default size tcbb 
+    {'name' : 'default_size_level1_tcb', 'marks' : '',
+    'contexts' : [
+        {'left':['c0bA'],'right':['r1bA']},
+    ],
+    'details' : [{'sub':['tcbb0'],'target':['tcbb0','mt43']}]},
     # Lookup - move unbalanced ss (i.e., su) to mark mt43,mt22
     {'name' : 'insertunbalancedtoken', 'marks' : 'rowmaxes',
     'contexts' : [{'left':[],'right':['su']}],
