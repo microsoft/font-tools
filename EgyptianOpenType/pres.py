@@ -86,7 +86,14 @@ pres = [
         {'sub':['vj'],'target':['vj2A']}]},
     # Lookup - convert embedded tcbb to level 2
     {'name' : 'Level2_tcb', 'marks' : '*tcb12',
-    'contexts' : [{'left':['ss','ss'],'right':['se','se']}],
+    'contexts' : [
+        {'left':['ss','ss'],'right':['se','se']},
+        {'left':['ss','corners'],'right':['se']},
+        {'left':['ss','om'],'right':['se']},
+        {'left':['ss','ti'],'right':['se']},
+        {'left':['ss','mi'],'right':['se']},
+        {'left':['ss','bi'],'right':['se']},
+        ],
     'details' : [{'sub':['tcbb'],'target':['tcbb2']}]},
     # Lookup - convert embedded tcbe to level 2
     {'name' : 'Level2_tce', 'marks' : '*tce12',
@@ -143,7 +150,27 @@ pres = [
         {'sub':['om'],'target':['om0A']},
         {'sub':['ti'],'target':['ti0A']},
         {'sub':['mi'],'target':['mi0A']},
-        {'sub':['bi'],'target':['bi0A']},
+        {'sub':['bi'],'target':['bi0A']}]},
+    # Lookup - corner0 tcbb1
+    {'name' : 'corner0_tcbb1', 'marks' : '',
+    'contexts' : [{'left':['corners0a'],'right':[]}],
+    'details' : [{'sub':['tcbb'],'target':['tcbb1']}]},
+    # Lookup - corner1 tcbb2
+    {'name' : 'corner1_tcbb2', 'marks' : '',
+    'contexts' : [{'left':['corners1a'],'right':[]}],
+    'details' : [{'sub':['tcbb'],'target':['tcbb2']}]},
+    # Lookup - corner tcbe1
+    {'name' : 'corner_tcbe1', 'marks' : '*tcb01',
+    'contexts' : [{'left':['tcbb1'],'right':[]}],
+    'details' : [{'sub':['tcbe'],'target':['tcbe1']}]},
+    # Lookup - corner tcbe2
+    {'name' : 'corner_tcbe2', 'marks' : '*tcb02',
+    'contexts' : [{'left':['tcbb2'],'right':[]}],
+    'details' : [{'sub':['tcbe'],'target':['tcbe2']}]},
+    # Lookup - tcb0
+    {'name' : 'tcb0', 'marks' : '',
+    'contexts' : [{'left':[],'right':[]}],
+    'details' : [
         {'sub':['tcbb'],'target':['tcbb0']},
         {'sub':['tcbe'],'target':['tcbe0']}]},
     # DYNAMIC Lookup - populated with r90 values from group data
@@ -379,12 +406,24 @@ pres = [
     'contexts' : [{'left':[],'right':['r2bA']}],
     'details' : [{'sub':['r0bA'],'target':['r0bA','r1bA']}]},
     # Lookup - insert up-level row ends after level 2 begin
-    {'name' : 'r2begin2', 'marks' : 'parens',
+    {'name' : 'r2begin2', 'marks' : '*parenstcbe1', #needs to block tcbe1
     'contexts' : [{'left':['r2bA'],'right':[]}],
     'details' : [
         {'sub':['r0eA'],'target':['r2eA','r1eA','r0eA']},
         {'sub':['r1eA'],'target':['r2eA','r1eA']},
     ]},
+    # Lookup - insert up-level row end after level 1 begin
+    {'name' : 'r2begin3', 'marks' : '*parenstcbe1',
+    'contexts' : [{'left':['r2bA'],'right':['r0eA']}],
+    'details' : [{'sub':['tcbe1'],'target':['r2eA','tcbe1','r1eA']}]},
+    # Lookup - insert up-level row end after level 2 begin
+    {'name' : 'r2begin_tcbe0', 'marks' : '*parenstcbe0',
+    'contexts' : [{'left':['r2bA'],'right':['r0eA']}],
+    'details' : [{'sub':['tcbe0'],'target':['r2eA','r1eA','tcbe0']}]},
+    # Lookup - insert up-level row end after level 2 begin
+    {'name' : 'r2begin_tcbe1', 'marks' : '*parenstcbe1',
+    'contexts' : [{'left':['r2bA'],'right':['r0eA']}],
+    'details' : [{'sub':['tcbe1'],'target':['r2eA','tcbe1']}]},
     # Lookup - insert up-level row begins before level 2 end 
     {'name' : 'r2end', 'marks' : 'parens',
     'contexts' : [{'left':[],'right':['r2eA']}],
@@ -393,7 +432,7 @@ pres = [
         {'sub':['r1bA'],'target':['r1bA','r2bA']}
     ]},
     # Lookup - insert up-level row end after level 1 begin
-    {'name' : 'r1begin', 'marks' : '*parenstcbe0',
+    {'name' : 'r1begin', 'marks' : '*parenstcbe0', #needs to block tcbe0
     'contexts' : [{'left':['r1bA'],'right':[]}],
     'details' : [{'sub':['r0eA'],'target':['r1eA','r0eA']}]},
     # Lookup - insert up-level row end after level 1 begin
