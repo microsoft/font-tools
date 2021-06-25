@@ -2077,9 +2077,14 @@ class EotHelper:
             #Convert et token to width and height markers
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'hvm-H-convert-'+str(level)
-            lookupObj['contexts'] = [{'left':['c'+str(level)+'bA'],'right':[]}]
+            lookupObj['contexts'] = [
+                {'left':['c'+str(level)+'bA'],'right':[]},
+                {'left':['c'+str(level)+'bA','tcbb'+str(level)],'right':[]},
+                ]
             if level < 2:
                 context = {'left':['corners'+str(level)+'b'],'right':[]}
+                lookupObj['contexts'].append(context)
+                context = {'left':['corners'+str(level)+'b','tcbb'+str(level+1)],'right':[]}
                 lookupObj['contexts'].append(context)
 
             i = 0
@@ -4606,7 +4611,7 @@ class EotHelper:
                 return lookupObj
             def column():
                 # c0bA h{1-8}} -> c0h$1
-                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+                lookupObj = {'feature':'psts','name':'','marks':'*horizontals','contexts':[],'details':[]}
                 lookupObj['name'] = 'columnwidth'
                 lmax = self.pvar['el']
                 level = 0
@@ -4627,6 +4632,7 @@ class EotHelper:
             lookupObjs.append(column())
 
             return lookupObjs
+
         def shadeSizes():
             #df -> df$1 (sh{1-8}|)
             #df{1-6} -> df{1-6}$1 (sv{1-6}|)
@@ -4962,13 +4968,30 @@ class EotHelper:
             lookupObjs.append(lookupObj)
 
             return lookupObjs
-        # def tcmbases():
-        #     lookupObj = {'feature':'psts','tcmbases':'','marks':'','contexts':[],'details':[]}
-        #     lookupObj['name'] = 'cleanup'
-        #     details = {'sub':['VP'],'target':['QB2','VP']}
-        #     lookupObj['details'].append(details)
 
-        #     return lookupObj
+        def tcbSizes():
+            #tcbb0 -> tcbb_$1 (r0v{1-6}|)
+            def tcbVs(level,cycle):
+                lookupObj = {'feature':'psts','name':'','marks':'*tcms_'+str(level),'contexts':[],'details':[]}
+                lookupObj['name'] = 'tcbSizes_'+str(level)+str(cycle)
+                context = {'left':['r'+str(level)+'v'+str(cycle)],'right':[]}
+                lookupObj['contexts'].append(context)
+                details = {'sub':['tcbb'+str(level)],'target':['tcbb_'+str(cycle)]}
+                lookupObj['details'].append(details)
+                details = {'sub':['tcbe'+str(level)],'target':['tcbe_'+str(cycle)]}
+                lookupObj['details'].append(details)
+                return lookupObj
+
+            lookupObjs = []
+            l = 0
+            while l < self.pvar['el']:
+                v = self.pvar['vhu']
+                while v >= 1:
+                    lookupObjs.append(tcbVs(l,v))
+                    v = v - 1
+                l += 1
+            return lookupObjs
+
         def extensionswap():
             #Swap extension ends to visible
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -5145,9 +5168,12 @@ class EotHelper:
         lines.extend(self.writefeature(tartgetSizes()))
         lines.extend(self.writefeature(targetglyphs()))
         lookupObjs = placeholderglyphs()
-        # lookupObjs = tcmbases()
         for lookupObj in lookupObjs:
             lines.append(self.writefeature(lookupObj))
+        if self.pvar['tcbs']:
+            lookupObjs = tcbSizes()
+            for lookupObj in lookupObjs:
+                lines.append(self.writefeature(lookupObj))
         if self.pvar['extensions']:
             lines.extend(self.writefeature(extensionendcleanup()))
             lines.extend(self.writefeature(extensionswap()))

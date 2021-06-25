@@ -81,6 +81,7 @@ groupdata = {
 	'fillbases' : ['BF1_65','BF1_64','BF1_63','BF1_62','BF1_61','BF1_56','BF1_55','BF1_54','BF1_53','BF1_52','BF1_51','BF1_46','BF1_45','BF1_44','BF1_43','BF1_42','BF1_41','BF1_36','BF1_35','BF1_34','BF1_33','BF1_32','BF1_31','BF1_26','BF1_25','BF1_24','BF1_23','BF1_22','BF1_21','BF1_16','BF1_15','BF1_14','BF1_13','BF1_12','BF1_11'],
 	'glyphs_all' : ['placeholder'],
 	'groupCounters' : ['grp0','grp1','grp2'],
+	'horizontals'  : ['c0bA','c1bA','c2bA','h1','h2','h3','h4','h5','h6','h7','h8'],
 	'horizontals2' : ['eh_all','h1','h2','h3','h4','h5','h6','h7','h8'], # unused, test and remove
 	'insmarksetbs' : ['shapes_bs','characters_all'],
 	'insmarksette' : ['shapes_te','characters_all'],
@@ -197,9 +198,9 @@ groupdata = {
 	'stems2-h'  : ['c2h1', 'c2h2', 'c2h3', 'c2h4', 'c2h5', 'c2h6', 'colspacers2', 'r2eB'],
 	'stems2-hR' : ['c2h1R','c2h2R','c2h3R','c2h4R','c2h5R','c2h6R','colspacers2R','r2eBR'],
 	'stems2-v'  : ['r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6', 'r2vb','rowspacers2','insertionsizes2','r2sep'],
-	'stems2-vx'  : ['r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6', 'r2vb','rowspacers2','insertionsizes2','r2sep','c0eA','shapes_corners_2'], #NEED R VERSION
+	'stems2-vx' : ['r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6', 'r2vb','rowspacers2','insertionsizes2','r2sep','c0eA','shapes_corners_2'], #NEED R VERSION
 	'stems2-vR' : ['r2v1R','r2v2R','r2v3R','r2v4R','r2v5R','r2v6R','r2vbR','rowspacers2R','insertionsizes2R','r2sepR'],
-	'stems_12' : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],
+	'stems_12'  : ['stems1-h','stems1-v','stems2-h','stems2-v','ub'],
 	'ss01baselines' : ['m0'],
 	'targets' : ['t86','t85','t84','t83','t82','t81','t76','t75','t74','t73','t72','t71','t66','t65','t64','t63','t62','t61','t56','t55','t54','t53','t52','t51','t46','t45','t44','t43','t42','t41','t36','t35','t34','t33','t32','t31','t26','t25','t24','t23','t22','t21','t16','t15','t14','t13','t12','t11'], #Not in use
 	'targetwidth': ['trg1','trg2','trg3','trg4','trg5','trg6'],
@@ -210,6 +211,9 @@ groupdata = {
 	'tcb02'       : ['tcbb2','tcbe','tcbe2'],
 	'tcb12'       : ['tcbb','ss','se','corners','om','ti','mi','bi'],
 	'tce12'       : ['tcbe','ss','se','tcbb2'],
+	'tcms_0'       : ['tcbb0','tcbe0','r0v1', 'r0v2', 'r0v3', 'r0v4', 'r0v5', 'r0v6'],
+	'tcms_1'       : ['tcbb1','tcbe1','r1v1', 'r1v2', 'r1v3', 'r1v4', 'r1v5', 'r1v6'],
+	'tcms_2'       : ['tcbb2','tcbe2','r2v1', 'r2v2', 'r2v3', 'r2v4', 'r2v5', 'r2v6'],
 	# 'ss_tcbb'    : ['ss','tcbb0','tcbb1','tcbb2'],
 	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp'],
 	'genericbases' : ['dottedcircle']
