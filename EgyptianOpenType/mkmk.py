@@ -39,7 +39,7 @@ mkmk = [
         {'attach':['stems0-hR'],'to':['stems0-hR'],'anchor':'left'}
     ]},
     #Lookup
-    {'name' : 'cols-shapes0', 'marks' : '',
+    {'name' : 'cols-shapes0', 'marks' : '*stems_shapes0',
     'details' : [
         {'attach':['stems0-h','stems0-hR'],'to':['shapes_0'],'anchor':'left'},
         {'to':['shapes_u'],'anchor':'left'}
@@ -366,6 +366,26 @@ mkmk = [
     'details' : [
         {'attach':['m0'],'to':['glyphs_all'],'anchor':'center'},
         {'to':['mirror_all'],'anchor':'center'}
+    ]},
+    #Lookup
+    {'name' : 'tcbb', 'marks' : '',
+    'details' : [
+        {'attach':['stems0-h'],'to':['tcbb_mks'],'anchor':'top'}
+    ]},
+    #Lookup
+    {'name' : 'tcbe0', 'marks' : '*tcbe0_mfc',
+    'details' : [
+        {'attach':['shapes_0'],'to':['tcbe0_mks'],'anchor':'right'}
+    ]},
+    #Lookup
+    {'name' : 'tcbe1', 'marks' : '*tcbe1_mfc',
+    'details' : [
+        {'attach':['shapes_1'],'to':['tcbe1_mks'],'anchor':'right'}
+    ]},
+    #Lookup
+    {'name' : 'tcbe2', 'marks' : '*tcbe2_mfc',
+    'details' : [
+        {'attach':['shapes_2'],'to':['tcbe2_mks'],'anchor':'right'}
     ]},
     #Lookup
     {'name' : 'damagedsign', 'marks' : '*shadesmkmk',

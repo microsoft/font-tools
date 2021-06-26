@@ -936,6 +936,12 @@ class EotHelper:
         group = 'stems2-hR'
         details = {'aname':'MARK_top','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'tcbb_mks'
+        details = {'aname':'MARK_top','xtype':'ZERO','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'stems0-h'
+        details = {'aname':'top','xtype':'ZERO','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'stems0-v'
         details = {'aname':'top','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
@@ -967,6 +973,15 @@ class EotHelper:
         anchorgroup(group,[group],details)
         group = 'shapes_u'
         details = {'aname':'MARK_right','xtype':'XSUNIT','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'tcbe0_mks'
+        details = {'aname':'MARK_right','xtype':'ZERO','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'tcbe1_mks'
+        details = {'aname':'MARK_right','xtype':'ZERO','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'tcbe2_mks'
+        details = {'aname':'MARK_right','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
         group = 'stems0-h'
         details = {'aname':'right','xtype':'XUNIT','ytype':'ZERO','recursive':0}
@@ -4968,7 +4983,6 @@ class EotHelper:
             lookupObjs.append(lookupObj)
 
             return lookupObjs
-
         def tcbSizes():
             #tcbb0 -> tcbb_$1 (r0v{1-6}|)
             def tcbVs(level,cycle):
@@ -4978,7 +4992,7 @@ class EotHelper:
                 lookupObj['contexts'].append(context)
                 details = {'sub':['tcbb'+str(level)],'target':['tcbb_'+str(cycle)]}
                 lookupObj['details'].append(details)
-                details = {'sub':['tcbe'+str(level)],'target':['tcbe_'+str(cycle)]}
+                details = {'sub':['tcbe'+str(level)],'target':['tcbe'+str(level)+'_'+str(cycle)]}
                 lookupObj['details'].append(details)
                 return lookupObj
 
@@ -4991,7 +5005,6 @@ class EotHelper:
                     v = v - 1
                 l += 1
             return lookupObjs
-
         def extensionswap():
             #Swap extension ends to visible
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
