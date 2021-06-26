@@ -39,7 +39,7 @@ mkmk = [
         {'attach':['stems0-hR'],'to':['stems0-hR'],'anchor':'left'}
     ]},
     #Lookup
-    {'name' : 'cols-shapes0', 'marks' : '*stems_shapes0',
+    {'name' : 'cols-shapes0', 'marks' : '*stems0_shapes0',
     'details' : [
         {'attach':['stems0-h','stems0-hR'],'to':['shapes_0'],'anchor':'left'},
         {'to':['shapes_u'],'anchor':'left'}
@@ -192,12 +192,11 @@ mkmk = [
         {'attach':['stems1-hR'],'to':['stems1-hR'],'anchor':'left'}
     ]},
     #Lookup
-    {'name' : 'cols-shapes1', 'marks' : '',
+    {'name' : 'cols-shapes1', 'marks' : '*stems1_shapes1',
     'details' : [
         {'attach':['stems1-h','stems1-hR'],'to':['shapes_1'],'anchor':'left'},
         {'to':['shapes_u'],'anchor':'left'}
     ]},
-
     #Lookup - Insertion ts
     {'name' : 'shapes1-ts', 'marks' : '*shape_ins1_ts',
     'details' : [
@@ -346,14 +345,10 @@ mkmk = [
         {'attach':['stems2-hR'],'to':['stems2-hR'],'anchor':'left'}
     ]},
     #Lookup
-    {'name' : 'cols-shapes2', 'marks' : '',
+    {'name' : 'cols-shapes2', 'marks' : '*stems2_shapes2',
     'details' : [
-        {'attach':['stems2-h'],'to':['shapes_2'],'anchor':'left'}
-    ]},
-    #Lookup
-    {'name' : 'cols-shapes2R', 'marks' : '',
-    'details' : [
-        {'attach':['stems2-hR'],'to':['shapes_2'],'anchor':'left'}
+        {'attach':['stems2-h','stems2-hR'],'to':['shapes_2'],'anchor':'left'},
+        {'to':['shapes_u'],'anchor':'left'}
     ]},
     #Lookup
     {'name' : 'm0b0', 'marks' : '',
@@ -370,7 +365,7 @@ mkmk = [
     #Lookup
     {'name' : 'tcbb', 'marks' : '',
     'details' : [
-        {'attach':['stems0-h'],'to':['tcbb_mks'],'anchor':'top'}
+        {'attach':['stems0-h','stems1-h','stems2-h'],'to':['tcbb_mks'],'anchor':'top'}
     ]},
     #Lookup
     {'name' : 'tcbe0', 'marks' : '*tcbe0_mfc',

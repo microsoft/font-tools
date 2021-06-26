@@ -187,7 +187,11 @@ groupdata = {
 	'spacers_rows2'    : ['rs0','rs0','rs0','rs0','rs0','r2s1p0','rs0','rs0','rs0','rs0'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'spacers_deltarows': ['ds0','ds4p0','ds3p0','ds2p0','ds1p5','ds1p0','ds0p5','ds0p66','ds0p33','ds0p25'], # ORDER OF THESE ITEMS IS IMPORTANT
 	'stems0-h'  : ['c0h1', 'c0h2', 'c0h3', 'c0h4', 'c0h5', 'c0h6', 'c0h7', 'c0h8', 'colspacers0', 'r0eB'],
-	'stems_shapes0' : ['shapes_0','stems0-h','stems0-hR','shapes_u'],
+	'stems1_shapes0': ['stems1-h','shapes_0'],
+	'stems2_shapes0': ['stems2-h','shapes_0'],
+	'stems0_shapes0': ['stems0-h','stems0-hR','shapes_0','shapes_u','c0eA'],
+	'stems1_shapes1': ['stems1-h','stems1-hR','shapes_1','shapes_u','c1eA'],
+	'stems2_shapes2': ['stems2-h','stems2-hR','shapes_2','shapes_u','c2eA'],
 	'stems0-hR' : ['c0h1R','c0h2R','c0h3R','c0h4R','c0h5R','c0h6R','c0h7R','c0h8R','colspacers0R','r0eBR'],
 	'stems0-v'  : ['r0v1', 'r0v2', 'r0v3', 'r0v4', 'r0v5', 'r0v6', 'rowspacers0'],
 	'stems0-vR' : ['r0v1R','r0v2R','r0v3R','r0v4R','r0v5R','r0v6R','rowspacers0R'],

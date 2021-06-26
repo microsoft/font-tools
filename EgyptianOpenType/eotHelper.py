@@ -24,19 +24,13 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # version 2 requirements
-    # Shade cartouche end caps
-    # Sign quarter shades
-    # inventory of rotated signs
-    # 
+    # Shade cartouche end caps DONE
+    # Sign quarter shades 
 # 4. Middle insertion
     # TODO SECOND PASS IS NOT REWINDING 2482
-    # c. expanded enclosing glyph - when to expand?
-    # pres016 - expansion
+    # c. expanded enclosing glyph - when to expand? pres016 - expansion
 # 5. TCMs
-    # LB RB
-    # QUESTION - syntax for TCMs
-        #   TCMStart A1 TCMEnd
-        #   TCMStart hj A1 hj TCMEnd
+    # LB RB DONE
 # Groups[]
 #  All signs on baseline in Hieratic texts. Need to scope the set of complex strucutres which use the baseline
     
@@ -4871,7 +4865,7 @@ class EotHelper:
             return lookupObj
         def swapLevelShapeKeys():
             def swapkeys(level):
-                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+                lookupObj = {'feature':'psts','name':'','marks':'*stems'+str(level)+'_shapes0','contexts':[],'details':[]}
                 lookupObj['name'] = 'swapLevelShapes-'+str(level)
                 i = 1
                 while i <= self.pvar['chu']:
