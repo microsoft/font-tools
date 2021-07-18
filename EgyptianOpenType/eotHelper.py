@@ -459,6 +459,14 @@ class EotHelper:
                     subpair = {'sub':[key],'target':[et,tsh,key,'Qf'] }
                     subpairs.append(subpair)
             return subpairs
+        def loadtbbgb1subpairs():
+            keys = ['tcbb0']
+            subpairs = []
+            tsh = 'tsh'+str(self.glyphdata['GB1']['tshash'])
+            for key in keys:
+                subpair = {'sub':[key],'target':[key,'et66',tsh,'GB1','Qf'] }
+                subpairs.append(subpair)
+            return subpairs
         def loadgb1subpairs():
             keys = [
                 'vj0A','hj0A','its0A','ibs0A','ite0A','ibe0A','om0A',
@@ -496,6 +504,9 @@ class EotHelper:
                 lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'tsg'):#DYNAMIC FEATURE TSG
                 subpairs = loadtsgsubpairs()
+                lookupObj['details'] = subpairs
+            if (lookupObj['name'] == 'tbb_gb1'):#DYNAMIC FEATURE TBB GB1
+                subpairs = loadtbbgb1subpairs()
                 lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'gb1'):#DYNAMIC FEATURE GB1
                 subpairs = loadgb1subpairs()

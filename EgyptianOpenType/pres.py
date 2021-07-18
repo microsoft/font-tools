@@ -217,6 +217,13 @@ pres = [
         {'sub':['cleanup','cleanup','Qi'],'target':['Qi']},
         {'sub':['cleanup','Qi'],'target':['Qi']},
     ]},
+    # DYNAMIC Lookup - insert GB1 after tbb
+    {'name' : 'tbb_gb1', 'marks' : '',
+    'exceptcontexts' : [
+        {'left':[],'right':['et_all']},
+    ],
+    'contexts' : [{'left':['Qi'],'right':[]}],
+    'details' : []},
     # DYNAMIC Lookup - insert GB1 after incomplete controls
     {'name' : 'gb1', 'marks' : '',
     'exceptcontexts' : [
@@ -530,6 +537,13 @@ pres = [
     'details' : [
         {'sub':['c1bA','su'],'target':['c1bA']},
         {'sub':['c2bA','su'],'target':['c2bA']}
+    ]},
+    # Lookup - revert unbalanced tbbe
+    {'name' : 'visibleunbalancedtbbe', 'marks' : '',
+    'exceptcontexts' : [
+        {'left':[],'right':['c0eA']}],
+    'details' : [
+        {'sub':['tcbe0'],'target':['tcbe']}
     ]},
     # Lookup - set min default size to reducible default size
     {'name' : 'default_size_level1', 'marks' : 'rowmaxes',
