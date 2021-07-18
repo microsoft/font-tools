@@ -195,7 +195,10 @@ pres = [
     'details' : [{'sub':['et56'],'target':['et66']}]},
     # Lookup - accommodate base modifiers
     {'name' : 'Qf_insert', 'marks' : '',
-    'contexts' : [{'left':['Qf'],'right':[]}],
+    'contexts' : [
+        {'left':['Qf'],'right':[]},
+        {'left':['Qf','dq_all'],'right':[]}
+    ],
     'details' : [{'sub':['modifiers'],'target':['modifiers','Qf']}]},
     # Lookup - accommodate base modifiers
     {'name' : 'Qf_cleanup', 'marks' : '',
