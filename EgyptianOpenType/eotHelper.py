@@ -26,6 +26,7 @@ class EotHelper:
     def __init__(self, pvar):
         """Intialize the Egyptian OpenType helper class with config variable."""
         print(sys.version)
+        print(pvar['fontfilename'])
 
         self.pvar = pvar
         self.tssizes = self.loadInsertionSizes('ts')
@@ -2504,12 +2505,17 @@ class EotHelper:
             lookupObj['contexts'].append(contexts)
 
             i = self.pvar['hhu'] #Max oversize width
-            while i > self.pvar['chu']: # Max clustering width
-                ch = 'ch'+str(i)
-                rm = 'rm'+str(i)
-                details = {'sub':[ch],'target':[ch,rm,'dv0']}
-                lookupObj['details'].append(details)
-                i = i - 1
+            c = self.pvar['chu'] #Max clustering width
+
+            if i > c : 
+                while i > c: 
+                    ch = 'ch'+str(i)
+                    rm = 'rm'+str(i)
+                    details = {'sub':[ch],'target':[ch,rm,'dv0']}
+                    lookupObj['details'].append(details)
+                    i = i - 1
+            else:
+                return
             
             return lookupObj
 
@@ -2672,7 +2678,9 @@ class EotHelper:
 
         lookupObjs = []
         if level == 0:
-            lookupObjs.append(overwidemax(level))
+            obj = overwidemax(level)
+            if obj:
+                lookupObjs.append(obj)
             lookupObjs.extend(maxperrow(level))
             lookupObjs.append(blockstart(level))
         else:
@@ -4588,7 +4596,7 @@ class EotHelper:
 
         lines = []
         lines.extend(self.writefeature(cleanup()))
-        if self.pvar['cartouche']:
+        if self.pvar['extensions']:
             lines.extend(self.writefeature(cartouchebegin()))
             lines.extend(self.writefeature(cartoucheend()))
         lines.extend(self.writefeature(quadratWidth()))
@@ -4609,9 +4617,9 @@ class EotHelper:
         lookupObjs = placeholderglyphs()
         for lookupObj in lookupObjs:
             lines.append(self.writefeature(lookupObj))
-        if self.pvar['cartouche']:
+        if self.pvar['extensions']:
             lines.extend(self.writefeature(cartoucheextensions()))
-        if self.pvar['fortified']:
+        if self.pvar['extensions']:
             lines.extend(self.writefeature(fortifiedextensions()))
         lines.extend(self.writefeature(unusedcontrols()))
 
