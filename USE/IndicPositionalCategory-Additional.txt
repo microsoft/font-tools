@@ -6,7 +6,7 @@
 # Updated for L2/19-083    by Andrew Glass 2019-05-06
 # Updated for Unicode 12.1 by Andrew Glass 2019-05-30
 # Updated for Unicode 13.0 by Andrew Glass 2020-07-28
-# Updated for Unicode 14.0 by Andrew Glass 2021-09-25
+# Updated for Unicode 14.0 by Andrew Glass 2021-09-28
 
 # ================================================
 # ================================================
@@ -58,14 +58,16 @@ AA35          ; Top     # Mn       CHAM CONSONANT SIGN
 # Indic_Positional_Category=Bottom
 0859..085B    ; Bottom # Mn   [3] MANDAIC AFFRICATION MARK..MANDAIC GEMINATION MARK
 18A9          ; Bottom # Mn       MONGOLIAN LETTER ALI GALI DAGALGA
-10AE5         ; Bottom # Mn       MANICHAEAN ABBREVIATION MARK ABOVE # Not really bottom, but here for ccc to control
+10AE5         ; Bottom # Mn       MANICHAEAN ABBREVIATION MARK ABOVE  # Overriden, ccc controls order
 10AE6         ; Bottom # Mn       MANICHAEAN ABBREVIATION MARK BELOW
 10F46..10F47  ; Bottom # Mn   [2] SOGDIAN COMBINING DOT BELOW..SOGDIAN COMBINING TWO DOTS BELOW
-10F48..10F4A  ; Bottom # Mn   [3] SOGDIAN COMBINING DOT ABOVE..SOGDIAN COMBINING CURVE ABOVE # Overriden to below because ccc-based Normalization controls order
+10F48..10F4A  ; Bottom # Mn   [3] SOGDIAN COMBINING DOT ABOVE..SOGDIAN COMBINING CURVE ABOVE     # Overriden, ccc controls order
 10F4B         ; Bottom # Mn       SOGDIAN COMBINING CURVE BELOW
-10F4C         ; Bottom # Mn       SOGDIAN COMBINING HOOK ABOVE # Overriden to below because ccc-based Normalization controls order
+10F4C         ; Bottom # Mn       SOGDIAN COMBINING HOOK ABOVE        # Overriden, ccc controls order
 10F4D..10F50  ; Bottom # Mn   [4] SOGDIAN COMBINING HOOK BELOW..SOGDIAN COMBINING STROKE BELOW
+10F82         ; Bottom # Mn       OLD UYGHUR COMBINING DOT ABOVE      # Overriden, ccc controls order
 10F83         ; Bottom # Mn       OLD UYGHUR COMBINING DOT BELOW
+10F84         ; Bottom # Mn       OLD UYGHUR COMBINING TWO DOTS ABOVE # Overriden, ccc controls order
 10F85         ; Bottom # Mn       OLD UYGHUR COMBINING TWO DOTS BELOW
 16F4F         ; Bottom # Mn       MIAO SIGN CONSONANT MODIFIER BAR
 16F51..16F87  ; Bottom # Mc  [55] MIAO SIGN ASPIRATION..MIAO VOWEL SIGN UI
@@ -84,8 +86,6 @@ AA35          ; Top     # Mn       CHAM CONSONANT SIGN
 1885..1886    ; Top   # Mn   [2] MONGOLIAN LETTER ALI GALI BALUDA..MONGOLIAN LETTER ALI GALI THREE BALUDA
 10D24..10D27  ; Top   # Mn   [4] HANIFI ROHINGYA SIGN HARBAHAY..HANIFI ROHINGYA SIGN TASSI
 10EAB..10EAC  ; Top   # Mn   [2] YEZIDI COMBINING HAMZA MARK..YEZIDI COMBINING MADDA MARK
-10F82         ; Top   # Mn       OLD UYGHUR COMBINING DOT ABOVE
-10F84         ; Top   # Mn       OLD UYGHUR COMBINING TWO DOTS ABOVE
 16B30..16B36  ; Top   # Mn   [7] PAHAWH HMONG MARK CIM TUB..PAHAWH HMONG MARK CIM TAUM
 1E130..1E136  ; Top   # Mn   [7] NYIAKENG PUACHUE HMONG TONE-B..NYIAKENG PUACHUE HMONG TONE-D
 1E2AE         ; Top   # Mn       TOTO SIGN RISING TONE
