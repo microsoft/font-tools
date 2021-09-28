@@ -21,22 +21,18 @@ from mark import mark
 from mkmk import mkmk
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables._g_l_y_f import Glyph
-ver = 200
+ver = 300
 
-# version 2 requirements
-    # Shade cartouche end caps DONE
-    # Sign quarter shades 
-# 4. Middle insertion
-    # TODO SECOND PASS IS NOT REWINDING 2482
-    # c. expanded enclosing glyph - when to expand? pres016 - expansion
-# 5. TCMs
-    # LB RB DONE
-# Groups[]
-#  All signs on baseline in Hieratic texts. Need to scope the set of complex strucutres which use the baseline
-    
-# Verse point
-# Bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
-
+# version 3 requirements
+    # atomic shared full and half
+    # rotations with VS
+    # middle insertion with single control
+        # TODO SECOND PASS IS NOT REWINDING 2482
+    # quarter sign shading
+    # expanded enclosing glyph - when to expand? pres016 - expansion
+    # all signs on baseline in Hieratic texts. Need to scope the set of complex strucutres which use the baseline
+    # bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
+    # Verse point
 
 class EotHelper:
     def __init__(self, pvar):
@@ -4489,6 +4485,21 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
+        def atomicBlanks():
+            lookupObjs = []
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'atomicBlank1'
+            details = {'sub':['AQ1'],'target':['AS1']}
+            lookupObj['details'].append(details)
+            lookupObjs.append(lookupObj)
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'atomicBlank2'
+            lookupObj['contexts'].append({'left':[],'right':['AS1']})
+            details = {'sub':['tsh33'],'target':['tsh6665646362615655535251464544434241363534333231262524232221161514131211']}
+            lookupObj['details'].append(details)
+            lookupObjs.append(lookupObj)
+
+            return lookupObjs
         def extensionbeginout():
             #Outer extension begin - o
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -5154,6 +5165,9 @@ class EotHelper:
 
         lines = []
         lines.extend(self.writefeature(cleanup()))
+        lookupObjs = atomicBlanks()
+        for lookupObj in lookupObjs:
+            lines.extend(self.writefeature(lookupObj))
         if self.pvar['extensions']:
             lines.extend(self.writefeature(extensionbeginout()))
             lines.extend(self.writefeature(extensionbegindbl()))
