@@ -1470,12 +1470,13 @@ class EotHelper:
                     if gdec in self.pvar['proxycontrols']:
                         glyph['dec'] = 0
                         glyph['hex'] = 0x0
-                    # apply proxy values to controls
-                    if name in self.pvar['controls2']:
-                        index = self.pvar['controls2'].index(name)
-                        pdec = self.pvar['proxycontrols'][index]
-                        glyph['dec'] = pdec
-                        glyph['hex'] = hex(pdec)
+            if self.pvar['useproxycontrols']:
+                # apply proxy values to controls
+                if name in self.pvar['controls2']:
+                    index = self.pvar['controls2'].index(name)
+                    pdec = self.pvar['proxycontrols'][index]
+                    glyph['dec'] = pdec
+                    glyph['hex'] = hex(pdec)
             group = calculateGroup(glyph['dec'],name)
             glyph['group'] = group
             glyph['type'] = 'M'
