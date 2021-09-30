@@ -8,8 +8,8 @@ pvar = {
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text Proto", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantextV3Proto-COLR.ttf", # Path to source font
-    'fontout' : "egyptiantextV3Proto.ttf", # Path to write output font
+    'fontsrc' : "../../fonts/et/egyptiantextV3ProtoCore-COLR.ttf", # Path to source font
+    'fontout' : "egyptiantextV3Proto2.ttf", # Path to write output font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
@@ -38,14 +38,46 @@ pvar = {
     'cyclesperlevel' : [3,3,2], #Used to repeat sum and max substitutions
     'defaultinsertionsize' : 2, #default insertion size per level
     'controls' : ['vj','hj','ts','bs','te','be','om','ss','se'],
+    'controls2': [
+        'esb', # extension straight begin [13363] -> 78368
+        'ese', # extension straight end   [13364] -> 78369
+        'ewb', # extension walled begin   [13365] -> 78370
+        'ewe', # extension walled end     [13366] -> 78371
+        'BF1', # blank full               [13367] -> 78372
+        'df',  # damaged full             [13368] -> 78373
+        'sts', # shade top start          [13369] -> 78374
+        'sbs', # shade bottom start       [1336A] -> 78375
+        'ste', # shade top end            [1336B] -> 78376
+        'sbe', # shade bottom end         [1336C] -> 78377
+        'mr',  # mirror                   [1336D] -> 78378
+        # 'r90', # rotate 90 degrees      [1336E] -> X
+        # 'r180', # rotate 180 degrees    [1336F] -> X
+        # 'r270', # rotate 270 degrees    [13370] -> X
+        'BQ1', # blank quarter            [13371] -> 78379
+        # 'BS1', # blank sixth            [13372] -> X
+        'VP',  # verse point              [13373] -> 78380
+        # 'VPr', # verse point r          [13374] -> X       id 221
+        'mi',  # middle insertion         [13375] -> 78381
+        'ti',  # top insertion            [13376] -> 78382
+        'bi',  # bottom insertion         [13377] -> 78383
+        'tcbb',# text critical bracket begin [1337C] -> 78384
+        'tcbe',# text critical bracket end[1337E] -> 78385
+        'AS1', # atomic shade full        [1336E] -> 78386
+        'AQ1', # atomic shade quarter     [1336F] -> 78387
+        'AT1', # atomic shade tall        [     ] -> 78388
+        'AW1', # atomic shade wide        [     ] -> 78389
+    ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
-    'useproxycontrols': 0, # use proxy code points for controls
-    'proxycontrols' : [78691,78692,78693,78694,78695,78696,78697,78698,78699],
+    'useproxycontrols': 1, # use proxy code points for controls
+    'proxycontrols' : [78368,78369,78370,78371,78372,78373,78374,
+        78375,78376,78377,78378,78379,78380,78381,78382,
+        78383,78384,78385,78386,78387,78388,78389],
     'extensions' : 1,
     'tcbs' : 1,
     # 'cartouchecodes' : ['cb','cwb','hwtb','hwttb','hwtbb','hwtwb','ce','cre','cwe','hwte','hwtte','hwtbe','hwtwe'],
     'baseline' : 1, #align singletons to baseline for Hieratic
     'mirror' : 1,
-    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':1,'blws':1,'rlig':0,'psts':0,'ss01':1,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
-    'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':1,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
+    'variations' : 1,
+    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':1,'abvs':1,'blws':1,'rlig':1,'psts':0,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':0,'anchors':0,'coda':0}
+    'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':1,'blws':1,'rlig':0,'psts':0,'ss01':1,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }

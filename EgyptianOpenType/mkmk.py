@@ -385,7 +385,8 @@ mkmk = [
     #Lookup
     {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
     'details' : [
-        {'attach':['m0'],'to':['shapes_df'],'anchor':'center'}
+        {'attach':['m0'],'to':['shapes_df'],'anchor':'center'},
+        {'to':['shapes_dq'],'anchor':'center'}
     ]},
     #Lookup
     {'name' : 'glyphs', 'marks' : '',
@@ -396,6 +397,7 @@ mkmk = [
     #Lookup
     {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
     'details' : [
-        {'attach':['b0'],'to':['shapes_df'],'anchor':'bi'}
+        {'attach':['b0'],'to':['shapes_df'],'anchor':'bi'},
+        {'to':['shapes_dq'],'anchor':'center'}
     ]}
 ]

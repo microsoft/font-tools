@@ -3,7 +3,7 @@
 
 qcontrols = ['vj','hj','ts','bs','te','be','om','ti','mi','bi','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle','O33aeL','O33aeR','O33aeB',
 	#V2ProtoControls
-	'esb','ese','ewb','ewe','df','mr','r90','r180','r270',
+	'esb','ese','ewb','ewe','df','mr','sts','sbs','ste','sbe'
 ]
 
 # Egyptian Characters that don't participate in shaping
@@ -54,15 +54,17 @@ groupdata = {
 	'deltas_spacers' : ['spacers_deltarows','cs0','rs0'],
 	'deltas_all' : ['dd1','dv0','deltas','th6','th5','th4','th3','th2'],
 	'dCells' : ['dc0','dc1','dc2','dc3','dc4','dc5'],
-	'dq_all' : ['DQH_1','DQH_12','DQH_123','DQH_1234','DQH_124','DQH_13','DQH_134','DQH_14','DQH_2','DQH_23','DQH_234','DQH_24','DQH_3','DQH_34','DQH_4',
-		'DQ1_1','DQ1_12','DQ1_123','DQ1_1234','DQ1_124','DQ1_13','DQ1_134','DQ1_14','DQ1_2','DQ1_23','DQ1_234','DQ1_24','DQ1_3','DQ1_34','DQ1_4',
-		'DQ2_1','DQ2_12','DQ2_123','DQ2_1234','DQ2_124','DQ2_13','DQ2_134','DQ2_14','DQ2_2','DQ2_23','DQ2_234','DQ2_24','DQ2_3','DQ2_34','DQ2_4',
-		'DQ3_1','DQ3_12','DQ3_123','DQ3_1234','DQ3_124','DQ3_13','DQ3_134','DQ3_14','DQ3_2','DQ3_23','DQ3_234','DQ3_24','DQ3_3','DQ3_34','DQ3_4',
-		'DQ4_1','DQ4_12','DQ4_123','DQ4_1234','DQ4_124','DQ4_13','DQ4_134','DQ4_14','DQ4_2','DQ4_23','DQ4_234','DQ4_24','DQ4_3','DQ4_34','DQ4_4',
-		'DQ5_1','DQ5_12','DQ5_123','DQ5_1234','DQ5_124','DQ5_13','DQ5_134','DQ5_14','DQ5_2','DQ5_23','DQ5_234','DQ5_24','DQ5_3','DQ5_34','DQ5_4',
-		'DQ6_1','DQ6_12','DQ6_123','DQ6_1234','DQ6_124','DQ6_13','DQ6_134','DQ6_14','DQ6_2','DQ6_23','DQ6_234','DQ6_24','DQ6_3','DQ6_34','DQ6_4',
-		'DQ7_1','DQ7_12','DQ7_123','DQ7_1234','DQ7_124','DQ7_13','DQ7_134','DQ7_14','DQ7_2','DQ7_23','DQ7_234','DQ7_24','DQ7_3','DQ7_34','DQ7_4',
-		'DQ8_1','DQ8_12','DQ8_123','DQ8_1234','DQ8_124','DQ8_13','DQ8_134','DQ8_14','DQ8_2','DQ8_23','DQ8_234','DQ8_24','DQ8_3','DQ8_34','DQ8_4'],
+	'dq_core': ['dq1','dq12','dq123','dq124','dq13','dq134','dq14','dq2','dq23','dq234','dq24','dq3','dq34','dq4'],
+	'dq_h' : [ #removed DQ*_1234, DQH -> full only
+		'dq1_1','dq12_1','dq123_1','dq124_1','dq13_1','dq134_1','dq14_1','dq2_1','dq23_1','dq234_1','dq24_1','dq3_1','dq34_1','dq4_1',
+		'dq1_2','dq12_2','dq123_2','dq124_2','dq13_2','dq134_2','dq14_2','dq2_2','dq23_2','dq234_2','dq24_2','dq3_2','dq34_2','dq4_2',
+		'dq1_3','dq12_3','dq123_3','dq124_3','dq13_3','dq134_3','dq14_3','dq2_3','dq23_3','dq234_3','dq24_3','dq3_3','dq34_3','dq4_3',
+		'dq1_4','dq12_4','dq123_4','dq124_4','dq13_4','dq134_4','dq14_4','dq2_4','dq23_4','dq234_4','dq24_4','dq3_4','dq34_4','dq4_4',
+		'dq1_5','dq12_5','dq123_5','dq124_5','dq13_5','dq134_5','dq14_5','dq2_5','dq23_5','dq234_5','dq24_5','dq3_5','dq34_5','dq4_5',
+		'dq1_6','dq12_6','dq123_6','dq124_6','dq13_6','dq134_6','dq14_6','dq2_6','dq23_6','dq234_6','dq24_6','dq3_6','dq34_6','dq4_6',
+		'dq1_7','dq12_7','dq123_7','dq124_7','dq13_7','dq134_7','dq14_7','dq2_7','dq23_7','dq234_7','dq24_7','dq3_7','dq34_7','dq4_7',
+		'dq1_8','dq12_8','dq123_8','dq124_8','dq13_8','dq134_8','dq14_8','dq2_8','dq23_8','dq234_8','dq24_8','dq3_8','dq34_8','dq4_8'
+		],
 	'eh_all' : ['eh1','eh2','eh3','eh4','eh5','eh6','eh7','eh8'],
 	'en_all' : ['en1','en2','en3','en4','en5','en6','enb'],
 	'et_all' : ['et11','et12','et13','et14','et15','et16','et21','et22','et23','et24','et25','et26','et31','et32','et33','et34','et35','et36','et41','et42','et43','et44','et45','et46','et51','et52','et53','et54','et55','et56','et61','et62','et63','et64','et65','et66','et71','et72','et73','et74','et75','et76','et81','et82','et83','et84','et85','et86'],
@@ -95,7 +97,7 @@ groupdata = {
 	'insertions' : ['insertionmarkers','insertionsizes1a'],
 	'minsizes' : [ 'mt11','mt12','mt13','mt14','mt15','mt16','mt21','mt22','mt23','mt24','mt25','mt26','mt31','mt32','mt33','mt34','mt35','mt36','mt41','mt42','mt43','mt44','mt45','mt46','mt51','mt52','mt53','mt54','mt55','mt56','mt61','mt62','mt63','mt64','mt65','mt66', 'su'],
 	'mirror_all'    : [],
-	'modifiers'     : ['df','mr','r90','r180','r270','tcbe_all'],
+	'modifiers'     : ['df','dq_core','mr','tcbe_all'],
 	'multicorners1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','it00','cornerglyphs','c0eA'],
 	'multicorners2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','it00','cornerglyphs','c1eA'],
 	'normalize'     : ['dn1','dn2','dn3','dn4','dn5','hn1','hn2','hn3','hn4','hn5'],
@@ -118,7 +120,7 @@ groupdata = {
 	'quadratDoublesV'    : ['QD1V','QD2V','QD3V','QD4V','QD5V','QD6V','QD7V','QD8V'],
 	'quadratFortifieds'  : ['QF1', 'QF2', 'QF3', 'QF4', 'QF5', 'QF6', 'QF7', 'QF8'],
 	'quadratFortifiedsV' : ['QF1V','QF2V','QF3V','QF4V','QF5V','QF6V','QF7V','QF8V'],
-	'rotate_all' : ['r90','r180','r270','A1'], # fill dynamically
+	# 'rotate_all' : ['r90','r180','r270','A1'], # fill dynamically
 	'rowCounter' : ['vj0B','vj1B','vj2B','v0'],
 	'rowmaxes' : ['rm1','rm2','rm3','rm4','rm5','rm6','rm7','rm8','rc0','minsizes'],
 	'rowplus' : ['rp1','rp2','rp3','rp4','rp5'],
@@ -128,8 +130,8 @@ groupdata = {
 	'rowspacers1R' : ['r1s4p0R','r1s3p0R','r1s2p0R','r1s1p0R','r1s0p5R','r1s0p33R'],
 	'rowspacers2' : ['r2s1p0'],
 	'rowspacers2R' : ['r2s1p0R'],
-	'shadegroupH' : ['sh8','sh7','sh6','sh5','sh4','sh3','sh2','sh1','df'],
-	'shadegroupV' : ['sv6','sv5','sv4','sv3','sv2','sv1','df6','df5','df4','df3','df2','df1'],
+	'shadegroupH' : ['sh8','sh7','sh6','sh5','sh4','sh3','sh2','sh1','df','dq_core'],
+	'shadegroupV' : ['sv6','sv5','sv4','sv3','sv2','sv1','df6','df5','df4','df3','df2','df1','dq_h'],
 	'shapes_0' : ['o86','o85','o84','o83','o82','o81','o76','o75','o74','o73','o72','o71','o66','o65','o64','o63','o62','o61','o56','o55','o54','o53','o52','o51','o46','o45','o44','o43','o42','o41','o36','o35','o34','o33','o32','o31','o26','o25','o24','o23','o22','o21','o16','o15','o14','o13','o12','o11'],
 	'shapes_1' : ['s66','s65','s64','s63','s62','s61','s56','s55','s54','s53','s52','s51','s46','s45','s44','s43','s42','s41','s36','s35','s34','s33','s32','s31','s26','s25','s24','s23','s22','s21','s16','s15','s14','s13','s12','s11'],
 	'shapes_2' : ['i66','i65','i64','i63','i62','i61','i56','i55','i54','i53','i52','i51','i46','i45','i44','i43','i42','i41','i36','i35','i34','i33','i32','i31','i26','i25','i24','i23','i22','i21','i16','i15','i14','i13','i12','i11'],
@@ -172,7 +174,23 @@ groupdata = {
 	'shapes_corners_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2'],
 	'shapes_cornersom_2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','shapes_om2','shapes_mm2'],
 	'shapes_df' : ['df86','df76','df66','df65','df64','df63','df62','df61','df56','df55','df54','df53','df52','df51','df46','df45','df44','df43','df42','df41','df36','df35','df34','df33','df32','df31','df26','df25','df24','df23','df22','df21','df16','df15','df14','df13','df12','df11'],
-	'shadesmkmk' : ['m0','b0','shapes_df'],
+	'shapes_dq' : [
+		'dq1_86','dq1_76','dq1_66','dq1_56','dq1_46','dq1_36','dq1_26','dq1_16',
+		'dq2_86','dq2_76','dq2_66','dq2_56','dq2_46','dq2_36','dq2_26','dq2_16',
+		'dq3_86','dq3_76','dq3_66','dq3_56','dq3_46','dq3_36','dq3_26','dq3_16',
+		'dq4_86','dq4_76','dq4_66','dq4_56','dq4_46','dq4_36','dq4_26','dq4_16',
+		'dq12_86','dq12_76','dq12_66','dq12_56','dq12_46','dq12_36','dq12_26','dq12_16',
+		'dq13_86','dq13_76','dq13_66','dq13_56','dq13_46','dq13_36','dq13_26','dq13_16',
+		'dq14_86','dq14_76','dq14_66','dq14_56','dq14_46','dq14_36','dq14_26','dq14_16',
+		'dq23_86','dq23_76','dq23_66','dq23_56','dq23_46','dq23_36','dq23_26','dq23_16',
+		'dq24_86','dq24_76','dq24_66','dq24_56','dq24_46','dq24_36','dq24_26','dq24_16',
+		'dq34_86','dq34_76','dq34_66','dq34_56','dq34_46','dq34_36','dq34_26','dq34_16',
+		'dq123_86','dq123_76','dq123_66','dq123_56','dq123_46','dq123_36','dq123_26','dq123_16',
+		'dq124_86','dq124_76','dq124_66','dq124_56','dq124_46','dq124_36','dq124_26','dq124_16',
+		'dq134_86','dq134_76','dq134_66','dq134_56','dq134_46','dq134_36','dq134_26','dq134_16',
+		'dq234_86','dq234_76','dq234_66','dq234_56','dq234_46','dq234_36','dq234_26','dq234_16',
+	],
+	'shadesmkmk' : ['m0','b0','shapes_df','shapes_dq'],
 	# Unbalanced shapes are used in corner insertions and need to be split so they can be reversed for RTL in mkmk
 	'shapes_u'  : ['es66','es65','es64','es63','es62','es61','es56','es55','es54','es53','es52','es51','es46','es45','es44','es43','es42','es41','es36','es35','es34','es33','es32','es31','es26','es25','es24','es23','es22','es21','es16','es15','es14','es13','es12','es11'],
 	'shapes_ls' : ['ls66','ls65','ls64','ls63','ls62','ls61','ls56','ls55','ls54','ls53','ls52','ls51','ls46','ls45','ls44','ls43','ls42','ls41','ls36','ls35','ls34','ls33','ls32','ls31','ls26','ls25','ls24','ls23','ls22','ls21','ls16','ls15','ls14','ls13','ls12','ls11'],

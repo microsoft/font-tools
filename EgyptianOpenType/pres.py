@@ -29,21 +29,20 @@ pres = [
     {'name' : 'quarterShades', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [
-        {'sub':['sts','sbs','ste','sbe'],'target':['DQ6_1234']},
-        {'sub':['sts','sbs','ste'],'target':['DQ6_123']},
-        {'sub':['sts','sbs','sbe'],'target':['DQ6_124']},
-        {'sub':['sts','ste','sbe'],'target':['DQ6_134']},
-        {'sub':['sbs','ste','sbe'],'target':['DQ6_234']},
-        {'sub':['sts','sbs'],'target':['DQ6_12']},
-        {'sub':['sts','ste'],'target':['DQ6_13']},
-        {'sub':['sts','sbe'],'target':['DQ6_14']},
-        {'sub':['sbs','ste'],'target':['DQ6_23']},
-        {'sub':['sbs','sbe'],'target':['DQ6_24']},
-        {'sub':['ste','sbe'],'target':['DQ6_34']},
-        {'sub':['sts'],'target':['DQ6_1']},
-        {'sub':['sbs'],'target':['DQ6_2']},
-        {'sub':['ste'],'target':['DQ6_3']},
-        {'sub':['sbe'],'target':['DQ6_4']},
+        {'sub':['sts','sbs','ste'],'target':['dq123']},
+        {'sub':['sts','sbs','sbe'],'target':['dq124']},
+        {'sub':['sts','ste','sbe'],'target':['dq134']},
+        {'sub':['sbs','ste','sbe'],'target':['dq234']},
+        {'sub':['sts','sbs'],'target':['dq12']},
+        {'sub':['sts','ste'],'target':['dq13']},
+        {'sub':['sts','sbe'],'target':['dq14']},
+        {'sub':['sbs','ste'],'target':['dq23']},
+        {'sub':['sbs','sbe'],'target':['dq24']},
+        {'sub':['ste','sbe'],'target':['dq34']},
+        {'sub':['sts'],'target':['dq1']},
+        {'sub':['sbs'],'target':['dq2']},
+        {'sub':['ste'],'target':['dq3']},
+        {'sub':['sbe'],'target':['dq4']},
     ]},
     # Lookup - extensions outer dbl extensions begin outer
     {'name' : 'extensionsouterB', 'bases':'SKIP','marks' : 'extensioncontrols',
@@ -173,18 +172,18 @@ pres = [
     'details' : [
         {'sub':['tcbb'],'target':['tcbb0']},
         {'sub':['tcbe'],'target':['tcbe0']}]},
-    # DYNAMIC Lookup - populated with r90 values from group data
-    {'name' : 'rninety', 'marks' : '*rotate_all',
-    'contexts' : [{'left':[],'right':[]}],
-    'details' : []},
-    # DYNAMIC Lookup - populated with r180 values from group data
-    {'name' : 'roneeighty', 'marks' : '*rotate_all',
-    'contexts' : [{'left':[],'right':[]}],
-    'details' : []},
-    # DYNAMIC Lookup - populated with r90 values from group data
-    {'name' : 'rtwoseventy', 'marks' : '*rotate_all',
-    'contexts' : [{'left':[],'right':[]}],
-    'details' : []},
+    # # DYNAMIC Lookup - populated with r90 values from group data
+    # {'name' : 'rninety', 'marks' : '*rotate_all',
+    # 'contexts' : [{'left':[],'right':[]}],
+    # 'details' : []},
+    # # DYNAMIC Lookup - populated with r180 values from group data
+    # {'name' : 'roneeighty', 'marks' : '*rotate_all',
+    # 'contexts' : [{'left':[],'right':[]}],
+    # 'details' : []},
+    # # DYNAMIC Lookup - populated with r90 values from group data
+    # {'name' : 'rtwoseventy', 'marks' : '*rotate_all',
+    # 'contexts' : [{'left':[],'right':[]}],
+    # 'details' : []},
     # DYNAMIC Lookup - populated with tsg values from group data
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
@@ -195,10 +194,7 @@ pres = [
     'details' : [{'sub':['et56'],'target':['et66']}]},
     # Lookup - accommodate base modifiers
     {'name' : 'Qf_insert', 'marks' : '',
-    'contexts' : [
-        {'left':['Qf'],'right':[]},
-        {'left':['Qf','dq_all'],'right':[]}
-    ],
+    'contexts' : [{'left':['Qf'],'right':[]}],
     'details' : [{'sub':['modifiers'],'target':['modifiers','Qf']}]},
     # Lookup - accommodate base modifiers
     {'name' : 'Qf_cleanup', 'marks' : '',

@@ -24,15 +24,14 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 300
 
 # version 3 requirements
-    # atomic shared full and half
-    # rotations with VS
-    # middle insertion with single control
-        # TODO SECOND PASS IS NOT REWINDING 2482
+    # atomic blanks tall narrow low wide    
     # quarter sign shading
+    # remove rotation lookups
+    # TCM brackets - don't synchronize use area height not glyph height
+    # Additional TCM types
     # expanded enclosing glyph - when to expand? pres016 - expansion
-    # all signs on baseline in Hieratic texts. Need to scope the set of complex strucutres which use the baseline
+    # middle insertion SECOND PASS IS NOT REWINDING 2482
     # bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
-    # Verse point
 
 class EotHelper:
     def __init__(self, pvar):
@@ -415,30 +414,30 @@ class EotHelper:
 
     #Structure
     def pres(self):
-        def loadr090subpairs():
-            subpairs = []
-            for rotatedglyph in self.rotated090:
-                baseglyph = rotatedglyph[0:-1] 
-                if baseglyph in groupdata['characters_all']:
-                    subpair = {'sub':[baseglyph,'r90'],'target':[rotatedglyph] }
-                    subpairs.append(subpair)
-            return subpairs
-        def loadr180subpairs():
-            subpairs = []
-            for rotatedglyph in self.rotated180:
-                baseglyph = rotatedglyph[0:-1] 
-                if baseglyph in groupdata['characters_all']:
-                    subpair = {'sub':[baseglyph,'r180'],'target':[rotatedglyph] }
-                    subpairs.append(subpair)
-            return subpairs
-        def loadr270subpairs():
-            subpairs = []
-            for rotatedglyph in self.rotated270:
-                baseglyph = rotatedglyph[0:-1] 
-                if baseglyph in groupdata['characters_all']:
-                    subpair = {'sub':[baseglyph,'r270'],'target':[rotatedglyph] }
-                    subpairs.append(subpair)
-            return subpairs
+        # def loadr090subpairs(): # for controll based rotations
+        #     subpairs = []
+        #     for rotatedglyph in self.rotated090:
+        #         baseglyph = rotatedglyph[0:-1] 
+        #         if baseglyph in groupdata['characters_all']:
+        #             subpair = {'sub':[baseglyph,'r90'],'target':[rotatedglyph] }
+        #             subpairs.append(subpair)
+        #     return subpairs
+        # def loadr180subpairs(): # for controll based rotations
+        #     subpairs = []
+        #     for rotatedglyph in self.rotated180:
+        #         baseglyph = rotatedglyph[0:-1] 
+        #         if baseglyph in groupdata['characters_all']:
+        #             subpair = {'sub':[baseglyph,'r180'],'target':[rotatedglyph] }
+        #             subpairs.append(subpair)
+        #     return subpairs
+        # def loadr270subpairs(): # for controll based rotations
+        #     subpairs = []
+        #     for rotatedglyph in self.rotated270:
+        #         baseglyph = rotatedglyph[0:-1] 
+        #         if baseglyph in groupdata['characters_all']:
+        #             subpair = {'sub':[baseglyph,'r270'],'target':[rotatedglyph] }
+        #             subpairs.append(subpair)
+        #     return subpairs
         def loadtsgsubpairs():
             keys = groupdata['characters_all']
             subpairs = []
@@ -489,15 +488,15 @@ class EotHelper:
         for featuredef in pres:
             lookupObj = featuredef
             lookupObj['feature'] = featuretag
-            if (lookupObj['name'] == 'rninety'):#DYNAMIC FEATURE
-                subpairs = loadr090subpairs()
-                lookupObj['details'] = subpairs
-            if (lookupObj['name'] == 'roneeighty'):#DYNAMIC FEATURE
-                subpairs = loadr180subpairs()
-                lookupObj['details'] = subpairs
-            if (lookupObj['name'] == 'rtwoseventy'):#DYNAMIC FEATURE
-                subpairs = loadr270subpairs()
-                lookupObj['details'] = subpairs
+            # if (lookupObj['name'] == 'rninety'):#DYNAMIC FEATURE
+            #     subpairs = loadr090subpairs()
+            #     lookupObj['details'] = subpairs
+            # if (lookupObj['name'] == 'roneeighty'):#DYNAMIC FEATURE
+            #     subpairs = loadr180subpairs()
+            #     lookupObj['details'] = subpairs
+            # if (lookupObj['name'] == 'rtwoseventy'):#DYNAMIC FEATURE
+            #     subpairs = loadr270subpairs()
+            #     lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'tsg'):#DYNAMIC FEATURE TSG
                 subpairs = loadtsgsubpairs()
                 lookupObj['details'] = subpairs
@@ -843,9 +842,6 @@ class EotHelper:
         # a1
         group = 'stems0-v'
         details = {'aname':'MARK_a1','xtype':'ZERO','ytype':'ZERO','recursive':1}
-        anchorgroup(group,[group],details)
-        group = 'dq_all'
-        details = {'aname':'MARK_a1','xtype':'PADDING','ytype':'YFULL','recursive':1}
         anchorgroup(group,[group],details)
         group = 'bases_all'
         details = {'aname':'a1','xtype':'PADDING','ytype':'YFULL','recursive':1}
@@ -1198,6 +1194,9 @@ class EotHelper:
         group = 'shapes_df'
         details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'shapes_dq'
+        details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'glyphs_all'
         details = {'aname':'MARK_bi','xtype':'MID','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
@@ -1248,6 +1247,9 @@ class EotHelper:
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_df'
+        details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_dq'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'glyphs_all'
@@ -1329,6 +1331,7 @@ class EotHelper:
         al('PRESENTATION_PPEM 120\n')
         al('PPOSITIONING_PPEM 144\n')
         al('COMPILER_USEEXTENSIONLOOKUPS\n')
+        al('DO_NOT_TOUCH_CMAP\n')
         al('CMAP_FORMAT 0 3 4\n')
         al('CMAP_FORMAT 1 0 6\n')
         al('CMAP_FORMAT 3 1 4\n')
@@ -1468,8 +1471,8 @@ class EotHelper:
                         glyph['dec'] = 0
                         glyph['hex'] = 0x0
                     # apply proxy values to controls
-                    if name in self.pvar['controls']:
-                        index = self.pvar['controls'].index(name)
+                    if name in self.pvar['controls2']:
+                        index = self.pvar['controls2'].index(name)
                         pdec = self.pvar['proxycontrols'][index]
                         glyph['dec'] = pdec
                         glyph['hex'] = hex(pdec)
@@ -4485,7 +4488,7 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def atomicBlanks():
+        def atomicShades(): #not longer used
             lookupObjs = []
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'atomicBlank1'
@@ -4663,7 +4666,19 @@ class EotHelper:
             lookupObjs.append(column())
 
             return lookupObjs
+        def mirrorquartershades():
+            lookupObj = {'feature':'rtlm','name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'mirrorquartershades'
+            lookupObj['details'].append({'sub':['dq12'],'target':['dq34']})
+            lookupObj['details'].append({'sub':['dq14'],'target':['dq23']})
+            lookupObj['details'].append({'sub':['dq23'],'target':['dq14']})
+            lookupObj['details'].append({'sub':['dq34'],'target':['dq12']})
+            lookupObj['details'].append({'sub':['dq123'],'target':['dq134']})
+            lookupObj['details'].append({'sub':['dq124'],'target':['dq234']})
+            lookupObj['details'].append({'sub':['dq134'],'target':['dq123']})
+            lookupObj['details'].append({'sub':['dq234'],'target':['dq124']})
 
+            return lookupObj
         def shadeSizes():
             #df -> df$1 (sh{1-8}|)
             #df{1-6} -> df{1-6}$1 (sv{1-6}|)
@@ -4672,11 +4687,14 @@ class EotHelper:
                 lookupObj['name'] = 'shadesize_H'+str(cycle)
                 context = {'left':['sh'+str(cycle)],'right':[]}
                 lookupObj['contexts'].append(context)
-                if cycle <= self.pvar['chu']:
+                if cycle <= self.pvar['chu']: # full shades
                     details = {'sub':['df'],'target':['df'+str(cycle)]}
                     lookupObj['details'].append(details)
-                else:
+                else: # full wide shades (no height variation)
                     details = {'sub':['df'],'target':['df'+str(cycle)+'6']}
+                    lookupObj['details'].append(details)
+                for dq in groupdata['dq_core']: # quarter shades
+                    details = {'sub':[dq],'target':[dq + '_'+str(cycle)]}
                     lookupObj['details'].append(details)
                 return lookupObj
             def shadeSizeVs(cycle):
@@ -4688,6 +4706,10 @@ class EotHelper:
                 while h >= 1:
                     details = {'sub':['df'+str(h)],'target':['df'+str(h)+str(cycle)]}
                     lookupObj['details'].append(details)
+                    if cycle == 6: #temp until full set of quarter sign shade glyphs have been added
+                        for dq in groupdata['dq_core']: # quarter shades
+                            details = {'sub':[dq + '_'+str(h)],'target':[dq + '_'+str(h)+str(cycle)]}
+                            lookupObj['details'].append(details)
                     h = h - 1
                 return lookupObj
 
@@ -4703,61 +4725,6 @@ class EotHelper:
 
             return lookupObjs
 
-        def mirrorquartershades():
-            lookupObj = {'feature':'rtlm','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'mirrorquartershades'
-            lookupObj['details'].append({'sub':['DQ6_12'],'target':['DQ6_34']})
-            lookupObj['details'].append({'sub':['DQ6_14'],'target':['DQ6_23']})
-            lookupObj['details'].append({'sub':['DQ6_23'],'target':['DQ6_14']})
-            lookupObj['details'].append({'sub':['DQ6_34'],'target':['DQ6_12']})
-            lookupObj['details'].append({'sub':['DQ6_123'],'target':['DQ6_134']})
-            lookupObj['details'].append({'sub':['DQ6_124'],'target':['DQ6_234']})
-            lookupObj['details'].append({'sub':['DQ6_134'],'target':['DQ6_123']})
-            lookupObj['details'].append({'sub':['DQ6_234'],'target':['DQ6_124']})
-
-            return lookupObj
-        def quarterShadeSizes():
-            #DQ6_{[..]} -> DQ$1_{[..]} (QB{1-8}|)
-            def shadeSizes(cycle):
-                lookupObj = {'feature':'psts','name':'','marks':'dq_all','contexts':[],'details':[]}
-                lookupObj['name'] = 'quartershade_H'+str(cycle)
-                context = {'left':['QB'+str(cycle)],'right':[]}
-                lookupObj['contexts'].append(context)
-                if cycle == 2:
-                    e2s = ['cbL','creL','ceL','hwttbL','hwtteL','hwtbbL','hwtbeL','cwbL', 'cweL']
-                    for c in e2s:
-                        context = {'left':[c],'right':[]}
-                        lookupObj['contexts'].append(context)
-                forms = ['_1','_2','_3','_4','_12','_13','_14','_23','_24','_34','_123','_124','_134','_234','_1234']
-                for f in forms:
-                    sub = 'DQ6'+f
-                    target = 'DQ'+str(cycle)+f
-                    details = {'sub':[sub],'target':[target]}
-                    lookupObj['details'].append(details)
-                return lookupObj
-            def halfShade():
-                lookupObj = {'feature':'psts','name':'','marks':'dq_all','contexts':[],'details':[]}
-                lookupObj['name'] = 'quartershade_Hhalf'
-                e2s = ['hwtbL','hwteL']
-                for c in e2s:
-                    context = {'left':[c],'right':[]}
-                    lookupObj['contexts'].append(context)
-                forms = ['_1','_2','_3','_4','_12','_13','_14','_23','_24','_34','_123','_124','_134','_234','_1234']
-                for f in forms:
-                    sub = 'DQ6'+f
-                    target = 'DQH'+f
-                    details = {'sub':[sub],'target':[target]}
-                    lookupObj['details'].append(details)
-                return lookupObj
-            lookupObjs = []
-            h = self.pvar['hhu']
-            while h >= 1:
-                if h != self.pvar['chu']:
-                    # Exclude default size from remap, DQ6_n -> DQ6_n
-                    lookupObjs.append(shadeSizes(h))
-                h = h - 1
-            lookupObjs.append(halfShade())
-            return lookupObjs
         def shapeSize():
             #sh{1-8} sv{1-6} -> t$1$2
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -5165,9 +5132,11 @@ class EotHelper:
 
         lines = []
         lines.extend(self.writefeature(cleanup()))
-        lookupObjs = atomicBlanks()
-        for lookupObj in lookupObjs:
-            lines.extend(self.writefeature(lookupObj))
+        # This maps the Atomic quarter shade to the full shade so it fills the available area
+        # but resizes based on the smaller size. Removing based on feedback.
+        # lookupObjs = atomicShades()
+        # for lookupObj in lookupObjs:
+        #     lines.extend(self.writefeature(lookupObj))
         if self.pvar['extensions']:
             lines.extend(self.writefeature(extensionbeginout()))
             lines.extend(self.writefeature(extensionbegindbl()))
@@ -5181,11 +5150,8 @@ class EotHelper:
         lookupObjs = columnWidth()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
-        lookupObjs = shadeSizes()
-        for lookupObj in lookupObjs:
-            lines.extend(self.writefeature(lookupObj))
         lines.extend(self.writefeature(mirrorquartershades()))
-        lookupObjs = quarterShadeSizes()
+        lookupObjs = shadeSizes()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
         lines.extend(self.writefeature(shapeSize()))
