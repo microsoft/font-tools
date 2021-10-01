@@ -24,9 +24,9 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 300
 
 # version 3 requirements
-    # atomic blanks tall narrow low wide    
-    # quarter sign shading
-    # remove rotation lookups
+    # atomic blanks tall narrow low wide √
+    # quarter sign shading 1/2
+    # remove rotation lookups √
     # TCM brackets - don't synchronize use area height not glyph height
     # Additional TCM types
     # expanded enclosing glyph - when to expand? pres016 - expansion
@@ -509,7 +509,12 @@ class EotHelper:
             if (lookupObj['name'] == 'ehv'):#DYNAMIC FEATURE EHV
                 subpairs = loadsubpairs()
                 lookupObj['details'] = subpairs
-            self.preslines.append(self.writefeature(lookupObj))
+            # if (lookupObj['name'] == 'expansion'):
+            #     print('No expansions'+str(self.pvar['expansions']))
+            #     if (self.pvar['expansions'] == 0 ):
+            #         lookupObj = 0
+            if (lookupObj):
+                self.preslines.append(self.writefeature(lookupObj))
 
         if self.pvar['test']['pres'] == 1:
             print ('PRES in test mode')
@@ -4707,10 +4712,9 @@ class EotHelper:
                 while h >= 1:
                     details = {'sub':['df'+str(h)],'target':['df'+str(h)+str(cycle)]}
                     lookupObj['details'].append(details)
-                    if cycle == 6: #temp until full set of quarter sign shade glyphs have been added
-                        for dq in groupdata['dq_core']: # quarter shades
-                            details = {'sub':[dq + '_'+str(h)],'target':[dq + '_'+str(h)+str(cycle)]}
-                            lookupObj['details'].append(details)
+                    for dq in groupdata['dq_core']: # quarter shades
+                        details = {'sub':[dq + '_'+str(h)],'target':[dq + '_'+str(h)+str(cycle)]}
+                        lookupObj['details'].append(details)
                     h = h - 1
                 return lookupObj
 
