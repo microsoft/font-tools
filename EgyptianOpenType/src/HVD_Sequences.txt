@@ -1,0 +1,27 @@
+# HVD_Sequences
+#
+# History:
+#
+# 2021-10-08 Initial registration of Hieroglyphic Variation sequences by the Egyptian ad-hoc working group.
+#
+# This file is part of the Unicode Hieroglyphic Variation Database (HVD).
+# For more details on the HVD, see UTS #37:
+# https://www.unicode.org/reports/tr37/
+#
+# Copyright 2021 Unicode, Inc.
+# For terms of use, see: https://www.unicode.org/copyright.html#8
+#
+
+13000 FE00; Egyptian Ad-Hoc Working Group; A1 Rotated 90
+13000 FE01; Egyptian Ad-Hoc Working Group; A1 Rotated 180
+13000 FE02; Egyptian Ad-Hoc Working Group; A1 Rotated 270
+131E9 FE00; Egyptian Ad-Hoc Working Group; M40 Rotated 90
+131E9 FE01; Egyptian Ad-Hoc Working Group; M40 Rotated 180
+131E9 FE02; Egyptian Ad-Hoc Working Group; M40 Rotated 270
+13216 FE00; Egyptian Ad-Hoc Working Group; N35 Rotated 90
+13216 FE01; Egyptian Ad-Hoc Working Group; N35 Rotated 180
+13219 FE00; Egyptian Ad-Hoc Working Group; N37 Rotated 90
+
+# Atomic shade expansion
+# Note this is currently using a proxy code point
+13232 FE00; Egyptian Ad-Hoc Working Group; Expanded atomic shade

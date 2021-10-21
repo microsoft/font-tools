@@ -398,6 +398,6 @@ mkmk = [
     {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
     'details' : [
         {'attach':['b0'],'to':['shapes_df'],'anchor':'bi'},
-        {'to':['shapes_dq'],'anchor':'center'}
+        {'to':['shapes_dq'],'anchor':'bi'}
     ]}
 ]

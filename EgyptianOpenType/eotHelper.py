@@ -15,23 +15,23 @@ from featuredata import qcontrols
 from featuredata import punctuation
 from featuredata import internalmirrors
 from featuredata import mirroring
+from featuredata import verticalmetrics
 from insertions import insertions
 from pres import pres
 from mark import mark
 from mkmk import mkmk
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables._g_l_y_f import Glyph
-ver = 300
+ver = 400
 
-# version 3 requirements
-    # atomic blanks tall narrow low wide √
-    # quarter sign shading 1/2
-    # remove rotation lookups √
+# version 4 requirements
+    # multi corners not working in HarfBuzz
+    # vs to control expansion of atomic shades
+    # middle insertion SECOND PASS IS NOT REWINDING 2482
     # TCM brackets - don't synchronize use area height not glyph height
+    # bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
     # Additional TCM types
     # expanded enclosing glyph - when to expand? pres016 - expansion
-    # middle insertion SECOND PASS IS NOT REWINDING 2482
-    # bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
 
 class EotHelper:
     def __init__(self, pvar):
@@ -48,6 +48,7 @@ class EotHelper:
         self.filenames = []
         self.gdeflines = []
         self.glyphdata = {}
+        self.glyphHexToName = {}
         self.lookupcount = 0
         self.marklines = []
         self.mkmklines = []
@@ -354,6 +355,132 @@ class EotHelper:
             self.insertionmappings[ins] = getinsertionObj(ins)            
         return
 
+    def loadVariationDatabase(self):
+        def parseVariationLine(line):
+            def lookupVSType(vs,description):
+                vsType = 'x' # no rotation
+                if vs in ['FE00','FE01','FE02']:
+                    if vs == 'FE00':
+                        vsType = 'n' #  90 degree rotation
+                    if vs == 'FE01':
+                        vsType = 'o' # 180 degree rotation
+                    if vs == 'FE02':
+                        vsType = 't' # 270 degree rotation
+                else:
+                    rotation = int(re.sub(r'^.*Rotated\s+(\d+).*$',r'\1',description,flags=re.IGNORECASE))
+                    if rotation == 90:
+                        vsType = 'n' #  90 degree rotation
+                    if rotation == 180:
+                        vsType = 'o' # 180 degree rotation
+                    if rotation == 270:
+                        vsType = 't' # 270 degree rotation
+                
+                return vsType
+            varObj = {'base':'','vs':'','type':''}
+            parts = line.split(';')
+            if len(parts)>0:
+                vs = parts[0]
+                chrs = vs.split()
+                if len(chrs) > 0:
+                    varObj['base'] = chrs[0]
+                    varObj['vs']   = chrs[1]
+                    varObj['type'] = lookupVSType(chrs[1],parts[2])
+
+            return varObj
+
+        self.variations = []
+        if self.pvar['variations']>0:
+            unicodehvdfile = open('src/HVD_Sequences.txt',"r")
+            i = 0
+            for line in unicodehvdfile:
+                key = line[0:1]
+                if (key == '#'):
+                    hv = line[1:].strip()
+                else:
+                    if (len(line)>1):
+                        varObj = parseVariationLine(line.strip())
+                        self.variations.append(varObj)
+                        i += 1
+            print('Loaded '+str(i)+' variations from HVD')
+
+        if i > 0:
+            self.genCMAPFormat14()
+
+        pass
+
+    def genCMAPFormat14(self):
+        def loadHead():
+            lines = []
+            lines.append('cmap subtable 1\n')
+            lines.append('platformID	0\n')
+            lines.append('encodingID	5\n')
+            lines.append('format	14\n')
+            lines.append('language	0\n')
+            return lines
+        def loadBody():
+            lines = []
+            for varObj in self.variations:
+                base = '0x'+varObj['base']
+                vs   = '0x'+varObj['vs']
+                vstype = varObj['type']
+                target = ''
+
+                if base in self.glyphHexToName:
+                    target = self.glyphHexToName[base]+vstype
+                try:
+                    targetID = self.fontsrc.getGlyphID(target)
+                    line = base + "\t" + vs  + "\t\\#" + str(targetID) + "\n"
+                    lines.append(line)
+                except:
+                    line = ''
+
+            return lines
+        def loadFoot():
+            lines = []
+            lines.append('end subtable\n')
+            return lines
+
+        cmap14 = []
+        cmap14.extend(loadHead())
+        cmap14.extend(loadBody())
+        cmap14.extend(loadFoot())
+
+        self.writeCMAP14File(cmap14)
+        pass
+
+    def vmtx(self):
+        def loadHead():
+            lines = []
+            lines.append('Font Chef Table vmtx\n')
+            lines.append('\n')
+            lines.append('unitsPerEm	2048\n')
+            lines.append('\n')
+            return lines
+        def loadBody():
+            lines = []
+            for key in self.glyphdata:
+                if (key == '.notdef'):
+                    key = '\#0'
+                if (key == '.null'):
+                    key = 'null'
+                if (key in verticalmetrics):
+                    pair = verticalmetrics[key]
+                    vert =   pair[0]
+                    offset = pair[1]
+                else:
+                    vert   = 0
+                    offset = 0
+                line = key + "\t" + str(vert) + "\t" + str(offset) + "\n"
+                lines.append(line)
+            return lines
+
+        if self.pvar['vertical']:
+            vmtx = []
+            vmtx.extend(loadHead())
+            vmtx.extend(loadBody())
+            self.writeVmtxFile(vmtx)
+
+        pass
 ### GDEF
     def gdef(self):
         def formatgdefline(glyph):
@@ -1352,9 +1479,9 @@ class EotHelper:
 
 ### AUX
     def preloadgroups(self):
-        def insertglyphs(newglyph):
-            self.fontsrc['glyf'][newglyph] = Glyph()
-            self.fontsrc['hmtx'][newglyph] = (0,0)
+        # def insertglyphs(newglyph):
+        #     self.fontsrc['glyf'][newglyph] = Glyph()
+        #     self.fontsrc['hmtx'][newglyph] = (0,0)
         self.injectedglyphcount = 0
 
         # output groups
@@ -1374,7 +1501,7 @@ class EotHelper:
                     grouptype = 'GLYPH'
                 else:
                     grouptype = 'GLYPH'
-                    insertglyphs(listitem)
+                    self.insertglyphs(listitem)
                     self.injectedglyphcount += 1
                 groupenum += grouptype+' "'+listitem+'" '
     def loadglyphdata(self):
@@ -1413,7 +1540,7 @@ class EotHelper:
                 else:
                     group = 'Cmn'
             elif (ligature): #is a ligature
-                if (sizevar):
+                if (re.search(r'^.*_([0-9][0-9])$',name)):
                     group = 'LigV' #ligature size variant
                     if name not in self.ligatures_all:
                         self.ligatures_all.append(name)
@@ -1469,7 +1596,7 @@ class EotHelper:
             if name in cmap.values():
                 gdec = list(cmap.keys())[list(cmap.values()).index(name)]
                 glyph['dec'] = gdec
-                glyph['hex'] = hex(gdec)
+                glyph['hex'] = hex(gdec)                
                 if self.pvar['useproxycontrols']:
                     # suppress original proxy values for non controls
                     if gdec in self.pvar['proxycontrols']:
@@ -1482,6 +1609,9 @@ class EotHelper:
                     pdec = self.pvar['proxycontrols'][index]
                     glyph['dec'] = pdec
                     glyph['hex'] = hex(pdec)
+                    # cmap[pdec] = name
+            if glyph['dec'] > 0:
+                self.glyphHexToName[glyph['hex']] = name
             group = calculateGroup(glyph['dec'],name)
             glyph['group'] = group
             glyph['type'] = 'M'
@@ -1539,6 +1669,11 @@ class EotHelper:
                     self.errors.append('Wrong size [eh1450]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+ehv+'.')
 
             self.glyphdata[name] = glyph
+    def insertglyphs(self,newglyph):
+        self.fontsrc['glyf'][newglyph] = Glyph()
+        self.fontsrc['hmtx'][newglyph] = (0,0)
+        # print(self.fontsrc.getGlyphID(newglyph))
+        return self.fontsrc.getGlyphID(newglyph)
     def loadgroups(self):
         def formatgroup(groupObj):
             groupline = 'DEF_GROUP "'+groupObj['name']+'"\n'\
@@ -1547,11 +1682,6 @@ class EotHelper:
             return groupline
         def al(line):
             self.grouplines.append(line)
-        def insertglyphs(newglyph):
-            self.fontsrc['glyf'][newglyph] = Glyph()
-            self.fontsrc['hmtx'][newglyph] = (0,0)
-            return self.fontsrc.getGlyphID(newglyph)
-            
         def loadtargetsizes(key):
             root = self.glyphdata[key]['root']
             hval = self.glyphdata[key]['ehuh']
@@ -1579,7 +1709,7 @@ class EotHelper:
                         self.tshashes.append(tshash)
                         tsg = 'tsh'+(tshash)
                         groupdata['tsh'].append(tsg)
-                        gid = insertglyphs(tsg)
+                        gid = self.insertglyphs(tsg)
                         glyph = {'id':gid,'name':tsg,'root':'','dec':0,'hex':0x0,'group':'','type':'M','maxh':0,'maxv':0,'ehuh':0,'ehuv':0,'tshash':''}
                         self.glyphdata[tsg] = glyph
                         self.injectedglyphcount += 1
@@ -1592,6 +1722,7 @@ class EotHelper:
             else: 
                 if self.injectedglyphcount > 0:
                     self.fontsrc.save('out/'+self.pvar['fontout'])
+                    self.fontsrc.getBestCmap
                     self.fontsave = 'Glyphs added: '+str(self.injectedglyphcount)
                 else:
                     self.fontsave = 'No glyphs added'
@@ -1694,6 +1825,30 @@ class EotHelper:
 
         for line in lines:
             writefile.write(line)        
+        return
+    def writeCMAP14File(self,lines):
+        fontfilename = re.sub(' ','',self.pvar['fontfilename'])
+        self.cmap14file = 'out/'+fontfilename+'_'+str(ver)+'.cmap'
+        writefile = open(self.cmap14file,"w")
+
+        i = 0
+        for line in lines:
+            writefile.write(line)
+            if line.find('0xFE') > 0:
+                i += 1
+        print('Wrote '+str(i)+' variations to '+self.cmap14file)
+        return
+    def writeVmtxFile(self,lines):
+        fontfilename = re.sub(' ','',self.pvar['fontfilename'])
+        self.vmtxfile = 'out/'+fontfilename+'_'+str(ver)+'.vmtx'
+        writefile = open(self.vmtxfile,"w")
+
+        i = 0
+        for line in lines:
+            writefile.write(line)
+            if line.find('0xFE') > 0:
+                i += 1
+        print('Wrote vmtx table to '+self.vmtxfile)
         return
     def writeKbdFile(self,lines):
         fontfilename = re.sub(' ','',self.pvar['fontfilename'])

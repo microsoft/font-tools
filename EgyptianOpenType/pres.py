@@ -189,7 +189,7 @@ pres = [
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
     # Lookup - expand bases with insertions TODO: auto expand based on glyph name trigger
-    {'name' : 'EXPANSION', 'marks' : '',
+    {'name' : 'expansion', 'marks' : '',
     'contexts' : [{'left':[],'right':['tsh665655544544332211','D32','Qf','bi0A']}],
     'details' : [{'sub':['et56'],'target':['et66']}]},
     # Lookup - accommodate base modifiers
