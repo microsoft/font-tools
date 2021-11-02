@@ -32,6 +32,8 @@ ver = 400
     # bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
     # Additional TCM types
     # expanded enclosing glyph - when to expand? pres016 - expansion
+    # horizontal before vertical group with overlays
+    # block illegal sequnces (vertical group before OM; atomic shades in OM; sign shade after blank)
 
 class EotHelper:
     def __init__(self, pvar):
