@@ -8,8 +8,8 @@ pvar = {
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text Proto", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantextV3Proto2-COLR.ttf", # Path to source font
-    'fontout' : "egyptiantextV3ProtoFull.ttf", # Path to write output font
+    'fontsrc' : "../../fonts/et/egyptiantextV4ProtoFull-COLR.ttf", # Path to source font
+    'fontout' : "egyptiantext.ttf", # Path to write output font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
@@ -81,10 +81,10 @@ pvar = {
     'variations' :  1,
     'expansions' : 0,
     'test' : {
-        'font':         1,
-        'gdef':         1,
-        'groups':       1,
-        'haln':         1,
+        'font':         0,
+        'gdef':         0,
+        'groups':       0,
+        'haln':         0,
         'pres':         1,
         'abvs':         1,
         'blws':         1,
@@ -94,8 +94,8 @@ pvar = {
         'rtlm':         1,
         'vrt2':         1,
         'gpos':         1,
-        'langsys':      1,
+        'langsys':      0,
         'anchors':      1,
-        'coda':         1,
+        'coda':         0,
     }
 }

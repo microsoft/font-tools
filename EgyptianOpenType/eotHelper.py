@@ -20,8 +20,10 @@ from insertions import insertions
 from pres import pres
 from mark import mark
 from mkmk import mkmk
+from fontTools import ttx
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables._g_l_y_f import Glyph
+
 ver = 400
 
 # version 4 requirements
@@ -406,11 +408,11 @@ class EotHelper:
             print('Loaded '+str(i)+' variations from HVD')
 
         if i > 0:
-            self.genCMAPFormat14()
+            self.genCMAPFormat14_TTX()
 
         pass
 
-    def genCMAPFormat14(self):
+    def genCMAPFormat14_FC(self):
         def loadHead():
             lines = []
             lines.append('cmap subtable 1\n')
@@ -447,7 +449,44 @@ class EotHelper:
         cmap14.extend(loadBody())
         cmap14.extend(loadFoot())
 
-        self.writeCMAP14File(cmap14)
+        self.writeCMAP14File(cmap14,'.fc')
+        pass
+
+    def genCMAPFormat14_TTX(self):
+        def loadHead():
+            lines = []
+            lines.append('    <cmap_format_14 platformID="0" platEncID="5">\n')
+            return lines
+        def loadBody():
+            lines = []
+            for varObj in self.variations:
+                base = '0x'+varObj['base']
+                vs   = '0x'+varObj['vs']
+                vstype = varObj['type']
+                target = ''
+
+                if base in self.glyphHexToName:
+                    try:
+                        target = self.glyphHexToName[base]+vstype
+                        if target in self.glyphdata:
+                            # print(target)
+                            line = '      <map uv="'+base.lower()+'" uvs="'+vs.lower()+'" name="'+target+'"/>'
+                            lines.append(line+"\n")
+                    except:
+                        line = ''
+
+            return lines
+        def loadFoot():
+            lines = []
+            lines.append('    </cmap_format_14>\n')
+            return lines
+
+        cmap14 = []
+        cmap14.extend(loadHead())
+        cmap14.extend(loadBody())
+        cmap14.extend(loadFoot())
+
+        self.writeCMAP14File(cmap14,'.ttx')
         pass
 
     def vmtx(self):
@@ -1807,8 +1846,8 @@ class EotHelper:
         featuretag = tags[level]
         return featuretag
     def createVTPFile(self):
-        fontfilename = re.sub(' ','',self.pvar['fontfilename'])
-        self.writefile = 'out/'+fontfilename+'_'+str(ver)+'.vtp'
+        fontfilename = re.sub(' ','',self.pvar['fontfilename'])+'_'+str(ver)+'.vtp'
+        self.writefile = 'out/'+fontfilename
         writefile = open(self.writefile,"w")
         writefile.write('')
 
@@ -1828,15 +1867,15 @@ class EotHelper:
         for line in lines:
             writefile.write(line)        
         return
-    def writeCMAP14File(self,lines):
+    def writeCMAP14File(self,lines,type):
         fontfilename = re.sub(' ','',self.pvar['fontfilename'])
-        self.cmap14file = 'out/'+fontfilename+'_'+str(ver)+'.cmap'
-        writefile = open(self.cmap14file,"w")
+        self.cmap14file = fontfilename+'_'+str(ver)+'.cmap'+type
+        writefile = open('out/'+self.cmap14file,"w")
 
         i = 0
         for line in lines:
             writefile.write(line)
-            if line.find('0xFE') > 0:
+            if line.find('0xfe') > 0:
                 i += 1
         print('Wrote '+str(i)+' variations to '+self.cmap14file)
         return
@@ -2061,6 +2100,7 @@ class EotHelper:
     def writelines(self,lines):
         writefile = open(self.writefile,"a")
 
+        
         for line in lines:
             writefile.write(line)        
         return
@@ -5541,5 +5581,92 @@ class EotHelper:
         lines.extend(self.writefeature(swaprtlextensions()))
 
         return lines
+
+# COMPLILE TTX
+    def compileTTX(self):
+        def dumpTTX(fontout):
+            ttxfont = ttx.TTFont('out/'+fontout)
+            ttxfont.saveXML('out/eot.ttx',splitTables=True)
+            pass
+        def compileTTX(fontout):
+            ttxfont = ttx.TTFont('out/eot.ttx')
+            ttxfont.save('out/eot_src.ttf',)
+            pass
+
+        if self.pvar['test']['font'] == 1:
+            print('Skipping Compile')
+        else:
+            print('Compiling font...')
+            dumpTTX(self.pvar['fontout'])
+
+            self.writeCMAP()
+            self.writeVMTX()
+            self.writeTSIV()
+
+            # compileTTX(self.pvar['fontout'])
+        pass
+    def writeCMAP(self):
+        filename = 'eot._c_m_a_p.ttx'
+
+        # try:
+        cmapfile = open('out/'+filename,"r")
+        cmap14file = open('out/'+self.cmap14file,"r")
+        w = False
+
+        lines = []
+        for line in cmapfile:
+            lines.append(line)
+        newmaster = open('out/'+filename,"w")
+        for line in lines:
+            if re.match(r'.*</cmap>.*',line) and w == False:
+                print ('matched')
+                w = True
+                for l in cmap14file:
+                    newmaster.write(l)
+            newmaster.write(line)
+        # except:
+        #     print("There was a problem with CMAP")
+
+        return
+    def writeVMTX(self):
+        # read EgyptianTextProto_400.vmtx
+        # write data to eot._v_h_e_a.ttx
+        # write data to eot._v_m_t_x.ttx
+        pass
+    def writeTSIV(self):
+        filename = 'eot.t_s_i_v_.ttx'
+        tsivfile = open('out/'+filename,"w")
+
+        tsivfile.write('<?xml version="1.0" encoding="UTF-8"?>'+"\n")
+        tsivfile.write('<ttFont ttLibVersion="4.27">'+"\n")
+        tsivfile.write("\n")
+        tsivfile.write('  <TSIV>'+"\n")
+        tsivfile.write('    <source>'+"\n")
+
+        vtpfile = open(self.writefile,"r")
+
+        i = 0
+        for line in vtpfile:
+            tsivfile.write(line)
+            i += 1
+
+        tsivfile.write('    </source>'+"\n")
+        tsivfile.write('  </TSIV>'+"\n")
+        tsivfile.write('</ttFont>'+"\n")
+
+        print('Wrote '+str(i)+' lines in VOLT src as TSIV table to '+filename)
+
+        if i > 0:
+            ttxmaster = open("out/eot.ttx","r")
+            lines = []
+            for line in ttxmaster:
+                lines.append(line)
+            newmaster = open("out/eot.ttx","w")
+            for line in lines:
+                if re.match('</ttFont>',line):
+                    newmaster.write('  <DSIG src="'+filename+'"/>\n')
+                newmaster.write(line)
+
+        return
 
 # END
