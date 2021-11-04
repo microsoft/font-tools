@@ -489,7 +489,7 @@ class EotHelper:
         self.writeCMAP14File(cmap14,'.ttx')
         pass
 
-    def vmtx(self):
+    def vmtx_FC(self):
         def loadHead():
             lines = []
             lines.append('Font Chef Table vmtx\n')
@@ -522,6 +522,7 @@ class EotHelper:
             self.writeVmtxFile(vmtx)
 
         pass
+    
 ### GDEF
     def gdef(self):
         def formatgdefline(glyph):
@@ -5608,7 +5609,6 @@ class EotHelper:
     def writeCMAP(self):
         filename = 'eot._c_m_a_p.ttx'
 
-        # try:
         cmapfile = open('out/'+filename,"r")
         cmap14file = open('out/'+self.cmap14file,"r")
         w = False
@@ -5619,19 +5619,54 @@ class EotHelper:
         newmaster = open('out/'+filename,"w")
         for line in lines:
             if re.match(r'.*</cmap>.*',line) and w == False:
-                print ('matched')
                 w = True
                 for l in cmap14file:
                     newmaster.write(l)
             newmaster.write(line)
-        # except:
-        #     print("There was a problem with CMAP")
 
         return
     def writeVMTX(self):
-        # read EgyptianTextProto_400.vmtx
+        def loadHead():
+            lines = []
+            lines.append('<?xml version="1.0" encoding="UTF-8"?>\n')
+            lines.append('<ttFont sfntVersion="\\x00\\x01\\x00\\x00" ttLibVersion="4.27">\n')
+            lines.append('\n')
+            lines.append('  <vmtx>\n')
+            return lines
+        def loadBody():
+            lines = []
+            for key in self.glyphdata:
+                if (key in verticalmetrics):
+                    pair = verticalmetrics[key]
+                    vert =   pair[0]
+                    offset = pair[1]
+                else:
+                    vert   = 0
+                    offset = 0
+                line = '    <mtx name="'+key+'" height="'+str(vert)+'" tsb="'+str(offset)+'"/>\n'
+                lines.append(line)
+            return lines
+        def loadFoot():
+            lines = []
+            lines.append('  </vmtx>\n')
+            lines.append('\n')
+            lines.append('</ttFont>')
+            return lines
+
+        if self.pvar['vertical']:
+            vmtx = []
+            vmtx.extend(loadHead())
+            vmtx.extend(loadBody())
+            vmtx.extend(loadFoot())
+
+            filename = 'eot._v_m_t_x.ttx'
+            vmtxfile = open('out/'+filename,"w")
+            for line in vmtx:
+                vmtxfile.write(line)
+            self.injectTable('eot.ttx','_v_m_t_x')
+
         # write data to eot._v_h_e_a.ttx
-        # write data to eot._v_m_t_x.ttx
+
         pass
     def writeTSIV(self):
         filename = 'eot.t_s_i_v_.ttx'
@@ -5657,16 +5692,20 @@ class EotHelper:
         print('Wrote '+str(i)+' lines in VOLT src as TSIV table to '+filename)
 
         if i > 0:
-            ttxmaster = open("out/eot.ttx","r")
-            lines = []
-            for line in ttxmaster:
-                lines.append(line)
-            newmaster = open("out/eot.ttx","w")
-            for line in lines:
-                if re.match('</ttFont>',line):
-                    newmaster.write('  <DSIG src="'+filename+'"/>\n')
-                newmaster.write(line)
+            self.injectTable('eot.ttx','t_s_i_v_')
 
         return
+    def injectTable(self,filename,table):
+        ttxmaster = open("out/"+filename,"r")
+        lines = []
+        for line in ttxmaster:
+            lines.append(line)
+        newmaster = open("out/"+filename,"w")
+        for line in lines:
+            if re.match('</ttFont>',line):
+                tablefilename = re.sub(r'(.*)(\.ttx)',r'\1.'+table+r'\2',filename)
+                newmaster.write('  <DSIG src="'+tablefilename+'"/>\n')
+            newmaster.write(line)
+        pass
 
 # END
