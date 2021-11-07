@@ -7,9 +7,9 @@ pvar = {
     'langsysname' : "Default",
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
-    'fontfilename' : "Egyptian Text Proto", # Font name
+    'fontfilename' : "Egyptian Text", # Font name
     'fontsrc' : "../../fonts/et/egyptiantextV4ProtoFull-COLR.ttf", # Path to source font
-    'fontout' : "egyptiantext.ttf", # Path to write output font
+    'fontout' : "eot_src.ttf", # Path to write output font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
@@ -68,7 +68,7 @@ pvar = {
         'AW1', # atomic shade wide        [     ] -> 78389    13235
     ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
-    'useproxycontrols': 0, # use proxy code points for controls
+    'useproxycontrols': 1, # use proxy code points for controls
     'proxycontrols' : [78368,78369,78370,78371,78372,78373,78374,
         78375,78376,78377,78378,78379,78380,78381,78382,
         78383,78384,78385,78386,78387,78388,78389],

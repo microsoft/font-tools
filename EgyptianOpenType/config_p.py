@@ -68,7 +68,7 @@ pvar = {
         'AW1', #22 atomic shade wide        [     ] -> 78389    13235
     ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
-    'useproxycontrols': 0, # use proxy code points for controls
+    'useproxycontrols': 1, # use proxy code points for controls
     'proxycontrols' : [78368,78369,78370,78371,78372,78373,78374,78375,78376,78377,
                         78378,78379,78380,78381,78382,78383,97,99,78386,78387,
                         78388,78389],

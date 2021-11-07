@@ -1651,7 +1651,7 @@ class EotHelper:
                     pdec = self.pvar['proxycontrols'][index]
                     glyph['dec'] = pdec
                     glyph['hex'] = hex(pdec)
-                    # cmap[pdec] = name
+                    cmap[pdec] = name
             if glyph['dec'] > 0:
                 self.glyphHexToName[glyph['hex']] = name
             group = calculateGroup(glyph['dec'],name)

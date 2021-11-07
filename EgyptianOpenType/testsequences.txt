@@ -9,8 +9,8 @@
 %cb esb A1 cb esb B1 ese C1 ese ce
 %esb A1 cb esb B1 ese ce C1 ese ce
 %cb A1 cb esb B1 ese ce C1 ce
-cfb ewb A1 B1 vj O1 C1 ewe cfe 
-cb esb cfb ewb A1 B1 vj O1 C1 ewe cfe ese ce
+cwb ewb A1 B1 vj O1 C1 ewe cwe 
+cb esb cwb ewb A1 B1 vj O1 C1 ewe cwe ese ce
 
 %cb M17 Y5 vj N35 R4 vj X1 hj Q3 ce
 %hwtb R8 hwtbe
@@ -18,7 +18,7 @@ cb esb cfb ewb A1 B1 vj O1 C1 ewe cfe ese ce
 %hwttb G7 hwte
 %hwtbb G25 te J1 hwte
 %hwtfb O1 hwtfe
-%cfb A1 hj B1 vj Z2 cfe
+%cwb A1 hj B1 vj Z2 cwe
 
 #Basic
 %A1                      
