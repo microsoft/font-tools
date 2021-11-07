@@ -5602,9 +5602,11 @@ class EotHelper:
 
             self.writeCMAP()
             self.writeVMTX()
+            self.writeVHEA()
             self.writeTSIV()
 
-            # compileTTX(self.pvar['fontout'])
+             # compileTTX(self.pvar['fontout'])
+            os.system('ttx out/eot.ttx')
         pass
     def writeCMAP(self):
         filename = 'eot._c_m_a_p.ttx'
@@ -5635,16 +5637,22 @@ class EotHelper:
             return lines
         def loadBody():
             lines = []
+            nummtx = 0
+            maxvmtx = 0
             for key in self.glyphdata:
                 if (key in verticalmetrics):
                     pair = verticalmetrics[key]
                     vert =   pair[0]
                     offset = pair[1]
+                    maxvmtx = max(maxvmtx,vert)
                 else:
                     vert   = 0
                     offset = 0
                 line = '    <mtx name="'+key+'" height="'+str(vert)+'" tsb="'+str(offset)+'"/>\n'
                 lines.append(line)
+                nummtx += 1
+            self.nummtx = nummtx
+            self.maxvmtx = maxvmtx
             return lines
         def loadFoot():
             lines = []
@@ -5665,7 +5673,60 @@ class EotHelper:
                 vmtxfile.write(line)
             self.injectTable('eot.ttx','_v_m_t_x')
 
-        # write data to eot._v_h_e_a.ttx
+
+        pass
+    def writeVHEA(self):
+        def loadHead():
+            lines = []
+            lines.append('<?xml version="1.0" encoding="UTF-8"?>\n')
+            lines.append('<ttFont sfntVersion="\\x00\\x01\\x00\\x00" ttLibVersion="4.27">\n')
+            lines.append('\n')
+            lines.append('  <vhea>\n')
+
+            return lines
+        def loadBody():
+            #  https://docs.microsoft.com/en-us/typography/opentype/spec/vhea#:~:text=The%20vertical%20header%20table%20%28tag%20name%3A%20%27vhea%27%29%20contains,is%20general%20to%20the%20font%20as%20a%20whole.
+            lines = []
+            ascent = round((self.pvar['vhu'] * self.pvar['vfu'] * 0.5) + self.pvar['sb'])
+            sb = self.pvar['sb']
+
+            lines.append('    <tableVersion value="0x00010000"/>\n')
+            lines.append('    <ascent value="'+str(ascent)+'"/>\n')
+            lines.append('    <descent value="'+str(ascent)+'"/>\n')
+            lines.append('    <lineGap value="0"/>\n')
+            lines.append('    <advanceHeightMax value="'+str(self.maxvmtx)+'"/>\n')
+            lines.append('    <minTopSideBearing value="'+str(sb)+'"/>\n')
+            lines.append('    <minBottomSideBearing value="'+str(sb)+'"/>\n')
+            lines.append('    <yMaxExtent value="'+str(sb+self.maxvmtx)+'"/>\n')
+            lines.append('    <caretSlopeRise value="0"/>\n')
+            lines.append('    <caretSlopeRun value="1"/>\n')
+            lines.append('    <caretOffset value="0"/>\n')
+            lines.append('    <reserved1 value="0"/>\n')
+            lines.append('    <reserved2 value="0"/>\n')
+            lines.append('    <reserved3 value="0"/>\n')
+            lines.append('    <reserved4 value="0"/>\n')
+            lines.append('    <metricDataFormat value="0"/>\n')
+            lines.append('    <numberOfVMetrics value="'+str(self.nummtx)+'"/>\n')
+
+            return lines
+        def loadFoot():
+            lines = []
+            lines.append('  </vhea>\n')
+            lines.append('\n')
+            lines.append('</ttFont>')
+            return lines
+
+        if self.pvar['vertical']:
+            vhea = []
+            vhea.extend(loadHead())
+            vhea.extend(loadBody())
+            vhea.extend(loadFoot())
+
+            filename = 'eot._v_h_e_a.ttx'
+            vheafile = open('out/'+filename,"w")
+            for line in vhea:
+                vheafile.write(line)
+            self.injectTable('eot.ttx','_v_h_e_a')
 
         pass
     def writeTSIV(self):
