@@ -26,11 +26,13 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 
 ver = 400
 
-# version 4 requirements
-    # multi corners not working in HarfBuzz
-    # vs to control expansion of atomic shades
-    # middle insertion SECOND PASS IS NOT REWINDING 2482
-    # TCM brackets - don't synchronize use area height not glyph height
+# version 5 requirements
+    # ✓ tcbb tcbe marks from BMP 1580ff
+    #   damaged quarters - validate
+    #   vs to control expansion of atomic shades - Font change to create new set of full area shades
+    # ✓ middle insertion SECOND PASS IS NOT REWINDING 2482
+    # ✓ TCM brackets - don't synchronize use area height not glyph height
+    # TCMs all [font, OT]
     # bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
     # Additional TCM types
     # expanded enclosing glyph - when to expand? pres016 - expansion
@@ -54,6 +56,7 @@ class EotHelper:
         self.glyphdata = {}
         self.glyphHexToName = {}
         self.lookupcount = 0
+        self.pginssizes = []
         self.marklines = []
         self.mkmklines = []
         self.preslines = []
@@ -295,6 +298,12 @@ class EotHelper:
         return
 
     def loadInsertionContextsAndGroups(self):
+        def getinsertionObj(ins):
+            retobj = []
+            retobj.append(loadbases(ins))
+            retobj.append(loadMappings(ins))
+
+            return retobj
         def loadbases(ins):
             def testbase(map,ins):
                 if ins in nonadjs:
@@ -336,27 +345,25 @@ class EotHelper:
                         valkey = customhash(values[k])
                         if valkey not in mappings:
                             mappings[valkey] = [values]
-                            # Getting too many keys in the set of values for the 
                             mappings[valkey].append(key)
                         else:
                             mappings[valkey].append(key)
 
             return mappings
         def getinsertionObj(ins):
-            # knownmappings = {}
-
             retobj = []
             retobj.append(loadbases(ins))
             retobj.append(loadMappings(ins))
 
             return retobj
 
-        self.insertionmappings = {'ad':[],'bs':[],'te':[],'be':[]}
-        adjs = ['ts','ti','mi','bi']
-        nonadjs = ['bs','te','be']
+        self.insertionmappings = {'ad':[],'bs':[],'te':[],'be':[],'mi':[],'bi':[]}
+        adjs = ['ts','ti']
+        nonadjs = ['bs','te','be','mi','bi']
 
         for ins in self.insertionmappings:
-            self.insertionmappings[ins] = getinsertionObj(ins)            
+            self.insertionmappings[ins] = getinsertionObj(ins)
+
         return
 
     def loadVariationDatabase(self):
@@ -1574,8 +1581,10 @@ class EotHelper:
                     group = 'Cmn'
                 else:    
                     group = 'Chr' #pick up glyphs outside Gardiner set
-            elif dec > 0: #mapped BMP characters
-                if (variation): #name matches the patter for a variation selector
+            elif dec > 0 and dec <= 65535: #mapped BMP characters
+                if name in punctuation:
+                    group = 'Punctuation'
+                elif (variation): #name matches the patter for a variation selector
                     group = 'VS'
                 elif dec == 9676: #dotted circle as generic base
                     group = 'Chr'
@@ -1665,21 +1674,21 @@ class EotHelper:
                 glyph['root'] = name
             if group in ['Chr','Joiner','Mirror','SVar','LigR','LigV']:
                 glyphObj = glyphTable[name]
-                if name[0:2] in ['BF','BQ','BS']:
+                if name[0:2] in ['BF','BQ']:
                     if name == 'BF1':
                         glyph['maxh'] = self.pvar['hfu'] * 6
                         glyph['maxv'] = self.pvar['vfu'] * 6
                     elif name == 'BQ1':
                         glyph['maxh'] = self.pvar['hfu'] * 3
                         glyph['maxv'] = self.pvar['vfu'] * 3
-                    elif name == 'BS1':
-                        glyph['maxh'] = self.pvar['hfu'] * 1
-                        glyph['maxv'] = self.pvar['vfu'] * 1
                     else:
                         hval = re.sub(r'B[FQ]1_(\d)\d',r'\1',name)
                         vval = re.sub(r'B[FQ]1_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
+                elif name[0:2] in ['dq']:
+                    glyph['maxh'] = self.pvar['hfu'] * 6
+                    glyph['maxv'] = self.pvar['vfu'] * 6
                 else:
                     if hasattr(glyphObj, 'xMax'):
                         glyph['maxh'] = glyphObj.xMax
@@ -2638,10 +2647,11 @@ class EotHelper:
                 # bs56 -> bs42 (G9|)
                 def loadContexts(obj):
                     contexts = []
-                    for g in obj:
-                        if g in self.glyphdata:
-                            context = {'left':[g],'right':[]}
-                            contexts.append(context)
+                    if len(obj) > 0:
+                        for g in obj:
+                            if g in self.glyphdata:
+                                context = {'left':[g],'right':[]}
+                                contexts.append(context)
                     return contexts
                 def loadDetails(obj):
                     def extendsizes(obj):
@@ -2680,56 +2690,61 @@ class EotHelper:
                             ih -= 1                                
                         return obj
                     details = []
-                    for key in obj:
-                        sizes = extendsizes(obj[key])
-                        lv = ''
-                        if level == 2:
-                            lv = '2'
-                        for size in sizes:
-                            sub = key + lv + str(size)
-                            target = key + lv + str(sizes[size])
-                            block = 'block'
-                            detail = {'sub':[sub],'target':[block,target]}
-                            details.append(detail)
+                    if len(obj) > 0:
+                        for key in obj:
+                            sizes = extendsizes(obj[key])
+                            lv = ''
+                            if level == 2:
+                                lv = '2'
+                            for size in sizes:
+                                sub = key + lv + str(size)
+                                target = key + lv + str(sizes[size])
+                                block = 'block'
+                                detail = {'sub':[sub],'target':[block,target]}
+                                details.append(detail)
                     return details
+
                 objs = []
                 # per-glyph sizes
-                for ic in ['ad','bs','te','be']:
+                for ic in ['ad','bs','te','be','mi','bi']:
                     inssizes = self.insertionmappings[ic]
-                    if level == 1:
+
+                    if (len(self.pginssizes) == 0):
                         inssizes.pop(0)
                         self.pginssizes = inssizes[0]
-                    markset = ''
-                    if ic != 'ad':
-                        markset = '*insmarkset'+ic
-                    cycle = 1
-                    keys = []
-                    # TODO SECOND PASS IS NOT REWINDING
-                    # print(str(level) + ic + ' : ' + str(self.pginssizes))
-                    for key in self.pginssizes:
-                        keys.append(key)
-                        mapclass = self.pginssizes[key]
-                        if level == 1:
-                            self.pgmapdetails = mapclass.pop(0)
-                            self.pgmapclass   = mapclass
 
-                        # print(str(level) + ' : ' + str(self.pgmapdetails))
-                        details  = loadDetails(self.pgmapdetails)
-                        contexts = loadContexts(self.pgmapclass)
-                        if len(contexts) > 0:
-                            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                            lookupObj['name'] = 'perglyphsize_'+ic+'_'+str(cycle)
-                            lookupObj['marks']    = markset
-                            lookupObj['contexts'] = contexts
-                            lookupObj['details']  = details
-                            objs.append(lookupObj)
-                        cycle += 1
+                    if (len(self.pginssizes) > 0):
+                        markset = ''
+                        if ic != 'ad':
+                            markset = '*insmarkset'+ic
+                        cycle = 1
+                        keys = []
+
+                        for key in self.pginssizes:
+                            keys.append(key)
+                            mapclass = self.pginssizes[key]
+
+                            self.pgmapdetails = mapclass[0]
+                            self.pgmapclass   = mapclass[1]
+
+                            details  = loadDetails(self.pgmapdetails)
+                            contexts = loadContexts(self.pgmapclass)
+                            if len(contexts) > 0:
+                                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                                lookupObj['name'] = 'perglyphsize_'+ic+'_'+str(cycle)
+                                lookupObj['marks']    = markset
+                                lookupObj['contexts'] = contexts
+                                lookupObj['details']  = details
+                                if len(details) > 0: 
+                                    objs.append(lookupObj)
+                            cycle += 1
+
                 # default sizes
-                for ic in ['ad','bs','te','be']:
+                for ic in ['ad','bs','te','be','mi','bi']:
                     def loaddefaultdetails(ic):
                         details = []
                         if ic == 'ad':
-                            ics = ['ts','ti','mi','bi']
+                            ics = ['ts','ti']
                         else:
                             ics = [ic]
                         lv = ''
@@ -3674,10 +3689,8 @@ class EotHelper:
             lookupObj['name'] = name+'-H-maxcalc-'+str(level)+'_'+str(cycle)
             lookupObj['marks'] = 'rowmaxes'
             c = 1
-            m = self.pvar['chu'] #TODO?: level 1 insertion max is 3 not 6
-            n = self.pvar['chu'] # "
-            # m = self.pvar['insertionwidthmax'][level] # I tried this, but lookups fail. Not sure if these
-            # n = self.pvar['insertionwidthmax'][level] # lines should be removed.
+            m = self.pvar['chu']
+            n = self.pvar['chu']
             while c <= m:
                 d = 1
                 while d <= n:
@@ -4587,6 +4600,24 @@ class EotHelper:
                 i += 1
 
             return lookupObj
+        def expandHeight(level):
+            # expand the row max height by remaining rp value 
+            # rp{1-5} rm{1-5} -> rm$1+$2
+            lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+            lookupObj['name'] = 'nrm-V-expandHeight-'+str(level)
+
+            i = 1
+            while i <= self.pvar['targetheightmax'][level]:
+                j = 1
+                k = i + j
+                while k <= self.pvar['targetheightmax'][level]:  
+                    details = {'sub':['rp'+str(i),'rm'+str(j)],'target':['rm'+str(k)]}
+                    lookupObj['details'].append(details)
+                    j += 1
+                    k = i + j
+                i += 1
+
+            return lookupObj
         def rowHeight(level):
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'nrm-V-rowheight-'+str(level)
@@ -4668,6 +4699,7 @@ class EotHelper:
         if (obj):
             lookupObjs.append(obj)
         lookupObjs.append(cleanupV(level))
+        lookupObjs.append(expandHeight(level))
         lookupObjs.append(rowHeight(level))
         lookupObjs.append(cleanupRP(level))
         lookupObjs.append(cleanupDS(level))

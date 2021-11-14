@@ -7,9 +7,9 @@ pvar = {
     'langsysname' : "Default",
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
-    'fontfilename' : "Egyptian Text Proto", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantextV3ProtoFull-COLR.ttf", # Path to source font
-    'fontout' : "egyptiantextV4ProtoFull.ttf", # Path to write output font
+    'fontfilename' : "Egyptian Text", # Font name
+    'fontsrc' : "../../fonts/et/egyptiantextV2Proto-COLR.ttf", # Path to source font
+    'fontout' : "eot_src.ttf", # Path to write output font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
@@ -74,12 +74,29 @@ pvar = {
                         78378,78379,78380,78381,78382,78383,78384,78385,78386,78387,
                         78388,78389,78390,78391,78392,78393,97,99],
     'extensions' : 1,
-    'variations' :  1,
     'tcbs' : 1,
     # 'cartouchecodes' : ['cb','cwb','hwtb','hwttb','hwtbb','hwtwb','ce','cre','cwe','hwte','hwtte','hwtbe','hwtwe'],
     'baseline' : 1, #align singletons to baseline for Hieratic
-    'mirror'  : 1,  
+    'mirror' : 1,
     'vertical': 1,
-    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':1,'blws':1,'rlig':0,'psts':0,'ss01':1,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
-    'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
+    'variations' :  1,
+    'expansions' : 0,
+    'test' : {
+        'font':         1,
+        'gdef':         1,
+        'groups':       1,
+        'haln':         1,
+        'pres':         1,
+        'abvs':         1,
+        'blws':         1,
+        'rlig':         0,
+        'psts':         1,
+        'ss01':         1,
+        'rtlm':         1,
+        'vrt2':         1,
+        'gpos':         1,
+        'langsys':      1,
+        'anchors':      1,
+        'coda':         1,
+    }
 }

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Test Page - EgyptianText2011</title>
+		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+		<style type='text/css'>
+			@font-face {
+				font-family: 'Egyptian Text';
+				src: url(eot_src.ttf) format("truetype");}
+				<!--
+				-->
+			}
+			body {
+				color: black;
+				background-color: #000000;
+			}
+			.egyptian {font-family: 'Egyptian Text'; font-size: 56px; line-height:1.3em;}
+			.label {font-family: 'Segoe UI'; font-weight: 300; font-size: 12px;}
+			.page {
+				padding: 1em;
+				margin: 2em;
+				background-color: #000000;
+			}
+			.flex-container {
+			  display: flex;
+		      flex-direction: row;
+			  flex-flow: row wrap;
+			  align-items: center;
+			  justify-content: center;
+			}
+			.flexcell {
+				color: white;
+				background-color: #000000;
+				background-color: #444444;
+				margin: 5px;
+				padding: 5px 10px 10px 10px;
+				width: 450px;
+				height: 450px;
+			}
+			.rowl {clear: left; writing-mode: horizontal-lr;}
+			.rowr {clear: right; text-align: right; writing-mode: horizontal-rl; font-feature-settings: "rtlm";}
+			.rowvl {clear: left; writing-mode: vertical-lr; font-feature-settings: "vrt2"; height: 600px; width:100%;}
+			.rowvr {clear: left; writing-mode: vertical-rl; font-feature-settings: "rtlm","vrt2"; height: 600px; width:100%;}
+			.hide {
+				display: none;
+			}
+		</style>
+	</head>
+	<body class='page'>
+		<div class='flex-container'>
+			<div class='flexcell'>
+				<div class='label'>Left-to-right</div>
+				<div class='rowl'>
+					<p class='egyptian'>
+						𓇼𓐱𓀢𓍹𓈠𓅊𓐳𓋹𓐴𓐷𓈌𓐰𓈌𓐸𓎛𓐱𓐷𓂝𓐰𓏮𓐸𓐰𓐝𓈌𓈡𓍺<br/>
+						𓍹𓈠𓐝𓐰𓂋𓐰𓈖𓆑𓐰𓐝𓆄𓐱𓅱𓐰𓈖𓏏𓐱𓏮𓐰𓐝𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓈡𓍺𓋹𓐱𓐷𓆓𓐳𓐷𓏏𓐰𓈖𓐸𓐸<br/>
+						𓎛𓐱𓇳𓐱𓎛𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓐱𓋹𓅨𓏶𓐱𓉳𓎟𓐰𓇹𓐱𓈖
+					</p>				
+				</div>
+			</div>
+			<div class='flexcell'>
+				<div class='label'>Right-to-left</div>
+				<div class='rowr'>
+					<p class='egyptian'>
+						𓇼𓐱𓀢𓍹𓈠𓅊𓐳𓋹𓐴𓐷𓈌𓐰𓈌𓐸𓎛𓐱𓐷𓂝𓐰𓏮𓐸𓐰𓐝𓈌𓈡𓍺<br/>
+						𓍹𓈠𓐝𓐰𓂋𓐰𓈖𓆑𓐰𓐝𓆄𓐱𓅱𓐰𓈖𓏏𓐱𓏮𓐰𓐝𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓈡𓍺𓋹𓐱𓐷𓆓𓐳𓐷𓏏𓐰𓈖𓐸𓐸<br/>
+						𓎛𓐱𓇳𓐱𓎛𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓐱𓋹𓅨𓏶𓐱𓉳𓎟𓐰𓇹𓐱𓈖
+					</p>				
+				</div>
+			</div>
+			<div class='flexcell'>
+				<div class='label'>Vertical left-to-right</div>
+				<div class='rowvl'>
+					<p class='egyptian'>
+						𓇼𓐱𓀢𓍹𓈠𓅊𓐳𓋹𓐴𓐷𓈌𓐰𓈌𓐸𓎛𓐱𓐷𓂝𓐰𓏮𓐸𓐰𓐝𓈌𓈡𓍺<br/>
+						𓍹𓈠𓐝𓐰𓂋𓐰𓈖𓆑𓐰𓐝𓆄𓐱𓅱𓐰𓈖𓏏𓐱𓏮𓐰𓐝𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓈡𓍺𓋹𓐱𓐷𓆓𓐳𓐷𓏏𓐰𓈖𓐸𓐸<br/>
+						𓎛𓐱𓇳𓐱𓎛𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓐱𓋹𓅨𓏶𓐱𓉳𓎟𓐰𓇹𓐱𓈖
+					</p>				
+				</div>
+			</div>
+			<div class='flexcell'>
+				<div class='label'>Vertical Right-to-left</div>
+				<div class='rowvr'>
+					<p class='egyptian'>
+						𓇼𓐱𓀢𓍹𓈠𓅊𓐳𓋹𓐴𓐷𓈌𓐰𓈌𓐸𓎛𓐱𓐷𓂝𓐰𓏮𓐸𓐰𓐝𓈌𓈡𓍺<br/>
+						𓍹𓈠𓐝𓐰𓂋𓐰𓈖𓆑𓐰𓐝𓆄𓐱𓅱𓐰𓈖𓏏𓐱𓏮𓐰𓐝𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓈡𓍺𓋹𓐱𓐷𓆓𓐳𓐷𓏏𓐰𓈖𓐸𓐸<br/>
+						𓎛𓐱𓇳𓐱𓎛𓇋𓐱𓐷𓏏𓐰𓈖𓐰𓇳𓐸𓐱𓋹𓅨𓏶𓐱𓉳𓎟𓐰𓇹𓐱𓈖
+					</p>				
+				</div>
+			</div>
+			<div class='flexcell'>
+				<div class='label'>Old tests 1</div>
+				<div class='rowvl'>
+					<p class='egyptian'>
+						𓋹𓅭𓐴𓇳𓎟𓐰𓈍𓐰𓏥<br/>𓍹𓈠𓁛𓄟𓋴𓐱𓇓𓋾𓐱𓉺𓍺𓆓𓐳𓐷𓁷𓐱𓐷𓏏𓐰𓂋𓐸𓐸<br/>
+						𓋹𓆥𓎟𓐰𓇾𓐰𓇾𓐰𓈅𓐱𓈅<br/>𓍹𓈠𓇳𓄊𓁦𓐱𓇋𓏠𓐰𓈖𓐰𓈘𓍺𓆓𓐳𓐷𓁷𓐱𓐷𓏏𓐰𓂋𓐸𓐸<br/>
+						𓉘𓈠𓇳𓐱𓁐𓐱𓂓𓇋𓐱𓐷𓏠𓐰𓈖𓐸𓊨𓐱𓐷𓏏𓐰𓆣𓐸𓉝 𓉘𓈠𓊹𓉝
+					</p>
+				</div>
+			</div>
+			<div class='flexcell'>
+				<div class='label'>Old tests 2</div>
+				<div class='rowvl'>
+					<p class='egyptian'>
+						𓉘𓈠𓇼𓐰𓏥𓉛 𓍹𓈠𓉡𓎟𓐰𓉺𓐱𓐷𓈖𓐰𓏏𓐰𓊖𓐸𓅭𓐰𓏠𓍿𓐰𓊵𓍺<br/>
+						𓉘𓈠𓅄𓉜 𓍹𓈠          𓍺<br/>
+						𓉘𓈠𓅄𓉛 𓉘𓈠𓃒𓅓𓌀𓐰𓏏𓊂<br/>
+						𓉙𓈠𓃒𓉝 𓉘𓈠𓅄𓉛<br/>
+					</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
