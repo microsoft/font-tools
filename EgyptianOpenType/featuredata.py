@@ -84,9 +84,11 @@ groupdata = {
 	'groupCounters' : ['grp0','grp1','grp2'],
 	'horizontals'  : ['c0bA','c1bA','c2bA','h1','h2','h3','h4','h5','h6','h7','h8'],
 	'horizontals2' : ['eh_all','h1','h2','h3','h4','h5','h6','h7','h8'], # unused, test and remove
-	'insmarksetbs' : ['shapes_bs','characters_all'],
+	'insmarksetbs' : ['shapes_bs','characters_all'], #Needed lvl2 version
 	'insmarksette' : ['shapes_te','characters_all'],
 	'insmarksetbe' : ['shapes_be','characters_all'],
+	'insmarksetmi' : ['shapes_mi','characters_all'],
+	'insmarksetbi' : ['shapes_bi','characters_all'],
 	'insdeepclean' : ['c0bA','block'],
 	'insertionmarkers': ['ima','imb','im0'],
 	'insertionsizes1'  : [ 'it11','it12','it13','it14','it15','it16','it21','it22','it23','it24','it25','it26','it31','it32','it33','it34','it35','it36','it41','it42','it43','it44','it45','it46','it51','it52','it53','it54','it55','it56','it61','it62','it63','it64','it65','it66'],

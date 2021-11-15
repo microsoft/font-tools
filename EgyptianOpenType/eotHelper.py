@@ -56,7 +56,6 @@ class EotHelper:
         self.glyphdata = {}
         self.glyphHexToName = {}
         self.lookupcount = 0
-        self.pginssizes = []
         self.marklines = []
         self.mkmklines = []
         self.preslines = []
@@ -2653,7 +2652,7 @@ class EotHelper:
                                 context = {'left':[g],'right':[]}
                                 contexts.append(context)
                     return contexts
-                def loadDetails(obj):
+                def loadDetails(ic, obj):
                     def extendsizes(obj):
                         basesize = list(obj.keys())[0]
                         bh = int(str(basesize)[0:1])
@@ -2689,46 +2688,45 @@ class EotHelper:
                                 iv -= 1
                             ih -= 1                                
                         return obj
+                    if ic == 'ad':
+                        ics = ['ts','ti']
+                    else:
+                        ics = [ic]                    
                     details = []
                     if len(obj) > 0:
                         for key in obj:
-                            sizes = extendsizes(obj[key])
-                            lv = ''
-                            if level == 2:
-                                lv = '2'
-                            for size in sizes:
-                                sub = key + lv + str(size)
-                                target = key + lv + str(sizes[size])
-                                block = 'block'
-                                detail = {'sub':[sub],'target':[block,target]}
-                                details.append(detail)
+                            if key in ics:
+                                sizes = extendsizes(obj[key])
+                                lv = ''
+                                if level == 2:
+                                    lv = '2'
+                                for size in sizes:
+                                    sub = key + lv + str(size)
+                                    target = key + lv + str(sizes[size])
+                                    block = 'block'
+                                    detail = {'sub':[sub],'target':[block,target]}
+                                    details.append(detail)
                     return details
 
                 objs = []
                 # per-glyph sizes
                 for ic in ['ad','bs','te','be','mi','bi']:
                     inssizes = self.insertionmappings[ic]
+                    # pginsglyphs = inssizes[0]
+                    pginsmap = inssizes[1]
 
-                    if (len(self.pginssizes) == 0):
-                        inssizes.pop(0)
-                        self.pginssizes = inssizes[0]
-
-                    if (len(self.pginssizes) > 0):
+                    if (len(pginsmap) > 0):
                         markset = ''
                         if ic != 'ad':
                             markset = '*insmarkset'+ic
                         cycle = 1
-                        keys = []
 
-                        for key in self.pginssizes:
-                            keys.append(key)
-                            mapclass = self.pginssizes[key]
+                        for key in pginsmap:
+                            mapclass = pginsmap[key]
 
-                            self.pgmapdetails = mapclass[0]
-                            self.pgmapclass   = mapclass[1]
-
-                            details  = loadDetails(self.pgmapdetails)
-                            contexts = loadContexts(self.pgmapclass)
+                            details  = loadDetails(ic,mapclass[0])
+                            contexts = loadContexts(mapclass[1:])
+                            # print(str(key) + '     ' + str(mapclass[1:]))
                             if len(contexts) > 0:
                                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                                 lookupObj['name'] = 'perglyphsize_'+ic+'_'+str(cycle)
