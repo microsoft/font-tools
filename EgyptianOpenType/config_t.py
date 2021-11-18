@@ -39,40 +39,45 @@ pvar = {
     'defaultinsertionsize' : 2, #default insertion size per level
     'controls' : ['vj','hj','ts','bs','te','be','om','ss','se'],
     'controls2': [
-        'ti',    # 1 top insertion            [13376] -> 78372   13224
-        'mi',    # 2 middle insertion         [13375] -> 78373   13225
-        'bi',    # 3 bottom insertion         [13377] -> 78374   13226
-        'mr',    # 4 mirror                   [1336D] -> 78375   13227
-        'BF1',   # 5 blank full               [13367] -> 78376   13228
-        'BQ1',   # 6 blank quarter            [13371] -> 78377   13229
-        'AS1',   # 7 atomic shade full        [1336E] -> 78378   1322A
-        'AQ1',   # 8 atomic shade quarter     [1336F] -> 78379   1322B
-        'AT1',   # 9 atomic shade tall        [     ] -> 78380   1322C
-        'AW1',   #10 atomic shade wide        [     ] -> 78381   1322D
-        'df',    #11 damaged full             [13368] -> 78382   1322E
-        'dq1',   #12 damaged quarter 1        [     ] -> 78383   1322F
-        'dq12',  #13 damaged quarter 12       [     ] -> 78384   13230
-        'dq123', #14 damaged quarter 123      [     ] -> 78385   13231
-        'dq124', #15 damaged quarter 124      [     ] -> 78386   13232
-        'dq13',  #16 damaged quarter 13       [     ] -> 78387   13233
-        'dq134', #17 damaged quarter 134      [     ] -> 78388   13234
-        'dq14',  #18 damaged quarter 14       [     ] -> 78389   13235
-        'dq2',   #19 damaged quarter 2        [     ] -> 78390   13236
-        'dq23',  #20 damaged quarter 23       [     ] -> 78391   13237
-        'dq234', #21 damaged quarter 234      [     ] -> 78392   13238
-        'dq24',  #22 damaged quarter 24       [     ] -> 78393   13239
-        'dq3',   #23 damaged quarter 3        [     ] -> 78394   1323A
-        'dq34',  #24 damaged quarter 34       [     ] -> 78395   1323B
-        'dq4',   #25 damaged quarter 4        [     ] -> 78396   1323C
-        'VP',    #26 verse point              [13373] -> 78397   1323D
-        'tcbb',  #27 text critical bracket begin [1337C] -> 97    13230
-        'tcbe',  #28 text critical bracket end[1337E] ->    99    13231
+        'esb',   # 1 top insertion            [     ] -> 78368   13220
+        'ese',   # 2 middle insertion         [     ] -> 78369   13221
+        'ewb',   # 3 bottom insertion         [     ] -> 78370   13222
+        'ewe',   # 4 mirror                   [     ] -> 78371   13223
+        'ti',    # 5 top insertion            [13376] -> 78372   13224
+        'mi',    # 6 middle insertion         [13375] -> 78373   13225
+        'bi',    # 7 bottom insertion         [13377] -> 78374   13226
+        'mr',    # 8 mirror                   [1336D] -> 78375   13227
+        'BF1',   # 9 blank full               [13367] -> 78376   13228
+        'BQ1',   #10 blank quarter            [13371] -> 78377   13229
+        'AS1',   #11 atomic shade full        [1336E] -> 78378   1322A
+        'AQ1',   #12 atomic shade quarter     [1336F] -> 78379   1322B
+        'AT1',   #13 atomic shade tall        [     ] -> 78380   1322C
+        'AW1',   #14 atomic shade wide        [     ] -> 78381   1322D
+        'df',    #15 damaged full             [13368] -> 78382   1322E
+        'dq1',   #16 damaged quarter 1        [     ] -> 78383   1322F
+        'dq12',  #17 damaged quarter 12       [     ] -> 78384   13230
+        'dq123', #18 damaged quarter 123      [     ] -> 78385   13231
+        'dq124', #19 damaged quarter 124      [     ] -> 78386   13232
+        'dq13',  #20 damaged quarter 13       [     ] -> 78387   13233
+        'dq134', #21 damaged quarter 134      [     ] -> 78388   13234
+        'dq14',  #22 damaged quarter 14       [     ] -> 78389   13235
+        'dq2',   #23 damaged quarter 2        [     ] -> 78390   13236
+        'dq23',  #24 damaged quarter 23       [     ] -> 78391   13237
+        'dq234', #25 damaged quarter 234      [     ] -> 78392   13238
+        'dq24',  #26 damaged quarter 24       [     ] -> 78393   13239
+        'dq3',   #27 damaged quarter 3        [     ] -> 78394   1323A
+        'dq34',  #28 damaged quarter 34       [     ] -> 78395   1323B
+        'dq4',   #29 damaged quarter 4        [     ] -> 78396   1323C
+        'VP',    #30 verse point              [13373] -> 78397   1323D
+        'tcbb',  #31 text critical bracket begin [1337C] -> 97    13230
+        'tcbe',  #32 text critical bracket end[1337E] ->    99    13231
     ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
     'useproxycontrols': 1, # use proxy code points for controls
     'proxycontrols' : [78368,78369,78370,78371,78372,78373,78374,78375,78376,78377,
                         78378,78379,78380,78381,78382,78383,78384,78385,78386,78387,
-                        78388,78389,78390,78391,78392,78393,97,99],
+                        78388,78389,78390,78391,78392,78393,78394,78395,78396,78397,
+                        97,99],
     'extensions' : 1,
     'tcbs' : 1,
     'baseline' : 1, #align singletons to baseline for Hieratic
