@@ -52,6 +52,9 @@ groupdata = {
 	'deltas_cells' : ['dCells','en_all'],
 	'deltas_spacers' : ['spacers_deltarows','cs0','rs0'],
 	'deltas_all' : ['dd1','dv0','deltas','th6','th5','th4','th3','th2'],
+	'deltas_allH0' : ['deltas_all','r0eA'],
+	'deltas_allH1' : ['deltas_all','r1eA'],
+	'deltas_allH2' : ['deltas_all','r2eA'],
 	'dCells' : ['dc0','dc1','dc2','dc3','dc4','dc5'],
 	'dq_core': ['dq1','dq12','dq123','dq124','dq13','dq134','dq14','dq2','dq23','dq234','dq24','dq3','dq34','dq4'],
 	'dq_h' : [ #removed DQ*_1234, DQH -> full only

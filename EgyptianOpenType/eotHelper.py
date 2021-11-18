@@ -32,12 +32,12 @@ ver = 400
     #   vs to control expansion of atomic shades - Font change to create new set of full area shades
     # ✓ middle insertion SECOND PASS IS NOT REWINDING 2482
     # ✓ TCM brackets - don't synchronize use area height not glyph height
-    # TCMs all [font, OT]
-    # bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
-    # Additional TCM types
-    # expanded enclosing glyph - when to expand? pres016 - expansion
-    # horizontal before vertical group with overlays
-    # block illegal sequnces (vertical group before OM; atomic shades in OM; sign shade after blank)
+    # ✓ bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
+    #   TCMs all [font, OT]
+    #   Additional TCM types
+    #   expanded enclosing glyph - when to expand? pres016 - expansion
+    #   horizontal before vertical group with overlays
+    #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
 
 class EotHelper:
     def __init__(self, pvar):
@@ -3220,7 +3220,7 @@ class EotHelper:
                 #   repeat enough times to shrink each column
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'red-H-shrink'+str(cycle)+'-'+str(level)
-                lookupObj['marks'] = 'deltas_all'
+                lookupObj['marks'] = '*deltas_allH'+str(level)
                 sub = 'th'+str(cycle)
                 target = 'eh'+str(cycle-1)
                 contexts = []
@@ -3253,7 +3253,7 @@ class EotHelper:
                 deltamax = self.pvar['deltamax']
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'red-H-decrement'+str(cycle)+'-'+str(level)
-                lookupObj['marks'] = 'deltas_all'
+                lookupObj['marks'] = '*deltas_allH'+str(level)
                 details = []
                 i = deltamax[level] # the max delta for the given level 
                 while i >= 1: # iterate down the delta levels

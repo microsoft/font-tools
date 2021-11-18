@@ -75,7 +75,6 @@ pvar = {
                         78388,78389,78390,78391,78392,78393,97,99],
     'extensions' : 1,
     'tcbs' : 1,
-    # 'cartouchecodes' : ['cb','cwb','hwtb','hwttb','hwtbb','hwtwb','ce','cre','cwe','hwte','hwtte','hwtbe','hwtwe'],
     'baseline' : 1, #align singletons to baseline for Hieratic
     'mirror' : 1,
     'vertical': 1,
