@@ -18,9 +18,30 @@
 131E9 FE00; Egyptian Ad-Hoc Working Group; M40 Rotated 90
 131E9 FE01; Egyptian Ad-Hoc Working Group; M40 Rotated 180
 131E9 FE02; Egyptian Ad-Hoc Working Group; M40 Rotated 270
+131F9 FE00; Egyptian Ad-Hoc Working Group; N11 Rotated 90
+131F9 FE01; Egyptian Ad-Hoc Working Group; N11 Rotated 180
 13216 FE00; Egyptian Ad-Hoc Working Group; N35 Rotated 90
 13216 FE01; Egyptian Ad-Hoc Working Group; N35 Rotated 180
 13219 FE00; Egyptian Ad-Hoc Working Group; N37 Rotated 90
+
+# 90
+# 1327F O31
+# 132A4 P8
+# 13423 AA21
+# 13377 V10
+# 13419 AA11
+# 13121 F32
+# 13312 T9
+# 13378 V11
+# 1312F F44
+# 131B1 M3
+# 131FA N12
+# 130A7 D46
+# 13191 I9
+# 13207 N23
+#
+# 13307 T1
+
 
 # Atomic shade expansion
 # Note this is currently using a proxy code point
