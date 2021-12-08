@@ -8,7 +8,7 @@ pvar = {
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantextV2Proto-COLR.ttf", # Path to source font
+    'fontsrc' : "../../fonts/et/egyptiantextV6ProtoLTR-COLR.ttf", # Path to source font
     'fontout' : "eot_src.ttf", # Path to write output font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
@@ -69,15 +69,16 @@ pvar = {
         'dq34',  #28 damaged quarter 34       [     ] -> 78395   1323B
         'dq4',   #29 damaged quarter 4        [     ] -> 78396   1323C
         'VP',    #30 verse point              [13373] -> 78397   1323D
-        'tcbb',  #31 text critical bracket begin [1337C] -> 97    13230
-        'tcbe',  #32 text critical bracket end[1337E] ->    99    13231
+        'tcbb',  #31 text critical bracket begin [1337C] -> 97   13230
+        'tcbe',  #32 text critical bracket end[1337E] ->    99   13231
+        'AS2',   #11 atomic shade full exp    [1336E] -> 78398   1322A #tempt, needs to move to a VS AS1 VS -> AS
     ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
     'useproxycontrols': 1, # use proxy code points for controls
     'proxycontrols' : [78368,78369,78370,78371,78372,78373,78374,78375,78376,78377,
                         78378,78379,78380,78381,78382,78383,78384,78385,78386,78387,
                         78388,78389,78390,78391,78392,78393,78394,78395,78396,78397,
-                        97,99],
+                        97,99,78398],
     'extensions' : 1,
     'tcbs' : 1,
     'baseline' : 1, #align singletons to baseline for Hieratic

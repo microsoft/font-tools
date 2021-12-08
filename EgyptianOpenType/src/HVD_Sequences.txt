@@ -45,4 +45,4 @@
 
 # Atomic shade expansion
 # Note this is currently using a proxy code point
-13232 FE00; Egyptian Ad-Hoc Working Group; Expanded atomic shade
+# 13232 FE00; Egyptian Ad-Hoc Working Group; Expanded atomic shade

@@ -28,16 +28,18 @@ ver = 400
 
 # version 5 requirements
     # ✓ tcbb tcbe marks from BMP 1580ff
-    #   damaged quarters - validate
-    #   vs to control expansion of atomic shades - Font change to create new set of full area shades
+    # ✓ damaged quarters - validate
     # ✓ middle insertion SECOND PASS IS NOT REWINDING 2482
     # ✓ TCM brackets - don't synchronize use area height not glyph height
     # ✓ bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
+    #   vs to control expansion of atomic shades - Font change to create new set of full area shades
+    #   
+    #   EHD
     #   TCMs all [font, OT]
-    #   Additional TCM types
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   horizontal before vertical group with overlays
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
+    #   RTL
 
 class EotHelper:
     def __init__(self, pvar):
@@ -1683,6 +1685,15 @@ class EotHelper:
                     else:
                         hval = re.sub(r'B[FQ]1_(\d)\d',r'\1',name)
                         vval = re.sub(r'B[FQ]1_\d(\d)',r'\1',name)
+                        glyph['maxh'] = self.pvar['hfu'] * int(hval)
+                        glyph['maxv'] = self.pvar['vfu'] * int(vval)
+                elif name[0:3] == 'AS2':
+                    if name == 'AS2':
+                        glyph['maxh'] = self.pvar['hfu'] * 6
+                        glyph['maxv'] = self.pvar['vfu'] * 6
+                    else:
+                        hval = re.sub(r'AS2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'AS2_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
                 elif name[0:2] in ['dq']:
