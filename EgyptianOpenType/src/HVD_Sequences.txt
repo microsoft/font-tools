@@ -12,9 +12,10 @@
 # For terms of use, see: https://www.unicode.org/copyright.html#8
 #
 
-13000 FE00; Egyptian Ad-Hoc Working Group; A1 Rotated 90
-13000 FE01; Egyptian Ad-Hoc Working Group; A1 Rotated 180
-13000 FE02; Egyptian Ad-Hoc Working Group; A1 Rotated 270
+# Rotations
+13000 FE00; Egyptian Ad-Hoc Working Group; A01 Rotated 90
+13000 FE01; Egyptian Ad-Hoc Working Group; A01 Rotated 180
+13000 FE02; Egyptian Ad-Hoc Working Group; A01 Rotated 270
 131E9 FE00; Egyptian Ad-Hoc Working Group; M40 Rotated 90
 131E9 FE01; Egyptian Ad-Hoc Working Group; M40 Rotated 180
 131E9 FE02; Egyptian Ad-Hoc Working Group; M40 Rotated 270
@@ -42,7 +43,8 @@
 #
 # 13307 T1
 
-
-# Atomic shade expansion
-# Note this is currently using a proxy code point
-# 13232 FE00; Egyptian Ad-Hoc Working Group; Expanded atomic shade
+# Expansion of lost signs
+13443 FE00; Egyptian Ad-Hoc Working Group; Expanded lost sign
+13444 FE00; Egyptian Ad-Hoc Working Group; Expanded half lost sign
+13445 FE00; Egyptian Ad-Hoc Working Group; Expanded tall lost sign
+13446 FE00; Egyptian Ad-Hoc Working Group; Expanded wide lost sign

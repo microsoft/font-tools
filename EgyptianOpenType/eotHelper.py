@@ -75,6 +75,7 @@ class EotHelper:
         self.ligatures = []
         self.ligatures_all = []
         self.fontsrc = TTFont(pvar['fontsrc'])
+        self.maxhvsizes = {}
         print(pvar['fontsrc'])
     
     def initializeVTP(self):
@@ -115,6 +116,9 @@ class EotHelper:
         self.preloadgroups()
         print ('loading glyph data...')
         self.loadglyphdata()
+        print(self.maxhvsizes['66'])
+        for key in sorted(self.maxhvsizes):
+            print (key + "\t" + str(self.maxhvsizes[key]))
         print ('loading groups...')
         self.loadgroups()
 
@@ -1728,6 +1732,12 @@ class EotHelper:
                 ehv = str(glyph['ehuh']) + str(glyph['ehuv'])
                 if namedsize != ehv:
                     self.errors.append('Wrong size [eh1450]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+ehv+'.')
+            hvsize = str(glyph['ehuh'])+str(glyph['ehuv'])
+            if hvsize in self.maxhvsizes:
+                self.maxhvsizes[hvsize] += 1
+                pass
+            else:
+                self.maxhvsizes[hvsize] = 1
 
             self.glyphdata[name] = glyph
     def insertglyphs(self,newglyph):
