@@ -2,7 +2,7 @@
 #
 # History:
 #
-# 2021-10-08 Initial registration of Hieroglyphic Variation sequences by the Egyptian ad-hoc working group.
+# 2021-12-24 Initial registration of Hieroglyphic Variation sequences by the Egyptian ad-hoc working group.
 #
 # This file is part of the Unicode Hieroglyphic Variation Database (HVD).
 # For more details on the HVD, see UTS #37:
@@ -13,35 +13,155 @@
 #
 
 # Rotations
-13000 FE00; Egyptian Ad-Hoc Working Group; A01 Rotated 90
-13000 FE01; Egyptian Ad-Hoc Working Group; A01 Rotated 180
-13000 FE02; Egyptian Ad-Hoc Working Group; A01 Rotated 270
-131E9 FE00; Egyptian Ad-Hoc Working Group; M40 Rotated 90
-131E9 FE01; Egyptian Ad-Hoc Working Group; M40 Rotated 180
-131E9 FE02; Egyptian Ad-Hoc Working Group; M40 Rotated 270
+13083 FE01; Egyptian Ad-Hoc Working Group; D13 Rotated 180
+13091 FE00; Egyptian Ad-Hoc Working Group; D27 Rotated 90
+13092 FE00; Egyptian Ad-Hoc Working Group; D27A Rotated 90
+13093 FE00; Egyptian Ad-Hoc Working Group; D28 Rotated 90
+13093 FE01; Egyptian Ad-Hoc Working Group; D28 Rotated 180
+13098 FE00; Egyptian Ad-Hoc Working Group; D32 Rotated 90
+1309D FE02; Egyptian Ad-Hoc Working Group; D36 Rotated 270
+130A7 FE00; Egyptian Ad-Hoc Working Group; D46 Rotated 90
+130A9 FE01; Egyptian Ad-Hoc Working Group; D47 Rotated 180
+1310B FE01; Egyptian Ad-Hoc Working Group; F13 Rotated 180
+1310F FE00; Egyptian Ad-Hoc Working Group; F16 Rotated 90
+13111 FE00; Egyptian Ad-Hoc Working Group; F18 Rotated 90
+13111 FE01; Egyptian Ad-Hoc Working Group; F18 Rotated 180
+13117 FE02; Egyptian Ad-Hoc Working Group; F23 Rotated 270
+1311C FE00; Egyptian Ad-Hoc Working Group; F28 Rotated 90
+13121 FE00; Egyptian Ad-Hoc Working Group; F32 Rotated 90
+13122 FE01; Egyptian Ad-Hoc Working Group; F33 Rotated 180
+13128 FE01; Egyptian Ad-Hoc Working Group; F38 Rotated 180
+1312B FE00; Egyptian Ad-Hoc Working Group; F40 Rotated 90
+1312D FE01; Egyptian Ad-Hoc Working Group; F42 Rotated 180
+1312F FE00; Egyptian Ad-Hoc Working Group; F44 Rotated 90
+13139 FE00; Egyptian Ad-Hoc Working Group; F51 Rotated 90
+13139 FE02; Egyptian Ad-Hoc Working Group; F51 Rotated 270
+1313D FE01; Egyptian Ad-Hoc Working Group; F52 Rotated 180
+1313D FE02; Egyptian Ad-Hoc Working Group; F52 Rotated 270
+13183 FE02; Egyptian Ad-Hoc Working Group; H5 Rotated 270
+13187 FE01; Egyptian Ad-Hoc Working Group; H8 Rotated 180
+13191 FE00; Egyptian Ad-Hoc Working Group; I9 Rotated 90
+131A0 FE00; Egyptian Ad-Hoc Working Group; K6 Rotated 90
+131AD FE02; Egyptian Ad-Hoc Working Group; M1 Rotated 270
+131B1 FE00; Egyptian Ad-Hoc Working Group; M3 Rotated 90
+131B1 FE01; Egyptian Ad-Hoc Working Group; M3 Rotated 180
+131B8 FE00; Egyptian Ad-Hoc Working Group; M9 Rotated 90
+131B9 FE00; Egyptian Ad-Hoc Working Group; M10 Rotated 90
+131BA FE02; Egyptian Ad-Hoc Working Group; M72 Rotated 270
+131CB FE00; Egyptian Ad-Hoc Working Group; M17 Rotated 90
+131DC FE00; Egyptian Ad-Hoc Working Group; M30 Rotated 90
+131E1 FE02; Egyptian Ad-Hoc Working Group; M33A Rotated 270
+131EE FE01; Egyptian Ad-Hoc Working Group; M44 Rotated 180
+131EE FE02; Egyptian Ad-Hoc Working Group; M44 Rotated 270
+131EF FE01; Egyptian Ad-Hoc Working Group; N1 Rotated 180
+131EF FE02; Egyptian Ad-Hoc Working Group; N1 Rotated 270
 131F9 FE00; Egyptian Ad-Hoc Working Group; N11 Rotated 90
 131F9 FE01; Egyptian Ad-Hoc Working Group; N11 Rotated 180
-13216 FE00; Egyptian Ad-Hoc Working Group; N35 Rotated 90
+131FA FE00; Egyptian Ad-Hoc Working Group; N12 Rotated 90
+131FA FE01; Egyptian Ad-Hoc Working Group; N12 Rotated 180
+131FE FE01; Egyptian Ad-Hoc Working Group; N16 Rotated 180
+131FF FE00; Egyptian Ad-Hoc Working Group; N17 Rotated 90
+13204 FE00; Egyptian Ad-Hoc Working Group; N20 Rotated 90
+13204 FE01; Egyptian Ad-Hoc Working Group; N20 Rotated 180
+13207 FE00; Egyptian Ad-Hoc Working Group; N23 Rotated 90
+13208 FE00; Egyptian Ad-Hoc Working Group; N24 Rotated 90
+1320E FE01; Egyptian Ad-Hoc Working Group; N29 Rotated 180
 13216 FE01; Egyptian Ad-Hoc Working Group; N35 Rotated 180
+13216 FE02; Egyptian Ad-Hoc Working Group; N35 Rotated 270
+13217 FE00; Egyptian Ad-Hoc Working Group; N35A Rotated 90
 13219 FE00; Egyptian Ad-Hoc Working Group; N37 Rotated 90
-
-# 90
-# 1327F O31
-# 132A4 P8
-# 13423 AA21
-# 13377 V10
-# 13419 AA11
-# 13121 F32
-# 13312 T9
-# 13378 V11
-# 1312F F44
-# 131B1 M3
-# 131FA N12
-# 130A7 D46
-# 13191 I9
-# 13207 N23
-#
-# 13307 T1
+13250 FE02; Egyptian Ad-Hoc Working Group; O1 Rotated 270
+13257 FE01; Egyptian Ad-Hoc Working Group; O6 Rotated 180
+13268 FE01; Egyptian Ad-Hoc Working Group; O14 Rotated 180
+1327B FE02; Egyptian Ad-Hoc Working Group; O29 Rotated 270
+1327D FE00; Egyptian Ad-Hoc Working Group; O30 Rotated 90
+1327F FE00; Egyptian Ad-Hoc Working Group; O31 Rotated 90
+1327F FE01; Egyptian Ad-Hoc Working Group; O31 Rotated 180
+13285 FE00; Egyptian Ad-Hoc Working Group; O36 Rotated 90
+1328C FE00; Egyptian Ad-Hoc Working Group; O39 Rotated 90
+132A4 FE00; Egyptian Ad-Hoc Working Group; P8 Rotated 90
+132A4 FE01; Egyptian Ad-Hoc Working Group; P8 Rotated 180
+132A7 FE00; Egyptian Ad-Hoc Working Group; P11 Rotated 90
+132AA FE00; Egyptian Ad-Hoc Working Group; Q3 Rotated 90
+132CB FE00; Egyptian Ad-Hoc Working Group; R24 Rotated 90
+132DC FE00; Egyptian Ad-Hoc Working Group; S10 Rotated 90
+132E7 FE00; Egyptian Ad-Hoc Working Group; S18 Rotated 90
+132E7 FE02; Egyptian Ad-Hoc Working Group; S18 Rotated 270
+132E9 FE02; Egyptian Ad-Hoc Working Group; S20 Rotated 270
+132F7 FE00; Egyptian Ad-Hoc Working Group; S32 Rotated 90
+132F8 FE02; Egyptian Ad-Hoc Working Group; S33 Rotated 270
+132F9 FE02; Egyptian Ad-Hoc Working Group; S34 Rotated 270
+132FD FE02; Egyptian Ad-Hoc Working Group; S37 Rotated 270
+13300 FE02; Egyptian Ad-Hoc Working Group; S40 Rotated 270
+13302 FE02; Egyptian Ad-Hoc Working Group; S42 Rotated 270
+13303 FE02; Egyptian Ad-Hoc Working Group; S43 Rotated 270
+13307 FE00; Egyptian Ad-Hoc Working Group; T1 Rotated 90
+13308 FE01; Egyptian Ad-Hoc Working Group; T2 Rotated 180
+13309 FE00; Egyptian Ad-Hoc Working Group; T3 Rotated 90
+13310 FE02; Egyptian Ad-Hoc Working Group; T8 Rotated 270
+13311 FE02; Egyptian Ad-Hoc Working Group; T8A Rotated 270
+13312 FE01; Egyptian Ad-Hoc Working Group; T9 Rotated 180
+13312 FE02; Egyptian Ad-Hoc Working Group; T9 Rotated 270
+13313 FE01; Egyptian Ad-Hoc Working Group; T9A Rotated 180
+13313 FE02; Egyptian Ad-Hoc Working Group; T9A Rotated 270
+13314 FE01; Egyptian Ad-Hoc Working Group; T10 Rotated 180
+13314 FE02; Egyptian Ad-Hoc Working Group; T10 Rotated 270
+13319 FE00; Egyptian Ad-Hoc Working Group; T14 Rotated 90
+1331A FE02; Egyptian Ad-Hoc Working Group; T15 Rotated 270
+1331B FE00; Egyptian Ad-Hoc Working Group; T16 Rotated 90
+1331B FE01; Egyptian Ad-Hoc Working Group; T16 Rotated 180
+1331C FE02; Egyptian Ad-Hoc Working Group; T16A Rotated 270
+13321 FE01; Egyptian Ad-Hoc Working Group; T21 Rotated 180
+13321 FE02; Egyptian Ad-Hoc Working Group; T21 Rotated 270
+13322 FE00; Egyptian Ad-Hoc Working Group; T22 Rotated 90
+13322 FE01; Egyptian Ad-Hoc Working Group; T22 Rotated 180
+13331 FE00; Egyptian Ad-Hoc Working Group; T35 Rotated 90
+13331 FE01; Egyptian Ad-Hoc Working Group; T35 Rotated 180
+13331 FE02; Egyptian Ad-Hoc Working Group; T35 Rotated 270
+1333B FE00; Egyptian Ad-Hoc Working Group; U7 Rotated 90
+1333B FE01; Egyptian Ad-Hoc Working Group; U7 Rotated 180
+1333C FE00; Egyptian Ad-Hoc Working Group; U8 Rotated 90
+1334A FE02; Egyptian Ad-Hoc Working Group; U22 Rotated 270
+1335B FE02; Egyptian Ad-Hoc Working Group; U36 Rotated 270
+13372 FE00; Egyptian Ad-Hoc Working Group; V7 Rotated 90
+13373 FE02; Egyptian Ad-Hoc Working Group; V60 Rotated 270
+13376 FE02; Egyptian Ad-Hoc Working Group; V9 Rotated 270
+13377 FE00; Egyptian Ad-Hoc Working Group; V10 Rotated 90
+13378 FE00; Egyptian Ad-Hoc Working Group; V11 Rotated 90
+1337D FE02; Egyptian Ad-Hoc Working Group; H27 Rotated 270
+13385 FE02; Egyptian Ad-Hoc Working Group; V19 Rotated 270
+13396 FE01; Egyptian Ad-Hoc Working Group; V23A Rotated 180
+13399 FE00; Egyptian Ad-Hoc Working Group; V26 Rotated 90
+1339A FE00; Egyptian Ad-Hoc Working Group; V27 Rotated 90
+133A4 FE00; Egyptian Ad-Hoc Working Group; V33 Rotated 90
+133A4 FE02; Egyptian Ad-Hoc Working Group; V33 Rotated 270
+133AB FE02; Egyptian Ad-Hoc Working Group; V38 Rotated 270
+133AF FE02; Egyptian Ad-Hoc Working Group; W1 Rotated 270
+133B0 FE02; Egyptian Ad-Hoc Working Group; W2 Rotated 270
+133BF FE02; Egyptian Ad-Hoc Working Group; W14 Rotated 270
+133D3 FE00; Egyptian Ad-Hoc Working Group; X4A Rotated 90
+133DD FE02; Egyptian Ad-Hoc Working Group; Y2 Rotated 270
+133ED FE02; Egyptian Ad-Hoc Working Group; Z4 Rotated 270
+133EF FE00; Egyptian Ad-Hoc Working Group; Z5 Rotated 90
+133EF FE01; Egyptian Ad-Hoc Working Group; Z5 Rotated 180
+133F2 FE00; Egyptian Ad-Hoc Working Group; Z7 Rotated 90
+133F2 FE02; Egyptian Ad-Hoc Working Group; Z7 Rotated 270
+133F5 FE00; Egyptian Ad-Hoc Working Group; Z10 Rotated 90
+133F6 FE00; Egyptian Ad-Hoc Working Group; Z11 Rotated 90
+13403 FE00; Egyptian Ad-Hoc Working Group; Z15i Rotated 90
+13416 FE00; Egyptian Ad-Hoc Working Group; Aa8 Rotated 90
+13418 FE00; Egyptian Ad-Hoc Working Group; Aa10 Rotated 90
+13418 FE01; Egyptian Ad-Hoc Working Group; Aa10 Rotated 180
+13419 FE00; Egyptian Ad-Hoc Working Group; Aa11 Rotated 90
+13419 FE01; Egyptian Ad-Hoc Working Group; Aa11 Rotated 180
+13419 FE02; Egyptian Ad-Hoc Working Group; Aa11 Rotated 270
+1341A FE00; Egyptian Ad-Hoc Working Group; Aa12 Rotated 90
+1341C FE00; Egyptian Ad-Hoc Working Group; Aa14 Rotated 90
+1341D FE01; Egyptian Ad-Hoc Working Group; Aa15 Rotated 180
+13422 FE00; Egyptian Ad-Hoc Working Group; Aa20 Rotated 90
+13423 FE00; Egyptian Ad-Hoc Working Group; Aa21 Rotated 90
+1342C FE02; Egyptian Ad-Hoc Working Group; Aa30 Rotated 270
+1342E FE00; Egyptian Ad-Hoc Working Group; Aa32 Rotated 90
 
 # Expansion of lost signs
 13443 FE00; Egyptian Ad-Hoc Working Group; Expanded lost sign
