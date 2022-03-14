@@ -43,7 +43,7 @@ ver = 400
 
 class EotHelper:
     def __init__(self, pvar):
-        """Intialize the Egyptian OpenType helper class with config variable."""
+        """Initialize the Egyptian OpenType helper class with config variable."""
         # print(sys.version)
 
         self.pvar = pvar
@@ -79,7 +79,7 @@ class EotHelper:
         print(pvar['fontsrc'])
     
     def initializeVTP(self):
-        """Intialize the Volt OpenType project for the currently instantiated class."""
+        """Initialize the Volt OpenType project for the currently instantiated class."""
         def setdefaultfeatures():
             defaultObj = {}
             defaultObj['haln'] = []
@@ -595,7 +595,7 @@ class EotHelper:
 
     #Structure
     def pres(self):
-        # def loadr090subpairs(): # for controll based rotations
+        # def loadr090subpairs(): # for control based rotations
         #     subpairs = []
         #     for rotatedglyph in self.rotated090:
         #         baseglyph = rotatedglyph[0:-1] 
@@ -603,7 +603,7 @@ class EotHelper:
         #             subpair = {'sub':[baseglyph,'r90'],'target':[rotatedglyph] }
         #             subpairs.append(subpair)
         #     return subpairs
-        # def loadr180subpairs(): # for controll based rotations
+        # def loadr180subpairs(): # for control based rotations
         #     subpairs = []
         #     for rotatedglyph in self.rotated180:
         #         baseglyph = rotatedglyph[0:-1] 
@@ -611,7 +611,7 @@ class EotHelper:
         #             subpair = {'sub':[baseglyph,'r180'],'target':[rotatedglyph] }
         #             subpairs.append(subpair)
         #     return subpairs
-        # def loadr270subpairs(): # for controll based rotations
+        # def loadr270subpairs(): # for control based rotations
         #     subpairs = []
         #     for rotatedglyph in self.rotated270:
         #         baseglyph = rotatedglyph[0:-1] 
@@ -1589,7 +1589,7 @@ class EotHelper:
             elif dec > 0 and dec <= 65535: #mapped BMP characters
                 if name in punctuation:
                     group = 'Punctuation'
-                elif (variation): #name matches the patter for a variation selector
+                elif (variation): #name matches the pattern for a variation selector
                     group = 'VS'
                 elif dec == 9676: #dotted circle as generic base
                     group = 'Chr'
@@ -3107,7 +3107,7 @@ class EotHelper:
         #all levels
         #calculatemax 16-20
         def targetmax(level): #20-23
-            # For level 0, let the calcualted row max through
+            # For level 0, let the calculated row max through
             # rm{1-6} (|sh{6}) -> no changes
             # For levels 1 and 2, force the target max size
             # 1: rm{1-6} sh{(2-5)} -> rm$1 sh$1             
@@ -3281,7 +3281,7 @@ class EotHelper:
                     # j = colspersum[level][i] # the number of possible columns
                     j = self.pvar['targetwidthmax'][level] # the number of possible columns
                     while j >= 1: # iterate down for each possible column depth 
-                        subs = ['dv'+str(i)] # intial sub is the current delta value
+                        subs = ['dv'+str(i)] # initial sub is the current delta value
                         k = j # append dd1 value for each column
                         while k >= 1:
                             subs.append('dd1')
@@ -4298,7 +4298,7 @@ class EotHelper:
                 while i >= 1:
                     j = self.pvar['targetheightmax'][level] # the number of possible columns
                     while j >= 1: # iterate down for each possible row depth 
-                        subs = ['dv'+str(i)] # intial sub is the current delta value
+                        subs = ['dv'+str(i)] # initial sub is the current delta value
                         k = j # append dd1 value for each column
                         while k >= 1:
                             subs.append('dd1')
@@ -5078,7 +5078,7 @@ class EotHelper:
             return lookupObjs
         def mapTargetSize():
             #sh{1-8} sv{1-6} -> t$1$2
-            #exclude stems12 since o shapes are resued for insertion plates
+            #exclude stems12 since o shapes are reused for insertion plates
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'maptargetsize'
             lookupObj['exceptcontexts'] = [{'left':[],'right':['stems_12']}]
@@ -5634,7 +5634,7 @@ class EotHelper:
 
         return lines
 
-# COMPLILE TTX
+# COMPILE TTX
     def compileTTX(self):
         def dumpTTX(fontout):
             ttxfont = ttx.TTFont('out/'+fontout)

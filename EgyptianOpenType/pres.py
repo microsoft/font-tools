@@ -3,7 +3,7 @@
 
 pres = [
     # Lookup - tcm start
-    # TODO: Move these substitutions to the Default langauge
+    # TODO: Move these substitutions to the Default language
     # {'name' : 'tcm_open', 'marks' : '',
     # 'contexts' : [{'left':[],'right':['characters_latn']}],
     # 'details' : [
@@ -338,7 +338,7 @@ pres = [
     'details' : [
         {'sub':['su'],'target':['su','r2bA']},
     ]},
-    # Lookup - level 2 row begin afer corner before 2 end
+    # Lookup - level 2 row begin after corner before 2 end
     {'name' : 'r2b_corner', 'marks' : '*parensub',
     'contexts' : [{'left':[],'right':['r2eA']}],
     'details' : [{'sub':['corners0a'],'target':['corners0a','r1bA','r2bA']},]},
@@ -350,7 +350,7 @@ pres = [
     {'name' : 'r1_om1', 'marks' : 'parens',
     'contexts' : [{'left':['r1bA'],'right':['r1bA']}],
     'details' : [{'sub':['corners0a'],'target':['r1eA','corners0a']},]},
-    # Lookup - level 1 row begin afer corner before 1 end
+    # Lookup - level 1 row begin after corner before 1 end
     {'name' : 'corner_swapandsize', 'marks' : '',
     'exceptcontexts' : [{'left':['Qf'],'right':[]}],
     'details' : [
