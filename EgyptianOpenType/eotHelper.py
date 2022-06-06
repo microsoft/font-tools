@@ -37,7 +37,7 @@ ver = 400
     #   EHD
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
-    #   horizontal before vertical group with overlays
+    #   ? horizontal before vertical group with overlays
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
     #   RTL
 
@@ -117,8 +117,8 @@ class EotHelper:
         print ('loading glyph data...')
         self.loadglyphdata()
         print(self.maxhvsizes['66'])
-        for key in sorted(self.maxhvsizes):
-            print (key + "\t" + str(self.maxhvsizes[key]))
+        # for key in sorted(self.maxhvsizes):
+        #     print (key + "\t" + str(self.maxhvsizes[key]))
         print ('loading groups...')
         self.loadgroups()
 
@@ -478,10 +478,15 @@ class EotHelper:
                 target = ''
 
                 if base in self.glyphHexToName:
+                    # Indirectly defined in HVD_Sequences (270 == mirrored 90)
+                    basename = self.glyphHexToName[base]
+                    if basename not in mirroring:
+                        if vstype == 't':
+                            vstype == 'nR'
+
                     try:
-                        target = self.glyphHexToName[base]+vstype
+                        target = basename+vstype
                         if target in self.glyphdata:
-                            # print(target)
                             line = '      <map uv="'+base.lower()+'" uvs="'+vs.lower()+'" name="'+target+'"/>'
                             lines.append(line+"\n")
                     except:

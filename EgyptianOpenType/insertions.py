@@ -219,6 +219,12 @@ insertions = {
 	'M10' : {
 			'bs': {66:'53'}
 	},
+	'U1' : { # Needs offset to vertically center
+		'ts' : {66:'32'}
+	},
+	'U2' : { # Needs offset to vertically center
+		'ts' : {65:'32'}
+	},
 	'V22' : {
 			'bs': {66:'53'}
 	},

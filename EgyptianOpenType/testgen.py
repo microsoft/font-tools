@@ -6,6 +6,7 @@ from os import path
 import sys
 from eotHelper import EotHelper
 
+d = True
 if len(sys.argv) > 1:
     fontconfig = 'config_'+str(sys.argv[1])
     if path.exists(fontconfig+'.py'):
