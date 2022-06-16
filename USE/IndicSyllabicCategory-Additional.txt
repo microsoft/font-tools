@@ -32,13 +32,6 @@ AA29          ; Bindu  # Mn       CHAM VOWEL SIGN AA
 
 # ================================================
 
-# Indic_Syllabic_Category=Consonant_Final
-0F35          ; Consonant_Final   # Mn       TIBETAN MARK NGAS BZUNG NYI ZLA
-0F37          ; Consonant_Final   # Mn       TIBETAN MARK NGAS BZUNG SGOR RTAGS
-0FC6          ; Consonant_Final   # Mn       TIBETAN SYMBOL PADMA GDAN
-
-# ================================================
-
 # Indic_Syllabic_Category=Consonant_Final_Modifier
 1C36          ; Consonant_Final_Modifier  # Mn   LEPCHA SIGN RAN
 
