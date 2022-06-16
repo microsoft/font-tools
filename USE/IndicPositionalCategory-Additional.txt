@@ -22,6 +22,8 @@ A9BF          ; Bottom  # Mc      JAVANESE CONSONANT SIGN CAKRA
 11127..11129  ; Bottom  # Mn  [3] CHAKMA VOWEL SIGN A..CHAKMA VOWEL SIGN II
 1112D         ; Bottom  # Mn      CHAKMA VOWEL SIGN AI
 11130         ; Bottom  # Mn      CHAKMA VOWEL SIGN OI
+1BF2..1BF3    ; Nukta   # Mc  [2] BATAK PANGOLAT..BATAK PANONGONAN # see USE issue #20
+
 
 # ================================================
 

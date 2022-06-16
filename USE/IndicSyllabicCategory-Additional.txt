@@ -44,6 +44,7 @@ AA29          ; Bindu  # Mn       CHAM VOWEL SIGN AA
 
 # Indic_Syllabic_Category=Nukta   
 0F71          ; Nukta            # Mn       TIBETAN VOWEL SIGN AA # Reassigned to get this before an above vowel
+1BF2..1BF3    ; Nukta            # Mc   [2] BATAK PANGOLAT..BATAK PANONGONAN # see USE issue #20
 10A38..10A3A  ; Nukta            # Mn   [3] KHAROSHTHI SIGN BAR ABOVE..KHAROSHTHI SIGN DOT BELOW
 
 # ================================================
