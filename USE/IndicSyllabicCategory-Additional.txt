@@ -5,6 +5,7 @@
 # Updated for Unicode 12.1 by Andrew Glass 2019-05-24
 # Updated for Unicode 13.0 by Andrew Glass 2020-07-28
 # Updated for Unicode 14.0 by Andrew Glass 2021-09-25
+# Updated for Unicode 15.0 by Andrew Glass 2021-**-**
 
 # ================================================
 # OVERRIDES TO ASSIGNED VALUES
@@ -140,7 +141,6 @@ FE00..FE0F    ; Modifying_Letter  # Mn  [16] VARIATION SELECTOR-1..VARIATION SEL
 0F39          ; Nukta            # Mn       TIBETAN MARK TSA -PHRU # NOW IN UNICODE 10.0
 1885..1886    ; Nukta            # Mn   [2] MONGOLIAN LETTER ALI GALI BALUDA..MONGOLIAN LETTER ALI GALI THREE BALUDA
 18A9          ; Nukta            # Mn       MONGOLIAN LETTER ALI GALI DAGALGA
-1B6B..1B73    ; Nukta            # Mn   [9] BALINESE MUSICAL SYMBOL COMBINING TEGEH..BALINESE MUSICAL SYMBOL COMBINING GONG
 10AE5..10AE6  ; Nukta            # Mn   [2] MANICHAEAN ABBREVIATION MARK ABOVE..MANICHAEAN ABBREVIATION MARK BELOW
 16F4F         ; Nukta            # Mn       MIAO SIGN CONSONANT MODIFIER BAR
 1BC9D..1BC9E  ; Nukta            # Mn   [2] DUPLOYAN THICK LETTER SELECTOR..DUPLOYAN DOUBLE MARK
@@ -191,6 +191,12 @@ AABD          ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 0B55          ; Vowel_Dependent     # Mn       ORIYA SIGN OVERLINE
 10EAB..10EAC  ; Vowel_Dependent     # Mn   [2] YEZIDI COMBINING HAMZA MARK..YEZIDI COMBINING MADDA MARK
 16F51..16F87  ; Vowel_Dependent     # Mc  [55] MIAO SIGN ASPIRATION..MIAO VOWEL SIGN UI
+
+
+# ================================================
+
+# Indic_Syllabic_Category=Symbol_Modifier
+1B6B..1B73    ; Symbol_Modifier     # Mn   [9] BALINESE MUSICAL SYMBOL COMBINING TEGEH..BALINESE MUSICAL SYMBOL COMBINING GONG
 
 # ================================================
 # ================================================
