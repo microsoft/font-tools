@@ -186,6 +186,11 @@ AABD          ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 10EAB..10EAC  ; Vowel_Dependent     # Mn   [2] YEZIDI COMBINING HAMZA MARK..YEZIDI COMBINING MADDA MARK
 16F51..16F87  ; Vowel_Dependent     # Mc  [55] MIAO SIGN ASPIRATION..MIAO VOWEL SIGN UI
 
+# ================================================
+
+# Indic_Syllabic_Category=Cantillation_Mark
+
+1CF8..1CF9    ; Cantillation_Mark   # Mn   [2] VEDIC TONE RING ABOVE..VEDIC TONE DOUBLE RING ABOVE
 
 # ================================================
 
