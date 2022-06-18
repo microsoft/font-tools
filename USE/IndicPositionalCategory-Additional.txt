@@ -7,6 +7,7 @@
 # Updated for Unicode 12.1 by Andrew Glass 2019-05-30
 # Updated for Unicode 13.0 by Andrew Glass 2020-07-28
 # Updated for Unicode 14.0 by Andrew Glass 2021-09-28
+# Updated for Unicode 15.0 by Andrew Glass 2022-**-**
 
 # ================================================
 # ================================================
@@ -19,10 +20,11 @@
 0F7A..0F7D    ; Bottom  # Mn  [4] TIBETAN VOWEL SIGN E..TIBETAN VOWEL SIGN OO # Not really below, but need to override to fit into Universal model
 0F80          ; Bottom  # Mn      TIBETAN VOWEL SIGN REVERSED I # Not really below, but need to override to fit into Universal model
 A9BF          ; Bottom  # Mc      JAVANESE CONSONANT SIGN CAKRA
+10A38         ; Bottom  # Mn      KHAROSHTHI SIGN BAR ABOVE # Overriden, ccc controls order USE issue #26
 11127..11129  ; Bottom  # Mn  [3] CHAKMA VOWEL SIGN A..CHAKMA VOWEL SIGN II
 1112D         ; Bottom  # Mn      CHAKMA VOWEL SIGN AI
 11130         ; Bottom  # Mn      CHAKMA VOWEL SIGN OI
-1BF2..1BF3    ; Nukta   # Mc  [2] BATAK PANGOLAT..BATAK PANONGONAN # see USE issue #20
+1BF2..1BF3    ; Bottom  # Mc  [2] BATAK PANGOLAT..BATAK PANONGONAN # see USE issue #20
 
 
 # ================================================
