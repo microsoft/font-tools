@@ -46,6 +46,8 @@ A9BE          ; Right   # Mc      JAVANESE CONSONANT SIGN PENGKAL # Reduced from
 0F74          ; Top     # Mn       TIBETAN VOWEL SIGN U # Not really above, but need to override to fit into Universal model
 1A18          ; Top     # Mn       BUGINESE VOWEL SIGN U # Workaround to allow below to occur before above by treating all below marks as above
 AA35          ; Top     # Mn       CHAM CONSONANT SIGN
+1112A..1112B  ; Top     # Mn   [2] CHAKMA VOWEL SIGN U..CHAKMA VOWEL SIGN UU  # see USE issue #25
+11131..11132  ; Top     # Mn   [2] CHAKMA O MARK..CHAKMA AU MARK  # see USE issue #25
 
 # ================================================
 
