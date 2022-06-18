@@ -9,7 +9,7 @@ pvar = {
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text Proto", # Font name
     'fontsrc' : "../../fonts/et/egyptiantextU12core-COLR.ttf", # Path to source font
-    'fontout' : "egyptiantextU12core.ttf", # Path to write output font
+    'fontout' : "et_temp.ttf", # Path to write output font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
@@ -86,6 +86,9 @@ pvar = {
     'baseline' : 1, #align singletons to baseline for Hieratic
     'mirror'  : 1,  
     'vertical': 1,
-    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':1,'abvs':1,'blws':1,'rlig':1,'psts':1,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':0}
+    'variations' :  1,
+    'expansions' : 0,
+    'glyphproperties' : 1,
+    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':1,'abvs':0,'blws':0,'rlig':1,'psts':1,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':0}
     'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }

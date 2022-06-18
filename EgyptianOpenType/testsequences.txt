@@ -1,24 +1,23 @@
-#Enclosures
-%cb esb A1 B1 vj O1 C1 ese ce
-%esb A1 B1 C1 ese ce
-%cb A1 B1 C1 ce
-%cb esb A1 B1 C1 ese
-%cb esb A1 cb esb B1 ese ce C1 ese ce
-%cb esb A1 esb B1 ese ce C1 ese ce
-%cb esb A1 cb B1 ce C1 ese ce
-%cb esb A1 cb esb B1 ese C1 ese ce
-%esb A1 cb esb B1 ese ce C1 ese ce
-%cb A1 cb esb B1 ese ce C1 ce
-cwb ewb A1 B1 vj O1 C1 ewe cwe 
-cb esb cwb ewb A1 B1 vj O1 C1 ewe cwe ese ce
-
-%cb M17 Y5 vj N35 R4 vj X1 hj Q3 ce
-%hwtb R8 hwtbe
-%hwtb X1 vj Q3 hwtte
-%hwttb G7 hwte
-%hwtbb G25 te J1 hwte
-%hwtfb O1 hwtfe
-%cwb A1 hj B1 vj Z2 cwe
+/ #Enclosures
+/ %cb esb A1 B1 vj O1 C1 ese ce
+/ %esb A1 B1 C1 ese ce
+/ %cb A1 B1 C1 ce
+/ %cb esb A1 B1 C1 ese
+/ %cb esb A1 cb esb B1 ese ce C1 ese ce
+/ %cb esb A1 esb B1 ese ce C1 ese ce
+/ %cb esb A1 cb B1 ce C1 ese ce
+/ %cb esb A1 cb esb B1 ese C1 ese ce
+/ %esb A1 cb esb B1 ese ce C1 ese ce
+/ %cb A1 cb esb B1 ese ce C1 ce
+/ cwb ewb A1 B1 vj O1 C1 ewe cwe 
+/ cb esb cwb ewb A1 B1 vj O1 C1 ewe cwe ese ce
+/ %cb M17 Y5 vj N35 R4 vj X1 hj Q3 ce
+/ %hwtb R8 hwtbe
+/ %hwtb X1 vj Q3 hwtte
+/ %hwttb G7 hwte
+/ %hwtbb G25 te J1 hwte
+/ %hwtfb O1 hwtfe
+/ %cwb A1 hj B1 vj Z2 cwe
 
 #Basic
 %A1                      
@@ -108,6 +107,7 @@ ss ss D21 vj X1 se hj D2 vj N25 se hj Z11 vj N35
 %D36 vj I10 bs D46
 %I9 vj N35 vj F20 bs A1
 %I10 bs ss I10 bs I10 se
+I10 bs ss X1 vj N17 se
 
 #Corner - Top End
 %G9 te N27
@@ -115,10 +115,10 @@ ss ss D21 vj X1 se hj D2 vj N25 se hj Z11 vj N35
 %G9 te ss N27 vj N27 se
 
 #Corner - Bottom End
-N35 vj H6 hj ss G39 be X1 vj D21 se
+%N35 vj H6 hj ss G39 be X1 vj D21 se
 
 #Multi-corners
-%G36 bs D21 te X1
+G36 bs D21 te X1
 %G25 bs D21 te X1
 %G25 te J1 be X1
 %G25 bs D21 te N5 be X1

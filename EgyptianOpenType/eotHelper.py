@@ -27,17 +27,11 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 400
 
 # version 5 requirements
-    # ✓ tcbb tcbe marks from BMP 1580ff
-    # ✓ damaged quarters - validate
-    # ✓ middle insertion SECOND PASS IS NOT REWINDING 2482
-    # ✓ TCM brackets - don't synchronize use area height not glyph height
-    # ✓ bugs: A7 hj A1 vj A2: rl042 shrink context not blocked across rows
-    #   vs to control expansion of atomic shades - Font change to create new set of full area shades
+    #   VS to control expansion of all atomic shades
     #   
     #   EHD
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
-    #   ? horizontal before vertical group with overlays
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
     #   RTL
 
@@ -187,7 +181,7 @@ class EotHelper:
                             self.wide = True
                         else:
                             self.wide = False
-                    else:
+                    elif (key != '/'):
                         line.strip()
                         if key == '%':
                             ps = ' pass'
@@ -328,6 +322,8 @@ class EotHelper:
                 if testbase(perglyphmap,ins):
                     if key not in truekeys:
                         truekeys.append(key)
+                    if key not in self.insertionsall:
+                        self.insertionsall.append(key)
             return truekeys
         def loadMappings(ins):
             def customhash(obj):
@@ -355,20 +351,15 @@ class EotHelper:
                             mappings[valkey].append(key)
 
             return mappings
-        def getinsertionObj(ins):
-            retobj = []
-            retobj.append(loadbases(ins))
-            retobj.append(loadMappings(ins))
 
-            return retobj
-
+        self.insertionsall = []
         self.insertionmappings = {'ad':[],'bs':[],'te':[],'be':[],'mi':[],'bi':[]}
         adjs = ['ts','ti']
         nonadjs = ['bs','te','be','mi','bi']
 
         for ins in self.insertionmappings:
             self.insertionmappings[ins] = getinsertionObj(ins)
-
+        groupdata['insertions_all'] = self.insertionsall
         return
 
     def loadVariationDatabase(self):
@@ -2139,6 +2130,46 @@ class EotHelper:
         for line in lines:
             writefile.write(line)        
         return
+    def writeGlyphProperties(self):
+        if 'glyphproperties' in self.pvar:
+            if self.pvar['glyphproperties'] == 1:
+                writefile = open('out/glyph_properties.txt',"w")
+                insertions = [
+                    'A14','A16','A17','A17a','A18','A26','A28','A30','A40','A41','A43','A45',
+                    'A50','A55','B1','C1','C2a','C2b','C9','C10','C22','C23','D3','D17','D28',
+                    'D29','D32','D36','D37','D38','D39','D40','D41','D42','D43','D44','D45',
+                    'D46a','D52','D53','D54','D54a','D55','D56','D58','D60','D66','E1','E3',
+                    'E6','E7','E8','E8a','E9','E100','E10','E11','E13','E14','E15','E16','E17',
+                    'E141','E18','E19','E20','E20a','E21','E22','E23','E27','E28','E29','E30',
+                    'E31','E32','E34','E38','F4','F5','F6','F13','F16','F18','F20','F26','F29',
+                    'F30','F39','F40','G1','G2','G3','G4','G5','G6','G139','G7','G7a','G7b','G8',
+                    'G9','G11','G11a','G13','G14','G15','G17','G18','G20','G90','G21','G22','G23',
+                    'G25','G26','G26a','G27','G28','G29','G30','G31','G32','G33','G34','G35',
+                    'G36','G36a','G37','G37a','G38','G39','G41','G42','G43','G43a','G44','G45',
+                    'G45a','G47','G50','G53','I1','I3','I5','I7','I8','I9','I10','I31','I11',
+                    'I11a','L1','M9','M10','M72','M11','M22','M22a','M23','M26','M27','M140b',
+                    'N2','N3','N11','N12','N36','N37','O1','O54','O2','O6','O13','O14','O16',
+                    'O17','O18','O26','O32','O36','O38','Q1','Q2','R8','R12','R13','S1','S2',
+                    'S19','S22','S28','S29','T2','T5','T6','T7a','T14','T30','T31','T32','T32a',
+                    'U1','U2','U6','U13','U14','U15','U19','U21','U35','V4','V6','V7','V10','V12',
+                    'V12a','V12b','V15','V22','V23','V23a','V71','V81','W4','W15','W16','X4b',
+                    'Z6','Z8','Z10','Z11','Z13','J5','J7','J13','J14','J15','J16','J19'
+                ]
+                print('Writing glyph properties')
+                i = 0
+                for name in self.glyphdata:
+                    if name in insertions:
+                        glyphdata = self.glyphdata[name]
+                        # line = str(glyphdata['hex'])+"\n"+\
+                        #     "\t'"+glyphdata['name']+"' : {\n"+\
+                        #     "\t\t'': {"+str(glyphdata['ehuh'])+str(glyphdata['ehuv'])+":''}\n"+\
+                        #     "},\n"
+                        line = glyphdata['name']+"\t"+str(glyphdata['hex'])+"\t"+str(glyphdata['ehuh'])+str(glyphdata['ehuv'])+"\n"
+                        i += 1
+                        writefile.write(line)
+                print('Wrote '+str(i)+' glyph properties to glyph_properties.txt')    
+        
+        return
 
 # L I G A T U R E S
     def GSUBligatures(self):  
@@ -2740,11 +2771,14 @@ class EotHelper:
                     inssizes = self.insertionmappings[ic]
                     # pginsglyphs = inssizes[0]
                     pginsmap = inssizes[1]
+                    lv = ''
+                    if level == 2:
+                        lv = '2'
 
                     if (len(pginsmap) > 0):
                         markset = ''
                         if ic != 'ad':
-                            markset = '*insmarkset'+ic
+                            markset = '*insmarkset'+ic+lv
                         cycle = 1
 
                         for key in pginsmap:
@@ -3711,7 +3745,10 @@ class EotHelper:
             # [third pass] 1 substitution made [1-2 values]
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = name+'-H-maxcalc-'+str(level)+'_'+str(cycle)
-            lookupObj['marks'] = 'rowmaxes'
+            markgroup = 'rowmaxes'
+            if level == 0:
+                markgroup = '*rowmaxes0'
+            lookupObj['marks'] = markgroup
             c = 1
             m = self.pvar['chu']
             n = self.pvar['chu']

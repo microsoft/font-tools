@@ -23,6 +23,8 @@ eothelper.createVTPFile()
 eothelper.createErrorFile()
 eothelper.loadVariationDatabase()
 # eothelper.vmtx_FC()
+# eothelper.writeGlyphProperties()
+
 eothelper.gdef()
 eothelper.groups()
 eothelper.haln()
