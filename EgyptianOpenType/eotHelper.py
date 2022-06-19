@@ -131,7 +131,7 @@ class EotHelper:
             tl("\t\t\t@font-face {font-family: '"+self.pvar['fontfilename']+"';\n")
             tl("\t\t\tsrc: url("+self.pvar['fontout']+") format(\"truetype\");}\n")
             tl("\t\t\t@font-face {font-family: 'EgyptianTextPrior';\n")
-            tl("\t\t\tsrc: url(egyptiantext_prior.ttf) format(\"truetype\");}\n")
+            tl("\t\t\tsrc: url("+self.pvar['fontprior']+") format(\"truetype\");}\n")
             tl("\t\t\tbody {background-color:#AAA; color: #555; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }\n")
             tl("\t\t\t.page {margin: 0px auto; text-align: center}\n")
             tl("\t\t\th2 {clear: left; margin: 0px auto; text-align: center; display: block;padding-top: 30px;padding-bottom: 12px;}\n")
@@ -551,7 +551,7 @@ class EotHelper:
             return gdefline
 
         # Main
-        font = TTFont('out/'+self.pvar['fontout'])
+        font = TTFont('out/fontout_temp.ttf')
         for name in font.getGlyphOrder():
             if name in self.glyphdata:
                 glyph = self.glyphdata[name]
@@ -1788,7 +1788,7 @@ class EotHelper:
                 self.fontsave = 'Font save suppressed'
             else: 
                 if self.injectedglyphcount > 0:
-                    self.fontsrc.save('out/'+self.pvar['fontout'])
+                    self.fontsrc.save('out/fontout_temp.ttf')
                     self.fontsrc.getBestCmap
                     self.fontsave = 'Glyphs added: '+str(self.injectedglyphcount)
                 else:
@@ -3767,7 +3767,10 @@ class EotHelper:
         def lastcounter():
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = name+'-H-blockmax-'+str(level)+'_E'
-            lookupObj['marks'] = 'rowmaxes'
+            markgroup = 'rowmaxes'
+            if level == 0:
+                markgroup = '*rowmaxes0'
+            lookupObj['marks'] = markgroup
             c = 1
             max = self.pvar['hhu'] # The widest row in a block
             while c <= max:
@@ -3813,7 +3816,10 @@ class EotHelper:
         while i <= self.pvar['chu']:
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = name+'-H-blocktomaxrow-'+str(i)+'-'+str(level)
-            lookupObj['marks'] = 'rowmaxes'
+            markgroup = 'rowmaxes'
+            if level == 0:
+                markgroup = '*rowmaxes0'
+            lookupObj['marks'] = markgroup
             context = {'left':['rm'+str(i)],'right':[]}
             lookupObj['contexts'].append(context)
             details = {'sub':['rc0'],'target':['dv'+str(i)]}
@@ -4242,7 +4248,7 @@ class EotHelper:
             lookupObj['name'] = 'red-V-mintoken-'+str(level)
             if level < 2:
                 if level == 0:
-                    lookupObj['marks'] = 'rowmaxes'
+                    lookupObj['marks'] = '*rowmaxes0'
                     lookupObj['contexts'] = [{'left':[],'right':['mt22']}]
                 i = self.pvar['vhu']
                 minv = self.pvar['insertionheightmin'][level]
@@ -4424,7 +4430,10 @@ class EotHelper:
             def resolve(level,cycle):
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'red-V-resolve-'+str(cycle)+'-'+str(level)
-                lookupObj['marks'] = 'rowmaxes'
+                markgroup = 'rowmaxes'
+                if level == 0:
+                    markgroup = '*rowmaxes0'
+                lookupObj['marks'] = markgroup
                 lookupObj['contexts'] = [{'left':['rm'+str(cycle)],'right':[]}]
 
                 sub = ['rc0']
@@ -5691,7 +5700,7 @@ class EotHelper:
             print('Skipping Compile')
         else:
             print('Compiling font...')
-            dumpTTX(self.pvar['fontout'])
+            dumpTTX('fontout_temp.ttf')
 
             self.writeCMAP()
             self.writeVMTX()

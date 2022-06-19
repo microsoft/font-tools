@@ -9,7 +9,8 @@ pvar = {
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text Proto", # Font name
     'fontsrc' : "../../fonts/et/egyptiantextU12core-COLR.ttf", # Path to source font
-    'fontout' : "et_temp.ttf", # Path to write output font
+    'fontout' : "eot.ttf", # Path to write output font
+    'fontprior' : "egyptiantextU12.ttf", # Path to prior test font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
