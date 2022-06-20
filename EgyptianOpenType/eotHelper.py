@@ -13,6 +13,7 @@ from featuredata import groupdata
 from featuredata import basetypes
 from featuredata import qcontrols
 from featuredata import punctuation
+from featuredata import internalligatures
 from featuredata import internalmirrors
 from featuredata import mirroring
 from featuredata import verticalmetrics
@@ -586,35 +587,11 @@ class EotHelper:
             self.halnlines = self.GSUBligatures()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (<=6 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (7 expected)')
             self.writelines(self.halnlines)
 
     #Structure
     def pres(self):
-        # def loadr090subpairs(): # for control based rotations
-        #     subpairs = []
-        #     for rotatedglyph in self.rotated090:
-        #         baseglyph = rotatedglyph[0:-1] 
-        #         if baseglyph in groupdata['characters_all']:
-        #             subpair = {'sub':[baseglyph,'r90'],'target':[rotatedglyph] }
-        #             subpairs.append(subpair)
-        #     return subpairs
-        # def loadr180subpairs(): # for control based rotations
-        #     subpairs = []
-        #     for rotatedglyph in self.rotated180:
-        #         baseglyph = rotatedglyph[0:-1] 
-        #         if baseglyph in groupdata['characters_all']:
-        #             subpair = {'sub':[baseglyph,'r180'],'target':[rotatedglyph] }
-        #             subpairs.append(subpair)
-        #     return subpairs
-        # def loadr270subpairs(): # for control based rotations
-        #     subpairs = []
-        #     for rotatedglyph in self.rotated270:
-        #         baseglyph = rotatedglyph[0:-1] 
-        #         if baseglyph in groupdata['characters_all']:
-        #             subpair = {'sub':[baseglyph,'r270'],'target':[rotatedglyph] }
-        #             subpairs.append(subpair)
-        #     return subpairs
         def loadtsgsubpairs():
             keys = groupdata['characters_all']
             subpairs = []
@@ -2313,12 +2290,62 @@ class EotHelper:
                         groupedligatures[liglen].append(name)
 
             return genligatureLookups(groupedligatures)
+        def genInternalLigatures():
+            def genLookup(cycle):
+                lookupObj = {'feature':'haln','name':'','marks':'ALL','contexts':[],'details':[]}
+                lookupObj['name'] = 'ligatures_internal_'+str(cycle)
+                lookupObj['exceptcontexts'] = genExceptContexts()
+                for key in internalligatures:
+                    sub = genSub(internalligatures[key])
+                    if len(sub) == cycle:
+                        target = key
+                        details = {'sub':sub,'target':[target]}
+                        lookupObj['details'].append(details)
+
+                return lookupObj
+            def genExceptContexts():
+                contexts = []
+                contexts.append({'left':['vj'],     'right':[]})
+                contexts.append({'left':['hj'],     'right':[]})
+                contexts.append({'left':['corners'],'right':[]})
+                contexts.append({'left':['om'],     'right':[]})
+                contexts.append({'left':[],         'right':['vj']})
+                contexts.append({'left':[],         'right':['hj']})
+                contexts.append({'left':[],         'right':['corners']})
+                contexts.append({'left':[],         'right':['om']})
+                return contexts 
+            def genSub(sub):
+                return sub.split('.')
+            def loadLigatureLenghts():
+                lengths = []
+                for key in internalligatures:
+                    val = internalligatures[key]
+                    vals = val.split('.')
+                    l = len(vals)
+                    if l not in lengths:
+                        lengths.append(l)
+
+                return lengths
+            print('Internal Ligatures')
+            liglengths = loadLigatureLenghts()
+            lookupObjs = []
+            for l in liglengths:
+                lookupObj = genLookup(l)
+                lookupObjs.append(lookupObj)
+
+            return lookupObjs
 
         lines = []
         if len(self.ligatures) > 0:
             lookupObjs = genligatures()
             for lookupObj in lookupObjs:
                 lines.append(self.writefeature(lookupObj))
+
+        if 'internalligatures' in self.pvar:
+            if self.pvar['internalligatures'] > 0:
+                lookupObjs = genInternalLigatures()
+                for lookupObj in lookupObjs:
+                    lines.append(self.writefeature(lookupObj))
 
         return lines
 
@@ -3791,7 +3818,6 @@ class EotHelper:
         return lookupObjs
     def insertrowmaxmarker(self,level,name): #24
         # Insert rc0 before dv0 to receive block max width per row
-        # TODO:LSEP 
         featuretag = self.setfeaturetag(level)
         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
         lookupObj['name'] = name+'-H-rowmaxmarker-'+str(level)

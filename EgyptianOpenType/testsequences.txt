@@ -86,7 +86,7 @@
 %N35 vj ss W24 vj X1 se hj Z1 hj Z1
 %X1 hj N35 vj ss Y1 vj Z2 se hj S29
 %ss Y1 vj Z2 se hj S29 vj X1 hj N35
-ss A1 vj B1 se hj ss B1 vj A1 se
+%ss A1 vj B1 se hj ss B1 vj A1 se
 
 #L2 embedding
 %Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
@@ -94,7 +94,7 @@ ss A1 vj B1 se hj ss B1 vj A1 se
 %J15 vj Z11 hj ss D2 hj ss D21 vj X1 se vj N25 se
 %ss I10 bs D46 vj I9 se hj M17
 %I10 bs ss ss X1 vj D21 se hj D2 se
-ss D2 hj ss D21 vj X1 se vj N25 se hj Z11 vj N35
+%ss D2 hj ss D21 vj X1 se vj N25 se hj Z11 vj N35
 ss ss D21 vj X1 se hj D2 vj N25 se hj Z11 vj N35
 
 #Corner - Top Start
@@ -107,7 +107,7 @@ ss ss D21 vj X1 se hj D2 vj N25 se hj Z11 vj N35
 %D36 vj I10 bs D46
 %I9 vj N35 vj F20 bs A1
 %I10 bs ss I10 bs I10 se
-I10 bs ss X1 vj N17 se
+%I10 bs ss X1 vj N17 se
 
 #Corner - Top End
 %G9 te N27
@@ -156,13 +156,13 @@ ss D2 hj X1 vj N25 se
 D36 om ss I10 bs X1 se
 
 #Internal ligatures
-G43a G43 bs X1
-I11a I10 bs ss X1 vj N18 se
-L2a M23 hj L2 vj X1 hj X1
-O30a O30 hj O30 hj O30 hj O30
-P9 P8 om I9
-S30 S29 om I9
-W14a V28 hj W14 vj O34
+%G43a G43 bs X1
+%I11a I10 bs ss X1 vj N17 se
+%L2a M23 hj L2 vj X1 hj X1
+%O30a O30 hj O30 hj O30 hj O30
+%P9 P8 om I9
+%S30 S29 om I9
+%W14a V28 hj W14 vj O34
 
 #Phrases
 %D4 vj D4 M23 hj ss X1 vj N35 se J15 vj Q1 hj ss X1 vj O1 se V30

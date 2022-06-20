@@ -331,8 +331,6 @@ groupdata = {
 	'genericbases' : ['dottedcircle']
 } 
 
-
-# TODO - derive base types from groups
 basetypes = ['dottedcircle','VP',
     'QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',
     'QC1','QC2','QC3','QC4','QC5','QC6','QC7','QC8',
@@ -357,6 +355,16 @@ basetypes = ['dottedcircle','VP',
 	'Qf','Qi','vjV','hjV','tsV','bsV','teV','beV','omV','ssV','seV',
 	'esbV','eseV','ewbV','eweV','eobV','eoeV','edbV','edeV','efbV','efeV','dfV'
 	]
+
+internalligatures = {
+	'G43a': 'G43.bs.X1',
+	'P9'  : 'P8.om.I9',
+	'S30' : 'S29.om.I9',
+	'W14a': 'V28.hj.W14.vj.O34',
+	'I11a': 'I10.bs.ss.X1.vj.N17.se',
+	'L2a' : 'M23.hj.L2.vj.X1.hj.X1',
+	'O30a': 'O30.hj.O30.hj.O30.hj.O30',
+}
 
 internalmirrors = {
 	'C2':'C2c','C2c':'C2','C2a':'C2b','C2b':'C2a','C12':'C13','C13':'C12','C14':'C15','C15':'C14',

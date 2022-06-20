@@ -80,6 +80,7 @@ pvar = {
                         78915,78916,78917,78918,78919,78920,78921,78922,78923,78924,
                         78925,78926,78927,78928,78929,78930,78931,78932,78933,
                         91,93],
+    'internalligatures'  : 1,  
     'extensions' : 1,
     'variations' : 1,
     'tcbs' : 1,
@@ -90,6 +91,6 @@ pvar = {
     'variations' :  1,
     'expansions' : 0,
     'glyphproperties' : 1,
-    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':1,'abvs':0,'blws':0,'rlig':1,'psts':1,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':1,'anchors':1,'coda':0}
+    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':1,'abvs':1,'blws':1,'rlig':1,'psts':1,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':0,'anchors':1,'coda':0}
     'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }
