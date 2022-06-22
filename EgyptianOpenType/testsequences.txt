@@ -100,6 +100,7 @@ ss ss D21 vj X1 se hj D2 vj N25 se hj Z11 vj N35
 #Corner - Top Start
 %N35 vj F4 ts X1
 %F4 ts X1 vj W24 vj Z2
+%F4 ts D21 vj X1 hj Z1 vj I9
 
 #Corner - Bottom Start
 %G25 bs J1
@@ -122,6 +123,7 @@ G36 bs D21 te X1
 %G25 bs D21 te X1
 %G25 te J1 be X1
 %G25 bs D21 te N5 be X1
+%G36 te X1 vj I10 bs D46 te T1
 
 #Corner L1 ebmedding
 %N35 vj I10 bs ss X1 vj Z1 se

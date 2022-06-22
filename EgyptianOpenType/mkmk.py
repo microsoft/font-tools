@@ -139,6 +139,8 @@ mkmk = [
         {'attach':['shapes_om'],'to':['insertionsizes1'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
+    #DYNAMIC LOOKUP - Distance adjustments
+    {'name' : 'offsets1'},
     #Lookup
     {'name' : 'shapes0-row1', 'marks' : '',
     'details' : [
@@ -292,6 +294,8 @@ mkmk = [
         {'attach':['shapes_om2'],'to':['insertionsizes2'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
+    #DYNAMIC LOOKUP - Distance adjustments
+    {'name' : 'offsets2'},
     #Lookup
     {'name' : 'shapes1-row2', 'marks' : '',
     'details' : [

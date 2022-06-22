@@ -327,6 +327,33 @@ class EotHelper:
                         self.insertionsall.append(key)
             return truekeys
         def loadMappings(ins):
+            def stripoffsets(obj):
+                def xyoffsets(i,k,offset,sign):
+                    pair = {'i':i,'hv':k,'x':0,'y':0,'signs':[sign]}
+                    if offset[0:1] == 'x':
+                        pair['x'] = offset[1:]
+                    elif offset[0:1] == 'y':
+                        pair['y'] = offset[1:]
+                    return pair
+                def hashoffsets(o):
+                    i  = o['i']
+                    hv = o['hv']
+                    x  = o['x']
+                    y  = o['y']
+                    s  = o['signs']
+                    h = hash(str(i)+str(hv)+str(x)+str(y))
+
+                    if h not in self.offsets:
+                        self.offsets[h] = o
+                    else:
+                        self.offsets[h]['signs'].append(s)
+                    pass
+                for k in obj:
+                    v = obj[k]
+                    if len(v) > 2:
+                        obj[k] = str(v)[0:2]
+                        hashoffsets(xyoffsets(ins,k,str(v)[2:],key))
+                return obj
             def customhash(obj):
                 string = ''
                 for key in obj:
@@ -344,7 +371,8 @@ class EotHelper:
 
                 for k in array:
                     if k in values:
-                        valkey = customhash(values[k])
+                        valset = stripoffsets(values[k])
+                        valkey = customhash(valset)
                         if valkey not in mappings:
                             mappings[valkey] = [values]
                             mappings[valkey].append(key)
@@ -358,6 +386,7 @@ class EotHelper:
         adjs = ['ts','ti']
         nonadjs = ['bs','te','be','mi','bi']
 
+        self.offsets = {}
         for ins in self.insertionmappings:
             self.insertionmappings[ins] = getinsertionObj(ins)
         groupdata['insertions_all'] = self.insertionsall
@@ -807,9 +836,47 @@ class EotHelper:
             print ('MKMK in test mode')
         else:
             for featuredef in mkmk:
-                lookupObj = featuredef
-                lookupObj['feature'] = featuretag
-                self.mkmklines.append(self.writefeature(lookupObj))
+
+                # {
+                #  3355056341088102893: {'i': 'bs', 'hv': 56, 'x': 0, 'y': '1', 'signs': ['A28', ['F29'], ['G34'], ['G9']]},
+                #  6071926239797598709: {'i': 'bs', 'hv': 66, 'x': 0, 'y': '1', 'signs': ['G1', ['G14'], ['G15'], ['G17'], ['G18'], ['G2'], ['G20'], ['G21'], ['G26a'], ['G31'], ['G33'], ['G38'], ['G39'], ['G4'], ['G44'], ['G5'], ['G6']]},
+                # -4292840746773971719: {'i': 'bs', 'hv': 65, 'x': 0, 'y': '1', 'signs': ['G22', ['G23'], ['G25'], ['G27'], ['G35'], ['G36'], ['G37'], ['T32'], ['V15']]},
+                # -3322190226109916755: {'i': 'bs', 'hv': 64, 'x': 0, 'y': '1', 'signs': ['G28']},
+                #  6195992151533490312: {'i': 'bs', 'hv': 66, 'x': 0, 'y': '2', 'signs': ['G3']},
+                # -7700970339062536121: {'i': 'bs', 'hv': 46, 'x': 0, 'y': '1', 'signs': ['G43']},
+                #  1481280186342296680: {'i': 'be', 'hv': 56, 'x': 0, 'y': '1', 'signs': ['A28', ['F29']]}
+                # }
+
+                # DEF_LOOKUP "temp" PROCESS_BASE PROCESS_MARKS ALL DIRECTION LTR
+                # IN_CONTEXT
+                #  LEFT GLYPH "G25"
+                #  LEFT GLYPH "bs22"
+                # END_CONTEXT
+                # AS_POSITION
+                # ADJUST_SINGLE GLYPH "it22" BY POS DY 305 END_POS
+                # END_ADJUST
+                # END_POSITION
+                # END
+
+
+                # process self.offsets in here when name = 'offsets1'
+                # foreach hash make a lookup that does the xy offset to itXY proportionate to hv in context of each sign
+                # and each insertion size descending from the max attested size of that insertion
+
+                # additional values needed: MAX ins size for that decent, starting it (insertion token) size
+
+                # QB6 r0v6 c0h6 o66 m0 G25 bs22 it22 r1v2 c1h2 s22 m0 X1_21 c1eA r1eB c0eA r0eB 
+
+                # process self.offsets in here when name = 'offsets2'
+                # do the same for offsets2 for bs2, be2 etc.
+
+                if featuredef['name'] == 'offsets1':
+                    # print(featuredef)
+                    print(self.offsets)
+                else:
+                    lookupObj = featuredef
+                    lookupObj['feature'] = featuretag
+                    self.mkmklines.append(self.writefeature(lookupObj))
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
             print (featuretag.upper() + ' written: ' + str(n) + ' (47 expected)')
@@ -1842,6 +1909,7 @@ class EotHelper:
             retval = 'GROUP'
             #self.errors.append('GROUPCHECK: lookup group - '+item)
         else:
+            print('Error: Glyph name missing, '+str(item))
             retval = -1
         return retval
     def setfeaturetag(self,level):
@@ -2740,10 +2808,11 @@ class EotHelper:
                     def extendsizes(obj):
                         basesize = list(obj.keys())[0]
                         bh = int(str(basesize)[0:1])
-                        bv = int(str(basesize)[1:])
+                        bv = int(str(basesize)[1:2])
+                        
                         defsize = obj[basesize]
                         dh = int(str(defsize)[0:1])
-                        dv = int(str(defsize)[1:])
+                        dv = int(str(defsize)[1:2])
                         hr = dh/bh
                         vr = dv/bv
 
@@ -2796,7 +2865,6 @@ class EotHelper:
                 # per-glyph sizes
                 for ic in ['ad','bs','te','be','mi','bi']:
                     inssizes = self.insertionmappings[ic]
-                    # pginsglyphs = inssizes[0]
                     pginsmap = inssizes[1]
                     lv = ''
                     if level == 2:
@@ -2810,10 +2878,8 @@ class EotHelper:
 
                         for key in pginsmap:
                             mapclass = pginsmap[key]
-
                             details  = loadDetails(ic,mapclass[0])
                             contexts = loadContexts(mapclass[1:])
-                            # print(str(key) + '     ' + str(mapclass[1:]))
                             if len(contexts) > 0:
                                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                                 lookupObj['name'] = 'perglyphsize_'+ic+'_'+str(cycle)
