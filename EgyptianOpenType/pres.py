@@ -550,9 +550,9 @@ pres = [
     'exceptcontexts' : [{'left':[],'right':['mt22']}],
     'details' : [{'sub':['mt43'],'target':['et66']}]},
     # Lookup - isolated dbl segment 1
-    {'name' : 'isolated_dblss1', 'marks' : '',
-    'contexts' : [{'left':[],'right':['ss']}],
-    'details' : [{'sub':['ss'],'target':['Qi','ub','r0bA','c0bA']}]},
+    # {'name' : 'isolated_dblss1', 'marks' : '',
+    # 'contexts' : [{'left':[],'right':['ss']}],
+    # 'details' : [{'sub':['ss'],'target':['Qi','ub','r0bA','c0bA']}]},
     # Lookup - isolated dbl segment 2
     # {'name' : 'isolated_dblss2', 'marks' : '',
     # 'contexts' : [{'left':['Qi','ub','r0bA','c0bA'],'right':[]}],

@@ -29,8 +29,6 @@ ver = 400
 
 # version 5 requirements
     #   VS to control expansion of all atomic shades
-    #   
-    #   EHD
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
@@ -849,12 +847,12 @@ class EotHelper:
         def distanceoffset(offset):
             def gencontexts(offset):
                 contexts = []
-                contexts.append({'left':['G25','bs21'],'right':[]})
+                contexts.append({'left':['G25','bs22'],'right':[]})
 
                 return contexts
             def gendetails(offset):
                 details = []
-                details.append({'adjust':['it22'],'dx':0,'dy':186})
+                details.append({'adjust':['it22'],'dx':0,'dy':203})
 
                 return details
             # process self.offsets when name = 'offsets1'
@@ -5152,7 +5150,6 @@ class EotHelper:
                 v = v - 1
 
             return lookupObjs
-
         def shapeSize():
             #sh{1-8} sv{1-6} -> t$1$2
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -5550,7 +5547,8 @@ class EotHelper:
             lookupObj['details'].append({'sub':['ti0A'],'target':['tiV']})
             lookupObj['details'].append({'sub':['mi0A'],'target':['miV']})
             lookupObj['details'].append({'sub':['bi0A'],'target':['biV']})
-            # lookupObj['details'].append({'sub':['its0B','sh0','it00','rc0'],'target':['ts']})
+            lookupObj['details'].append({'sub':['ss','ss'],'target':['ss.ssV']})
+            lookupObj['details'].append({'sub':['ss'],'target':['ssV']})
             # lookupObj['details'].append({'sub':['ibs0B','sh0','it00','rc0'],'target':['bs']})
             # lookupObj['details'].append({'sub':['ite0B','sh0','it00','rc0'],'target':['te']})
             # lookupObj['details'].append({'sub':['ibe0B','sh0','it00','rc0'],'target':['be']})
