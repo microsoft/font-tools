@@ -140,7 +140,7 @@ mkmk = [
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #DYNAMIC LOOKUP - Distance adjustments
-    {'name' : 'offsets1'},
+    {'name' : 'offsets1', 'marks':'', 'details':[]},
     #Lookup
     {'name' : 'shapes0-row1', 'marks' : '',
     'details' : [
@@ -295,7 +295,7 @@ mkmk = [
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #DYNAMIC LOOKUP - Distance adjustments
-    {'name' : 'offsets2'},
+    {'name' : 'offsets2', 'marks':'', 'details':[]},
     #Lookup
     {'name' : 'shapes1-row2', 'marks' : '',
     'details' : [

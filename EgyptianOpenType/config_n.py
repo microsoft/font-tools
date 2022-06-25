@@ -83,12 +83,12 @@ pvar = {
     'internalligatures'  : 1,  
     'extensions' : 1,
     'variations' : 1,
+    'offsets'    : 1,
+    'expansions' : 1,
     'tcbs' : 1,
     'baseline' : 1, #align singletons to baseline for Hieratic
     'mirror'  : 1,  
     'vertical': 1,
-    'variations' :  1,
-    'expansions' : 1,
     'glyphproperties' : 1,
     'test' : {
         'font':         1,

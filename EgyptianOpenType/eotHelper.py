@@ -35,6 +35,7 @@ ver = 400
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
     #   RTL
+    #  TODO - validate self.pvar for minimal info and guard missing attributes.
 
 class EotHelper:
     def __init__(self, pvar):
@@ -328,31 +329,45 @@ class EotHelper:
             return truekeys
         def loadMappings(ins):
             def stripoffsets(obj):
-                def xyoffsets(i,k,offset,sign):
-                    pair = {'i':i,'hv':k,'x':0,'y':0,'signs':[sign]}
-                    if offset[0:1] == 'x':
-                        pair['x'] = offset[1:]
-                    elif offset[0:1] == 'y':
-                        pair['y'] = offset[1:]
-                    return pair
-                def hashoffsets(o):
-                    i  = o['i']
-                    hv = o['hv']
-                    x  = o['x']
-                    y  = o['y']
-                    s  = o['signs']
-                    h = hash(str(i)+str(hv)+str(x)+str(y))
+                def xyoffsets(it,bxy,ixy,ov,sign):
+                    offset = {
+                        'it':it,  #insertion type {bs, be, ti etc.}
+                        'tt':'', #transform type {x, y}
+                        'bd':0,   #base dimension for type {6,5,4,3}
+                        'id':0,   #ins dimension for type {3,2,1}
+                        'om':0,   #offset multiplier where 5 is 50% offset {5,4,3,2,1}
+                        'os':0,   #offset value for type (multiplier * font units per block) {float}
+                        'sign':sign, #signs at this offset {G25, G25_65} # TODO MAKE THIS AN ARRAY?
+                        'hash':'' #hash value
+                        }
+                    if ov[0:1] == 'x':
+                        offset['tt'] = 'x'
+                        offset['bd'] = bxy[0:1]
+                        offset['id'] = ixy[0:1]                        
+                        offset['om'] = float('0.'+ov[1:1])
+                        offset['os'] = int(offset['om'] * (self.pvar['hfu'] * self.pvar['chu']))
+                    elif ov[0:1] == 'y':
+                        offset['tt'] = 'y'
+                        offset['bd'] = bxy[1:]
+                        offset['id'] = ixy[1:]
+                        offset['om'] = float('0.'+ov[1:])
+                        offset['os'] = int(offset['om'] * (self.pvar['vfu'] * self.pvar['vhu']))
+                    offset['hash'] = str(offset['tt'])+str(offset['os'])
+                    # print(offset)
+                    return offset
+                def storeoffsets(o):
+                    h = o['hash']
 
                     if h not in self.offsets:
-                        self.offsets[h] = o
+                        self.offsets[h] = [o]
                     else:
-                        self.offsets[h]['signs'].append(s)
+                        self.offsets[h].append(o)
                     pass
                 for k in obj:
                     v = obj[k]
                     if len(v) > 2:
-                        obj[k] = str(v)[0:2]
-                        hashoffsets(xyoffsets(ins,k,str(v)[2:],key))
+                        obj[k] = ds = str(v)[0:2] #default size for offset
+                        storeoffsets(xyoffsets(ins,str(k),str(ds),str(v)[2:],key))
                 return obj
             def customhash(obj):
                 string = ''
@@ -831,48 +846,62 @@ class EotHelper:
             self.writelines(self.marklines)
 
     def mkmk(self):
+        def distanceoffset(offset):
+            def gencontexts(offset):
+                contexts = []
+                contexts.append({'left':['G25','bs21'],'right':[]})
+
+                return contexts
+            def gendetails(offset):
+                details = []
+                details.append({'adjust':['it22'],'dx':0,'dy':186})
+
+                return details
+            # process self.offsets when name = 'offsets1'
+            # foreach hash make a lookup that does the xy offset to itXY proportionate to hv in context of each sign
+            # and each insertion size descending from the max attested size of that insertion
+                # QB6 r0v6 c0h6 o66 m0 ***G25 bs22 it22*** r1v2 c1h2 s22 m0 X1_21 c1eA r1eB c0eA r0eB 
+            # process self.offsets in here when name = 'offsets2'
+            # do the same for offsets2 for bs2, be2 etc.
+
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '3', 'om': 0.1, 'os': 186, 'signs': ['A28'], 'hash': 'y186'}
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['F29'], 'hash': 'y186'}
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G1'], 'hash': 'y186'}
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G14'], 'hash': 'y186'}
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G15'], 'hash': 'y186'}
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G17'], 'hash': 'y186'}
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G18'], 'hash': 'y186'}
+            # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G2'], 'hash': 'y186'}
+
+            lookupObj = {} #will be redundant
+            for o in offset:
+                if o['sign'] == 'G25':
+                    lookupObj = {'name':'dist_offset_'+o['hash'],'marks':'','contexts':'','details':''}
+                    lookupObj['contexts'] = gencontexts(o)
+                    lookupObj['details'] = gendetails(o)
+            return lookupObj
+        def distanceoffsets(level):
+            lookupObjs = []
+            if level == 1:
+                for key in self.offsets:
+                    lookupObjs.append(distanceoffset(self.offsets[key]))
+
+            return lookupObjs
+
         featuretag = 'mkmk'
         if self.pvar['test']['gpos'] == 1:
             print ('MKMK in test mode')
         else:
             for featuredef in mkmk:
-
-                # {
-                #  3355056341088102893: {'i': 'bs', 'hv': 56, 'x': 0, 'y': '1', 'signs': ['A28', ['F29'], ['G34'], ['G9']]},
-                #  6071926239797598709: {'i': 'bs', 'hv': 66, 'x': 0, 'y': '1', 'signs': ['G1', ['G14'], ['G15'], ['G17'], ['G18'], ['G2'], ['G20'], ['G21'], ['G26a'], ['G31'], ['G33'], ['G38'], ['G39'], ['G4'], ['G44'], ['G5'], ['G6']]},
-                # -4292840746773971719: {'i': 'bs', 'hv': 65, 'x': 0, 'y': '1', 'signs': ['G22', ['G23'], ['G25'], ['G27'], ['G35'], ['G36'], ['G37'], ['T32'], ['V15']]},
-                # -3322190226109916755: {'i': 'bs', 'hv': 64, 'x': 0, 'y': '1', 'signs': ['G28']},
-                #  6195992151533490312: {'i': 'bs', 'hv': 66, 'x': 0, 'y': '2', 'signs': ['G3']},
-                # -7700970339062536121: {'i': 'bs', 'hv': 46, 'x': 0, 'y': '1', 'signs': ['G43']},
-                #  1481280186342296680: {'i': 'be', 'hv': 56, 'x': 0, 'y': '1', 'signs': ['A28', ['F29']]}
-                # }
-
-                # DEF_LOOKUP "temp" PROCESS_BASE PROCESS_MARKS ALL DIRECTION LTR
-                # IN_CONTEXT
-                #  LEFT GLYPH "G25"
-                #  LEFT GLYPH "bs22"
-                # END_CONTEXT
-                # AS_POSITION
-                # ADJUST_SINGLE GLYPH "it22" BY POS DY 305 END_POS
-                # END_ADJUST
-                # END_POSITION
-                # END
-
-
-                # process self.offsets in here when name = 'offsets1'
-                # foreach hash make a lookup that does the xy offset to itXY proportionate to hv in context of each sign
-                # and each insertion size descending from the max attested size of that insertion
-
-                # additional values needed: MAX ins size for that decent, starting it (insertion token) size
-
-                # QB6 r0v6 c0h6 o66 m0 G25 bs22 it22 r1v2 c1h2 s22 m0 X1_21 c1eA r1eB c0eA r0eB 
-
-                # process self.offsets in here when name = 'offsets2'
-                # do the same for offsets2 for bs2, be2 etc.
-
-                if featuredef['name'] == 'offsets1':
-                    # print(featuredef)
-                    print(self.offsets)
+                if featuredef['name'] in ['offsets1','offsets2']:
+                    if self.pvar['offsets']:
+                        lookupObjs = distanceoffsets(int(featuredef['name'][-1:]))
+                        for lookupObj in lookupObjs:
+                            lookupObj['feature'] = featuretag
+                            if 'name' in lookupObj:
+                                # print(lookupObj)
+                                self.mkmklines.append(self.writefeature(lookupObj))
+                        pass
                 else:
                     lookupObj = featuredef
                     lookupObj['feature'] = featuretag
@@ -2046,7 +2075,9 @@ class EotHelper:
             if lookupObj['bases'] == 'SKIP':
                 bases = 'SKIP_BASE'
         #marks
-        marks = lookupObj['marks']
+        marks = False
+        if 'marks' in lookupObj:
+            marks = lookupObj['marks']
         if marks:
             if marks == 'SKIP':
                 marks = 'SKIP_MARKS'
