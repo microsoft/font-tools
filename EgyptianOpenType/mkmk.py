@@ -3,12 +3,12 @@
 
 mkmk = [
     #Lookup
-    {'name' : 'rows-rows0', 'marks' : 'stems0-v',
+    {'name' : 'rows-rows0', 'marks' : '*stems0-v',
     'details' : [
         {'attach':['stems0-v'],'to':['stems0-v'],'anchor':'bottom'}
     ]},        
     #Lookup
-    {'name' : 'rows-rows0R', 'marks' : 'stems0-vR',
+    {'name' : 'rows-rows0R', 'marks' : '*stems0-vR',
     'details' : [
         {'attach':['stems0-vR'],'to':['stems0-vR'],'anchor':'bottom'}
     ]},        
@@ -23,7 +23,7 @@ mkmk = [
         {'attach':['stems0-vR'],'to':['stems0-hR'],'anchor':'top'}
     ]},
     #Lookup
-    {'name' : 'cols-cols0', 'marks' : 'stems0-h', 
+    {'name' : 'cols-cols0', 'marks' : '*stems0-hx', 
     'exceptcontexts' : [
         {'left':['r0eB'],'right':[]}
     ],
@@ -31,7 +31,7 @@ mkmk = [
         {'attach':['stems0-h'],'to':['stems0-h'],'anchor':'right'}
     ]},
     #Lookup
-    {'name' : 'cols-cols0R', 'marks' : 'stems0-hR',
+    {'name' : 'cols-cols0R', 'marks' : '*stems0-hxR',
     'exceptcontexts' : [
         {'left':['r0eBR'],'right':[]}
     ],
@@ -160,12 +160,12 @@ mkmk = [
         {'attach':['stems1-v'],'to':['stems1-v'],'anchor':'bottom'}
     ]},
     #Lookup
-    {'name' : 'rows-rows1R', 'marks' : 'stems1-vR',
+    {'name' : 'rows-rows1R', 'marks' : '*stems1-vxR',
     'exceptcontexts' : [
         {'left':['r1sepR'],'right':[]}
     ],
     'details' : [
-        {'attach':['stems1-vR'],'to':['stems1-vR'],'anchor':'bottom'}
+        {'attach':['stems1-vR'],'to':['stems1-vxR'],'anchor':'bottom'}
     ]},
     #Lookup
     {'name' : 'rows-cols1', 'marks' : '',
@@ -178,7 +178,7 @@ mkmk = [
         {'attach':['stems1-vR'],'to':['stems1-hR'],'anchor':'top'}
     ]},
     #Lookup
-    {'name' : 'cols-cols1', 'marks' : 'stems1-h',
+    {'name' : 'cols-cols1', 'marks' : '*stems1-hx',
     'exceptcontexts' : [
         {'left':['r1eB'],'right':[]}
     ],
@@ -186,7 +186,7 @@ mkmk = [
         {'attach':['stems1-h'],'to':['stems1-h'],'anchor':'right'}
     ]},
     #Lookup
-    {'name' : 'cols-cols1R', 'marks' : 'stems1-hR',
+    {'name' : 'cols-cols1R', 'marks' : '*stems1-hx',
     'exceptcontexts' : [
         {'left':['r1eBR'],'right':[]}
     ],
@@ -315,7 +315,7 @@ mkmk = [
         {'attach':['stems2-v'],'to':['stems2-v'],'anchor':'bottom'}
     ]},
     #Lookup
-    {'name' : 'rows-rows2R', 'marks' : 'stems2-vR',
+    {'name' : 'rows-rows2R', 'marks' : '*stems2-vxR',
     'exceptcontexts' : [
         {'left':['r2vbR'],'right':[]}
     ],
@@ -333,7 +333,7 @@ mkmk = [
         {'attach':['stems2-vR'],'to':['stems2-hR'],'anchor':'top'}
     ]},
     #Lookup
-    {'name' : 'cols-cols2', 'marks' : 'stems2-h',
+    {'name' : 'cols-cols2', 'marks' : '*stems2-hx',
     'exceptcontexts' : [
         {'left':['r2eB'],'right':[]}
     ],
@@ -341,7 +341,7 @@ mkmk = [
         {'attach':['stems2-h'],'to':['stems2-h'],'anchor':'right'}
     ]},
     #Lookup
-    {'name' : 'cols-cols2R', 'marks' : 'stems2-hR',
+    {'name' : 'cols-cols2R', 'marks' : '*stems2-hxR',
     'exceptcontexts' : [
         {'left':['r2eBR'],'right':[]}
     ],
