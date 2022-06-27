@@ -346,6 +346,10 @@ pres = [
     {'name' : 'r2_om2', 'marks' : 'parens',
     'contexts' : [{'left':['r2bA'],'right':['r2bA']}],
     'details' : [{'sub':['corners1a'],'target':['r2eA','corners1a']},]},
+    # Lookup - level 2 row end before om 1 after r1 begins
+    {'name' : 'r2_om1', 'marks' : 'parens',
+    'contexts' : [{'left':['r2bA'],'right':['r1bA']}],
+    'details' : [{'sub':['om0A'],'target':['r2eA','r1eA','om0A']},]},
     # Lookup - level 1 row end before corner 1 between two r2 begins
     {'name' : 'r1_om1', 'marks' : 'parens',
     'contexts' : [{'left':['r1bA'],'right':['r1bA']}],

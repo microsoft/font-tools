@@ -104,7 +104,7 @@ ss ss D21 vj X1 se hj D2 vj N25 se hj Z11 vj N35
 
 #Corner - Bottom Start
 %G25 bs J1
-%G36 bs X1 vj N35
+G36 bs X1 vj N35
 %D36 vj I10 bs D46
 %I9 vj N35 vj F20 bs A1
 %I10 bs ss I10 bs I10 se
@@ -144,7 +144,7 @@ G36 bs D21 te X1
 %D36 om ss V28 hj V28 se
 ss D36 vj D36 se om ss V28 hj V28 se
 D36 om V28 vj N35
-ss I10 bs D46 se om V28
+%ss I10 bs D46 se om V28
 
 #Max cluster size
 Z1 hj Z1 hj Z1 hj Z1 hj Z1 hj Z1 vj X1 vj Z1 hj Z1 hj Z1 hj Z1 hj Z1 hj Z1 vj X1 vj Z1 hj Z1 hj Z1

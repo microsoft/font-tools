@@ -717,7 +717,7 @@ class EotHelper:
         else:
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (58 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (76 expected)')
             self.writelines(self.preslines)
 
     #Level 0
@@ -737,7 +737,7 @@ class EotHelper:
             self.rliglines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (207 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (208 expected)')
             self.writelines(self.rliglines)
 
     #Level 1
@@ -757,7 +757,7 @@ class EotHelper:
             self.blwslines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (306 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (430 expected)')
             self.writelines(self.blwslines)
 
     #Level 2
@@ -777,7 +777,7 @@ class EotHelper:
             self.abvslines.extend(lines)
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (275 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (399 expected)')
             self.writelines(self.abvslines)
 
     #Resizing & post processing
@@ -789,7 +789,7 @@ class EotHelper:
             self.pstslines = self.GSUBresizing()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (62 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (73 expected)')
             self.writelines(self.pstslines)
 
     #Stylistic variants
@@ -813,7 +813,7 @@ class EotHelper:
             self.rtlalines = self.GSUBmirror()
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (3 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (4 expected)')
             self.writelines(self.rtlalines)
 
     #Vertical layout
@@ -906,7 +906,7 @@ class EotHelper:
                     self.mkmklines.append(self.writefeature(lookupObj))
             n = self.featureindexes[featuretag] - 1
             self.lookupcount += n
-            print (featuretag.upper() + ' written: ' + str(n) + ' (47 expected)')
+            print (featuretag.upper() + ' written: ' + str(n) + ' (67 expected)')
             self.writelines(self.mkmklines)
 
 ### LANGSYS
