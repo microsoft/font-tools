@@ -27,7 +27,11 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 
 ver = 400
 
-# version 5 requirements
+# Unicode 12 requirements
+    # default insertion sizes
+    # insertions inside sign area not total sign area?
+
+# Unicode 15 requirements
     #   VS to control expansion of all atomic shades
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
@@ -338,17 +342,18 @@ class EotHelper:
                         'sign':sign, #signs at this offset {G25, G25_65} # TODO MAKE THIS AN ARRAY?
                         'hash':'' #hash value
                         }
+                    # print(str(it)+','+str(bxy)+','+str(ixy)+','+str(ov)+','+str(sign))
                     if ov[0:1] == 'x':
                         offset['tt'] = 'x'
-                        offset['bd'] = bxy[0:1]
-                        offset['id'] = ixy[0:1]                        
-                        offset['om'] = float('0.'+ov[1:1])
+                        offset['bd'] = bxy
+                        offset['id'] = ixy 
+                        offset['om'] = int(ov[1:])/10
                         offset['os'] = int(offset['om'] * (self.pvar['hfu'] * self.pvar['chu']))
                     elif ov[0:1] == 'y':
                         offset['tt'] = 'y'
-                        offset['bd'] = bxy[1:]
-                        offset['id'] = ixy[1:]
-                        offset['om'] = float('0.'+ov[1:])
+                        offset['bd'] = bxy
+                        offset['id'] = ixy
+                        offset['om'] = int(ov[1:])/10
                         offset['os'] = int(offset['om'] * (self.pvar['vfu'] * self.pvar['vhu']))
                     offset['hash'] = str(offset['tt'])+str(offset['os'])
                     # print(offset)
@@ -844,15 +849,32 @@ class EotHelper:
             self.writelines(self.marklines)
 
     def mkmk(self):
-        def distanceoffset(offset):
+        def distanceoffset(key,offset):
             def gencontexts(offset):
                 contexts = []
-                contexts.append({'left':['G25','bs22'],'right':[]})
-
+                sign = offset['sign']
+                ins = offset['it'] + str(offset['id'])
+                contexts.append({'left':[sign,ins],'right':[]})
+                # ins = offset['it'] + str(offset['id'])
+                # contexts.append({'left':[sign,ins],'right':[]})
+                # print(offset)
                 return contexts
             def gendetails(offset):
                 details = []
-                details.append({'adjust':['it22'],'dx':0,'dy':203})
+                ins = 'it'+str(offset['id'])
+                if ins not in usedoffsets:
+                    if offset['tt'] == 'x':
+                        dx = int(offset['os'])
+                        dy = 0
+                        if offset['it'] in ('te','be'):
+                            dx = dx * -1
+                    if offset['tt'] == 'y':
+                        dx = 0
+                        dy = int(offset['os'])
+                        if offset['it'] in ('ts','ti','te'):
+                            dy = dy * -1
+                    details.append({'adjust':[ins],'dx':dx,'dy':dy})
+                    usedoffsets.append(ins)
 
                 return details
             # process self.offsets when name = 'offsets1'
@@ -871,18 +893,18 @@ class EotHelper:
             # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G18'], 'hash': 'y186'}
             # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G2'], 'hash': 'y186'}
 
-            lookupObj = {} #will be redundant
+            # print(self.offsets)
+            lookupObj = {'name':'dist_offset_'+key,'marks':'','contexts':[],'details':[]}
+            usedoffsets = []
             for o in offset:
-                if o['sign'] == 'G25':
-                    lookupObj = {'name':'dist_offset_'+o['hash'],'marks':'','contexts':'','details':''}
-                    lookupObj['contexts'] = gencontexts(o)
-                    lookupObj['details'] = gendetails(o)
+                lookupObj['contexts'].extend(gencontexts(o))
+                lookupObj['details'].extend(gendetails(o))
             return lookupObj
         def distanceoffsets(level):
             lookupObjs = []
             if level == 1:
-                for key in self.offsets:
-                    lookupObjs.append(distanceoffset(self.offsets[key]))
+                for key in sorted(self.offsets):
+                    lookupObjs.append(distanceoffset(key,self.offsets[key]))
 
             return lookupObjs
 
