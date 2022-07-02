@@ -29,9 +29,9 @@ ver = 400
 
 # Unicode 12 requirements
     # default insertion sizes
-    # insertions inside sign area not total sign area?
 
 # Unicode 15 requirements
+    # insertions inside sign area not total sign area?
     #   VS to control expansion of all atomic shades
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
@@ -347,13 +347,13 @@ class EotHelper:
                         offset['tt'] = 'x'
                         offset['bd'] = bxy
                         offset['id'] = ixy 
-                        offset['om'] = int(ov[1:])/10
+                        offset['om'] = int(ov[1:])/20
                         offset['os'] = int(offset['om'] * (self.pvar['hfu'] * self.pvar['chu']))
                     elif ov[0:1] == 'y':
                         offset['tt'] = 'y'
                         offset['bd'] = bxy
                         offset['id'] = ixy
-                        offset['om'] = int(ov[1:])/10
+                        offset['om'] = int(ov[1:])/20
                         offset['os'] = int(offset['om'] * (self.pvar['vfu'] * self.pvar['vhu']))
                     offset['hash'] = str(offset['tt'])+str(offset['os'])
                     # print(offset)
@@ -855,9 +855,6 @@ class EotHelper:
                 sign = offset['sign']
                 ins = offset['it'] + str(offset['id'])
                 contexts.append({'left':[sign,ins],'right':[]})
-                # ins = offset['it'] + str(offset['id'])
-                # contexts.append({'left':[sign,ins],'right':[]})
-                # print(offset)
                 return contexts
             def gendetails(offset):
                 details = []
@@ -893,7 +890,6 @@ class EotHelper:
             # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G18'], 'hash': 'y186'}
             # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G2'], 'hash': 'y186'}
 
-            # print(self.offsets)
             lookupObj = {'name':'dist_offset_'+key,'marks':'','contexts':[],'details':[]}
             usedoffsets = []
             for o in offset:
@@ -2943,29 +2939,29 @@ class EotHelper:
 
                 # default sizes
                 for ic in ['ad','bs','te','be','mi','bi']:
-                    def loaddefaultdetails(ic):
+                    def loaddefaultdetails(it):
                         details = []
-                        if ic == 'ad':
+                        if it == 'ad':
                             ics = ['ts','ti']
                         else:
-                            ics = [ic]
+                            ics = [it]
                         lv = ''
                         if level == 2:
                             lv = '2'
 
-                        for ic in ics:
+                        for it in ics:
                             h = self.pvar['chu']
                             while h >= 2:
                                 v = self.pvar['vhu']
                                 while v >= 2:
-                                    sub = ic + lv + str(h) + str(v)
+                                    sub = it + lv + str(h) + str(v)
                                     ht = 2
                                     vt = 2
                                     if h <= 3:
                                         ht = 1
                                     if v <= 3:
                                         vt = 1
-                                    trg =  ic + lv + str(ht) + str(vt)
+                                    trg =  it + lv + str(ht) + str(vt)
                                     detail = {'sub':[sub],'target':[trg]}
                                     details.append(detail)
                                     v -= 1
@@ -2983,18 +2979,18 @@ class EotHelper:
                     objs.append(lookupObj)
 
                 return objs
-            def defaultomsize():
-                # it00 -> it66
-                lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
-                lookupObj['name'] = 'defaultomsize'
-                shapesom = 'shapes_om'
-                if level > 1:
-                    shapesom += str(level)
-                context = {'left':[shapesom],'right':[]}
-                lookupObj['contexts'].append(context)
-                details = {'sub':['it00'],'target':['it66']}
-                lookupObj['details'].append(details)
-                return lookupObj
+            # def defaultomsize():
+                # # it00 -> it66
+                # lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
+                # lookupObj['name'] = 'defaultomsize'
+                # shapesom = 'shapes_om'
+                # if level > 1:
+                #     shapesom += str(level)
+                # context = {'left':[shapesom],'right':[]}
+                # lookupObj['contexts'].append(context)
+                # details = {'sub':['it00'],'target':['it66']}
+                # lookupObj['details'].append(details)
+                # return lookupObj
             def defaultinsertionsizes():
                 # rules to specify the default available insertion size per insertion size
                 def loaddetails():
@@ -5175,8 +5171,8 @@ class EotHelper:
         def shapeSize():
             #sh{1-8} sv{1-6} -> t$1$2
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'shadesize'
-            i = self.pvar['chu']
+            lookupObj['name'] = 'shapesize'
+            i = self.pvar['hhu']
             while i >= 1:
                 j = self.pvar['vhu']
                 while j >= 1:
