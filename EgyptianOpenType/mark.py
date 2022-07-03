@@ -10,5 +10,5 @@ mark = [
     {'name' : 'gb', 'marks' : '',
     'details' : [
         {'attach':['dottedcircle'],'to':['controls_joiners'] ,'anchor':'center'}
-    ]},        
+    ]},
 ]
