@@ -1015,7 +1015,7 @@ class EotHelper:
                     searchObj = re.search('^.*([0-9])V?$',glyphname)
                     if (searchObj):
                         mtp = int(searchObj.group(1))
-                        retvalue = int(mtp * self.pvar['hfu']) # - self.pvar['sb']
+                        retvalue = int(mtp * self.pvar['hfu']) + self.pvar['sb']
                     else:
                         retvalue = 0
                 elif (type == 'XSUNIT'):
@@ -3203,12 +3203,17 @@ class EotHelper:
             lookupObj['contexts'].append(contexts)
 
             i = self.pvar['hhu'] #Max oversize width
-            while i > self.pvar['chu']: # Max clustering width
-                ch = 'ch'+str(i)
-                rm = 'rm'+str(i)
-                details = {'sub':[ch],'target':[ch,rm,'dv0']}
-                lookupObj['details'].append(details)
-                i = i - 1
+            c = self.pvar['chu'] #Max clustering width
+
+            if i > c : 
+                while i > c: 
+                    ch = 'ch'+str(i)
+                    rm = 'rm'+str(i)
+                    details = {'sub':[ch],'target':[ch,rm,'dv0']}
+                    lookupObj['details'].append(details)
+                    i = i - 1
+            else:
+                return
             
             return lookupObj
 
