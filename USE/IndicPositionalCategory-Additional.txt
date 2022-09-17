@@ -7,7 +7,7 @@
 # Updated for Unicode 12.1 by Andrew Glass 2019-05-30
 # Updated for Unicode 13.0 by Andrew Glass 2020-07-28
 # Updated for Unicode 14.0 by Andrew Glass 2021-09-28
-# Updated for Unicode 15.0 by Andrew Glass 2022-**-**
+# Updated for Unicode 15.0 by Andrew Glass 2022-09-16
 
 # ================================================
 # ================================================
@@ -48,12 +48,13 @@ A9BE          ; Right   # Mc      JAVANESE CONSONANT SIGN PENGKAL # Reduced from
 AA35          ; Top     # Mn       CHAM CONSONANT SIGN
 1112A..1112B  ; Top     # Mn   [2] CHAKMA VOWEL SIGN U..CHAKMA VOWEL SIGN UU  # see USE issue #25
 11131..11132  ; Top     # Mn   [2] CHAKMA O MARK..CHAKMA AU MARK  # see USE issue #25
+1E4EC..1E4EF  ; Top     # Mn   [4] NAG MUNDARI SIGN MUHOR..NAG MUNDARI SIGN SUTUH # 1E4EE is below, but made to for ccc 
 
 # ================================================
 
 # Indic_Positional_Category=Top_And_Right
-0E33          ; Top_And_Right # Lo       THAI CHARACTER SARA AM # IMC has Right, which seems to be a mistake.
-0EB3          ; Top_And_Right # Lo       LAO VOWEL SIGN AM # IMC has Right, which seems to be a mistake.
+0E33          ; Top_And_Right # Lo       THAI CHARACTER SARA AM # IPC has Right, which seems to be a mistake.
+0EB3          ; Top_And_Right # Lo       LAO VOWEL SIGN AM # IPC has Right, which seems to be a mistake.
 
 # ================================================
 # ================================================
