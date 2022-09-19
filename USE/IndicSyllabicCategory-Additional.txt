@@ -234,8 +234,12 @@ AABD          ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 
 # ================================================
 
+# USE_Syllabic_Category= Hieroglyph_Mirror
+# 13440        ; Hieroglyph_Mirror    # Mn       EGYPTIAN HIEROGLYPH MIRROR HORIZONTALLY
+
+# ================================================
+
 # USE_Syllabic_Category= Hieroglyph_Modifier
-# 13440        ; Hieroglyph_Modifier    # Mn       EGYPTIAN HIEROGLYPH MIRROR HORIZONTALLY
 # 13447..13455 ; Hieroglyph_Modifier    # Mn  [15] EGYPTIAN HIEROGLYPH MODIFIER DAMAGED AT TOP START..EGYPTIAN HIEROGLYPH MODIFIER DAMAGED
 
 # ================================================
