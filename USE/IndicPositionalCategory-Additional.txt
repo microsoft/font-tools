@@ -79,6 +79,9 @@ AA35          ; Top     # Mn       CHAM CONSONANT SIGN
 16F4F         ; Bottom # Mn       MIAO SIGN CONSONANT MODIFIER BAR
 16F51..16F87  ; Bottom # Mc  [55] MIAO SIGN ASPIRATION..MIAO VOWEL SIGN UI
 16F8F..16F92  ; Bottom # Mn   [4] MIAO TONE RIGHT..MIAO TONE BELOW
+#HIEROGLYPHS defined here while ISC is being used as a proxy for dedicated Hieroglyph cluster
+13440         ; Bottom # Mn       EGYPTIAN HIEROGLYPH MIRROR HORIZONTALLY
+13447..13455  ; Bottom # Mn  [15] EGYPTIAN HIEROGLYPH MODIFIER DAMAGED AT TOP START..EGYPTIAN HIEROGLYPH MODIFIER DAMAGED
 
 # ================================================
 
