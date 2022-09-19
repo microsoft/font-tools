@@ -1,6 +1,8 @@
 # Microsoft Font-tools
 
-This repo is a home for OSS font-tools developed by Microsoft. Currently the only tool available is EgyptianOpenType. This tool is used to generate OpenType tables that enable a linear Egyptian Hieroglyphic font to leverage the [Egyptian Hieroglyph Format Controls](https://www.unicode.org/charts/PDF/U13430.pdf) which were added to Unicode in version 12.0. The tool is written in Python 3 and generates OpenType tables as a [Microsoft VOLT](https://docs.microsoft.com/en-us/typography/tools/volt/) project. Documentation for this tool can be found in the Wiki. This repo is also home to data tables used by the [Universal Shaping Engine](https://docs.microsoft.com/en-us/typography/script-development/use).
+This repo is a home for OSS font-tools developed by Microsoft. Currently the only tool available is EgyptianOpenType. This tool is used to generate OpenType tables that enable a linear Egyptian Hieroglyphic font to leverage the [Egyptian Hieroglyph Format Controls](https://www.unicode.org/charts/PDF/U13430.pdf) which were added to Unicode in version 12.0. The tool is written in Python 3 and generates OpenType tables as a [Microsoft VOLT](https://docs.microsoft.com/en-us/typography/tools/volt/) project. Documentation for this tool can be found in the Wiki.
+
+This repo is also home to data tables used by the [Universal Shaping Engine](https://docs.microsoft.com/en-us/typography/script-development/use).
 
 ## Contributing
 
