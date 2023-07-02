@@ -2,11 +2,9 @@
 # egyptian opentype generator data
 
 qcontrols = ['vj','hj','ts','bs','te','be','om','ti','mi','bi','ss','se','cb','ce','cre','cwb','cwe','hwtb','hwte','hwttb','hwtte','hwtbb','hwtbe','hwtwb','hwtwe','dottedcircle',
-	#V2ProtoControls
-	'esb','ese','ewb','ewe','df','mr',
-    'dq1','dq12','dq123','dq124','dq13','dq134','dq14','dq2','dq23','dq234','dq24','dq3','dq34','dq4']
-# Egyptian Characters that don't participate in shaping
-punctuation = ['VP','tcbb','tcbe']
+	'esb','ese','ewb','ewe','df','mr','dq1','dq12','dq123','dq124','dq13','dq134','dq14','dq2','dq23','dq234','dq24','dq3','dq34','dq4']
+
+punctuation = ['tcbb','tcbe']
 
 featurename = {
 	'abvs' : {'prefix':'ab','name':'Above-base Substitutions','type':'GSUB'},

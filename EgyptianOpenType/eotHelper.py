@@ -25,19 +25,19 @@ from fontTools import ttx
 from fontTools.ttLib import TTFont
 from fontTools.ttLib.tables._g_l_y_f import Glyph
 
-ver = 400
-
-# Unicode 12 requirements
-    # default insertion sizes
+ver = 200
 
 # Unicode 15 requirements
+    # Rotations
+    # Mirrored forms
+    # RTL structures
+    # Vertical
     # insertions inside sign area not total sign area?
     #   VS to control expansion of all atomic shades
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
-    #   RTL
-    #  TODO - validate self.pvar for minimal info and guard missing attributes.
+    # validate self.pvar for minimal info and guard missing attributes.
 
 class EotHelper:
     def __init__(self, pvar):
@@ -46,6 +46,7 @@ class EotHelper:
 
         self.pvar = pvar
         self.loadInsertionContextsAndGroups()
+        self.compactfontfilename = re.sub(' ','',self.pvar['fontfilename'])+'_'+str(ver)
         self.abvslines = []
         self.blwslines = []
         self.halnlines = []
@@ -1962,30 +1963,26 @@ class EotHelper:
         featuretag = tags[level]
         return featuretag
     def createVTPFile(self):
-        fontfilename = re.sub(' ','',self.pvar['fontfilename'])+'_'+str(ver)+'.vtp'
-        self.writefile = 'out/'+fontfilename
+        self.writefile = 'out/'+self.compactfontfilename+'.vtp'
         writefile = open(self.writefile,"w")
         writefile.write('')
 
         return
     def createErrorFile(self):
-        fontfilename = re.sub(' ','',self.pvar['fontfilename'])
-        self.errorfile = 'out/'+fontfilename+'_'+str(ver)+'_errors.txt'
+        self.errorfile = 'out/'+self.compactfontfilename+'_errors.txt'
         errorfile = open(self.errorfile,"w")
         errorfile.write('')
 
         return
     def writeTestFile(self,lines):
-        fontfilename = re.sub(' ','',self.pvar['fontfilename'])
-        self.testfile = 'out/'+fontfilename+'_'+str(ver)+'.html'
+        self.testfile = 'out/'+self.compactfontfilename+'.html'
         writefile = open(self.testfile,"w")
 
         for line in lines:
             writefile.write(line)        
         return
     def writeCMAP14File(self,lines,type):
-        fontfilename = re.sub(' ','',self.pvar['fontfilename'])
-        self.cmap14file = fontfilename+'_'+str(ver)+'.cmap'+type
+        self.cmap14file = self.compactfontfilename+'.cmap'+type
         writefile = open('out/'+self.cmap14file,"w")
 
         i = 0
@@ -1996,8 +1993,7 @@ class EotHelper:
         print('Wrote '+str(i)+' variations to '+self.cmap14file)
         return
     def writeVmtxFile(self,lines):
-        fontfilename = re.sub(' ','',self.pvar['fontfilename'])
-        self.vmtxfile = 'out/'+fontfilename+'_'+str(ver)+'.vmtx'
+        self.vmtxfile = 'out/'+self.compactfontfilename+'.vmtx'
         writefile = open(self.vmtxfile,"w")
 
         i = 0
@@ -5570,7 +5566,7 @@ class EotHelper:
             lookupObj['details'].append({'sub':['ti0A'],'target':['tiV']})
             lookupObj['details'].append({'sub':['mi0A'],'target':['miV']})
             lookupObj['details'].append({'sub':['bi0A'],'target':['biV']})
-            lookupObj['details'].append({'sub':['ss','ss'],'target':['ss.ssV']})
+            # lookupObj['details'].append({'sub':['ss','ss'],'target':['ss.ssV']})
             lookupObj['details'].append({'sub':['ss'],'target':['ssV']})
             # lookupObj['details'].append({'sub':['ibs0B','sh0','it00','rc0'],'target':['bs']})
             # lookupObj['details'].append({'sub':['ite0B','sh0','it00','rc0'],'target':['te']})
@@ -5835,10 +5831,28 @@ class EotHelper:
             ttxfont = ttx.TTFont('out/'+fontout)
             ttxfont.saveXML('out/eot.ttx',splitTables=True)
             pass
-        def compileTTX(fontout):
-            ttxfont = ttx.TTFont('out/eot.ttx')
-            ttxfont.save('out/eot_src.ttf',)
+        def cleanupWorkingFiles():
+            def checkAndRemove(name):
+                if os.path.exists('out/'+name):
+                    os.remove('out/'+name)
+                pass
+
+            names = ['_h_e_a_d','_h_h_e_a','_h_m_t_x','_m_a_x_p','GlyphOrder','O_S_2f_2','_l_o_c_a',
+                    '_c_m_a_p','_g_l_y_f','_n_a_m_e','_p_o_s_t','_v_h_e_a','_v_m_t_x',
+                    'C_O_L_R_','C_P_A_L_','D_S_I_G_','t_s_i_v_']
+            
+            checkAndRemove('fontout_temp.ttf')
+            for name in names:
+                name = 'eot.'+name+'.ttx'
+                checkAndRemove(name)
+            checkAndRemove(self.compactfontfilename+'.cmap.ttx')
+            checkAndRemove(self.compactfontfilename+'.vmtx')
+            checkAndRemove('eot.ttx')
             pass
+        # def dircompileTTX(fontout):
+        #     ttxfont = ttx.TTFont('out/eot.ttx')
+        #     ttxfont.save('out/eot_src.ttf')
+        #     pass
 
         if self.pvar['test']['font'] == 1:
             print('Skipping Compile')
@@ -5851,8 +5865,12 @@ class EotHelper:
             self.writeVHEA()
             self.writeTSIV()
 
-             # compileTTX(self.pvar['fontout'])
-            os.system('ttx out/eot.ttx')
+            # dircompileTTX(self.pvar['fontout'])
+
+        if os.path.exists('out/'+self.pvar['fontout']):
+            os.remove('out/'+self.pvar['fontout'])
+        os.system('ttx out/eot.ttx',)
+        cleanupWorkingFiles()
         pass
     def writeCMAP(self):
         filename = 'eot._c_m_a_p.ttx'
