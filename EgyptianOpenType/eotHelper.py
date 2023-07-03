@@ -115,7 +115,7 @@ class EotHelper:
         self.preloadgroups()
         print ('loading glyph data...')
         self.loadglyphdata()
-        print(self.maxhvsizes['66'])
+        # print(self.maxhvsizes['66'])
         # for key in sorted(self.maxhvsizes):
         #     print (key + "\t" + str(self.maxhvsizes[key]))
         print ('loading groups...')
@@ -422,14 +422,10 @@ class EotHelper:
                         vsType = 'o' # 180 degree rotation
                     if vs == 'FE02':
                         vsType = 't' # 270 degree rotation
+                    if re.match(r'^.*Expanded.*$',description,flags=re.IGNORECASE):
+                        vsType = 'x'
                 else:
-                    rotation = int(re.sub(r'^.*Rotated\s+(\d+).*$',r'\1',description,flags=re.IGNORECASE))
-                    if rotation == 90:
-                        vsType = 'n' #  90 degree rotation
-                    if rotation == 180:
-                        vsType = 'o' # 180 degree rotation
-                    if rotation == 270:
-                        vsType = 't' # 270 degree rotation
+                    print ('Unsupported variation selector in HVD_Sequences.txt')
                 
                 return vsType
             varObj = {'base':'','vs':'','type':''}
@@ -441,10 +437,12 @@ class EotHelper:
                     varObj['base'] = chrs[0]
                     varObj['vs']   = chrs[1]
                     varObj['type'] = lookupVSType(chrs[1],parts[2])
-
+                if chrs[0] == '13000':
+                    self.defaultA1 = True
             return varObj
 
         self.variations = []
+        self.defaultA1 = False
         if self.pvar['variations']>0:
             unicodehvdfile = open('src/HVD_Sequences.txt',"r")
             i = 0
@@ -457,6 +455,11 @@ class EotHelper:
                         varObj = parseVariationLine(line.strip())
                         self.variations.append(varObj)
                         i += 1
+            if self.defaultA1 == False:
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE02', 'type': 't'})
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE01', 'type': 'o'})
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE00', 'type': 'n'})
+
             print('Loaded '+str(i)+' variations from HVD')
 
         if i > 0:
@@ -477,12 +480,13 @@ class EotHelper:
             lines = []
             for varObj in self.variations:
                 base = '0x'+varObj['base']
+                lcbase = base.lower()
                 vs   = '0x'+varObj['vs']
                 vstype = varObj['type']
                 target = ''
 
-                if base in self.glyphHexToName:
-                    target = self.glyphHexToName[base]+vstype
+                if lcbase in self.glyphHexToName:
+                    target = self.glyphHexToName[lcbase]+vstype
                 try:
                     targetID = self.fontsrc.getGlyphID(target)
                     line = base + "\t" + vs  + "\t\\#" + str(targetID) + "\n"
@@ -513,13 +517,14 @@ class EotHelper:
             lines = []
             for varObj in self.variations:
                 base = '0x'+varObj['base']
+                lcbase = base.lower()
                 vs   = '0x'+varObj['vs']
                 vstype = varObj['type']
                 target = ''
 
-                if base in self.glyphHexToName:
+                if lcbase in self.glyphHexToName:
                     # Indirectly defined in HVD_Sequences (270 == mirrored 90)
-                    basename = self.glyphHexToName[base]
+                    basename = self.glyphHexToName[lcbase]
                     if basename not in mirroring:
                         if vstype == 't':
                             vstype == 'nR'
@@ -530,7 +535,10 @@ class EotHelper:
                             line = '      <map uv="'+base.lower()+'" uvs="'+vs.lower()+'" name="'+target+'"/>'
                             lines.append(line+"\n")
                     except:
+                        print(basename + ' : ' + vstype)
                         line = ''
+                else:
+                    print('Failed to find base for HVD row '+base)
 
             return lines
         def loadFoot():
@@ -4955,8 +4963,8 @@ class EotHelper:
             lookupObj['name'] = 'extensionbeginouter'
             context = {'left':[],'right':['eob']}
             lookupObj['contexts'].append(context)
-            cartA = ['cb','hwtb','hwttb','hwtbb']
-            cartB = ['cobL','hwtosL','hwtotsL','hwtobsL']
+            cartA = ['cb','crb','hwtb','hwttb','hwtbb']
+            cartB = ['cobL','corbL','hwtosL','hwtotsL','hwtobsL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -4971,10 +4979,8 @@ class EotHelper:
             lookupObj['name'] = 'extensionbegindbl'
             context = {'left':[],'right':['edb']}
             lookupObj['contexts'].append(context)
-            details = {'sub':['cb'],'target':['cdbL']}
-            lookupObj['details'].append(details)
-            cartA = ['cb','hwtb','hwttb','hwtbb']
-            cartB = ['cdbL','hwtdsL','hwtdtsL','hwtdbsL']
+            cartA = ['cb','crb','hwtb','hwttb','hwtbb']
+            cartB = ['cdbL','cdrbL','hwtdsL','hwtdtsL','hwtdbsL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -4999,8 +5005,8 @@ class EotHelper:
             #extension begin
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'extensionbegin'
-            cartA = ['cb','cwb','hwtb','hwttb','hwtbb','hwtwb']
-            cartB = ['cbL','cwbL','hwtbL','hwttbL','hwtbbL','hwbL']
+            cartA = ['cb','crb','cwb','hwtb','hwttb','hwtbb','hwtwb']
+            cartB = ['cbL','crbL','cwbL','hwtbL','hwttbL','hwtbbL','hwbL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -5867,9 +5873,9 @@ class EotHelper:
 
             # dircompileTTX(self.pvar['fontout'])
 
-        if os.path.exists('out/'+self.pvar['fontout']):
-            os.remove('out/'+self.pvar['fontout'])
         os.system('ttx out/eot.ttx',)
+        # if os.path.exists('out/'+self.pvar['fontout']):
+        #     os.remove('out/'+self.pvar['fontout'])
         cleanupWorkingFiles()
         pass
     def writeCMAP(self):
@@ -6031,6 +6037,50 @@ class EotHelper:
                 tablefilename = re.sub(r'(.*)(\.ttx)',r'\1.'+table+r'\2',filename)
                 newmaster.write('  <DSIG src="'+tablefilename+'"/>\n')
             newmaster.write(line)
+        pass
+
+    def glyphSizeVariants(self):
+        """"Specialized function to output the Glyph recipe so the size variants can be generated"""
+        def transformlookup(string):
+            tlookup = {
+                'n':'@0, -1, 1, 0, 100, 100',
+                'o':'@-1, 0, 0, -1, 100, 100',
+                't':'@0, 1, -1, 0, 100, 100',
+            }
+            if string in tlookup:
+                return tlookup[string]
+            pass
+        def sizeLookup(type,size):
+            if type in ['n','t']:
+                size = size[1] + size[0]
+            return size
+
+        i = 0
+        for varObj in self.variations:
+            base = '0x'+varObj['base']
+            vstype = varObj['type']
+            transform = transformlookup(vstype)
+
+            lcbase = base.lower()
+            if lcbase in self.glyphHexToName:
+                basename = self.glyphHexToName[lcbase]
+                if basename not in ['AS1','AQ1','AT1','AW1']:
+                    if basename in self.glyphdata:
+                        obj = self.glyphdata[basename]
+
+                        print(basename + vstype + ' = ' + basename + transform)
+                        i += 1
+
+                        tsh = obj['tshash']
+                        sizes = [tsh[i:i+2] for i in range(0, len(tsh), 2)]
+                        if len(sizes) > 1:
+                            sizes.pop(0)
+                            for size in sizes:
+                                nsize = sizeLookup(vstype,size)
+                                print(basename + vstype + '_' + nsize + ' = ' + basename + '_' + size + transform)
+                                i += 1
+                            
+        print(str(i) + ' glyph recipes written')
         pass
 
 # END

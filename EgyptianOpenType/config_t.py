@@ -7,9 +7,10 @@ pvar = {
     'langsysname' : "Default",
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
-    'fontfilename' : "Egyptian Text", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantextV6ProtoLTR-COLR.ttf", # Path to source font
-    'fontout' : "eot_src.ttf", # Path to write output font
+    'fontfilename' : "Egyptian Text U15", # Font name
+    'fontsrc' : "../../fonts/et/egyptiantextU15-COLR.ttf", # Path to source font
+    'fontout' : "eot.ttf", # Path to write output font
+    'fontprior' : "egyptiantextU12.ttf", # Path to prior test font
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
@@ -39,53 +40,55 @@ pvar = {
     'defaultinsertionsize' : 2, #default insertion size per level
     'controls' : ['vj','hj','ts','bs','te','be','om','ss','se'],
     'controls2': [
-        'esb',   # 1 top insertion            [     ] -> 78368   13220
-        'ese',   # 2 middle insertion         [     ] -> 78369   13221
-        'ewb',   # 3 bottom insertion         [     ] -> 78370   13222
-        'ewe',   # 4 mirror                   [     ] -> 78371   13223
-        'ti',    # 5 top insertion            [13376] -> 78372   13224
-        'mi',    # 6 middle insertion         [13375] -> 78373   13225
-        'bi',    # 7 bottom insertion         [13377] -> 78374   13226
-        'mr',    # 8 mirror                   [1336D] -> 78375   13227
-        'BF1',   # 9 blank full               [13367] -> 78376   13228
-        'BQ1',   #10 blank quarter            [13371] -> 78377   13229
-        'AS1',   #11 atomic shade full        [1336E] -> 78378   1322A
-        'AQ1',   #12 atomic shade quarter     [1336F] -> 78379   1322B
-        'AT1',   #13 atomic shade tall        [     ] -> 78380   1322C
-        'AW1',   #14 atomic shade wide        [     ] -> 78381   1322D
-        'df',    #15 damaged full             [13368] -> 78382   1322E
-        'dq1',   #16 damaged quarter 1        [     ] -> 78383   1322F
-        'dq12',  #17 damaged quarter 12       [     ] -> 78384   13230
-        'dq123', #18 damaged quarter 123      [     ] -> 78385   13231
-        'dq124', #19 damaged quarter 124      [     ] -> 78386   13232
-        'dq13',  #20 damaged quarter 13       [     ] -> 78387   13233
-        'dq134', #21 damaged quarter 134      [     ] -> 78388   13234
-        'dq14',  #22 damaged quarter 14       [     ] -> 78389   13235
-        'dq2',   #23 damaged quarter 2        [     ] -> 78390   13236
-        'dq23',  #24 damaged quarter 23       [     ] -> 78391   13237
-        'dq234', #25 damaged quarter 234      [     ] -> 78392   13238
-        'dq24',  #26 damaged quarter 24       [     ] -> 78393   13239
-        'dq3',   #27 damaged quarter 3        [     ] -> 78394   1323A
-        'dq34',  #28 damaged quarter 34       [     ] -> 78395   1323B
-        'dq4',   #29 damaged quarter 4        [     ] -> 78396   1323C
-        'VP',    #30 verse point              [13373] -> 78397   1323D
-        'tcbb',  #31 text critical bracket begin [1337C] -> 97   13230
-        'tcbe',  #32 text critical bracket end[1337E] ->    99   13231
-        'AS2',   #11 atomic shade full exp    [1336E] -> 78398   1322A #tempt, needs to move to a VS AS1 VS -> AS
+      'mi',    # 6 middle insertion         [13375] -> 78373   13225 -> 78368   13220 -> 13439
+      'ti',    # 5 top insertion            [13376] -> 78372   13224 -> 78369   13221 -> 1343A
+      'bi',    # 7 bottom insertion         [13377] -> 78374   13226 -> 78370   13222 -> 1343B
+      'esb',   # 2 begin enclosure          [     ] -> 78368   13220 -> 78371   13223 -> 1343C
+      'ese',   # 1 end enclosure            [     ] -> 78369   13221 -> 78372   13224 -> 1343D
+      'ewb',   # 3 begin walled enclosure   [     ] -> 78370   13222 -> 78373   13225 -> 1343E
+      'ewe',   # 4 end walled enclosure     [     ] -> 78371   13223 -> 78374   13226 -> 1343F
+      'mr',    # 8 mirror horizontally      [1336D] -> 78375   13227 -> 78375   13227 -> 13440
+      'BF1',   # 9 blank full               [13367] -> 78376   13228 -> 78376   13228 -> 13441
+      'BQ1',   #10 blank half               [13371] -> 78377   13229 -> 78377   13229 -> 13442
+      'AS1',   #11 lost sign full           [1336E] -> 78378   1322A -> 78378   1322A -> 13443
+      'AQ1',   #12 lost sign quarter        [1336F] -> 78379   1322B -> 78379   1322B -> 13444
+      'AT1',   #13 lost sign tall           [     ] -> 78380   1322C -> 78380   1322C -> 13445
+      'AW1',   #14 lost sign wide           [     ] -> 78381   1322D -> 78381   1322D -> 13446
+      'dq1',   #16 damaged quarter 1        [     ] -> 78383   1322F -> 78382   1322E -> 13447
+      'dq2',   #23 damaged quarter 2        [     ] -> 78390   13236 -> 78383   1322F -> 13448
+      'dq12',  #17 damaged quarter 12       [     ] -> 78384   13230 -> 78384   13230 -> 13449
+      'dq3',   #27 damaged quarter 3        [     ] -> 78394   1323A -> 78385   13231 -> 1344A
+      'dq13',  #20 damaged quarter 13       [     ] -> 78387   13233 -> 78386   13232 -> 1344B
+      'dq23',  #24 damaged quarter 23       [     ] -> 78391   13237 -> 78387   13233 -> 1344C
+      'dq123', #18 damaged quarter 123      [     ] -> 78385   13231 -> 78388   13234 -> 1344D
+      'dq4',   #29 damaged quarter 4        [     ] -> 78396   1323C -> 78389   13235 -> 1344E
+      'dq14',  #22 damaged quarter 14       [     ] -> 78389   13235 -> 78390   13236 -> 1344F
+      'dq24',  #26 damaged quarter 24       [     ] -> 78393   13239 -> 78391   13237 -> 13450
+      'dq124', #19 damaged quarter 124      [     ] -> 78386   13232 -> 78392   13238 -> 13451
+      'dq34',  #28 damaged quarter 34       [     ] -> 78395   1323B -> 78393   13239 -> 13452
+      'dq134', #21 damaged quarter 134      [     ] -> 78388   13234 -> 78394   1323A -> 13453
+      'dq234', #25 damaged quarter 234      [     ] -> 78392   13238 -> 78395   1323B -> 13454
+      'df',    #15 damaged full    1234     [13368] -> 78382   1322E -> 78396   1323C -> 13455
+        # 'tcbb',  #31 text critical bracket begin [1337C] -> 91   13230
+        # 'tcbe',  #32 text critical bracket end[1337E] ->    93   13231
+        # 'AS2',   #11 atomic shade full exp    [1336E] -> 78398   1322A #temp, needs to move to a VS AS1 VS -> AS
     ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
-    'useproxycontrols': 1, # use proxy code points for controls
-    'proxycontrols' : [78368,78369,78370,78371,78372,78373,78374,78375,78376,78377,
-                        78378,78379,78380,78381,78382,78383,78384,78385,78386,78387,
-                        78388,78389,78390,78391,78392,78393,78394,78395,78396,78397,
-                        97,99,78398],
+    'useproxycontrols': 0, # use proxy code points for controls
+    'proxycontrols' : [78905,78906,78907,78908,78909,78910,78911,78912,78913,78914,
+                        78915,78916,78917,78918,78919,78920,78921,78922,78923,78924,
+                        78925,78926,78927,78928,78929,78930,78931,78932,78933,
+                        91,93],
+    'internalligatures'  : 1,  
     'extensions' : 1,
+    'variations' : 1,
+    'offsets'    : 1,
+    'expansions' : 0,
     'tcbs' : 1,
     'baseline' : 1, #align singletons to baseline for Hieratic
-    'mirror' : 1,
+    'mirror'  : 1,  
     'vertical': 1,
-    'variations' :  1,
-    'expansions' : 0,
+    'glyphproperties' : 1,
     'test' : {
         'font':         0,
         'gdef':         0,
