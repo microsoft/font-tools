@@ -35,7 +35,7 @@ ver = 200
         # baseline alignment
         # ensure rotational variant bases don't merge with tshashes
     # Mirrored forms
-        # write glyph recipes for mirror variants incl. rotational variants
+        # write glyph recipes for mirror variants incl. rotational variants — done
     # RTL structures
     # Vertical
     # insertions inside sign area not total sign area?
@@ -463,9 +463,7 @@ class EotHelper:
             i = 0
             for line in unicodehvdfile:
                 key = line[0:1]
-                if (key == '#'):
-                    hv = line[1:].strip()
-                else:
+                if (key != '#'):
                     if (len(line)>1):
                         varObj = parseVariationLine(line.strip())
                         if varObj['base']:
@@ -610,11 +608,16 @@ class EotHelper:
 
     def writeRotationRecipes(self,incSizeVariants):
         """"Output FL glyph recipes to generate rotation variants"""
-        def transformlookup(string):
+        def transformlookup(string, offset, x, y):
+            ny = x - (2 * offset)
+            oy = y - (3* offset)
+            tx = y - offset
+            ty = (2 * offset) * -1
+
             tlookup = {
-                'n':'@0, -1, 1, 0, 100, 100',
-                'o':'@-1, 0, 0, -1, 100, 100',
-                't':'@0, 1, -1, 0, 100, 100',
+                'n':'@0, -1, 1, 0, '+str(offset)+', '+str(ny),
+                'o':'@-1, 0, 0, -1, '+str(x)+', '+str(oy),
+                't':'@0, 1, -1, 0, '+str(tx)+', '+str(ty),
             }
             if string in tlookup:
                 return tlookup[string]
@@ -628,16 +631,16 @@ class EotHelper:
         for varObj in self.variations:
             base = '0x'+varObj['base']
             vstype = varObj['type']
-            transform = transformlookup(vstype)
+            offset = (self.pvar['vbase'] * -1)
 
             lcbase = base.lower()
             if lcbase in self.glyphHexToName:
                 basename = self.glyphHexToName[lcbase]
+
                 if basename not in ['AS1','AQ1','AT1','AW1']:
                     if basename in self.glyphdata:
                         obj = self.glyphdata[basename]
-
-                        # recipes.append(basename + vstype + ' = ' + base)
+                        transform = transformlookup(vstype,offset,obj['maxh'],obj['maxv'])
                         recipes.append(basename + vstype + ' = ' + basename + transform)
                         i += 1
 
@@ -1906,6 +1909,11 @@ class EotHelper:
                 glyph['root'] = name
             if group in ['Chr','Joiner','Mirror','SVar','LigR','LigV']:
                 glyphObj = glyphTable[name]
+
+                # if glyph['name'] in ['A1','A1n']:
+                    # extremes = self.calcExtremes(glyphObj.getCoordinates(glyphTable))
+                    # print("ABOUT:" + name + str(extremes))
+
                 if name[0:2] in ['BF','BQ']:
                     if name == 'BF1':
                         glyph['maxh'] = self.pvar['hfu'] * 6
@@ -2427,6 +2435,15 @@ class EotHelper:
                 print('Wrote '+str(i)+' glyph properties to glyph_properties.txt')    
         
         return
+    # def calcExtremes(self,coordinates):
+    #     xs = []
+    #     ys = []
+    #     for x,y in coordinates[0]:
+    #         xs.append(x)
+    #         ys.append(y)
+    #     packet = {'xMin':min(xs),'xMax':max(xs),'yMin':min(ys),'yMax':max(ys)}
+
+    #     return packet
 
 # L I G A T U R E S
     def GSUBligatures(self):  
