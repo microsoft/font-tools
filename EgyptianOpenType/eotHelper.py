@@ -16,6 +16,7 @@ from featuredata import punctuation
 from featuredata import internalligatures
 from featuredata import internalmirrors
 from featuredata import mirroring
+from featuredata import mirroredvariants
 from featuredata import verticalmetrics
 from insertions import insertions
 from pres import pres
@@ -433,10 +434,10 @@ class EotHelper:
                         vsType = 'o' # 180 degree rotation
                     if vs == 'FE02':
                         vsType = 't' # 270 degree rotation
-                    if re.match(r'^.*Expanded.*$',description,flags=re.IGNORECASE):
+                    if re.match(r'^.*expanded.*$',description,flags=re.IGNORECASE):
                         vsType = 'x'
                 else:
-                    print ('Unsupported variation selector in HVD_Sequences.txt')
+                    print ('Unsupported variation selector in StandardizedVariants.txt')
                 
                 return vsType
             varObj = {'base':'','vs':'','type':''}
@@ -445,9 +446,11 @@ class EotHelper:
                 vs = parts[0]
                 chrs = vs.split()
                 if len(chrs) > 0:
-                    varObj['base'] = chrs[0]
-                    varObj['vs']   = chrs[1]
-                    varObj['type'] = lookupVSType(chrs[1],parts[2])
+                    decval = int('0x'+chrs[0],16)
+                    if decval >= 77824 and decval <= 79199:
+                        varObj['base'] = chrs[0]
+                        varObj['vs']   = chrs[1]
+                        varObj['type'] = lookupVSType(chrs[1],parts[1])
                 if chrs[0] == '13000':
                     self.defaultA1 = True
             return varObj
@@ -455,7 +458,8 @@ class EotHelper:
         self.variations = []
         self.defaultA1 = False
         if self.pvar['variations']>0:
-            unicodehvdfile = open('src/HVD_Sequences.txt',"r")
+            # https://www.unicode.org/Public/UCD/latest/ucd/StandardizedVariants.txt
+            unicodehvdfile = open('src/StandardizedVariants.txt',"r")
             i = 0
             for line in unicodehvdfile:
                 key = line[0:1]
@@ -464,14 +468,15 @@ class EotHelper:
                 else:
                     if (len(line)>1):
                         varObj = parseVariationLine(line.strip())
-                        self.variations.append(varObj)
-                        i += 1
+                        if varObj['base']:
+                            self.variations.append(varObj)
+                            i += 1
             if self.defaultA1 == False:
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE02', 'type': 't'})
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE01', 'type': 'o'})
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE00', 'type': 'n'})
 
-            print('Loaded '+str(i)+' variations from HVD')
+            print('Loaded '+str(i)+' variations from StandardizedVariants.txt')
 
             if i > 0:
                 self.genCMAPFormat14_TTX()
@@ -536,7 +541,7 @@ class EotHelper:
                 target = ''
 
                 if lcbase in self.glyphHexToName:
-                    # Indirectly defined in HVD_Sequences (270 == mirrored 90)
+                    # Defined in StandardizedVariants (270 == mirrored 90)
                     basename = self.glyphHexToName[lcbase]
                     if basename not in mirroring:
                         if vstype == 't':
@@ -553,7 +558,7 @@ class EotHelper:
                         print(basename + ' : ' + vstype)
                         line = ''
                 else:
-                    print('Failed to find base for HVD row '+base)
+                    print('Failed to find base for StandardizedVariants row '+base)
 
             return lines
         def loadFoot():
@@ -602,6 +607,122 @@ class EotHelper:
             self.writeVmtxFile(vmtx)
 
         pass
+
+    def writeRotationRecipes(self,incSizeVariants):
+        """"Output FL glyph recipes to generate rotation variants"""
+        def transformlookup(string):
+            tlookup = {
+                'n':'@0, -1, 1, 0, 100, 100',
+                'o':'@-1, 0, 0, -1, 100, 100',
+                't':'@0, 1, -1, 0, 100, 100',
+            }
+            if string in tlookup:
+                return tlookup[string]
+            pass
+        def sizeLookup(type,size):
+            if type in ['n','t']:
+                size = size[1] + size[0]
+            return size
+        recipes = []
+        i = 0
+        for varObj in self.variations:
+            base = '0x'+varObj['base']
+            vstype = varObj['type']
+            transform = transformlookup(vstype)
+
+            lcbase = base.lower()
+            if lcbase in self.glyphHexToName:
+                basename = self.glyphHexToName[lcbase]
+                if basename not in ['AS1','AQ1','AT1','AW1']:
+                    if basename in self.glyphdata:
+                        obj = self.glyphdata[basename]
+
+                        # recipes.append(basename + vstype + ' = ' + base)
+                        recipes.append(basename + vstype + ' = ' + basename + transform)
+                        i += 1
+
+                        if incSizeVariants:
+                            tsh = obj['tshash']
+                            sizes = [tsh[i:i+2] for i in range(0, len(tsh), 2)]
+                            if len(sizes) > 1:
+                                sizes.pop(0)
+                                for size in sizes:
+                                    nsize = sizeLookup(vstype,size)
+                                    recipes.append(basename + vstype + '_' + nsize + ' = ' + basename + '_' + size + transform)
+                                    i += 1
+        filename = 'eot_rotationRecipes.txt'
+        recipefile = open('out/'+filename,"w")
+        for line in recipes:
+            recipefile.write(line+"\n")
+        print(str(i) + ' rotation recipes written')
+        pass
+
+    def writeMirrorRecipes(self,incSizeVariants):
+        recipes = []
+        transform = '@~,'
+        i = 0
+
+        # list mirrorable base glyphs
+        for basename in self.sort_alphanumeric(mirroring):
+            if basename in self.glyphdata:
+                obj = self.glyphdata[basename]
+                recipes.append(basename + 'R' + ' = ' + basename + transform)
+                i += 1
+
+                if incSizeVariants:
+                    tsh = obj['tshash']
+                    sizes = [tsh[i:i+2] for i in range(0, len(tsh), 2)]
+                    if len(sizes) > 1:
+                        sizes.pop(0)
+                        for size in sizes:
+                            sizename = basename + '_' + size
+                            if sizename in self.glyphdata:
+                                recipes.append(sizename + 'R' + ' = ' + sizename + transform)
+                                i += 1
+
+        filename = 'eot_mirroringRecipes.txt'
+        recipefile = open('out/'+filename,"w")
+        for line in recipes:
+            recipefile.write(line+"\n")
+        print(str(i) + ' mirroring recipes written')
+        pass
+
+    def writeMirroredRotations(self,incSizeVariants):
+        recipes = []
+        transform = '@~,'
+        i = 0
+
+        # list mirrorable base glyphs
+        for basename in self.sort_alphanumeric(mirroredvariants):            
+            if basename in self.glyphdata:
+                obj = self.glyphdata[basename]
+                recipes.append(basename + 'R' + ' = ' + basename + transform)
+                i += 1
+
+                if incSizeVariants:
+                    tsh = obj['tshash']
+                    sizes = [tsh[i:i+2] for i in range(0, len(tsh), 2)]
+                    if len(sizes) > 1:
+                        sizes.pop(0)
+                        for size in sizes:
+                            sizename = basename + '_' + size
+                            if sizename in self.glyphdata:
+                                recipes.append(sizename + 'R' + ' = ' + sizename + transform)
+                                i += 1
+
+        filename = 'eot_mirroredRotations.txt'
+        recipefile = open('out/'+filename,"w")
+        for line in recipes:
+            recipefile.write(line+"\n")
+        print(str(i) + ' mirrored rotation recipes written')
+
+
+        pass
+
+    def sort_alphanumeric(self,l):
+        convert = lambda text: int(text) if text.isdigit() else text
+        alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
+        return sorted(l, key=alphanum_key)
     
 ### GDEF
     def gdef(self):
@@ -1744,7 +1865,6 @@ class EotHelper:
             elif (tcmvar): #text critical mark size variant
                 group = 'SVar'
             elif (name in ['GB1','BF1','BQ1','dottedcircle','AS2','AQ2','AT2','AW2']): # treat these as hieroglyphs
-                print('does this work? '+ name)
                 group = 'Chr'
             else: #unmapped control characters for OTL
                 group = 'Ctrl'
@@ -6062,53 +6182,6 @@ class EotHelper:
                 tablefilename = re.sub(r'(.*)(\.ttx)',r'\1.'+table+r'\2',filename)
                 newmaster.write('  <DSIG src="'+tablefilename+'"/>\n')
             newmaster.write(line)
-        pass
-
-    def writeRotationVariantRecipes(self):
-        """"Specialized function to output the Glyph recipe so the size variants can be generated"""
-        def transformlookup(string):
-            tlookup = {
-                'n':'@0, -1, 1, 0, 100, 100',
-                'o':'@-1, 0, 0, -1, 100, 100',
-                't':'@0, 1, -1, 0, 100, 100',
-            }
-            if string in tlookup:
-                return tlookup[string]
-            pass
-        def sizeLookup(type,size):
-            if type in ['n','t']:
-                size = size[1] + size[0]
-            return size
-        recipes = []
-        i = 0
-        for varObj in self.variations:
-            base = '0x'+varObj['base']
-            vstype = varObj['type']
-            transform = transformlookup(vstype)
-
-            lcbase = base.lower()
-            if lcbase in self.glyphHexToName:
-                basename = self.glyphHexToName[lcbase]
-                if basename not in ['AS1','AQ1','AT1','AW1']:
-                    if basename in self.glyphdata:
-                        obj = self.glyphdata[basename]
-
-                        recipes.append(basename + vstype + ' = ' + basename + transform)
-                        i += 1
-
-                        tsh = obj['tshash']
-                        sizes = [tsh[i:i+2] for i in range(0, len(tsh), 2)]
-                        if len(sizes) > 1:
-                            sizes.pop(0)
-                            for size in sizes:
-                                nsize = sizeLookup(vstype,size)
-                                recipes.append(basename + vstype + '_' + nsize + ' = ' + basename + '_' + size + transform)
-                                i += 1
-        filename = 'eot_rotationVariantRecipes.txt'
-        recipefile = open('out/'+filename,"w")
-        for line in recipes:
-            recipefile.write(line+"\n")
-        print(str(i) + ' glyph recipes written')
         pass
 
 # END

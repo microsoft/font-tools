@@ -441,6 +441,14 @@ mirroring = {
 	'J29','J31','J32'
 }
 
+mirroredvariants = {'A1n','A1o','A1t','D27n','D27an','D47o','F16n','F23t','F28n','F37bn','F51n',
+  'F51t','H5t','H8o','M3n','M3o','M9n','M10n','M72t','M17n','M44t','N11n','N11o','N12n','N12o',
+  'N35t','O6o','O31n','O31o','P8t','S10n','S18n','S18t','S20t','S33t','S37t','S42t','S43t','T2o',
+  'T8t','T8at','T9t','T9at','T10t','T16n','T16o','T16at','T21o','T21t','T22n','T22o','T35o','T35t',
+  'U7n','U8n','U22t','U42t','V7at','V12at','V19t','W1t','W2t','W14t','Y2t','Z7n','Z10n','J11n',
+  'J11o','J11t','J21n','J30t'  
+}
+
 verticalmetrics = {
 	'QB1':     [2044, 1952],
 	'QB2':     [2044, 1952],
