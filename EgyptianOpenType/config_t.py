@@ -71,7 +71,6 @@ pvar = {
       'df',    #15 damaged full    1234     [13368] -> 78382   1322E -> 78396   1323C -> 13455
         # 'tcbb',  #31 text critical bracket begin [1337C] -> 91   13230
         # 'tcbe',  #32 text critical bracket end[1337E] ->    93   13231
-        # 'AS2',   #11 atomic shade full exp    [1336E] -> 78398   1322A #temp, needs to move to a VS AS1 VS -> AS
     ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
     'useproxycontrols': 0, # use proxy code points for controls

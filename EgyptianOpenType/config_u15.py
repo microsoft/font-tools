@@ -71,7 +71,6 @@ pvar = {
       'df',    #15 damaged full    1234     [13368] -> 78382   1322E -> 78396   1323C -> 13455
         # 'tcbb',  #31 text critical bracket begin [1337C] -> 91   13230
         # 'tcbe',  #32 text critical bracket end[1337E] ->    93   13231
-        # 'AS2',   #11 atomic shade full exp    [1336E] -> 78398   1322A #temp, needs to move to a VS AS1 VS -> AS
     ],
     'controlcodes' : [[':',';','v'],['*','.'],[],[],[],[],['+','='],['(','['],[')',']']],
     'useproxycontrols': 0, # use proxy code points for controls
@@ -89,6 +88,6 @@ pvar = {
     'mirror'  : 1,  
     'vertical': 1,
     'glyphproperties' : 1,
-    # 'test' : {'font':1,'gdef':1,'groups':1,'haln':1,'pres':1,'abvs':1,'blws':1,'rlig':1,'psts':1,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':0,'anchors':1,'coda':1}
-    'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
+    # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':1,'blws':1,'rlig':1,'psts':1,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':cls0,'anchors':1,'coda':0}
+    'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':0,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }

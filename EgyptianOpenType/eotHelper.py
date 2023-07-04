@@ -28,12 +28,16 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # Unicode 15 requirements
+    # VS to control expansion of all atomic shades – done
     # Rotations
+        # glyph recipes for size variants — done
+        # baseline alignment
+        # ensure rotational variant bases don't merge with tshashes
     # Mirrored forms
+        # write glyph recipes for mirror variants incl. rotational variants
     # RTL structures
     # Vertical
     # insertions inside sign area not total sign area?
-    #   VS to control expansion of all atomic shades
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
@@ -45,6 +49,8 @@ class EotHelper:
         # print(sys.version)
 
         self.pvar = pvar
+        self.fontsrc = TTFont(pvar['fontsrc'])
+        self.startingGlyphNames = []
         self.loadInsertionContextsAndGroups()
         self.compactfontfilename = re.sub(' ','',self.pvar['fontfilename'])+'_'+str(ver)
         self.abvslines = []
@@ -73,7 +79,6 @@ class EotHelper:
         self.uniqueglyphnames = []
         self.ligatures = []
         self.ligatures_all = []
-        self.fontsrc = TTFont(pvar['fontsrc'])
         self.maxhvsizes = {}
         print(pvar['fontsrc'])
     
@@ -299,7 +304,7 @@ class EotHelper:
         htmlFooter()
 
         self.writeTestFile(self.testfile)
-        return
+        pass
 
     def loadInsertionContextsAndGroups(self):
         def getinsertionObj(ins):
@@ -328,7 +333,10 @@ class EotHelper:
                     if key not in truekeys:
                         truekeys.append(key)
                     if key not in self.insertionsall:
-                        self.insertionsall.append(key)
+                        # this checks whether a glyph for Unicode defined
+                        # variation sequences exists in the font
+                        if key in self.startingGlyphNames:
+                            self.insertionsall.append(key)
             return truekeys
         def loadMappings(ins):
             def stripoffsets(obj):
@@ -400,6 +408,9 @@ class EotHelper:
 
             return mappings
 
+        for name in self.fontsrc.getGlyphOrder():
+            self.startingGlyphNames.append(name)
+
         self.insertionsall = []
         self.insertionmappings = {'ad':[],'bs':[],'te':[],'be':[],'mi':[],'bi':[]}
         adjs = ['ts','ti']
@@ -409,7 +420,7 @@ class EotHelper:
         for ins in self.insertionmappings:
             self.insertionmappings[ins] = getinsertionObj(ins)
         groupdata['insertions_all'] = self.insertionsall
-        return
+        pass
 
     def loadVariationDatabase(self):
         def parseVariationLine(line):
@@ -462,8 +473,10 @@ class EotHelper:
 
             print('Loaded '+str(i)+' variations from HVD')
 
-        if i > 0:
-            self.genCMAPFormat14_TTX()
+            if i > 0:
+                self.genCMAPFormat14_TTX()
+        else:
+            print('Variations skipped per config')
 
         pass
 
@@ -528,9 +541,11 @@ class EotHelper:
                     if basename not in mirroring:
                         if vstype == 't':
                             vstype == 'nR'
-
                     try:
-                        target = basename+vstype
+                        if vstype == 'x':
+                            target = basename[0:2]+'2'
+                        else:
+                            target = basename+vstype
                         if target in self.glyphdata:
                             line = '      <map uv="'+base.lower()+'" uvs="'+vs.lower()+'" name="'+target+'"/>'
                             lines.append(line+"\n")
@@ -1627,9 +1642,6 @@ class EotHelper:
 
 ### AUX
     def preloadgroups(self):
-        # def insertglyphs(newglyph):
-        #     self.fontsrc['glyf'][newglyph] = Glyph()
-        #     self.fontsrc['hmtx'][newglyph] = (0,0)
         self.injectedglyphcount = 0
 
         # output groups
@@ -1731,7 +1743,8 @@ class EotHelper:
                 group = 'Chr'
             elif (tcmvar): #text critical mark size variant
                 group = 'SVar'
-            elif (name == ('GB1','BF1','BQ1','BS1','placeholder','dottedcircle')): # treat these as hieroglyphs
+            elif (name in ['GB1','BF1','BQ1','dottedcircle','AS2','AQ2','AT2','AW2']): # treat these as hieroglyphs
+                print('does this work? '+ name)
                 group = 'Chr'
             else: #unmapped control characters for OTL
                 group = 'Ctrl'
@@ -1794,6 +1807,33 @@ class EotHelper:
                         vval = re.sub(r'AS2_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
+                elif name[0:3] == 'AQ2':
+                    if name == 'AQ2':
+                        glyph['maxh'] = self.pvar['hfu'] * 3
+                        glyph['maxv'] = self.pvar['vfu'] * 3
+                    else:
+                        hval = re.sub(r'AQ2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'AQ2_\d(\d)',r'\1',name)
+                        glyph['maxh'] = self.pvar['hfu'] * int(hval)
+                        glyph['maxv'] = self.pvar['vfu'] * int(vval)
+                elif name[0:3] == 'AT2':
+                    if name == 'AT2':
+                        glyph['maxh'] = self.pvar['hfu'] * 3
+                        glyph['maxv'] = self.pvar['vfu'] * 6
+                    else:
+                        hval = re.sub(r'AT2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'AT2_\d(\d)',r'\1',name)
+                        glyph['maxh'] = self.pvar['hfu'] * int(hval)
+                        glyph['maxv'] = self.pvar['vfu'] * int(vval)
+                elif name[0:3] == 'AW2':
+                    if name == 'AW2':
+                        glyph['maxh'] = self.pvar['hfu'] * 6
+                        glyph['maxv'] = self.pvar['vfu'] * 3
+                    else:
+                        hval = re.sub(r'AW2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'AW2_\d(\d)',r'\1',name)
+                        glyph['maxh'] = self.pvar['hfu'] * int(hval)
+                        glyph['maxv'] = self.pvar['vfu'] * int(vval)
                 elif name[0:2] in ['dq']:
                     glyph['maxh'] = self.pvar['hfu'] * 6
                     glyph['maxv'] = self.pvar['vfu'] * 6
@@ -1801,7 +1841,7 @@ class EotHelper:
                     if hasattr(glyphObj, 'xMax'):
                         glyph['maxh'] = glyphObj.xMax
                     else:
-                        print("Error: xMax missing for "+str(glyph['name']))
+                        print("Error: xMax missing for "+str(glyph['name']+" "+glyph['group']))
                     if hasattr(glyphObj, 'yMax'):
                         glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
                     else:
@@ -1902,6 +1942,7 @@ class EotHelper:
         # dynamic groups
         for key in self.glyphdata:
             ggroup = self.glyphdata[key]['group']
+
             # sizevariants groups
             if ggroup in ['SVar','LigV']:
                 groupdata['glyphs_all'].append(key)
@@ -4942,21 +4983,6 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def atomicShades(): #not longer used
-            lookupObjs = []
-            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'atomicBlank1'
-            details = {'sub':['AQ1'],'target':['AS1']}
-            lookupObj['details'].append(details)
-            lookupObjs.append(lookupObj)
-            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'atomicBlank2'
-            lookupObj['contexts'].append({'left':[],'right':['AS1']})
-            details = {'sub':['tsh33'],'target':['tsh6665646362615655535251464544434241363534333231262524232221161514131211']}
-            lookupObj['details'].append(details)
-            lookupObjs.append(lookupObj)
-
-            return lookupObjs
         def extensionbeginout():
             #Outer extension begin - o
             lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
@@ -5583,11 +5609,7 @@ class EotHelper:
 
         lines = []
         lines.extend(self.writefeature(cleanup()))
-        # This maps the Atomic quarter shade to the full shade so it fills the available area
-        # but resizes based on the smaller size. Removing based on feedback.
-        # lookupObjs = atomicShades()
-        # for lookupObj in lookupObjs:
-        #     lines.extend(self.writefeature(lookupObj))
+
         if self.pvar['extensions']:
             lines.extend(self.writefeature(extensionbeginout()))
             lines.extend(self.writefeature(extensionbegindbl()))
@@ -5757,9 +5779,13 @@ class EotHelper:
 
             lookupObj = {'feature':'psts','name':'','marks':'ALL','contexts':[],'details':[]}
             lookupObj['name'] = 'cntrlmirrorglyphsR'
-            lookupObj['details'] = loadmirrorpairs()
-
-            return lookupObj
+            subpairs = loadmirrorpairs()
+            if len(subpairs) > 0:
+                lookupObj['details'] = loadmirrorpairs()
+                return lookupObj
+            else:
+                print('Skipped cntrlmirrorglyphsR, no pairs')
+            pass
 
         lines = []
         if self.pvar['mirror']:
@@ -5871,11 +5897,10 @@ class EotHelper:
             self.writeVHEA()
             self.writeTSIV()
 
+            if os.path.exists('out/'+self.pvar['fontout']):
+                os.remove('out/'+self.pvar['fontout'])
             # dircompileTTX(self.pvar['fontout'])
-
-        os.system('ttx out/eot.ttx',)
-        # if os.path.exists('out/'+self.pvar['fontout']):
-        #     os.remove('out/'+self.pvar['fontout'])
+            os.system('ttx out/eot.ttx',)
         cleanupWorkingFiles()
         pass
     def writeCMAP(self):
@@ -6039,7 +6064,7 @@ class EotHelper:
             newmaster.write(line)
         pass
 
-    def glyphSizeVariants(self):
+    def writeRotationVariantRecipes(self):
         """"Specialized function to output the Glyph recipe so the size variants can be generated"""
         def transformlookup(string):
             tlookup = {
@@ -6054,7 +6079,7 @@ class EotHelper:
             if type in ['n','t']:
                 size = size[1] + size[0]
             return size
-
+        recipes = []
         i = 0
         for varObj in self.variations:
             base = '0x'+varObj['base']
@@ -6068,7 +6093,7 @@ class EotHelper:
                     if basename in self.glyphdata:
                         obj = self.glyphdata[basename]
 
-                        print(basename + vstype + ' = ' + basename + transform)
+                        recipes.append(basename + vstype + ' = ' + basename + transform)
                         i += 1
 
                         tsh = obj['tshash']
@@ -6077,9 +6102,12 @@ class EotHelper:
                             sizes.pop(0)
                             for size in sizes:
                                 nsize = sizeLookup(vstype,size)
-                                print(basename + vstype + '_' + nsize + ' = ' + basename + '_' + size + transform)
+                                recipes.append(basename + vstype + '_' + nsize + ' = ' + basename + '_' + size + transform)
                                 i += 1
-                            
+        filename = 'eot_rotationVariantRecipes.txt'
+        recipefile = open('out/'+filename,"w")
+        for line in recipes:
+            recipefile.write(line+"\n")
         print(str(i) + ' glyph recipes written')
         pass
 

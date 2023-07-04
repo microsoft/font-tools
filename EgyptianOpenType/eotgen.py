@@ -22,9 +22,10 @@ eothelper.initializeVTP()
 eothelper.createVTPFile()
 eothelper.createErrorFile()
 eothelper.loadVariationDatabase()
-# eothelper.vmtx_FC()
-# eothelper.glyphSizeVariants()
-# eothelper.writeGlyphProperties()
+
+    # eothelper.vmtx_FC()
+    # eothelper.writeRotationVariantRecipes()
+    # eothelper.writeGlyphProperties()
 
 eothelper.gdef()
 eothelper.groups()
