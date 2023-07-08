@@ -32,7 +32,7 @@ ver = 200
     # VS to control expansion of all atomic shades – done
     # Rotations
         # glyph recipes for size variants — done
-        # baseline alignment
+        # baseline alignment — done
         # ensure rotational variant bases don't merge with tshashes
     # Mirrored forms
         # write glyph recipes for mirror variants incl. rotational variants — done
