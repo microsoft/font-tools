@@ -30,13 +30,13 @@ ver = 200
 
 # Unicode 15 requirements
     # VS to control expansion of all atomic shades – done
+    # RTL structures - done
+        # rtl distance adjustments
+    # Mirrored forms - done
     # Rotations
         # glyph recipes for size variants — done
         # baseline alignment — done
         # ensure rotational variant bases don't merge with tshashes
-    # Mirrored forms
-        # write glyph recipes for mirror variants incl. rotational variants — done
-    # RTL structures
     # Vertical
     # insertions inside sign area not total sign area?
     #   TCMs all [font, OT]
@@ -650,14 +650,70 @@ class EotHelper:
                             if len(sizes) > 1:
                                 sizes.pop(0)
                                 for size in sizes:
-                                    nsize = sizeLookup(vstype,size)
-                                    recipes.append(basename + vstype + '_' + nsize + ' = ' + basename + '_' + size + transform)
-                                    i += 1
+                                    varname = basename+'_'+str(size)
+                                    if varname not in self.glyphdata:
+                                        print('missing glyph:' + varname)
+                                    else:
+                                        nsize = sizeLookup(vstype,size)
+                                        varobj = self.glyphdata[varname]
+                                        transform = transformlookup(vstype,offset,varobj['maxh'],varobj['maxv'])
+                                        recipes.append(basename + vstype + '_' + nsize + ' = ' + basename + '_' + size + transform)
+                                        i += 1
         filename = 'eot_rotationRecipes.txt'
         recipefile = open('out/'+filename,"w")
         for line in recipes:
             recipefile.write(line+"\n")
         print(str(i) + ' rotation recipes written')
+        pass
+
+    def writeKeymanRotations(self):
+        def transformlookup(string):
+            tlookup = {
+                'n': [' ','/90','U+FE00'],
+                'o': ['','/180','U+FE01'],
+                't': ['','/270','U+FE02'],
+            }
+            if string in tlookup:
+                return tlookup[string]
+            pass
+        transforms = []
+        cycles = {}
+        i = 0
+        j = 0
+
+        for varObj in self.variations:
+            base = 'U+'+varObj['base']
+            t = transformlookup(varObj['type'])
+            if t:
+                transforms.append(base + t[0] + " '" + t[1] + "' + [K_SPACE] > " + base + " " + t[2])
+                if base in cycles:
+                    cycles[base].append(t[2])
+                else:
+                    cycles[base] = [t[2]]
+           
+                i += 1
+
+
+        if i > 0:
+            transforms.append("")
+            transforms.append("c Variation cycles")
+
+            for key in cycles:
+                cycle = cycles[key]
+                prv = '        '
+                for c in cycle:
+                    transforms.append(key + prv + "+ [RALT K_SLASH] > " + key + " " + c)
+                    prv = ' ' + c + ' '
+                    j += 1
+                transforms.append(key + prv + "+ [RALT K_SLASH] > " + key)
+                j += 1
+
+        filename = 'keymanRotationTransforms.txt'
+        file = open('out/'+filename,"w")
+        file.write("c Variations\n")
+        for line in transforms:
+            file.write(line+"\n")
+        print(str(i) + ' transformation and ' + str(j) + ' cycles written')
         pass
 
     def writeMirrorRecipes(self,incSizeVariants):
@@ -1063,7 +1119,6 @@ class EotHelper:
                         for lookupObj in lookupObjs:
                             lookupObj['feature'] = featuretag
                             if 'name' in lookupObj:
-                                # print(lookupObj)
                                 self.mkmklines.append(self.writefeature(lookupObj))
                         pass
                 else:
