@@ -33,7 +33,7 @@ mkmk = [
     #Lookup
     {'name' : 'cols-cols0R', 'marks' : '*stems0-hxR',
     'exceptcontexts' : [
-        {'left':['r0eBR'],'right':[]}
+        {'left':['r0eB'],'right':[]}
     ],
     'details' : [
         {'attach':['stems0-hR'],'to':['stems0-hR'],'anchor':'left'}
@@ -88,55 +88,56 @@ mkmk = [
     {'name' : 'shapes_ts-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_ts'],'to':['insertionsizes1'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'te'},
+        {'to':['insertionsizes1R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Corner insertion 3
     {'name' : 'shapes_bs-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bs'],'to':['insertionsizes1'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'be'},
+        {'to':['insertionsizes1R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Corner insertion 4
     {'name' : 'shapes_te-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_te'],'to':['insertionsizes1'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'ts'},
+        {'to':['insertionsizes1R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Corner insertion 5
     {'name' : 'shapes_be-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_be'],'to':['insertionsizes1'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'bs'},
+        {'to':['insertionsizes1R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Middle-top insertion
     {'name' : 'shapes_ti-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_ti'],'to':['insertionsizes1'],'anchor':'ti'},
-        # {'to':['insertionsizes1R'],'anchor':'ti'},
+        {'to':['insertionsizes1R'],'anchor':'ti'},
         {'to':['shapes_u'],'anchor':'ti'}
     ]},
     #Lookup - Middle-middle insertion
     {'name' : 'shapes_mi-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_mi'],'to':['insertionsizes1'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'center'},
+        {'to':['insertionsizes1R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Middle-bottom insertion
     {'name' : 'shapes_bi-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bi'],'to':['insertionsizes1'],'anchor':'bi'},
-        # {'to':['insertionsizes1R'],'anchor':'center'},
+        {'to':['insertionsizes1R'],'anchor':'bi'},
         {'to':['shapes_u'],'anchor':'bi'}
     ]},
     #Lookup - Overstrike
     {'name' : 'shapes_om-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_om'],'to':['insertionsizes1'],'anchor':'center'},
+        {'to':['insertionsizes1R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #DYNAMIC LOOKUP - Distance adjustments
@@ -186,9 +187,9 @@ mkmk = [
         {'attach':['stems1-h'],'to':['stems1-h'],'anchor':'right'}
     ]},
     #Lookup
-    {'name' : 'cols-cols1R', 'marks' : '*stems1-hx',
+    {'name' : 'cols-cols1R', 'marks' : '*stems1-hxR',
     'exceptcontexts' : [
-        {'left':['r1eBR'],'right':[]}
+        {'left':['r1eB'],'right':[]}
     ],
     'details' : [
         {'attach':['stems1-hR'],'to':['stems1-hR'],'anchor':'left'}
@@ -243,55 +244,56 @@ mkmk = [
     {'name' : 'shapes_ts2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_ts2'],'to':['insertionsizes2'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'te'},
+        {'to':['insertionsizes2R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Corner insertion 3
     {'name' : 'shapes_bs2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bs2'],'to':['insertionsizes2'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'be'},
+        {'to':['insertionsizes2R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Corner insertion 4
     {'name' : 'shapes_te2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_te2'],'to':['insertionsizes2'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'ts'},
+        {'to':['insertionsizes2R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Corner insertion 5
     {'name' : 'shapes_be2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_be2'],'to':['insertionsizes2'],'anchor':'center'},
-        # {'to':['insertionsizes1R'],'anchor':'bs'},
+        {'to':['insertionsizes2R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Middle-top insertion
     {'name' : 'shapes_ti2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_ti2'],'to':['insertionsizes2'],'anchor':'ti'},
-        # {'to':['insertionsizes2R'],'anchor':'ti'},
+        {'to':['insertionsizes2R'],'anchor':'ti'},
         {'to':['shapes_u'],'anchor':'ti'}
     ]},
     #Lookup - Middle-middle insertion
     {'name' : 'shapes_mi2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_mi2'],'to':['insertionsizes2'],'anchor':'center'},
-        # {'to':['insertionsizes2R'],'anchor':'center'},
+        {'to':['insertionsizes2R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #Lookup - Middle-bottom insertion
     {'name' : 'shapes_bi2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_bi2'],'to':['insertionsizes2'],'anchor':'bi'},
-        # {'to':['insertionsizes2R'],'anchor':'center'},
+        {'to':['insertionsizes2R'],'anchor':'bi'},
         {'to':['shapes_u'],'anchor':'bi'}
     ]},
     #Lookup - Overstrike
     {'name' : 'shapes_om2-shapesi', 'marks' : '',
     'details' : [
         {'attach':['shapes_om2'],'to':['insertionsizes2'],'anchor':'center'},
+        {'to':['insertionsizes2R'],'anchor':'center'},
         {'to':['shapes_u'],'anchor':'center'}
     ]},
     #DYNAMIC LOOKUP - Distance adjustments
@@ -343,7 +345,7 @@ mkmk = [
     #Lookup
     {'name' : 'cols-cols2R', 'marks' : '*stems2-hxR',
     'exceptcontexts' : [
-        {'left':['r2eBR'],'right':[]}
+        {'left':['r2eB'],'right':[]}
     ],
     'details' : [
         {'attach':['stems2-hR'],'to':['stems2-hR'],'anchor':'left'}

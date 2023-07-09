@@ -1129,13 +1129,6 @@ class EotHelper:
                     retvalue = int(max)
                 elif (type == 'MID'):
                     retvalue = int(max/2)
-                elif (type == 'NYMID'):
-                    searchObj = re.search('^.*([0-9])$',glyphname)
-                    if (searchObj):
-                        mtp = int(searchObj.group(1))
-                        retvalue = int(mtp * self.pvar['vfu'] / 2) * -1
-                    else:
-                        retvalue = -1
                 elif (type == 'NYSPC'): # Negative Y spacer
                     searchObj = re.search('^r[012]s([0-9])p([0-9]+)R?',glyphname)
                     if (searchObj):
@@ -1174,31 +1167,45 @@ class EotHelper:
                     else:
                         retvalue = 0
                 elif (type == 'XUNIT'):
-                    searchObj = re.search('^.*([0-9])$',glyphname)
+                    searchObj = re.search('^.*([0-9])R?$',glyphname)
                     if (searchObj):
                         mtp = int(searchObj.group(1))
                         retvalue = int(mtp * self.pvar['hfu'])
                     else:
                         retvalue = 0
                 elif (type == 'YUNIT'):
-                    searchObj = re.search('^.*([0-9])$',glyphname)
+                    searchObj = re.search('^.*([0-9])R?$',glyphname)
                     if (searchObj):
                         mtp = int(searchObj.group(1))
                         retvalue = int(mtp * self.pvar['vfu'])
                     else:
                         retvalue = 0
                 elif (type == 'XMID'):
-                    searchObj = re.search('^.*([0-9])[0-9]$',glyphname)
+                    searchObj = re.search('^.*([0-9])[0-9]R?$',glyphname)
                     if (searchObj):
                         mtp = int(searchObj.group(1))
                         retvalue = int(mtp * self.pvar['hfu'] / 2)
                     else:
                         retvalue = -1
+                elif (type == 'NXMID'):
+                    searchObj = re.search('^.*([0-9])[0-9]R?$',glyphname)
+                    if (searchObj):
+                        mtp = int(searchObj.group(1))
+                        retvalue = int(mtp * self.pvar['hfu'] / 2) * -1
+                    else:
+                        retvalue = -1
                 elif (type == 'YMID'):
-                    searchObj = re.search('^.*([0-9])$',glyphname)
+                    searchObj = re.search('^.*([0-9])R?$',glyphname)
                     if (searchObj):
                         mtp = int(searchObj.group(1))
                         retvalue = int(mtp * self.pvar['vfu'] / 2)
+                    else:
+                        retvalue = -1
+                elif (type == 'NYMID'):
+                    searchObj = re.search('^.*([0-9])R?$',glyphname)
+                    if (searchObj):
+                        mtp = int(searchObj.group(1))
+                        retvalue = int(mtp * self.pvar['vfu'] / 2) * -1
                     else:
                         retvalue = -1
                 elif (type == 'XSPC'):
@@ -1435,9 +1442,9 @@ class EotHelper:
         group = 'shapes_om2'
         details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
-        # group = 'insertionsizes1R'
-        # details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
-        # anchorgroup(group,[group],details)
+        group = 'insertionsizes1R'
+        details = {'aname':'right','xtype':'XSUNIT','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
 
         # left
         group = 'stems0-hR'
@@ -1561,8 +1568,14 @@ class EotHelper:
         group = 'insertionsizes1'
         details = {'aname':'MARK_ti','xtype':'XMID','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'insertionsizes1R'
+        details = {'aname':'MARK_ti','xtype':'NXMID','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'insertionsizes2'
         details = {'aname':'MARK_ti','xtype':'XMID','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes2R'
+        details = {'aname':'MARK_ti','xtype':'NXMID','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_u'
         details = {'aname':'MARK_ti','xtype':'XMID','ytype':'YUNIT','recursive':0}
@@ -1591,8 +1604,14 @@ class EotHelper:
         group = 'insertionsizes1'
         details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
+        group = 'insertionsizes1R'
+        details = {'aname':'MARK_bi','xtype':'NXMID','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'insertionsizes2'
         details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'insertionsizes2R'
+        details = {'aname':'MARK_bi','xtype':'NXMID','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_u'
         details = {'aname':'MARK_bi','xtype':'XMID','ytype':'ZERO','recursive':0}
@@ -1629,15 +1648,15 @@ class EotHelper:
         group = 'insertionsizes1'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
-        # group = 'insertionsizes1R'
-        # details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
-        # anchorgroup(group,[group],details)
+        group = 'insertionsizes1R'
+        details = {'aname':'MARK_center','xtype':'NXMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'insertionsizes2'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
-        # group = 'insertionsizes2R'
-        # details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
-        # anchorgroup(group,[group],details)
+        group = 'insertionsizes2R'
+        details = {'aname':'MARK_center','xtype':'NXMID','ytype':'NYMID','recursive':0}
+        anchorgroup(group,[group],details)
         group = 'shapes_om'
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'NYMID','recursive':0}
         anchorgroup(group,[group],details)
@@ -5831,6 +5850,22 @@ class EotHelper:
             details = {'sub':['stems2-v'],'target':['stems2-vR']}
             lookupObj['details'].append(details)
             details = {'sub':['stems2-h'],'target':['stems2-hR']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_ts'],'target':['shapes_te']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_te'],'target':['shapes_ts']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_bs'],'target':['shapes_be']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_be'],'target':['shapes_bs']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_ts2'],'target':['shapes_te2']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_te2'],'target':['shapes_ts2']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_bs2'],'target':['shapes_be2']}
+            lookupObj['details'].append(details)
+            details = {'sub':['shapes_be2'],'target':['shapes_bs2']}
             lookupObj['details'].append(details)
 
             return lookupObj
