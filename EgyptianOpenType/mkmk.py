@@ -368,42 +368,42 @@ mkmk = [
         {'attach':['m0'],'to':['glyphs_all'],'anchor':'center'},
         {'to':['mirror_all'],'anchor':'center'}
     ]},
-    #Lookup
-    {'name' : 'tcbb', 'marks' : '',
-    'details' : [
-        {'attach':['stems0-h','stems1-h','stems2-h'],'to':['tcbb_mks'],'anchor':'top'}
-    ]},
-    #Lookup
-    {'name' : 'tcbe0', 'marks' : '*tcbe0_mfc',
-    'details' : [
-        {'attach':['shapes_0'],'to':['tcbe0_mks'],'anchor':'right'}
-    ]},
-    #Lookup
-    {'name' : 'tcbe1', 'marks' : '*tcbe1_mfc',
-    'details' : [
-        {'attach':['shapes_1'],'to':['tcbe1_mks'],'anchor':'right'}
-    ]},
-    #Lookup
-    {'name' : 'tcbe2', 'marks' : '*tcbe2_mfc',
-    'details' : [
-        {'attach':['shapes_2'],'to':['tcbe2_mks'],'anchor':'right'}
-    ]},
-    #Lookup
-    {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
-    'details' : [
-        {'attach':['m0'],'to':['shapes_df'],'anchor':'center'},
-        {'to':['shapes_dq'],'anchor':'center'}
-    ]},
-    #Lookup
-    {'name' : 'glyphs', 'marks' : '',
-    'details' : [
-        {'attach':['b0'],'to':['glyphs_all'],'anchor':'bi'},
-        {'to':['mirror_all'],'anchor':'bi'}
-    ]},
-    #Lookup
-    {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
-    'details' : [
-        {'attach':['b0'],'to':['shapes_df'],'anchor':'bi'},
-        {'to':['shapes_dq'],'anchor':'bi'}
-    ]}
+    # #Lookup
+    # {'name' : 'tcbb', 'marks' : '',
+    # 'details' : [
+    #     {'attach':['stems0-h','stems1-h','stems2-h'],'to':['tcbb_mks'],'anchor':'top'}
+    # ]},
+    # #Lookup
+    # {'name' : 'tcbe0', 'marks' : '*tcbe0_mfc',
+    # 'details' : [
+    #     {'attach':['shapes_0'],'to':['tcbe0_mks'],'anchor':'right'}
+    # ]},
+    # #Lookup
+    # {'name' : 'tcbe1', 'marks' : '*tcbe1_mfc',
+    # 'details' : [
+    #     {'attach':['shapes_1'],'to':['tcbe1_mks'],'anchor':'right'}
+    # ]},
+    # #Lookup
+    # {'name' : 'tcbe2', 'marks' : '*tcbe2_mfc',
+    # 'details' : [
+    #     {'attach':['shapes_2'],'to':['tcbe2_mks'],'anchor':'right'}
+    # ]},
+    # #Lookup
+    # {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
+    # 'details' : [
+    #     {'attach':['m0'],'to':['shapes_df'],'anchor':'center'},
+    #     {'to':['shapes_dq'],'anchor':'center'}
+    # ]},
+    # #Lookup
+    # {'name' : 'glyphs', 'marks' : '',
+    # 'details' : [
+    #     {'attach':['b0'],'to':['glyphs_all'],'anchor':'bi'},
+    #     {'to':['mirror_all'],'anchor':'bi'}
+    # ]},
+    # #Lookup
+    # {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
+    # 'details' : [
+    #     {'attach':['b0'],'to':['shapes_df'],'anchor':'bi'},
+    #     {'to':['shapes_dq'],'anchor':'bi'}
+    # ]}
 ]

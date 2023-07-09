@@ -3,7 +3,6 @@
 import os
 from os import listdir
 from os.path import isfile, join
-import sys
 import re
 import codecs
 import math
@@ -81,6 +80,7 @@ class EotHelper:
         self.ligatures = []
         self.ligatures_all = []
         self.maxhvsizes = {}
+        self.internalgroups = ['characters_all','corners0bNotOM','corners1bNotOM']
         print(pvar['fontsrc'])
     
     def initializeVTP(self):
@@ -782,7 +782,108 @@ class EotHelper:
         convert = lambda text: int(text) if text.isdigit() else text
         alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
         return sorted(l, key=alphanum_key)
-    
+
+    def vtpanalyze(self):
+        def getname(deftype,line):
+            pattern = '^'+deftype+' "(.*?)"'
+            match = re.match(pattern,line)
+            try:
+                return re.sub(pattern,r'\1',match.group())
+            except:
+                return 0
+        def checkForGroups(string):
+            if re.search('GROUP', string):
+                parts = string.split(' ')
+                if len(parts) > 0:
+                    p = 0
+                    for part in parts:
+                        if part == "GROUP":
+                            try:
+                                gname = re.sub('"',"",parts[p+1])
+                                gname = re.sub('\n',"",gname)
+                            except:
+                                gname = "ERROR with " + lookupname
+                            if gname not in attestedgroups:
+                                attestedgroups.append(gname)
+                        p += 1
+            pass
+
+        vtpfile = open('out/'+self.compactfontfilename+'.vtp')
+        stats = {
+            'anchors':0,
+            'lines':0,
+            'gdef':0,
+            'unicode':0,
+            'groups':0,
+            'groupdetails': {},
+            'lookups': 0,
+            'lookupdetails': {},
+        }
+        groupname = ''
+        lookupname = ''
+        attestedgroups = []
+        unattestedgroups = []
+
+        if vtpfile:
+            print('Analyzing file: ' + self.compactfontfilename +'.vtp')
+        else:
+            print('Error, file: ' + self.compactfontfilename + ' not found.')
+
+        i = 0
+        for line in vtpfile:
+            i += 1
+            if re.search('DEF_ANCHOR', line):
+                stats['anchors'] += 1
+            if re.search('DEF_GLYPH', line):
+                stats['gdef'] += 1
+                if re.search('UNICODE', line):
+                    stats['unicode'] += 1
+            if re.search('DEF_GROUP', line):
+                groupname = getname('DEF_GROUP',line)
+            if groupname:
+                if re.search('ENUM', line):
+                    count = line.count("GLYPH") + line.count("GROUP")
+                    stats['groupdetails'][groupname] = count
+                    stats['groups'] += 1
+                checkForGroups(line)
+            if re.search('DEF_LOOKUP',line):
+                groupname  = ''
+                stats['lookups'] += 1
+                lookupname = getname('DEF_LOOKUP',line)
+                if lookupname:
+                    stats['lookupdetails'][lookupname] = 0
+            if lookupname in stats['lookupdetails']:
+                stats['lookupdetails'][lookupname] += 1
+                checkForGroups(line)
+            if re.search('END_POSITION',line):
+                lookupname = ''
+                groupname = ''
+
+        stats['attestedgroups'] = len(attestedgroups)
+        for k in stats['groupdetails']:
+            if k not in attestedgroups:
+                unattestedgroups.append(k)
+        stats['unattestedgroups'] = len(unattestedgroups)
+        self.sort_alphanumeric(unattestedgroups)
+
+        stats['lines'] = i
+        filename = 'vtp_stats.txt'
+        outputfile = open('out/'+filename,"w")
+        for key, value in stats.items():
+            if key in ['groupdetails','lookupdetails']:
+                for k,v in value.items():
+                    outputfile.write('\t' + k + '\t' + str(v) + "\n")    
+            elif key == 'maxgroup':
+                outputfile.write('\t' + value[1] + '\t' + str(value[0]) + "\n")
+            else:
+                outputfile.write(key+ '\t\t' + str(value) + "\n")
+        for ug in unattestedgroups:
+            outputfile.write("\t'" + ug + "',\n")
+
+        print('Stats written')
+
+        pass
+
 ### GDEF
     def gdef(self):
         def formatgdefline(glyph):
@@ -893,15 +994,6 @@ class EotHelper:
         for featuredef in pres:
             lookupObj = featuredef
             lookupObj['feature'] = featuretag
-            # if (lookupObj['name'] == 'rninety'):#DYNAMIC FEATURE
-            #     subpairs = loadr090subpairs()
-            #     lookupObj['details'] = subpairs
-            # if (lookupObj['name'] == 'roneeighty'):#DYNAMIC FEATURE
-            #     subpairs = loadr180subpairs()
-            #     lookupObj['details'] = subpairs
-            # if (lookupObj['name'] == 'rtwoseventy'):#DYNAMIC FEATURE
-            #     subpairs = loadr270subpairs()
-            #     lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'tsg'):#DYNAMIC FEATURE TSG
                 subpairs = loadtsgsubpairs()
                 lookupObj['details'] = subpairs
@@ -2178,25 +2270,26 @@ class EotHelper:
         # output groups
         groupnames = sorted(groupdata)
         for key in groupnames:
-            grplist = sorted(groupdata[key],\
-                key=lambda item: (int(item.partition(' ')[0])\
-                            if item[0].isdigit() else float('inf'), item))
-
-            groupenum = ''            
-            groupObj = {}
-            for listitem in grplist:
-                grouptype = 'GLYPH'
-                if listitem in groupnames:
-                    grouptype = 'GROUP'
-                elif listitem in glyphnames:
+            if key not in self.internalgroups:
+                grplist = self.sort_alphanumeric(groupdata[key])
+                # grplist = sorted(groupdata[key],\
+                #     key=lambda item: (int(item.partition(' ')[0])\
+                #                 if item[0].isdigit() else float('inf'), item))
+                groupenum = ''            
+                groupObj = {}
+                for listitem in grplist:
                     grouptype = 'GLYPH'
-                else:
-                    grouptype = 'GLYPH'
-                groupenum += grouptype+' "'+listitem+'" '
-            groupObj['name'] = key
-            groupObj['enum'] = groupenum
-            grpline = formatgroup(groupObj)
-            al(grpline)
+                    if listitem in groupnames:
+                        grouptype = 'GROUP'
+                    elif listitem in glyphnames:
+                        grouptype = 'GLYPH'
+                    else:
+                        grouptype = 'GLYPH'
+                    groupenum += grouptype+' "'+listitem+'" '
+                groupObj['name'] = key
+                groupObj['enum'] = groupenum
+                grpline = formatgroup(groupObj)
+                al(grpline)
     def glyphOrGroup(self, item):
         glyphnames = sorted(self.glyphdata)
         groupnames = sorted(groupdata)
@@ -2392,7 +2485,10 @@ class EotHelper:
                         print("\t"+'Right context missing: '+name+str(contextpair['right']))
                 contexts += 'IN_CONTEXT'+"\n"
                 if (left) or (right):
-                    contexts += ' '+str(left)+str(right)+"\n"
+                    pad = ''
+                    if left and right:
+                        pad = ' '
+                    contexts += ' '+str(left)+pad+str(right)+"\n"
                 contexts += 'END_CONTEXT'+"\n"
 
         #append to list of subpairs
