@@ -337,6 +337,12 @@ groupdata = {
 	'genericbases' : ['dottedcircle']
 } 
 
+internalgroups = ['characters_all','controls_ng','corners0bNotOM','corners1bNotOM','ev_all','extensionendsL',
+  'extensionendsR','extensionendsV','fillbases','genericbases','groupCounters','horizontals2','insertionsizes',
+  'multicorners1','multicorners2','parenstcbb1','shadesmkmk','shapes_insert0_POS','shapes_ls','spacers_cols0',
+  'spacers_cols1','spacers_cols2','spacers_deltas','spacers_rows0','spacers_rows1','spacers_rows2','ss01baselines',
+  'targets','targetwidth','tcbb_mks','tcbe0_mfc','tcbe1_mfc','tcbe2_mfc','tsh']
+
 basetypes = ['dottedcircle','VP',
     'QB1','QB2','QB3','QB4','QB5','QB6','QB7','QB8',
     'QC1','QC2','QC3','QC4','QC5','QC6','QC7','QC8',

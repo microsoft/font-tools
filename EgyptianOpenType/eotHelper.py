@@ -9,6 +9,7 @@ import math
 from pprint import pprint
 from featuredata import featurename
 from featuredata import groupdata
+from featuredata import internalgroups
 from featuredata import basetypes
 from featuredata import qcontrols
 from featuredata import punctuation
@@ -80,7 +81,6 @@ class EotHelper:
         self.ligatures = []
         self.ligatures_all = []
         self.maxhvsizes = {}
-        self.internalgroups = ['characters_all','corners0bNotOM','corners1bNotOM']
         print(pvar['fontsrc'])
     
     def initializeVTP(self):
@@ -785,13 +785,35 @@ class EotHelper:
 
     def vtpanalyze(self):
         def getname(deftype,line):
-            pattern = '^'+deftype+' "(.*?)"'
+            pattern = ".*" + deftype +' "(.*?)"'
             match = re.match(pattern,line)
             try:
                 return re.sub(pattern,r'\1',match.group())
             except:
                 return 0
         def checkForGroups(string):
+            if re.search('PROCESS_MARKS', string):
+                name = getname('PROCESS_MARKS',line)
+                if name == False:
+                    name = getname('MARK_GLYPH_SET',line)
+                if name and name not in attestedgroups:
+                    attestedgroups.append(name)
+                parts = string.split(' ')
+                if len(parts) > 0:
+                    p = 0
+                    for part in parts:
+                        if part == "PROCESS_MARKS":
+                            try:
+                                gname = re.sub('"',"",parts[p+1])
+                                gname = re.sub('\n',"",gname)
+                                if gname in ['ALL','MARK_GLYPH_SET']:
+                                    gname = False
+                            except:
+                                gname = "ERROR with " + lookupname
+                            if gname not in attestedgroups:
+                                if gname:
+                                    attestedgroups.append(gname)
+                        p += 1
             if re.search('GROUP', string):
                 parts = string.split(' ')
                 if len(parts) > 0:
@@ -808,19 +830,26 @@ class EotHelper:
                         p += 1
             pass
 
+        # self.compactfontfilename = 'EgyptianTextU12_100'
+        # self.compactfontfilename = 'EgyptianTextU15_100'
         vtpfile = open('out/'+self.compactfontfilename+'.vtp')
         stats = {
-            'anchors':0,
+            'total':0,
             'lines':0,
+            'anchors':0,
             'gdef':0,
             'unicode':0,
+            'glyphname':0,
             'groups':0,
             'groupdetails': {},
             'lookups': 0,
             'lookupdetails': {},
+            'tags': 0,
+            'tagdetails': {},
         }
         groupname = ''
         lookupname = ''
+        tagname = ''
         attestedgroups = []
         unattestedgroups = []
 
@@ -831,6 +860,7 @@ class EotHelper:
 
         i = 0
         for line in vtpfile:
+            stats['total'] += len(line)
             i += 1
             if re.search('DEF_ANCHOR', line):
                 stats['anchors'] += 1
@@ -838,6 +868,9 @@ class EotHelper:
                 stats['gdef'] += 1
                 if re.search('UNICODE', line):
                     stats['unicode'] += 1
+                glyphname = getname('DEF_GLYPH',line)
+                if len(glyphname) > stats['glyphname']:
+                    stats['glyphname'] = len(glyphname)
             if re.search('DEF_GROUP', line):
                 groupname = getname('DEF_GROUP',line)
             if groupname:
@@ -858,6 +891,13 @@ class EotHelper:
             if re.search('END_POSITION',line):
                 lookupname = ''
                 groupname = ''
+            if re.search('DEF_FEATURE', line):
+                tagname = getname('TAG',line)
+            if tagname:
+                if re.search('LOOKUP', line):
+                    count = line.count("LOOKUP")
+                    stats['tagdetails'][tagname] = count
+                    stats['tags'] += 1
 
         stats['attestedgroups'] = len(attestedgroups)
         for k in stats['groupdetails']:
@@ -870,7 +910,7 @@ class EotHelper:
         filename = 'vtp_stats.txt'
         outputfile = open('out/'+filename,"w")
         for key, value in stats.items():
-            if key in ['groupdetails','lookupdetails']:
+            if key in ['groupdetails','lookupdetails','tagdetails']:
                 for k,v in value.items():
                     outputfile.write('\t' + k + '\t' + str(v) + "\n")    
             elif key == 'maxgroup':
@@ -2270,11 +2310,8 @@ class EotHelper:
         # output groups
         groupnames = sorted(groupdata)
         for key in groupnames:
-            if key not in self.internalgroups:
+            if key not in internalgroups:
                 grplist = self.sort_alphanumeric(groupdata[key])
-                # grplist = sorted(groupdata[key],\
-                #     key=lambda item: (int(item.partition(' ')[0])\
-                #                 if item[0].isdigit() else float('inf'), item))
                 groupenum = ''            
                 groupObj = {}
                 for listitem in grplist:
