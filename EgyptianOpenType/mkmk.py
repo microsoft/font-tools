@@ -394,12 +394,12 @@ mkmk = [
     #     {'attach':['m0'],'to':['shapes_df'],'anchor':'center'},
     #     {'to':['shapes_dq'],'anchor':'center'}
     # ]},
-    # #Lookup
-    # {'name' : 'glyphs', 'marks' : '',
-    # 'details' : [
-    #     {'attach':['b0'],'to':['glyphs_all'],'anchor':'bi'},
-    #     {'to':['mirror_all'],'anchor':'bi'}
-    # ]},
+    #Lookup
+    {'name' : 'glyphs', 'marks' : '',
+    'details' : [
+        {'attach':['b0'],'to':['glyphs_all'],'anchor':'bi'},
+        {'to':['mirror_all'],'anchor':'bi'}
+    ]},
     # #Lookup
     # {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
     # 'details' : [

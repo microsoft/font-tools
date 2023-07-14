@@ -8,7 +8,7 @@ pvar = {
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text U15", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantextU15-COLR.ttf", # Path to source font
+    'fontsrc' : "../../fonts/et/egyptiantextU15c-COLR.ttf", # Path to source font
     'fontout' : "eot.ttf", # Path to write output font
     'fontprior' : "egyptiantextU12.ttf", # Path to prior test font
     'sb'  : 105, # font side bearings
@@ -82,12 +82,12 @@ pvar = {
     'extensions' : 1,
     'variations' : 1,
     'offsets'    : 1,
-    'expansions' : 0,
+    'expansions' : 0, # see pr021_expansion_A
     'tcbs' : 1,
     'baseline' : 1, #align singletons to baseline for Hieratic
     'mirror'  : 1,  
     'vertical': 1,
     'glyphproperties' : 1,
     # 'test' : {'font':0,'gdef':0,'groups':0,'haln':1,'pres':0,'abvs':1,'blws':1,'rlig':1,'psts':1,'ss01':1,'rtlm':1,'vrt2':1,'gpos':1,'langsys':0,'anchors':1,'coda':0}
-    'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':1,'rtlm':1,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
+    'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':1,'rtlm':0,'vrt2':1,'gpos':0,'langsys':0,'anchors':0,'coda':0}
 }

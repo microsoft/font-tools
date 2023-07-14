@@ -1427,7 +1427,8 @@ class EotHelper:
             anchorObj['dy'] = str(formatdxy(ytype,maxy))
             if (not anchorObj['dx'] == '-1' and not anchorObj['dy'] == '-1'):
                 line = formatanchor(anchorObj)
-                al(line)
+                if line:
+                    al(line)
             #else:
                 #self.errors.append('Dropped anchor [eh661]:'+glyphname)
             return 0
@@ -1443,10 +1444,13 @@ class EotHelper:
                 dy = ' DY '+str(anchorObj['dy'])
             else :
                 dy = ''
-            line = 'DEF_ANCHOR "'+anchor+'" ON '+gid+\
-                ' GLYPH '+gname+' COMPONENT 1 AT  POS'+\
-                dx+dy+' END_POS END_ANCHOR\n'
-            return line
+            if dx or dy:
+                line = 'DEF_ANCHOR "'+anchor+'" ON '+gid+\
+                    ' GLYPH '+gname+' COMPONENT 1 AT  POS'+\
+                    dx+dy+' END_POS END_ANCHOR\n'
+                return line
+            else:
+                return ''
         def al(line):
             self.anchorlines.append(line)
         self.groupnames = sorted(groupdata)
@@ -1823,10 +1827,10 @@ class EotHelper:
         details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
         group = 'glyphs_all'
-        details = {'aname':'MARK_bi','xtype':'MID','ytype':'ZERO','recursive':0}
+        details = {'aname':'MARK_bi','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         group = 'mirror_all'
-        details = {'aname':'MARK_bi','xtype':'MID','ytype':'ZERO','recursive':0}
+        details = {'aname':'MARK_bi','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
 
         # center        
@@ -1878,10 +1882,10 @@ class EotHelper:
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'glyphs_all'
-        details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
+        details = {'aname':'MARK_center','xtype':'ZERO','ytype':'MID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'mirror_all'
-        details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
+        details = {'aname':'MARK_center','xtype':'ZERO','ytype':'MID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'controls_joiners'
         details = {'aname':'MARK_center','xtype':'MID','ytype':'MID','recursive':0}
@@ -2173,7 +2177,7 @@ class EotHelper:
                     glyph['maxv'] = self.pvar['vfu'] * 6
                 else:
                     if hasattr(glyphObj, 'xMax'):
-                        glyph['maxh'] = glyphObj.xMax
+                        glyph['maxh'] = glyphObj.xMax * 2 # glyphs are zero centered
                     else:
                         print("Error: xMax missing for "+str(glyph['name']+" "+glyph['group']))
                     if hasattr(glyphObj, 'yMax'):
@@ -2241,8 +2245,11 @@ class EotHelper:
             for key in self.targetsizes:
                 if key in self.glyphdata:
                     tshash = ''
+                    tslist = []
                     for size in sorted(self.targetsizes[key], reverse = True):
-                        tshash += size
+                        if str(size) not in tslist:
+                            tslist.append(str(size))
+                    tshash = ''.join(tslist)
                     self.glyphdata[key]['tshash'] = str(tshash)
                     if not tshash in self.tshashes:
                         self.tshashes.append(tshash)
@@ -6145,7 +6152,7 @@ class EotHelper:
                 return lookupObj
             else:
                 print('Skipped cntrlmirrorglyphsR, no pairs')
-            pass
+                return 0
 
         lines = []
         if self.pvar['mirror']:
@@ -6158,7 +6165,8 @@ class EotHelper:
             lookupObj = controlledMirrorL()
             lines.extend(self.writefeature(lookupObj))
             lookupObj = controlledMirrorR()
-            lines.extend(self.writefeature(lookupObj))
+            if lookupObj:
+                lines.extend(self.writefeature(lookupObj))
 
         return lines
 
