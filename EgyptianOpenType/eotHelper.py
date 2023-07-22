@@ -609,13 +609,14 @@ class EotHelper:
     def writeRotationRecipes(self,incSizeVariants):
         """"Output FL glyph recipes to generate rotation variants"""
         def transformlookup(string, offset, x, y):
-            ny = x - (2 * offset)
-            oy = y - (3* offset)
-            tx = y - offset
-            ty = (2 * offset) * -1
+            nx = round((y/2) * -1)
+            ny = round((((x/2) * -1) + 568) * -1)
+            oy = round(y - (3* offset))
+            tx = round((y/2))
+            ty = ((round(x/2) * -1) + 568) * -1
 
             tlookup = {
-                'n':'@0, -1, 1, 0, '+str(offset)+', '+str(ny),
+                'n':'@0, -1, 1, 0, '+str(nx)+', '+str(ny),
                 'o':'@-1, 0, 0, -1, '+str(x)+', '+str(oy),
                 't':'@0, 1, -1, 0, '+str(tx)+', '+str(ty),
             }
@@ -782,6 +783,15 @@ class EotHelper:
         convert = lambda text: int(text) if text.isdigit() else text
         alphanum_key = lambda key: [convert(c) for c in re.split('([0-9]+)', key)]
         return sorted(l, key=alphanum_key)
+
+    def split_list(self, lst: list, n: int, x: int) -> list:
+        """Chunks a list into n units of max length x"""
+        result = []
+        for i in range(n):
+            start = i * x
+            end = start + x
+            result.append(lst[start:end])
+        return result
 
     def vtpanalyze(self):
         def getname(deftype,line):
@@ -1239,6 +1249,12 @@ class EotHelper:
                     lookupObjs.append(distanceoffset(key,self.offsets[key]))
 
             return lookupObjs
+        def lookupAttach(key):
+            attach = {'b':'b0','m':'m0'}
+            return attach[key]
+        def lookupAnchor(key):
+            anchors = {'b':'bi','m':'center'}
+            return anchors[key]
 
         featuretag = 'mkmk'
         if self.pvar['test']['gpos'] == 1:
@@ -1253,6 +1269,18 @@ class EotHelper:
                             if 'name' in lookupObj:
                                 self.mkmklines.append(self.writefeature(lookupObj))
                         pass
+                elif featuredef['name'] in ['glyphs_m','glyphs_b']:
+                    key = featuredef['name'][-1]
+                    i = 1
+                    for set in self.glyphsets:
+                        attach = lookupAttach(key)
+                        anchor = lookupAnchor(key)
+                        lookupObj = featuredef
+                        featuredef['name'] = 'glyphs_' + key + str(i)
+                        lookupObj['feature'] = featuretag
+                        lookupObj['details'] = [{'attach':[attach],'to':[set],'anchor':anchor}]
+                        self.mkmklines.append(self.writefeature(lookupObj))
+                        i += 1
                 else:
                     lookupObj = featuredef
                     lookupObj['feature'] = featuretag
@@ -2272,6 +2300,11 @@ class EotHelper:
                     self.fontsave = 'Glyphs added: '+str(self.injectedglyphcount)
                 else:
                     self.fontsave = 'No glyphs added'
+        def nextGlyphset(string):
+            if string[-1].isdigit():
+                return string[:-1] + str(int(string[-1]) + 1)
+            else:
+                return string
 
         self.ehv_ligatures = []
         self.glyphs_all = []
@@ -2281,12 +2314,21 @@ class EotHelper:
         ehvs = {}
 
         # dynamic groups
+        glyphset = 'glyphs_set1'
+        groupdata[glyphset] = []
+        self.glyphsets = [glyphset]
+
         for key in self.glyphdata:
             ggroup = self.glyphdata[key]['group']
+            if len(groupdata[glyphset]) > 4000:
+                glyphset = nextGlyphset(glyphset)
+                groupdata[glyphset] = []
+                self.glyphsets.append(glyphset)
 
             # sizevariants groups
             if ggroup in ['SVar','LigV']:
-                groupdata['glyphs_all'].append(key)
+                groupdata['glyphs_all'].append(key)                    
+                groupdata[glyphset].append(key)
                 loadtargetsizes(key)
 
             # character groups
@@ -2294,6 +2336,7 @@ class EotHelper:
                 if not key in qcontrols:
                     groupdata['characters_all'].append(key)
                     groupdata['glyphs_all'].append(key)
+                    groupdata[glyphset].append(key)
                     loadtargetsizes(key)
 
             # mirror group
@@ -5736,11 +5779,20 @@ class EotHelper:
                         subpair = {'sub':[t,tsh],'target':[et] }
                         subpairs.append(subpair)
                 return subpairs
-            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'targetsizes'
-            lookupObj['details'] = loadtargetsizes()
 
-            return lookupObj
+            lookupObjs = []
+            tssubpairs =  loadtargetsizes()
+            n = 5000
+            cs = ((len(tssubpairs) + (n -1 )) // n)
+            details = self.split_list(tssubpairs,cs,n)
+
+            for c in range(cs):
+                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'targetsizes_' + str(c)
+                lookupObj['details'] = details[c]
+                lookupObjs.append(lookupObj)
+
+            return lookupObjs
         def targetglyphs():
             # Map resolved target size to sized glyph
             def loadtargetglyphs():
@@ -5758,11 +5810,21 @@ class EotHelper:
                         subpair = {'sub':[et,root],'target':[glyph] }
                         subpairs.append(subpair)
                 return subpairs
-            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
-            lookupObj['name'] = 'targetglyphs'
-            lookupObj['details'] = loadtargetglyphs()
 
-            return lookupObj
+            lookupObjs = []
+            tssubpairs =  loadtargetglyphs()
+
+            n = 5000
+            cs = ((len(tssubpairs) + (n -1 )) // n)
+            details = self.split_list(tssubpairs,cs,n)
+
+            for c in range(cs):
+                lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
+                lookupObj['name'] = 'targetglyphs_' + str(c)
+                lookupObj['details'] = details[c]
+                lookupObjs.append(lookupObj)
+
+            return lookupObjs
         def placeholderglyphs():
             def mergeplaceholderglyphs():
                 subpairs = []
@@ -5987,8 +6049,12 @@ class EotHelper:
         lookupObjs = unbalancedinsertions()
         for lookupObj in lookupObjs:
             lines.extend(self.writefeature(lookupObj))
-        lines.extend(self.writefeature(tartgetSizes()))
-        lines.extend(self.writefeature(targetglyphs()))
+        lookupObjs = tartgetSizes()
+        for lookupObj in lookupObjs:
+            lines.extend(self.writefeature(lookupObj))
+        lookupObjs = targetglyphs()
+        for lookupObj in lookupObjs:
+            lines.extend(self.writefeature(lookupObj))
         lookupObjs = placeholderglyphs()
         for lookupObj in lookupObjs:
             lines.append(self.writefeature(lookupObj))
@@ -6088,6 +6154,8 @@ class EotHelper:
                     else:
                         self.errors.append('Missing mirror glyph '+target+' for base '+sub)
                 # dynamic pairs
+                if len(groupdata['mirror_all']) > 6000:
+                    print("****Warning, number of glyphs in group mirror_all exceeds 6,000; VOLT may not compile.****")
                 for mirrorglyph in groupdata['mirror_all']:
                     baseglyph = mirrorglyph[0:-1] 
                     if baseglyph in groupdata['glyphs_all']:

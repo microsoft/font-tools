@@ -362,11 +362,12 @@ mkmk = [
         {'attach':['shapes_0','shapes_1','shapes_2','shapes_u'],'to':['m0'],'anchor':'center'},
         {'to':['b0'],'anchor':'bi'}
     ]},
+    #Lookup // DYNAMIC LOOKUP
+    {'name' : 'glyphs_m', 'marks' : '','details' : []},
     #Lookup
-    {'name' : 'glyphs', 'marks' : '',
+    {'name' : 'mirrors_m', 'marks' : '',
     'details' : [
-        {'attach':['m0'],'to':['glyphs_all'],'anchor':'center'},
-        {'to':['mirror_all'],'anchor':'center'}
+        {'attach':['m0'],'to':['mirror_all'],'anchor':'center'}
     ]},
     # #Lookup
     # {'name' : 'tcbb', 'marks' : '',
@@ -394,11 +395,12 @@ mkmk = [
     #     {'attach':['m0'],'to':['shapes_df'],'anchor':'center'},
     #     {'to':['shapes_dq'],'anchor':'center'}
     # ]},
+    #Lookup //DYNAMIC LOOKUP
+    {'name' : 'glyphs_b', 'marks' : '','details' : []},
     #Lookup
-    {'name' : 'glyphs', 'marks' : '',
+    {'name' : 'mirrors_b', 'marks' : '',
     'details' : [
-        {'attach':['b0'],'to':['glyphs_all'],'anchor':'bi'},
-        {'to':['mirror_all'],'anchor':'bi'}
+        {'attach':['b0'],'to':['mirror_all'],'anchor':'bi'}
     ]},
     # #Lookup
     # {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
