@@ -22,12 +22,12 @@ Data for other OpenType features are integrated into the EotHelper class.
 The project depends on a suitable font in order to run. The font should be a TrueType font with the following characters, glyphs and conventions:
 
 ### Core Egyptian Unicode Characters
-- **Egyptian Hieroglyphs** — The basic hierglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Variants should be suffixed with a lowercase letter (e.g., G7a). As such, names conform to the regular expression:
+- **Egyptian Hieroglyphs** — The basic hierglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Variants should be suffixed with a lowercase letter (e.g., G7a). As such, Hieroglyph character names conform to the regular expression:
 > ^[A-Z]+[0-9]+[a-z]?
 
 ![Sample hieroglyph characters](/png/eh.png)
 
-- **Enclosure ends** — The enclosure ends get special treatment. They do not need to be included, but if included they should be named as follows:
+- **Enclosure ends** — The enclosure ends get special treatment. They do not have to be included, but if included they should be named as follows:
 
 | Sign | Code point | Name | Description |
 | ---- | ---------- | ---- | ----------- |
@@ -92,13 +92,75 @@ The project depends on a suitable font in order to run. The font should be a Tru
 - **Variation Selectors** — Signs for the variation selectors should be included for fallback purposes (U+FE00–FE02). These signs need not be included if the rotational and other variants are not supported by the font.
 
 ### Recommended Unicode Characters
-- Latin letters (ASCII and Egyptological transliteration characters) —
-- Directional controls —
-- Generic bases —
-- Egyptological brackets —
+- **Latin letters** — OpenType Egyptian Hieroglyphic fonts work best when they include Latin characters to support input. In addition to the [ASCII range](http://unicode.org/charts/PDF/U0000.pdf), Latin coverage should include Egyptological transliteration characters, as follows:
+
+| Sign | Code point | Description |
+| ---- | ---------- | ----------- |
+| Č | U+010C | LATIN CAPITAL LETTER C WITH CARON |
+| č | U+010D | LATIN SMALL LETTER C WITH CARON |
+| Ś | U+015A | LATIN CAPITAL LETTER S WITH ACUTE |
+| ś | U+015B | LATIN SMALL LETTER S WITH ACUTE |
+| Š | U+0160 | LATIN CAPITAL LETTER S WITH CARON |
+| š | U+0161 | LATIN SMALL LETTER S WITH CARON |
+| Ť | U+0164 | LATIN CAPITAL LETTER T WITH CARON |
+| ť | U+0165 | LATIN SMALL LETTER T WITH CARON |
+| Ž | U+017D | LATIN CAPITAL LETTER Z WITH CARON |
+| ž | U+017E | LATIN SMALL LETTER Z WITH CARON |
+| Ḏ | U+1E0E | LATIN CAPITAL LETTER D WITH LINE BELOW |
+| ḏ | U+1E0F | LATIN SMALL LETTER D WITH LINE BELOW |
+| Ḥ | U+1E24 | LATIN CAPITAL LETTER H WITH DOT BELOW |
+| ḥ | U+1E25 | LATIN SMALL LETTER H WITH DOT BELOW |
+| Ḫ | U+1E2A | LATIN CAPITAL LETTER H WITH BREVE BELOW |
+| ḫ | U+1E2B | LATIN SMALL LETTER H WITH BREVE BELOW |
+| Ḳ | U+1E32 | LATIN CAPITAL LETTER K WITH DOT BELOW |
+| ḳ | U+1E33 | LATIN SMALL LETTER K WITH DOT BELOW |
+| Ṭ | U+1E6C | LATIN CAPITAL LETTER T WITH DOT BELOW |
+| ṭ | U+1E6D | LATIN SMALL LETTER T WITH DOT BELOW |
+| Ṯ | U+1E6E | LATIN CAPITAL LETTER T WITH LINE BELOW |
+| ṯ | U+1E6F | LATIN SMALL LETTER T WITH LINE BELOW |
+| Ṱ | U+1E70 | LATIN CAPITAL LETTER T WITH CIRCUMFLEX BELOW |
+| ṱ | U+1E71 | LATIN SMALL LETTER T WITH CIRCUMFLEX BELOW |
+| ẖ | U+1E96 | LATIN SMALL LETTER H WITH LINE BELOW |
+| Ꜣ | U+A722 | LATIN CAPITAL LETTER EGYPTOLOGICAL ALEF |
+| ꜣ | U+A723 | LATIN SMALL LETTER EGYPTOLOGICAL ALEF |
+| Ꜥ | U+A724 | LATIN CAPITAL LETTER EGYPTOLOGICAL AIN |
+| ꜥ | U+A725 | LATIN SMALL LETTER EGYPTOLOGICAL AIN |
+| Ꞽ | U+A7BC | LATIN CAPITAL LETTER GLOTTAL I |
+| ꞽ | U+A7BD | LATIN SMALL LETTER GLOTTAL I |
+
+**Note** — glyph names for these characters are unimportant as they are not included in the generation of OpenType layout tables. OpenType tables for the Latin range is outside of the scope of this project.
+
+- **Egyptological brackets** — The following brackets should be included if support for Egyptological transliteration is intended. These brackets may also participate in Hieroglyph cluster formation in supporting software.
+
+| Sign | Code point | Description |
+| ---- | ---------- | ----------- |
+| ⟦ | U+27E6 | MATHEMATICAL LEFT WHITE SQUARE BRACKET |
+| ⟧ | U+27E7 | MATHEMATICAL RIGHT WHITE SQUARE BRACKET |
+| ⟨ | U+27E8 | MATHEMATICAL LEFT ANGLE BRACKET |
+| ⟩ | U+27E9 | MATHEMATICAL RIGHT ANGLE BRACKET |
+| ⟮ | U+27EE | MATHEMATICAL LEFT FLATTENED PARENTHESIS |
+| ⟯ | U+27EF | MATHEMATICAL RIGHT FLATTENED PARENTHESIS |
+| ⸢ | U+2E22 | TOP LEFT HALF BRACKET |
+| ⸣ | U+2E23 | TOP RIGHT HALF BRACKET |
+| ⸤ | U+2E24 | BOTTOM LEFT HALF BRACKET |
+| ⸥ | U+2E25 | BOTTOM RIGHT HALF BRACKET |
+
+- **Directional controls and joiners** — when right-to-left layout support is planned, fonts should include glyphs for the directional controls and joiners:
+
+| Code point | Description |
+| ---------- | ----------- |
+| U+200C | ZERO WIDTH NON-JOINER |
+| U+200D | ZERO WIDTH JOINER |
+| U+200E | LEFT-TO-RIGHT MARK |
+| U+200F | RIGHT-TO-LEFT MARK |
+
+- **Generic bases** — The generic base U+25CC DOTTED CIRCLE may be included in a font for participation in Hieroglyph cluster formation.
+
+| Sign | Code point | Name | Description |
+| ---- | ---------- | ---- | ----------- |
+| ◌ | U+25CC | dottedcircle | DOTTED CIRCLE |
 
 ### Glyph convensions
 Font glyphs for most visible 
-
 
 ### Recommended Glyphs
