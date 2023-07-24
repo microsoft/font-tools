@@ -154,26 +154,14 @@ pres = [
     'details' : [
         {'sub':['tcbb'],'target':['tcbb0']},
         {'sub':['tcbe'],'target':['tcbe0']}]},
-    # # DYNAMIC Lookup - populated with r90 values from group data
-    # {'name' : 'rninety', 'marks' : '*rotate_all',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : []},
-    # # DYNAMIC Lookup - populated with r180 values from group data
-    # {'name' : 'roneeighty', 'marks' : '*rotate_all',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : []},
-    # # DYNAMIC Lookup - populated with r90 values from group data
-    # {'name' : 'rtwoseventy', 'marks' : '*rotate_all',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : []},
     # DYNAMIC Lookup - populated with tsg values from group data
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
     # Lookup - expand bases with insertions TODO: auto expand based on glyph name trigger
-    # {'name' : 'expansion', 'marks' : '',
-    # 'contexts' : [{'left':[],'right':['tsh665655544544332211','D32','Qf','bi0A']}],
-    # 'details' : [{'sub':['et56'],'target':['et66']}]},
+    {'name' : 'expansion', 'marks' : '',
+    'contexts' : [{'left':[],'right':['tsh665655544544332211','D32','Qf','bi0A']}],
+    'details' : [{'sub':['et56'],'target':['et66']}]},
     # Lookup - accommodate base modifiers
     {'name' : 'Qf_insert', 'marks' : '',
     'contexts' : [{'left':['Qf'],'right':[]}],

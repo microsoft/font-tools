@@ -2029,7 +2029,7 @@ class EotHelper:
     def loadglyphdata(self):
         def calculateGroup(dec, name):
             variation  = re.search(r'^VS[0-9]$',name)
-            hieroglyph = re.search(r'^[A-Z]+[0-9]+[a-z]?v?$',name)
+            hieroglyph = re.search(r'^[A-Z]+[0-9]+[a-z]?$',name)
             sizevar    = re.search(r'^[A-Z]+[0-9]+[a-z]?_([0-9][0-9])$',name)
             mirror     = re.search(r'^[A-Z]+[0-9]+[a-z]?(_[0-9][0-9])?R$',name)
             ninetyC    = re.search(r'^[A-Z]+[0-9]+[a-z]?n$',name)
