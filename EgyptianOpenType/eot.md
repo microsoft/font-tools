@@ -3,17 +3,22 @@ This project parses an existing Egyptian Hieroglyphic font and generates a new f
 
 >`SB* G [VS] [HR] [HM] SE* ( J SB* G [VS] [HR] [HM] SE* )*`
 
+Details of the rendering expectations for the format controls are documented in the Uncode proposals which encoded the format controls:
+ 
+ - Glass, Hafemann, Nederhof, Polis, Richmond, Rosmorduc and Schweitzer. 2017. “A method for encoding Egyptian quadrats in Unicode.” *Unicode Document Register for 2017*. [L2/17-112R](https://www.unicode.org/L2/L2017/17112r-quadrat-encoding.pdf).
+ - Glass, Grotenhuis, Nederhof, Polis, Rosmorduc, and Werning. 2021. “Additional control characters for Ancient Egyptian hieroglyphic texts.” *Unicode Document Register for 2021*. [L2/21-208](https://www.unicode.org/L2/L2021/21208-egyptian-ctrl.pdf).
+
 ## Files
 The project consists of the following core files:
 
 - **config.py** — specifies the per-font details such as font name, key dimensions etc.
 - **eotgen.py** — runs the project. It takes a commandline parameter to specify the config file to be used.
-- **eotHelper.py** — the class file containing all the logic to process the font and generate the OpenType. It has additional functions for generating font tests and keyboard data.
+- **eotHelper.py** — the class file containing all the logic to process the font and generate the OpenType. It includes additional functions for generating font tests and keyboard data.
 - **featuredata.py** — contains static data for use in the project.
 - **insertions.py** — contains per-font data specifying the size of insertion areas.
-- **mark.py** — contains the data for the OpenType mark feature lookups.
-- **mkmk.py** — contains the data for the OpenType mkmk feature lookups.
-- **pres.py** — contains the data for the OpenType pres feature lookups.
+- **mark.py** — contains the data for the OpenType &lt;mark&gt; feature lookups.
+- **mkmk.py** — contains the data for the OpenType &lt;mkmk&gt; feature lookups.
+- **pres.py** — contains the data for the OpenType &lt;pres&gt; feature lookups.
 
 Data for other OpenType features are integrated into the EotHelper class.
 
@@ -21,13 +26,30 @@ Data for other OpenType features are integrated into the EotHelper class.
 
 The project depends on a suitable font in order to run. The font should be a TrueType font with the following characters, glyphs and conventions:
 
+### Glyph block structure
+The purpose of the basic format controls is to specify the arrangement of hieroglyph signs in two-dimensional blocks. These blocks can be analyzed based on a grid. This project refers to the units of this grid as “hieroglyph units”. A 6x6 grid is optimal for most purposes when laying out hieroglyphs in blocks. The lengths of the horizontal and vertical hieroglyph units do not need to be equal. In general, the horizontal dimension will be slightly longer than the vertical dimension. Most characters, in their full form, can be sized within the 6x6 grid. Exceptionally, characters may be wider, requiring an 8x6 grid.
+
+![Sample Hieroglyphic grid](/png/eot_sg.png)
+
+The dimensions of the horizontal ['hfu'] and vertical ['vfu'] hieroglyph units need to be defined in font units in [config.py](/config.py). The grid dimensions must also be defined in hieroglyph units ['hhu'] and ['vhu']. The special horizontal dimension ['chu'] is used to constrain block formation to blocks narrower than the maximum. For example, the widest characters might be 8 units wide, but composite blocks will be at maximum 6 units wide.
+
+### Glyph outline conventions
+Hieroglyphs should be rendered with TrueType outlines. Signs must centered horizontally on the origin and have zero width. Signs should be offset vertically so that they sit on a baseline lower than the ASCII baseline. The vertical offset is defined by the property ['vbase'] in [config.py](/config.py). In order to size signs efficiently, it is desirable to have a mask layer in the font that renders the defined grid dimensions centered on the origin.
+
+![Centered Hieroglyphic grid](/png/eot_cg.png)
+
+With this centered grid, it is easy to see the dimensions of a sign placed correctly, for example, the glyph for G1 is 6x6 hieroglyph units with baseline at -284 font units.
+![Sample showing G1 glyph on grid](/png/eot_g1.png)
+
 ### Core Egyptian Unicode Characters
-- **Egyptian Hieroglyphs** — The basic hierglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Variants should be suffixed with a lowercase letter (e.g., G7a). As such, Hieroglyph character names conform to the regular expression:
+#### Egyptian Hieroglyphs
+The basic hierglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Variants should be suffixed with a lowercase letter (e.g., G7a). As such, Hieroglyph character names conform to the regular expression:
 > ^[A-Z]+[0-9]+[a-z]?
 
-![Sample hieroglyph characters](/png/eh.png)
+![Sample hieroglyph characters](/png/eot_eh.png)
 
-- **Enclosure ends** — The enclosure ends get special treatment. They do not have to be included, but if included they should be named as follows:
+#### Enclosure ends
+The enclosure ends get special treatment. They do not have to be included, but if included they should be named as follows:
 
 | Sign | Code point | Name | Description |
 | ---- | ---------- | ---- | ----------- |
@@ -46,7 +68,8 @@ The project depends on a suitable font in order to run. The font should be a Tru
 | 𓍻 | U+1337B | cre | Cartouche reversed end |
 | 𓐯 | U+1342F | crb | Cartouche reversed begin |
 
-- **Egyptian Hieroglyph Format Controls** — The format controls should have conventional visible forms for fallback purposes. Only a subset need be included. When included, they should be named as follows:
+#### Egyptian Hieroglyph Format Controls
+The format controls should have conventional visible forms for fallback purposes. Only a subset need be included. When included, they should be named as follows:
 
 | Sign | Code point | Name | Description |
 | ---- | ---------- | ---- | ----------- |
@@ -89,10 +112,12 @@ The project depends on a suitable font in order to run. The font should be a Tru
 | 𓑔 | U+13454 | dq234 | Damaged quarter 234 |
 | 𓑕 | U+13455 | df | Damaged full    1234 |
 
-- **Variation Selectors** — Signs for the variation selectors should be included for fallback purposes (U+FE00–FE02). These signs need not be included if the rotational and other variants are not supported by the font.
+#### Variation Selectors
+Signs for the variation selectors should be included for fallback purposes (U+FE00–FE02). These signs need not be included if the rotational and other variants are not supported by the font.
 
 ### Recommended Unicode Characters
-- **Latin letters** — OpenType Egyptian Hieroglyphic fonts work best when they include Latin characters to support input. In addition to the [ASCII range](http://unicode.org/charts/PDF/U0000.pdf), Latin coverage should include Egyptological transliteration characters, as follows:
+#### Latin letters
+OpenType Egyptian Hieroglyphic fonts work best when they include Latin characters to support input. In addition to the [ASCII range](http://unicode.org/charts/PDF/U0000.pdf), Latin coverage should include Egyptological transliteration characters, as follows:
 
 | Sign | Code point | Description |
 | ---- | ---------- | ----------- |
@@ -130,7 +155,8 @@ The project depends on a suitable font in order to run. The font should be a Tru
 
 **Note** — glyph names for these characters are unimportant as they are not included in the generation of OpenType layout tables. OpenType tables for the Latin range is outside of the scope of this project.
 
-- **Egyptological brackets** — The following brackets should be included if support for Egyptological transliteration is intended. These brackets may also participate in Hieroglyph cluster formation in supporting software.
+#### Egyptological brackets
+The following brackets should be included if support for Egyptological transliteration is intended. These brackets may also participate in Hieroglyph cluster formation in supporting software.
 
 | Sign | Code point | Description |
 | ---- | ---------- | ----------- |
@@ -145,7 +171,8 @@ The project depends on a suitable font in order to run. The font should be a Tru
 | ⸤ | U+2E24 | BOTTOM LEFT HALF BRACKET |
 | ⸥ | U+2E25 | BOTTOM RIGHT HALF BRACKET |
 
-- **Directional controls and joiners** — when right-to-left layout support is planned, fonts should include glyphs for the directional controls and joiners:
+#### Directional controls and joiners
+when right-to-left layout support is planned, fonts should include glyphs for the directional controls and joiners:
 
 | Code point | Description |
 | ---------- | ----------- |
@@ -154,13 +181,11 @@ The project depends on a suitable font in order to run. The font should be a Tru
 | U+200E | LEFT-TO-RIGHT MARK |
 | U+200F | RIGHT-TO-LEFT MARK |
 
-- **Generic bases** — The generic base U+25CC DOTTED CIRCLE may be included in a font for participation in Hieroglyph cluster formation.
+#### Generic bases
+The generic base U+25CC DOTTED CIRCLE may be included in a font for participation in Hieroglyph cluster formation.
 
 | Sign | Code point | Name | Description |
 | ---- | ---------- | ---- | ----------- |
 | ◌ | U+25CC | dottedcircle | DOTTED CIRCLE |
-
-### Glyph convensions
-Font glyphs for most visible 
 
 ### Recommended Glyphs
