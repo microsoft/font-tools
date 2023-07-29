@@ -1,4 +1,4 @@
-# Egyptian Open Type
+# Egyptian OpenType
 This project parses an existing Egyptian Hieroglyphic font and generates a new font containing VOLT OpenType source code that can then be compiled using Microsoft's [Visual OpenType Layout Tool (VOLT)](https://learn.microsoft.com/en-us/typography/tools/volt/). Once compiled, the new font contains all of the OpenType logic needed to render Egyptian Hieroglyphic text with the [Unicode 15 format controls](http://unicode.org/charts/PDF/U13430.pdf). Correct rendering of the OpenType tables for blocks of Egyptian Hieroglyphs depends on font rendering via the [Universal Shaping Engine](https://learn.microsoft.com/en-us/typography/script-development/use) and its Hieroglyph cluster model:
 
 >`SB* G [VS] [HR] [HM] SE* ( J SB* G [VS] [HR] [HM] SE* )*`
@@ -8,6 +8,20 @@ Details of the rendering expectations for the format controls are documented in 
  - Glass, Hafemann, Nederhof, Polis, Richmond, Rosmorduc and Schweitzer. 2017. “A method for encoding Egyptian quadrats in Unicode.” *Unicode Document Register for 2017*. [L2/17-112R](https://www.unicode.org/L2/L2017/17112r-quadrat-encoding.pdf).
  - Glass, Grotenhuis, Nederhof, Polis, Rosmorduc, and Werning. 2021. “Additional control characters for Ancient Egyptian hieroglyphic texts.” *Unicode Document Register for 2021*. [L2/21-208](https://www.unicode.org/L2/L2021/21208-egyptian-ctrl.pdf).
 
+## OpenType strategy
+This project generates OpenType tables for a suitable font that acheives arbitrary block formation of Egyptian Hieroglyphs using the following strategy:
+
+1. Substitue any ligature glyphs. Conventionally, the project users the &lt;haln&gt; feature to group lookups for this step.
+2. Analyze the format controls and define the block structure using invisible glyphs as markers. The &lt;pres&gt; feature is used to group lookups for this step.
+3. Determine the size of the outer, level 0, structure and areas to host glyphs. The &lt;rlig&gt; feature is used to group lookups for this step.
+4. Determine the size of the intermediate, level 1, structure and areas to host glyphs. The &lt;blws&gt; feature is used to group lookups for this step.
+5. Determine the size of the inner, level 2, structure and areas to host glyphs. The &lt;abvs&gt; feature is used to group lookups for this step.
+6. Select the appropriate base glyph for the size and context. Also, select the largest available glyph that can fit in its hosting area. The &lt;psts&gt; feature is used to group lookups for this step.
+7. Do any required structural and glyph adjustments for Right-to-Left, Vertical and Hieratic text.
+8. Place an intial anchor on each base glyph. The &lt;mark&gt; feature is used to group lookups for this step.
+9. Build up the block structure and place the sized hieroglyphs. The &lt;mkmk&gt; feature is used to group lookups for this step.
+10. The &lt;dist&gt; feature is used interspersed with &lt;mkmk&gt; feature to offset specific signs.
+
 ## Files
 The project consists of the following core files:
 
@@ -15,10 +29,12 @@ The project consists of the following core files:
 - **eotgen.py** — runs the project. It takes a commandline parameter to specify the config file to be used.
 - **eotHelper.py** — the class file containing all the logic to process the font and generate the OpenType. It includes additional functions for generating font tests and keyboard data.
 - **featuredata.py** — contains static data for use in the project.
-- **insertions.py** — contains per-font data specifying the size of insertion areas.
+- **insertions.py** — contains per-font data specifying the size and offsets of insertion areas.
 - **mark.py** — contains the data for the OpenType &lt;mark&gt; feature lookups.
 - **mkmk.py** — contains the data for the OpenType &lt;mkmk&gt; feature lookups.
 - **pres.py** — contains the data for the OpenType &lt;pres&gt; feature lookups.
+
+The project may also make use of Unicode data published in [StandardizedVariants.txt](https://www.unicode.org/Public/UCD/latest/ucd/StandardizedVariants.txt). When relevant, a copy of this file should be placed in the /src folder.
 
 Data for other OpenType features are integrated into the EotHelper class.
 
@@ -29,24 +45,39 @@ The project depends on a suitable font in order to run. The font should be a Tru
 ### Glyph block structure
 The purpose of the basic format controls is to specify the arrangement of hieroglyph signs in two-dimensional blocks. These blocks can be analyzed based on a grid. This project refers to the units of this grid as “hieroglyph units”. A 6x6 grid is optimal for most purposes when laying out hieroglyphs in blocks. The lengths of the horizontal and vertical hieroglyph units do not need to be equal. In general, the horizontal dimension will be slightly longer than the vertical dimension. Most characters, in their full form, can be sized within the 6x6 grid. Exceptionally, characters may be wider, requiring an 8x6 grid.
 
-![Sample Hieroglyphic grid](/png/eot_sg.png)
+<figure>
+    <img src="png/eot_sg.png" width=160 alt="Sample Hieroglyphic grid">
+    <figcaption>Sample Hieroglyphic grid.</figcaption>
+</figure>
 
 The dimensions of the horizontal ['hfu'] and vertical ['vfu'] hieroglyph units need to be defined in font units in [config.py](/config.py). The grid dimensions must also be defined in hieroglyph units ['hhu'] and ['vhu']. The special horizontal dimension ['chu'] is used to constrain block formation to blocks narrower than the maximum. For example, the widest characters might be 8 units wide, but composite blocks will be at maximum 6 units wide.
 
 ### Glyph outline conventions
 Hieroglyphs should be rendered with TrueType outlines. Signs must centered horizontally on the origin and have zero width. Signs should be offset vertically so that they sit on a baseline lower than the ASCII baseline. The vertical offset is defined by the property ['vbase'] in [config.py](/config.py). In order to size signs efficiently, it is desirable to have a mask layer in the font that renders the defined grid dimensions centered on the origin.
 
-![Centered Hieroglyphic grid](/png/eot_cg.png)
+<figure>
+    <img src="png/eot_cg.png" width=160 alt="Centered Hieroglyphic grid">
+    <figcaption>Centered Hieroglyphic grid.</figcaption>
+</figure>
 
 With this centered grid, it is easy to see the dimensions of a sign placed correctly, for example, the glyph for G1 is 6x6 hieroglyph units with baseline at -284 font units.
-![Sample showing G1 glyph on grid](/png/eot_g1.png)
+
+<figure>
+    <img src="png/eot_g1.png" width=360 alt="Sample showing G1 glyph on grid">
+    <figcaption>Sample showing G1 glyph on grid.</figcaption>
+</figure>
 
 ### Core Egyptian Unicode Characters
 #### Egyptian Hieroglyphs
-The basic hierglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Variants should be suffixed with a lowercase letter (e.g., G7a). As such, Hieroglyph character names conform to the regular expression:
-> ^[A-Z]+[0-9]+[a-z]?
+The basic hierglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Character variants may be suffixed with a lowercase letter (e.g., G7a). As such, Hieroglyph character names conform to the regular expression:
+> ^[A-Z]+[0-9]+[a-m]?
 
-![Sample hieroglyph characters](/png/eot_eh.png)
+Note, at this time, there are no character variants requiring lower case extensions beyond l, i.e., 12 variants.
+
+<figure>
+    <img src="png/eot_eh.png" alt="Sample hieroglyph characters">
+    <figcaption>Sample hieroglyph characters.</figcaption>
+</figure>
 
 #### Enclosure ends
 The enclosure ends get special treatment. They do not have to be included, but if included they should be named as follows:
@@ -188,4 +219,60 @@ The generic base U+25CC DOTTED CIRCLE may be included in a font for participatio
 | ---- | ---------- | ---- | ----------- |
 | ◌ | U+25CC | dottedcircle | DOTTED CIRCLE |
 
-### Recommended Glyphs
+### Variants
+Unicode 15 introduced variation sequences for Egyptian Hieroglyphs. The sequences are defined in [StandardizedVariants.txt](https://www.unicode.org/Public/UCD/latest/ucd/StandardizedVariants.txt). There are two kinds:
+
+#### Rotational variants
+A hieroglyph character may be followed by a variation selector (currently U+FE00–FE02). When such a sequence is defined in [StandardizedVariants.txt](https://www.unicode.org/Public/UCD/latest/ucd/StandardizedVariants.txt), the glyph should be mapped to a rotated version of the same base hieroglyph. The rotation amount is determined by the variation selector used. A font that intends to support the rotational variants should include the appropriate glyphs marked according to their rotation:
+
+- A1  — the A1 hieroglyph
+- A1n — the A1 hieroglyph rotated by 90 degrees
+- A1o — the A1 hieroglyph rotated by 180 degrees
+- A1t — the A1 hieroglyph rotated by 270 degrees
+
+Glyphs having names marking rotational variants are identified during processing. The EOT project generates the appropriate entries in the font's cmap table.
+
+#### Expanded variants
+The lost sign hieroglyphs may be followed by the variation selector U+FE00 to select a variant lost sign that does not leave a white border around the edge of the sign area. The variant lost signs are designated as follows:
+
+| Code point | Name | Description |
+| ---------- | ---- | ----------- |
+| U+13443 U+FE00 | AS2 | Lost sign full expanded |
+| U+13444 U+FE00 | AQ2 | Lost sign quarter expanded |
+| U+13445 U+FE00 | AT2 | Lost sign tall expanded |
+| U+13446 U+FE00 | AW2 | Lost sign wide expanded |
+
+As with the rotational variants, entries for the lost sign variants, when present, are added to the font's cmap table.
+
+### Unmapped Glyphs
+This OpenType project depends on a large number of unmapped glyphs that can only be accessed as a result of OpenType processing.
+
+#### Size variants
+Size variant glyphs are included in the font so that the OpenType logic can select the largest available glyph that will fit in the host area. For example, the hieroglyph G25 has a natural size 6x6. If this hieroglyph occurs in a block that has only a 4x4 area available to host G25, and the font contains a size variant of G25 called G25_44, it will select that variant to use when rendering the block. Consequently, a font should contain a range of size variant glyphs appropriate to each hieroglyph. There is no minimum requirement for the font to contain such variants. If the OpenType logic determines that a suitablely sized glyph is not available in a required size for a given base hieroglyph, it will fall back to a special glyph called "placeholder". The natural size of the placeholder glyph should be 1x1 so that it will fit in any supported size determined by the block structure logic.
+
+<figure>
+    <img src="png/eot_g25_sv.png" alt="Size variants of G25">
+    <figcaption>Size variants of G25.</figcaption>
+</figure>
+
+<figure>
+    <img src="png/eot_g25_so.png" width= 360 alt="Overlaid size variants of G25">
+    <figcaption>Overlaid size variants of G25.</figcaption>
+</figure>
+
+<figure>
+    <img src="png/placeholder.png" width= 160 alt="The placeholder glyph">
+    <figcaption>The placeholder glyph.</figcaption>
+</figure>
+
+#### Mirror variants
+Mirrored variants are included in the font so that the OpenType logic can support both forced RTL layout, and the mirror control.
+- Forced RTL layout mirrors the entire run being forced. The mirroring applies to whole blocks and reflects both the block structure and individual signs. Signs that have horizontal symmetry do not mirror.
+- The mirror control applies to the immediately preceeding sign only, and does not affect block structures. Signs that have horizontal symmetry do not mirror and the mirror control remains visible in the glyph run.
+
+The signs that mirror horizontally are defined in [featuredata.py](/featuredata.py) mirroring.
+ 
+#### Lost sign size variants
+#### Quadrat bases
+#### Enclosure pieces
+#### 
