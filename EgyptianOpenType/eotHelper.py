@@ -638,7 +638,7 @@ class EotHelper:
             if lcbase in self.glyphHexToName:
                 basename = self.glyphHexToName[lcbase]
 
-                if basename not in ['AS1','AQ1','AT1','AW1']:
+                if basename not in ['LF1','LQ1','LT1','LW1']:
                     if basename in self.glyphdata:
                         obj = self.glyphdata[basename]
                         transform = transformlookup(vstype,offset,obj['maxh'],obj['maxv'])
@@ -775,7 +775,6 @@ class EotHelper:
         for line in recipes:
             recipefile.write(line+"\n")
         print(str(i) + ' mirrored rotation recipes written')
-
 
         pass
 
@@ -1849,10 +1848,10 @@ class EotHelper:
         details = {'aname':'bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_df'
-        details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
+        details = {'aname':'MARK_bi','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_dq'
-        details = {'aname':'MARK_bi','xtype':'XMID','ytype':'NYUNIT','recursive':0}
+        details = {'aname':'MARK_bi','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         group = 'glyphs_all'
         details = {'aname':'MARK_bi','xtype':'ZERO','ytype':'ZERO','recursive':0}
@@ -1907,7 +1906,7 @@ class EotHelper:
         details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_dq'
-        details = {'aname':'MARK_center','xtype':'XMID','ytype':'YMID','recursive':0}
+        details = {'aname':'MARK_center','xtype':'ZERO','ytype':'YMID','recursive':0}
         anchorgroup(group,[group],details)
         group = 'glyphs_all'
         details = {'aname':'MARK_center','xtype':'ZERO','ytype':'MID','recursive':0}
@@ -2105,7 +2104,7 @@ class EotHelper:
                 group = 'Chr'
             elif (tcmvar): #text critical mark size variant
                 group = 'SVar'
-            elif (name in ['GB1','BF1','BQ1','dottedcircle','AS2','AQ2','AT2','AW2']): # treat these as hieroglyphs
+            elif (name in ['GB1','BF1','BQ1','dottedcircle','LF2','LQ2','LT2','LW2']): # treat these as hieroglyphs
                 group = 'Chr'
             else: #unmapped control characters for OTL
                 group = 'Ctrl'
@@ -2164,40 +2163,40 @@ class EotHelper:
                         vval = re.sub(r'B[FQ]1_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
-                elif name[0:3] == 'AS2':
-                    if name == 'AS2':
+                elif name[0:3] == 'LF2':
+                    if name == 'LF2':
                         glyph['maxh'] = self.pvar['hfu'] * 6
                         glyph['maxv'] = self.pvar['vfu'] * 6
                     else:
-                        hval = re.sub(r'AS2_(\d)\d',r'\1',name)
-                        vval = re.sub(r'AS2_\d(\d)',r'\1',name)
+                        hval = re.sub(r'LF2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'LF2_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
-                elif name[0:3] == 'AQ2':
-                    if name == 'AQ2':
+                elif name[0:3] == 'LQ2':
+                    if name == 'LQ2':
                         glyph['maxh'] = self.pvar['hfu'] * 3
                         glyph['maxv'] = self.pvar['vfu'] * 3
                     else:
-                        hval = re.sub(r'AQ2_(\d)\d',r'\1',name)
-                        vval = re.sub(r'AQ2_\d(\d)',r'\1',name)
+                        hval = re.sub(r'LQ2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'LQ2_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
-                elif name[0:3] == 'AT2':
-                    if name == 'AT2':
+                elif name[0:3] == 'LT2':
+                    if name == 'LT2':
                         glyph['maxh'] = self.pvar['hfu'] * 3
                         glyph['maxv'] = self.pvar['vfu'] * 6
                     else:
-                        hval = re.sub(r'AT2_(\d)\d',r'\1',name)
-                        vval = re.sub(r'AT2_\d(\d)',r'\1',name)
+                        hval = re.sub(r'LT2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'LT2_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
-                elif name[0:3] == 'AW2':
-                    if name == 'AW2':
+                elif name[0:3] == 'LW2':
+                    if name == 'LW2':
                         glyph['maxh'] = self.pvar['hfu'] * 6
                         glyph['maxv'] = self.pvar['vfu'] * 3
                     else:
-                        hval = re.sub(r'AW2_(\d)\d',r'\1',name)
-                        vval = re.sub(r'AW2_\d(\d)',r'\1',name)
+                        hval = re.sub(r'LW2_(\d)\d',r'\1',name)
+                        vval = re.sub(r'LW2_\d(\d)',r'\1',name)
                         glyph['maxh'] = self.pvar['hfu'] * int(hval)
                         glyph['maxv'] = self.pvar['vfu'] * int(vval)
                 elif name[0:2] in ['dq']:
@@ -6207,9 +6206,9 @@ class EotHelper:
                     if baseglyph in groupdata['glyphs_all']:
                         subpair = {'sub':[mirrorglyph,'mr'],'target':[baseglyph] }
                         subpairs.append(subpair)
-                    # elif baseglyph in self.ligatures_all:
-                    #     subpair = {'sub':[mirrorglyph,'mr'],'target':[baseglyph] }
-                    #     subpairs.append(subpair)
+                    elif baseglyph in self.ligatures_all:
+                        subpair = {'sub':[mirrorglyph,'mr'],'target':[baseglyph] }
+                        subpairs.append(subpair)
                 return subpairs
 
             lookupObj = {'feature':'psts','name':'','marks':'ALL','contexts':[],'details':[]}

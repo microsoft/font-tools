@@ -8,7 +8,7 @@ pvar = {
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text U15", # Font name
-    'fontsrc' : "../../fonts/et/egyptiantextU15c-COLR.ttf", # Path to source font
+    'fontsrc' : "../../fonts/et/U15/egyptiantext-COLR.ttf", # Path to source font
     'fontout' : "eot.ttf", # Path to write output font
     'fontprior' : "egyptiantextU12.ttf", # Path to prior test font
     'sb'  : 105, # font side bearings
@@ -50,10 +50,10 @@ pvar = {
       'mr',    # 8 mirror horizontally      [1336D] -> 78375   13227 -> 78375   13227 -> 13440
       'BF1',   # 9 blank full               [13367] -> 78376   13228 -> 78376   13228 -> 13441
       'BQ1',   #10 blank half               [13371] -> 78377   13229 -> 78377   13229 -> 13442
-      'AS1',   #11 lost sign full           [1336E] -> 78378   1322A -> 78378   1322A -> 13443
-      'AQ1',   #12 lost sign quarter        [1336F] -> 78379   1322B -> 78379   1322B -> 13444
-      'AT1',   #13 lost sign tall           [     ] -> 78380   1322C -> 78380   1322C -> 13445
-      'AW1',   #14 lost sign wide           [     ] -> 78381   1322D -> 78381   1322D -> 13446
+      'LF1',   #11 lost sign full           [1336E] -> 78378   1322A -> 78378   1322A -> 13443
+      'LQ1',   #12 lost sign quarter        [1336F] -> 78379   1322B -> 78379   1322B -> 13444
+      'LT1',   #13 lost sign tall           [     ] -> 78380   1322C -> 78380   1322C -> 13445
+      'LW1',   #14 lost sign wide           [     ] -> 78381   1322D -> 78381   1322D -> 13446
       'dq1',   #16 damaged quarter 1        [     ] -> 78383   1322F -> 78382   1322E -> 13447
       'dq2',   #23 damaged quarter 2        [     ] -> 78390   13236 -> 78383   1322F -> 13448
       'dq12',  #17 damaged quarter 12       [     ] -> 78384   13230 -> 78384   13230 -> 13449

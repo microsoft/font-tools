@@ -123,10 +123,10 @@ The format controls should have conventional visible forms for fallback purposes
 | 𓑀 | U+13440 | mr | Mirror horizontally |
 | 𓑁 | U+13441 | BF1 | Blank full |
 | 𓑂 | U+13442 | BQ1 | Blank quarter |
-| 𓑃 | U+13443 | AS1 | Lost sign full |
-| 𓑄 | U+13444 | AQ1 | Lost sign quarter |
-| 𓑅 | U+13445 | AT1 | Lost sign tall |
-| 𓑆 | U+13446 | AW1 | Lost sign wide |
+| 𓑃 | U+13443 | LF1 | Lost sign full |
+| 𓑄 | U+13444 | LQ1 | Lost sign quarter |
+| 𓑅 | U+13445 | LT1 | Lost sign tall |
+| 𓑆 | U+13446 | LW1 | Lost sign wide |
 | 𓑇 | U+13447 | dq1 | Damaged quarter 1 |
 | 𓑈 | U+13448 | dq2 | Damaged quarter 2 |
 | 𓑉 | U+13449 | dq12 | Damaged quarter 12 |
@@ -237,15 +237,25 @@ The lost sign hieroglyphs may be followed by the variation selector U+FE00 to se
 
 | Code point | Name | Description |
 | ---------- | ---- | ----------- |
-| U+13443 U+FE00 | AS2 | Lost sign full expanded |
-| U+13444 U+FE00 | AQ2 | Lost sign quarter expanded |
-| U+13445 U+FE00 | AT2 | Lost sign tall expanded |
-| U+13446 U+FE00 | AW2 | Lost sign wide expanded |
+| U+13443 U+FE00 | LF2 | Lost sign full expanded |
+| U+13444 U+FE00 | LQ2 | Lost sign quarter expanded |
+| U+13445 U+FE00 | LT2 | Lost sign tall expanded |
+| U+13446 U+FE00 | LW2 | Lost sign wide expanded |
 
 As with the rotational variants, entries for the lost sign variants, when present, are added to the font's cmap table.
 
 ### Unmapped Glyphs
 This OpenType project depends on a large number of unmapped glyphs that can only be accessed as a result of OpenType processing.
+
+#### Quadrat bases
+#### Enclosure pieces
+#### Generic boxes
+#### Open segments
+#### Text critical marks
+#### Lost sign size variants
+#### Lost sign expanded variants
+#### Damaged sign variants
+#### Ligatures
 
 #### Size variants
 Size variant glyphs are included in the font so that the OpenType logic can select the largest available glyph that will fit in the host area. For example, the hieroglyph G25 has a natural size 6x6. If this hieroglyph occurs in a block that has only a 4x4 area available to host G25, and the font contains a size variant of G25 called G25_44, it will select that variant to use when rendering the block. Consequently, a font should contain a range of size variant glyphs appropriate to each hieroglyph. There is no minimum requirement for the font to contain such variants. If the OpenType logic determines that a suitablely sized glyph is not available in a required size for a given base hieroglyph, it will fall back to a special glyph called "placeholder". The natural size of the placeholder glyph should be 1x1 so that it will fit in any supported size determined by the block structure logic.
@@ -272,7 +282,5 @@ Mirrored variants are included in the font so that the OpenType logic can suppor
 
 The signs that mirror horizontally are defined in [featuredata.py](/featuredata.py) mirroring.
  
-#### Lost sign size variants
-#### Quadrat bases
-#### Enclosure pieces
-#### 
+When both mirror variants and rotational variants are supported by a font, the corresponding set of mirrored forms for the rotational variants should also be included. The set of rotational variants that mirror is defined separately from the mirror variants, in [featuredata.py](/featuredata.py) mirroredvariants.
+
