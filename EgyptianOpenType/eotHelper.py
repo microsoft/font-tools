@@ -29,16 +29,9 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # Unicode 15 requirements
-    # VS to control expansion of all atomic shades – done
-    # RTL structures - done
-        # rtl distance adjustments
-    # Mirrored forms - done
-    # Rotations
-        # glyph recipes for size variants — done
-        # baseline alignment — done
-        # ensure rotational variant bases don't merge with tshashes
-    # Vertical
-    # insertions inside sign area not total sign area?
+    # RTL distance adjustments
+    # Vertical vmtx adjustments
+    # Insertions inside sign area not total sign area?
     #   TCMs all [font, OT]
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
@@ -5558,12 +5551,6 @@ class EotHelper:
                 lookupObj['name'] = 'shadesize_H'+str(cycle)
                 context = {'left':['sh'+str(cycle)],'right':[]}
                 lookupObj['contexts'].append(context)
-                if cycle <= self.pvar['chu']: # full shades
-                    details = {'sub':['df'],'target':['df'+str(cycle)]}
-                    lookupObj['details'].append(details)
-                else: # full wide shades (no height variation)
-                    details = {'sub':['df'],'target':['df'+str(cycle)+'6']}
-                    lookupObj['details'].append(details)
                 for dq in groupdata['dq_core']: # quarter shades
                     details = {'sub':[dq],'target':[dq + '_'+str(cycle)]}
                     lookupObj['details'].append(details)
@@ -5575,8 +5562,6 @@ class EotHelper:
                 lookupObj['contexts'].append(context)
                 h = self.pvar['chu']
                 while h >= 1:
-                    details = {'sub':['df'+str(h)],'target':['df'+str(h)+str(cycle)]}
-                    lookupObj['details'].append(details)
                     for dq in groupdata['dq_core']: # quarter shades
                         details = {'sub':[dq + '_'+str(h)],'target':[dq + '_'+str(h)+str(cycle)]}
                         lookupObj['details'].append(details)
