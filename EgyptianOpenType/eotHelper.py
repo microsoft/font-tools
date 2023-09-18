@@ -5376,7 +5376,7 @@ class EotHelper:
             context = {'left':[],'right':['eob']}
             lookupObj['contexts'].append(context)
             cartA = ['cb','crb','hwtb','hwttb','hwtbb']
-            cartB = ['cobL','corbL','hwtosL','hwtotsL','hwtobsL']
+            cartB = ['cobL','corbL','hwtobL','hwtotbL','hwtobbL']
             i = 0
             for source in cartA:
                 target = cartB[i]
@@ -5392,7 +5392,7 @@ class EotHelper:
             context = {'left':[],'right':['edb']}
             lookupObj['contexts'].append(context)
             cartA = ['cb','crb','hwtb','hwttb','hwtbb']
-            cartB = ['cdbL','cdrbL','hwtdsL','hwtdtsL','hwtdbsL']
+            cartB = ['cdbL','cdrbL','hwtdbL','hwtdtbL','hwtdbbL']
             i = 0
             for source in cartA:
                 target = cartB[i]
