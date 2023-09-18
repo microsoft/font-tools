@@ -5433,8 +5433,8 @@ class EotHelper:
             lookupObj['name'] = 'extensionendouter'
             context = {'left':['eoe'],'right':[]}
             lookupObj['contexts'].append(context)
-            cartA = ['ce','cre','hwte','hwtte','hwtbe','O33a']
-            cartB = ['coeL','coreL','hwtoeL','hwtoteL','hwtobeL','O33aoeL']
+            cartA = ['ce','cre','cwe','hwte','hwtte','hwtbe','O33a','hwtwe']
+            cartB = ['coeL','coreL','cfeL','hwtoeL','hwtoteL','hwtobeL','O33aoeL','hfeL']
             i = 0
             for source in cartA:
                 target = cartB[i]
