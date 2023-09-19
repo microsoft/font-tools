@@ -5409,7 +5409,7 @@ class EotHelper:
             lookupObj['contexts'].append(context)
             details = {'sub':['cwb'],'target':['cfbL']}
             lookupObj['details'].append(details)
-            details = {'sub':['hwtwb'],'target':['hwbL']}
+            details = {'sub':['hwb'],'target':['hwbL']}
             lookupObj['details'].append(details)
 
             return lookupObj
