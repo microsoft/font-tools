@@ -29,10 +29,15 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # Unicode 15 requirements
-    # RTL distance adjustments
-    # Vertical vmtx adjustments
+    # RTL distance adjustments /
     # Insertions inside sign area not total sign area?
     #   TCMs all [font, OT]
+            # https://www.unicode.org/versions/Unicode15.0.0/ch11.pdf
+            # 2E24, 2E23
+            # 27E8, 27E9
+            # 7B, 7D
+            # 27E6, 27E7
+    #   TCMs RTL
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
     # validate self.pvar for minimal info and guard missing attributes.
@@ -1190,9 +1195,17 @@ class EotHelper:
         def distanceoffset(key,offset):
             def gencontexts(offset):
                 contexts = []
+                inspair = {'ts':'te','bs':'be','te':'ts','be':'bs'}
                 sign = offset['sign']
                 ins = offset['it'] + str(offset['id'])
                 contexts.append({'left':[sign,ins],'right':[]})
+                if (sign + 'R' in groupdata['mirror_all']):
+                    signR = sign + 'R'
+                    insR = ins
+                    if (ins[:2]) in inspair:
+                        insR = inspair[ins[:2]] + str(ins[2:])
+                    contexts.append({'left':[signR,insR],'right':[]})
+
                 return contexts
             def gendetails(offset):
                 details = []
