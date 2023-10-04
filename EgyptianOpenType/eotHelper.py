@@ -1222,6 +1222,7 @@ class EotHelper:
                         if offset['it'] in ('ts','ti','te'):
                             dy = dy * -1
                     details.append({'adjust':[ins],'dx':dx,'dy':dy})
+                    details.append({'adjust':[ins+'R'],'dx':dx,'dy':dy})
                     usedoffsets.append(ins)
 
                 return details
