@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # egyptian opentype generator data
 
-import os
+import re
 import sys
 from os import path
 from eotHelper import EotHelper
@@ -18,26 +18,4 @@ if (d):
     from config import pvar
 
 eothelper = EotHelper(pvar)
-eothelper.initializeVTP()
-eothelper.createVTPFile()
-eothelper.createErrorFile()
-eothelper.loadVariationDatabase()
-eothelper.gdef()
-eothelper.groups()
-eothelper.haln()
-eothelper.pres()
-eothelper.rlig()
-eothelper.blws()
-eothelper.abvs()
-eothelper.psts()
-eothelper.ss01()
-eothelper.rtlm()
-eothelper.vrt2()
-eothelper.mark()
-eothelper.mkmk()
-eothelper.scriptandlang()
-eothelper.anchors()
-eothelper.coda()
-eothelper.compileTTX()
-eothelper.writeerrors()
 eothelper.vtpanalyze()

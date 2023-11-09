@@ -25,25 +25,6 @@ pres = [
     #     {'sub':['uni27E7'],'target':['tcuni27E7re.latn']},
     #     {'sub':['bar'],'target':['bar.latn']},
     # ]},
-    # # Lookup - quarter shades
-    # {'name' : 'quarterShades', 'marks' : '',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : [
-    #     {'sub':['sts','sbs','ste'],'target':['dq123']},
-    #     {'sub':['sts','sbs','sbe'],'target':['dq124']},
-    #     {'sub':['sts','ste','sbe'],'target':['dq134']},
-    #     {'sub':['sbs','ste','sbe'],'target':['dq234']},
-    #     {'sub':['sts','sbs'],'target':['dq12']},
-    #     {'sub':['sts','ste'],'target':['dq13']},
-    #     {'sub':['sts','sbe'],'target':['dq14']},
-    #     {'sub':['sbs','ste'],'target':['dq23']},
-    #     {'sub':['sbs','sbe'],'target':['dq24']},
-    #     {'sub':['ste','sbe'],'target':['dq34']},
-    #     {'sub':['sts'],'target':['dq1']},
-    #     {'sub':['sbs'],'target':['dq2']},
-    #     {'sub':['ste'],'target':['dq3']},
-    #     {'sub':['sbe'],'target':['dq4']},
-    # ]},
 
     # Lookup - extensions outer dbl extensions begin outer
     {'name' : 'extensionsouterB', 'bases':'SKIP','marks' : 'extensioncontrols',
@@ -173,18 +154,6 @@ pres = [
     'details' : [
         {'sub':['tcbb'],'target':['tcbb0']},
         {'sub':['tcbe'],'target':['tcbe0']}]},
-    # # DYNAMIC Lookup - populated with r90 values from group data
-    # {'name' : 'rninety', 'marks' : '*rotate_all',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : []},
-    # # DYNAMIC Lookup - populated with r180 values from group data
-    # {'name' : 'roneeighty', 'marks' : '*rotate_all',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : []},
-    # # DYNAMIC Lookup - populated with r90 values from group data
-    # {'name' : 'rtwoseventy', 'marks' : '*rotate_all',
-    # 'contexts' : [{'left':[],'right':[]}],
-    # 'details' : []},
     # DYNAMIC Lookup - populated with tsg values from group data
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
