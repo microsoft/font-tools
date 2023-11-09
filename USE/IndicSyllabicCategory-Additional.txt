@@ -71,8 +71,9 @@ AABD          ; Vowel_Independent # Lo       TAI VIET VOWEL AN
 1800          ; Consonant # Po        MONGOLIAN BIRGA # Reassigned so that legacy Birga + MFVS sequences still work
 1807          ; Consonant # Po        MONGOLIAN SIBE SYLLABLE BOUNDARY MARKER
 180A          ; Consonant # Po        MONGOLIAN NIRUGU
-1820..1878    ; Consonant # Lo   [88] MONGOLIAN LETTER A..MONGOLIAN LETTER CHA WITH TWO DOTS
+1820..1842    ; Consonant # Lo   [35] MONGOLIAN LETTER A..MONGOLIAN LETTER CHI
 1843          ; Consonant # Lm        MONGOLIAN LETTER TODO LONG VOWEL SIGN
+1844..1878    ; Consonant # Lo   [53] MONGOLIAN LETTER TODO E..MONGOLIAN LETTER CHA WITH TWO DOTS
 2D30..2D67    ; Consonant # Lo   [56] TIFINAGH LETTER YA..TIFINAGH LETTER YO
 2D6F          ; Consonant # Lm        TIFINAGH MODIFIER LETTER LABIALIZATION MARK
 10570..1057A  ; Consonant # Lo   [11] VITHKUQI CAPITAL LETTER A..VITHKUQI CAPITAL LETTER GA
@@ -170,13 +171,6 @@ FE00..FE0F    ; Modifying_Letter  # Mn  [16] VARIATION SELECTOR-1..VARIATION SEL
 
 # Indic_Syllabic_Category=Virama
 2D7F          ; Virama              # Mn       TIFINAGH CONSONANT JOINER
-
-# ================================================
-
-# Indic_Syllabic_Category=Vowel_Independent
-AAB1          ; Vowel_Independent   # Lo       TAI VIET VOWEL AA
-AABA          ; Vowel_Independent   # Lo       TAI VIET VOWEL UA
-AABD          ; Vowel_Independent   # Lo       TAI VIET VOWEL AN
 
 # ================================================
 
