@@ -11,7 +11,7 @@ Details of the rendering expectations for the format controls are documented in 
 ## OpenType strategy
 This project generates OpenType tables for a suitable font that acheives arbitrary block formation of Egyptian Hieroglyphs using the following strategy:
 
-1. Substitue any ligature glyphs. Conventionally, the project users the &lt;haln&gt; feature to group lookups for this step.
+1. Substitue any ligature glyphs. Conventionally, the project uses the &lt;haln&gt; feature to group lookups for this step.
 2. Analyze the format controls and define the block structure using invisible glyphs as markers. The &lt;pres&gt; feature is used to group lookups for this step.
 3. Determine the size of the outer, level 0, structure and areas to host glyphs. The &lt;rlig&gt; feature is used to group lookups for this step.
 4. Determine the size of the intermediate, level 1, structure and areas to host glyphs. The &lt;blws&gt; feature is used to group lookups for this step.
