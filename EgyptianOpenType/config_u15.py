@@ -83,7 +83,7 @@ pvar = {
     'variations' : 1,
     'offsets'    : 1,
     'expansions' : 0, # see pr021_expansion_A
-    'tcbs' : 1,
+    'tcs' : 1,
     'baseline' : 1, #align singletons to baseline for Hieratic
     'mirror'  : 1,  
     'vertical': 1,

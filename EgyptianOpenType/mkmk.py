@@ -370,24 +370,24 @@ mkmk = [
         {'attach':['m0'],'to':['mirror_all'],'anchor':'center'}
     ]},
     #Lookup
-    {'name' : 'tcbb', 'marks' : '',
+    {'name' : 'tcb', 'marks' : '',
     'details' : [
-        {'attach':['stems0-h','stems1-h','stems2-h'],'to':['tcbb_mks'],'anchor':'top'}
+        {'attach':['stems0-h','stems1-h','stems2-h'],'to':['tcb_mks'],'anchor':'top'}
     ]},
     #Lookup
-    {'name' : 'tcbe0', 'marks' : '*tcbe0_mfc',
+    {'name' : 'tce0', 'marks' : '*tce0_mfc',
     'details' : [
-        {'attach':['shapes_0'],'to':['tcbe0_mks'],'anchor':'right'}
+        {'attach':['shapes_0'],'to':['tce0_mks'],'anchor':'right'}
     ]},
     #Lookup
-    {'name' : 'tcbe1', 'marks' : '*tcbe1_mfc',
+    {'name' : 'tce1', 'marks' : '*tce1_mfc',
     'details' : [
-        {'attach':['shapes_1'],'to':['tcbe1_mks'],'anchor':'right'}
+        {'attach':['shapes_1'],'to':['tce1_mks'],'anchor':'right'}
     ]},
     #Lookup
-    {'name' : 'tcbe2', 'marks' : '*tcbe2_mfc',
+    {'name' : 'tce2', 'marks' : '*tce2_mfc',
     'details' : [
-        {'attach':['shapes_2'],'to':['tcbe2_mks'],'anchor':'right'}
+        {'attach':['shapes_2'],'to':['tce2_mks'],'anchor':'right'}
     ]},
     #Lookup
     {'name' : 'damagedsign', 'marks' : '*shadesmkmk',

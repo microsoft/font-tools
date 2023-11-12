@@ -30,14 +30,14 @@ ver = 200
 
 # Unicode 15 requirements
     # RTL distance adjustments /
-    # Insertions inside sign area not total sign area?
-    #   TCMs all [font, OT]
+    # Insertions inside sign area not total sign area? X
+    #   TCMs all [font, OT] /
             # https://www.unicode.org/versions/Unicode15.0.0/ch11.pdf
             # 2E24, 2E23
             # 27E8, 27E9
             # 7B, 7D
             # 27E6, 27E7
-    #   TCMs RTL
+    #   TCMs RTL 
     #   expanded enclosing glyph - when to expand? pres016 - expansion
     #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
     # validate self.pvar for minimal info and guard missing attributes.
@@ -1007,8 +1007,8 @@ class EotHelper:
                     subpair = {'sub':[key],'target':[et,tsh,key,'Qf'] }
                     subpairs.append(subpair)
             return subpairs
-        def loadtbbgb1subpairs():
-            keys = ['tcbb0']
+        def loadtcbgb1subpairs():
+            keys = ['tcab0','tcbb0','tcpb0','tcrb0','tcthb0','tcbhb0']
             subpairs = []
             tsh = 'tsh'+str(self.glyphdata['GB1']['tshash'])
             for key in keys:
@@ -1044,8 +1044,8 @@ class EotHelper:
             if (lookupObj['name'] == 'tsg'):#DYNAMIC FEATURE TSG
                 subpairs = loadtsgsubpairs()
                 lookupObj['details'] = subpairs
-            if (lookupObj['name'] == 'tbb_gb1'):#DYNAMIC FEATURE TBB GB1
-                subpairs = loadtbbgb1subpairs()
+            if (lookupObj['name'] == 'tcb_gb1'):#DYNAMIC FEATURE TBB GB1
+                subpairs = loadtcbgb1subpairs()
                 lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'gb1'):#DYNAMIC FEATURE GB1
                 subpairs = loadgb1subpairs()
@@ -1584,7 +1584,7 @@ class EotHelper:
         group = 'stems2-hR'
         details = {'aname':'MARK_top','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'tcbb_mks'
+        group = 'tcb_mks'
         details = {'aname':'MARK_top','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
         group = 'stems0-h'
@@ -1622,13 +1622,13 @@ class EotHelper:
         group = 'shapes_u'
         details = {'aname':'MARK_right','xtype':'XSUNIT','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'tcbe0_mks'
+        group = 'tce0_mks'
         details = {'aname':'MARK_right','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'tcbe1_mks'
+        group = 'tce1_mks'
         details = {'aname':'MARK_right','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'tcbe2_mks'
+        group = 'tce2_mks'
         details = {'aname':'MARK_right','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
         group = 'stems0-h'
@@ -2954,12 +2954,12 @@ class EotHelper:
             lookupObj['name'] = 'hvm-H-convert-'+str(level)
             lookupObj['contexts'] = [
                 {'left':['c'+str(level)+'bA'],'right':[]},
-                {'left':['c'+str(level)+'bA','tcbb'+str(level)],'right':[]},
+                {'left':['c'+str(level)+'bA','tcb'+str(level)+'s'],'right':[]},
                 ]
             if level < 2:
                 context = {'left':['corners'+str(level)+'b'],'right':[]}
                 lookupObj['contexts'].append(context)
-                context = {'left':['corners'+str(level)+'b','tcbb'+str(level+1)],'right':[]}
+                context = {'left':['corners'+str(level)+'b','tcb'+str(level+1)+'s'],'right':[]}
                 lookupObj['contexts'].append(context)
 
             i = 0
@@ -5854,16 +5854,24 @@ class EotHelper:
 
             return lookupObjs
         def tcbSizes():
-            #tcbb0 -> tcbb_$1 (r0v{1-6}|)
+            #tc[a|b|p|a|th|bh]b0 -> tc\1b_$1 (r0v{1-6}|)
             def tcbVs(level,cycle):
+                def loadTCABs(level,cycle):
+                    detObj = []
+                    for tcb in groupdata['tcbs']:
+                        details = {'sub':[tcb+str(level)],'target':[tcb+'_'+str(cycle)]}
+                        detObj.append(details)
+                    for tce in groupdata['tces']:
+                        details = {'sub':[tce+str(level)],'target':[tce+str(level)+'_'+str(cycle)]}
+                        detObj.append(details)
+                    return detObj
+
                 lookupObj = {'feature':'psts','name':'','marks':'*tcms_'+str(level),'contexts':[],'details':[]}
                 lookupObj['name'] = 'tcbSizes_'+str(level)+str(cycle)
                 context = {'left':['r'+str(level)+'v'+str(cycle)],'right':[]}
                 lookupObj['contexts'].append(context)
-                details = {'sub':['tcbb'+str(level)],'target':['tcbb_'+str(cycle)]}
-                lookupObj['details'].append(details)
-                details = {'sub':['tcbe'+str(level)],'target':['tcbe'+str(level)+'_'+str(cycle)]}
-                lookupObj['details'].append(details)
+                lookupObj['details'].extend(loadTCABs(level,cycle))
+
                 return lookupObj
 
             lookupObjs = []
@@ -6056,7 +6064,7 @@ class EotHelper:
         lookupObjs = placeholderglyphs()
         for lookupObj in lookupObjs:
             lines.append(self.writefeature(lookupObj))
-        if self.pvar['tcbs']:
+        if self.pvar['tcs']:
             lookupObjs = tcbSizes()
             for lookupObj in lookupObjs:
                 lines.append(self.writefeature(lookupObj))

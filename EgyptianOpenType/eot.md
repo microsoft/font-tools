@@ -47,24 +47,24 @@ The purpose of the basic format controls is to specify the arrangement of hierog
 
 <figure>
     <img src="png/eot_sg.png" width=160 alt="Sample Hieroglyphic grid">
-    <figcaption>Sample Hieroglyphic grid.</figcaption>
+    <figcaption><i>Sample Hieroglyphic grid.</i></figcaption>
 </figure>
 
-The dimensions of the horizontal ['hfu'] and vertical ['vfu'] hieroglyph units need to be defined in font units in [config.py](/config.py). The grid dimensions must also be defined in hieroglyph units ['hhu'] and ['vhu']. The special horizontal dimension ['chu'] is used to constrain block formation to blocks narrower than the maximum. For example, the widest characters might be 8 units wide, but composite blocks will be at maximum 6 units wide.
+The dimensions of the horizontal ['hfu'] and vertical ['vfu'] hieroglyph units need to be defined in font units in [config.py](/config.py). The grid dimensions must also be defined in hieroglyph units ['hhu'] and ['vhu']. The special horizontal dimension ['chu'] is used to constrain block formation to blocks narrower than the maximum. For example, the widest characters might be 8 units wide, but composite blocks will be at maximum 6 units wide. Characters wider than the block max do not participate in block composition at this time.
 
 ### Glyph outline conventions
 Hieroglyphs should be rendered with TrueType outlines. Signs must centered horizontally on the origin and have zero width. Signs should be offset vertically so that they sit on a baseline lower than the ASCII baseline. The vertical offset is defined by the property ['vbase'] in [config.py](/config.py). In order to size signs efficiently, it is desirable to have a mask layer in the font that renders the defined grid dimensions centered on the origin.
 
 <figure>
     <img src="png/eot_cg.png" width=160 alt="Centered Hieroglyphic grid">
-    <figcaption>Centered Hieroglyphic grid.</figcaption>
+    <figcaption><i>Centered Hieroglyphic grid.</i></figcaption>
 </figure>
 
 With this centered grid, it is easy to see the dimensions of a sign placed correctly, for example, the glyph for G1 is 6x6 hieroglyph units with baseline at -284 font units.
 
 <figure>
     <img src="png/eot_g1.png" width=360 alt="Sample showing G1 glyph on grid">
-    <figcaption>Sample showing G1 glyph on grid.</figcaption>
+    <figcaption><i>Sample showing G1 glyph on grid.</i></figcaption>
 </figure>
 
 ### Core Egyptian Unicode Characters
@@ -76,7 +76,7 @@ Note, at this time, there are no character variants requiring lower case extensi
 
 <figure>
     <img src="png/eot_eh.png" alt="Sample hieroglyph characters">
-    <figcaption>Sample hieroglyph characters.</figcaption>
+    <figcaption><i>Sample hieroglyph characters.</i></figcaption>
 </figure>
 
 #### Enclosure ends
@@ -248,6 +248,12 @@ As with the rotational variants, entries for the lost sign variants, when presen
 This OpenType project depends on a large number of unmapped glyphs that can only be accessed as a result of OpenType processing.
 
 #### Quadrat bases
+All Egyptian Hieroglyphic signs are treated as mark glyph in the OpenType project. The block calculation determines the appropriate width for the block and then selects an empty glyph to serve as the base on which the marks are placed. These are named "QB" followed by a digit for the width of the base:
+<figure>
+    <img src="png/eot_qbs.png" width= 600 alt="Quadrat bases">
+    <figcaption><i>Quadrat bases for widths 1 to 8.</i></figcaption>
+</figure>
+
 #### Enclosure pieces
 #### Generic boxes
 #### Open segments
@@ -256,23 +262,28 @@ This OpenType project depends on a large number of unmapped glyphs that can only
 #### Lost sign expanded variants
 #### Damaged sign variants
 #### Ligatures
+Ligatures can be defined on-demand to represent a particular combination with higher typographic fidelity than can be acheived with the dynamic construction. Ligatures must be named using a prefix "lig." followed by a period delimited sequence of glyphnames based on the glyph sequence they ligate. For example, glyph "lig.G43.te.X1" defines the ligature:
+<figure>
+    <img src="png/eot_lig.png" width= 160 alt="Ligature of G43 and X1">
+    <figcaption><i>Ligature of G43, top end insertion, and X1.</i></figcaption>
+</figure>
 
 #### Size variants
 Size variant glyphs are included in the font so that the OpenType logic can select the largest available glyph that will fit in the host area. For example, the hieroglyph G25 has a natural size 6x6. If this hieroglyph occurs in a block that has only a 4x4 area available to host G25, and the font contains a size variant of G25 called G25_44, it will select that variant to use when rendering the block. Consequently, a font should contain a range of size variant glyphs appropriate to each hieroglyph. There is no minimum requirement for the font to contain such variants. If the OpenType logic determines that a suitablely sized glyph is not available in a required size for a given base hieroglyph, it will fall back to a special glyph called "placeholder". The natural size of the placeholder glyph should be 1x1 so that it will fit in any supported size determined by the block structure logic.
 
 <figure>
     <img src="png/eot_g25_sv.png" alt="Size variants of G25">
-    <figcaption>Size variants of G25.</figcaption>
+    <figcaption><i>Size variants of G25.</i></figcaption>
 </figure>
 
 <figure>
     <img src="png/eot_g25_so.png" width= 360 alt="Overlaid size variants of G25">
-    <figcaption>Overlaid size variants of G25.</figcaption>
+    <figcaption><i>Overlaid size variants of G25.</i></figcaption>
 </figure>
 
 <figure>
     <img src="png/placeholder.png" width= 160 alt="The placeholder glyph">
-    <figcaption>The placeholder glyph.</figcaption>
+    <figcaption><i>The placeholder glyph.</i></figcaption>
 </figure>
 
 #### Mirror variants
