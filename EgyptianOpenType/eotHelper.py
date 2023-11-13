@@ -1008,7 +1008,7 @@ class EotHelper:
                     subpairs.append(subpair)
             return subpairs
         def loadtcbgb1subpairs():
-            keys = ['tcab0','tcbb0','tcpb0','tcrb0','tcthb0','tcbhb0']
+            keys = ['tcab0','tcbb0','tcpb0','tcrb0','tcub0','tclb0']
             subpairs = []
             tsh = 'tsh'+str(self.glyphdata['GB1']['tshash'])
             for key in keys:
@@ -1584,7 +1584,13 @@ class EotHelper:
         group = 'stems2-hR'
         details = {'aname':'MARK_top','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
-        group = 'tcb_mks'
+        group = 'tcb0_mks'
+        details = {'aname':'MARK_top','xtype':'ZERO','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'tcb1_mks'
+        details = {'aname':'MARK_top','xtype':'ZERO','ytype':'YUNIT','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'tcb2_mks'
         details = {'aname':'MARK_top','xtype':'ZERO','ytype':'YUNIT','recursive':0}
         anchorgroup(group,[group],details)
         group = 'stems0-h'
@@ -1742,6 +1748,9 @@ class EotHelper:
         details = {'aname':'left','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_1'
+        details = {'aname':'left','xtype':'ZERO','ytype':'ZERO','recursive':0}
+        anchorgroup(group,[group],details)
+        group = 'shapes_2'
         details = {'aname':'left','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
         group = 'shapes_u'
@@ -2048,8 +2057,8 @@ class EotHelper:
             qshade     = re.search(r'DQ[0-9]\_[0-9]+',name)
             ligature   = re.search(r'^lig.*[^R]$',name)
             ligmirror  = re.search(r'^lig.*R$',name)
-            tcm        = re.search(r'^tc[abchpr][be]$',name)
-            tcmvar     = re.search(r'^tc[abchpr][be]_[0-9][0-9]$',name)
+            tcm        = re.search(r'^tc[abprul][be]$',name)
+            tcmvar     = re.search(r'^tc[abprul][be]_[0-9][0-9]$',name)
 
             if dec > 65535: #mapped SMP characters
                 if name in qcontrols:
@@ -5859,7 +5868,7 @@ class EotHelper:
                 def loadTCABs(level,cycle):
                     detObj = []
                     for tcb in groupdata['tcbs']:
-                        details = {'sub':[tcb+str(level)],'target':[tcb+'_'+str(cycle)]}
+                        details = {'sub':[tcb+str(level)],'target':[tcb+str(level)+'_'+str(cycle)]}
                         detObj.append(details)
                     for tce in groupdata['tces']:
                         details = {'sub':[tce+str(level)],'target':[tce+str(level)+'_'+str(cycle)]}
@@ -6147,6 +6156,30 @@ class EotHelper:
                 lookupObj['details'].append(details)
 
             return lookupObj
+        def swaprtltcms():
+            lookupObj = {'feature':'rtlm','name':'','marks':'ALL','contexts':[],'details':[]}
+            lookupObj['name'] = 'swaprtltcms'
+
+            for tcmL in groupdata['tcb0_mks']:
+                index = groupdata['tcb0_mks'].index(tcmL)
+                tcmR  = groupdata['tce0_mks'][index]
+                details = {'sub':[tcmL],'target':[tcmR]}
+                details = {'sub':[tcmR],'target':[tcmL]}
+                lookupObj['details'].append(details)
+            for tcmL in groupdata['tcb1_mks']:
+                index = groupdata['tcb1_mks'].index(tcmL)
+                tcmR  = groupdata['tce1_mks'][index]
+                details = {'sub':[tcmL],'target':[tcmR]}
+                details = {'sub':[tcmR],'target':[tcmL]}
+                lookupObj['details'].append(details)
+            for tcmL in groupdata['tcb2_mks']:
+                index = groupdata['tcb2_mks'].index(tcmL)
+                tcmR  = groupdata['tce2_mks'][index]
+                details = {'sub':[tcmL],'target':[tcmR]}
+                details = {'sub':[tcmR],'target':[tcmL]}
+                lookupObj['details'].append(details)
+
+            return lookupObj
         def swaprtlglyphs():
             def loadmirrorpairs():
                 subpairs = []
@@ -6233,6 +6266,8 @@ class EotHelper:
             lookupObj = swaprtlstems()
             lines.extend(self.writefeature(lookupObj))            
             lookupObj = swaprtlextensions()
+            lines.extend(self.writefeature(lookupObj))
+            lookupObj = swaprtltcms()
             lines.extend(self.writefeature(lookupObj))
             lookupObj = swaprtlglyphs()
             lines.extend(self.writefeature(lookupObj))

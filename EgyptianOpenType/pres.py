@@ -2,30 +2,6 @@
 # egyptian opentype generator data
 
 pres = [
-    # Lookup - tcm start
-    # TODO: Move these substitutions to the Default language
-    # {'name' : 'tcm_open', 'marks' : '',
-    # 'contexts' : [{'left':[],'right':['characters_latn']}],
-    # 'details' : [
-    #     {'sub':['uni27E8'],'target':['uni27E8.latn']},
-    #     {'sub':['braceleft'],'target':['braceleft.latn']},
-    #     {'sub':['tophalfbracketL'],'target':['tophalfbracketL.latn']},
-    #     {'sub':['uni27EE'],'target':['uni27EE.latn']},
-    #     {'sub':['uni27E6'],'target':['uni27E6.latn']},
-    #     {'sub':['bar'],'target':['bar.latn']},
-    # ]},
-    # Lookup - tcm end
-    # {'name' : 'tcm_open', 'marks' : '',
-    # 'contexts' : [{'left':['characters_latn'],'right':[]}],
-    # 'details' : [
-    #     {'sub':['uni27E9'],'target':['uni27E9.latn']},
-    #     {'sub':['braceright'],'target':['braceright.latn']},
-    #     {'sub':['tophalfbracketR'],'target':['tophalfbracketR.latn']},
-    #     {'sub':['uni27EF'],'target':['uni27EF.latn']},
-    #     {'sub':['uni27E7'],'target':['tcuni27E7re.latn']},
-    #     {'sub':['bar'],'target':['bar.latn']},
-    # ]},
-
     # Lookup - extensions outer dbl extensions begin outer
     {'name' : 'extensionsouterB', 'bases':'SKIP','marks' : 'extensioncontrols',
     'contexts' : [
@@ -80,8 +56,8 @@ pres = [
         {'sub':['tcbb'],'target':['tcbb2']},
         {'sub':['tcpb'],'target':['tcpb2']},
         {'sub':['tcrb'],'target':['tcrb2']},
-        {'sub':['tcthb'],'target':['tcthb2']},
-        {'sub':['tcbhb'],'target':['tcbhb2']}]},
+        {'sub':['tcub'],'target':['tcub2']},
+        {'sub':['tclb'],'target':['tclb2']}]},
     # Lookup - convert embedded tce to level 2
     {'name' : 'Level2_tce', 'marks' : '*tce12',
     'contexts' : [{'left':['ss','ss'],'right':['se','se']}],
@@ -90,8 +66,8 @@ pres = [
         {'sub':['tcbe'],'target':['tcbe2']},
         {'sub':['tcpe'],'target':['tcpe2']},
         {'sub':['tcre'],'target':['tcre2']},
-        {'sub':['tcthe'],'target':['tcthe2']},
-        {'sub':['tcbhe'],'target':['tcbhe2']}]},
+        {'sub':['tcue'],'target':['tcue2']},
+        {'sub':['tcle'],'target':['tcle2']}]},
     # Lookup - merge level 2 embedding controls
     {'name' : 'mdcBE_merge2', 'marks' : 'controls_a',
     'contexts' : [{'left':[],'right':[]}],
@@ -126,8 +102,8 @@ pres = [
         {'sub':['tcbb'],'target':['tcbb1']},
         {'sub':['tcpb'],'target':['tcpb1']},
         {'sub':['tcrb'],'target':['tcrb1']},
-        {'sub':['tcthb'],'target':['tcthb1']},
-        {'sub':['tcbhb'],'target':['tcbhb1']}]},
+        {'sub':['tcub'],'target':['tcub1']},
+        {'sub':['tclb'],'target':['tclb1']}]},
     # Lookup - convert embedded tcbe to level 1
     {'name' : 'Level1_tce', 'marks' : '*tce12',
     'contexts' : [{'left':['ss'],'right':['se']}],
@@ -136,8 +112,8 @@ pres = [
         {'sub':['tcbe'],'target':['tcbe1']},
         {'sub':['tcpe'],'target':['tcpe1']},
         {'sub':['tcre'],'target':['tcre1']},
-        {'sub':['tcthe'],'target':['tcthe1']},
-        {'sub':['tcbhe'],'target':['tcbhe1']}]},
+        {'sub':['tcue'],'target':['tcue1']},
+        {'sub':['tcle'],'target':['tcle1']}]},
     # Lookup - merge level 1 embedding controls
     {'name' : 'mdcBE_merge1', 'marks' : 'controls_a',
     'contexts' : [{'left':[],'right':[]}],
@@ -164,8 +140,8 @@ pres = [
         {'sub':['tcbb'],'target':['tcbb1']},
         {'sub':['tcpb'],'target':['tcpb1']},
         {'sub':['tcrb'],'target':['tcrb1']},
-        {'sub':['tcthb'],'target':['tcthb1']},
-        {'sub':['tcbhb'],'target':['tcbhb1']}]},
+        {'sub':['tcub'],'target':['tcub1']},
+        {'sub':['tclb'],'target':['tclb1']}]},
     # Lookup - corner1 tcbb2
     {'name' : 'corner1_tcbb2', 'marks' : '',
     'contexts' : [{'left':['corners1a'],'right':[]}],
@@ -174,8 +150,8 @@ pres = [
         {'sub':['tcbb'],'target':['tcbb2']},
         {'sub':['tcpb'],'target':['tcpb2']},
         {'sub':['tcrb'],'target':['tcrb2']},
-        {'sub':['tcthb'],'target':['tcthb2']},
-        {'sub':['tcbhb'],'target':['tcbhb2']}]},
+        {'sub':['tcub'],'target':['tcub2']},
+        {'sub':['tclb'],'target':['tclb2']}]},
     # Lookup - corner tcbe1
     {'name' : 'corner_tcbe1', 'marks' : '*tcb01',
     'contexts' : [{'left':['tcb1s'],'right':[]}],
@@ -184,8 +160,8 @@ pres = [
         {'sub':['tcbe'],'target':['tcbe1']},
         {'sub':['tcpe'],'target':['tcpe1']},
         {'sub':['tcre'],'target':['tcre1']},
-        {'sub':['tcthe'],'target':['tcthe1']},
-        {'sub':['tcbhe'],'target':['tcbhe1']}]},
+        {'sub':['tcue'],'target':['tcue1']},
+        {'sub':['tcle'],'target':['tcle1']}]},
     # Lookup - corner tcbe2
     {'name' : 'corner_tcbe2', 'marks' : '*tcb02',
     'contexts' : [{'left':['tcb2s'],'right':[]}],
@@ -194,8 +170,8 @@ pres = [
         {'sub':['tcbe'],'target':['tcbe2']},
         {'sub':['tcpe'],'target':['tcpe2']},
         {'sub':['tcre'],'target':['tcre2']},
-        {'sub':['tcthe'],'target':['tcthe2']},
-        {'sub':['tcbhe'],'target':['tcbhe2']}]},
+        {'sub':['tcue'],'target':['tcue2']},
+        {'sub':['tcle'],'target':['tcle2']}]},
     # Lookup - tcb0
     {'name' : 'tcb0', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
@@ -204,14 +180,14 @@ pres = [
         {'sub':['tcbb'],'target':['tcbb0']},
         {'sub':['tcpb'],'target':['tcpb0']},
         {'sub':['tcrb'],'target':['tcrb0']},
-        {'sub':['tcthb'],'target':['tcthb0']},
-        {'sub':['tcbhb'],'target':['tcbhb0']},
+        {'sub':['tcub'],'target':['tcub0']},
+        {'sub':['tclb'],'target':['tclb0']},
         {'sub':['tcae'],'target':['tcae0']},
         {'sub':['tcbe'],'target':['tcbe0']},
         {'sub':['tcpe'],'target':['tcpe0']},
         {'sub':['tcre'],'target':['tcre0']},
-        {'sub':['tcthe'],'target':['tcthe0']},
-        {'sub':['tcbhe'],'target':['tcbhe0']}]},
+        {'sub':['tcue'],'target':['tcue0']},
+        {'sub':['tcle'],'target':['tcle0']}]},
     # DYNAMIC Lookup - populated with tsg values from group data
     {'name' : 'tsg', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
@@ -578,8 +554,8 @@ pres = [
         {'sub':['tcbe0'],'target':['tcbe']},
         {'sub':['tcpe0'],'target':['tcpe']},
         {'sub':['tcre0'],'target':['tcre']},
-        {'sub':['tcthe0'],'target':['tcthe']},
-        {'sub':['tcbhe0'],'target':['tcbhe']},
+        {'sub':['tcue0'],'target':['tcue']},
+        {'sub':['tcle0'],'target':['tcle']},
     ]},
     # Lookup - set min default size to reducible default size
     {'name' : 'default_size_level1', 'marks' : 'rowmaxes',
