@@ -6164,18 +6164,21 @@ class EotHelper:
                 index = groupdata['tcb0_mks'].index(tcmL)
                 tcmR  = groupdata['tce0_mks'][index]
                 details = {'sub':[tcmL],'target':[tcmR]}
+                lookupObj['details'].append(details)
                 details = {'sub':[tcmR],'target':[tcmL]}
                 lookupObj['details'].append(details)
             for tcmL in groupdata['tcb1_mks']:
                 index = groupdata['tcb1_mks'].index(tcmL)
                 tcmR  = groupdata['tce1_mks'][index]
                 details = {'sub':[tcmL],'target':[tcmR]}
+                lookupObj['details'].append(details)
                 details = {'sub':[tcmR],'target':[tcmL]}
                 lookupObj['details'].append(details)
             for tcmL in groupdata['tcb2_mks']:
                 index = groupdata['tcb2_mks'].index(tcmL)
                 tcmR  = groupdata['tce2_mks'][index]
                 details = {'sub':[tcmL],'target':[tcmR]}
+                lookupObj['details'].append(details)
                 details = {'sub':[tcmR],'target':[tcmL]}
                 lookupObj['details'].append(details)
 
