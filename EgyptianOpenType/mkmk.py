@@ -370,9 +370,34 @@ mkmk = [
         {'attach':['m0'],'to':['mirror_all'],'anchor':'center'}
     ]},
     #Lookup
-    {'name' : 'tcb', 'marks' : '',
+    {'name' : 'tcb0', 'marks' : '',
     'details' : [
-        {'attach':['stems0-h','stems1-h','stems2-h'],'to':['tcb_mks'],'anchor':'top'}
+        {'attach':['stems0-h'],'to':['tcb0_mks'],'anchor':'top'}
+    ]},
+    #Lookup
+    {'name' : 'tcb1', 'marks' : '',
+    'details' : [
+        {'attach':['stems1-h'],'to':['tcb1_mks'],'anchor':'top'}
+    ]},
+    #Lookup
+    {'name' : 'tcb2', 'marks' : '',
+    'details' : [
+        {'attach':['stems2-h'],'to':['tcb2_mks'],'anchor':'top'}
+    ]},
+    #Lookup
+    {'name' : 'tcb0R', 'marks' : '',
+    'details' : [
+        {'attach':['stems0-hR'],'to':['tce0_mks'],'anchor':'right'}
+    ]},
+    #Lookup
+    {'name' : 'tcb1R', 'marks' : '',
+    'details' : [
+        {'attach':['stems1-hR'],'to':['tce1_mks'],'anchor':'right'}
+    ]},
+    #Lookup
+    {'name' : 'tcb2R', 'marks' : '',
+    'details' : [
+        {'attach':['stems2-hR'],'to':['tce2_mks'],'anchor':'right'}
     ]},
     #Lookup
     {'name' : 'tce0', 'marks' : '*tce0_mfc',
@@ -388,6 +413,21 @@ mkmk = [
     {'name' : 'tce2', 'marks' : '*tce2_mfc',
     'details' : [
         {'attach':['shapes_2'],'to':['tce2_mks'],'anchor':'right'}
+    ]},
+    #Lookup
+    {'name' : 'tce0R', 'marks' : '*tcb0_mfc',
+    'details' : [
+        {'attach':['shapes_0'],'to':['tcb0_mks'],'anchor':'top'}
+    ]},
+    #Lookup
+    {'name' : 'tce1R', 'marks' : '*tcb1_mfc',
+    'details' : [
+        {'attach':['shapes_1'],'to':['tcb1_mks'],'anchor':'top'}
+    ]},
+    #Lookup
+    {'name' : 'tce2R', 'marks' : '*tcb2_mfc',
+    'details' : [
+        {'attach':['shapes_2'],'to':['tcb2_mks'],'anchor':'top'}
     ]},
     #Lookup
     {'name' : 'damagedsign', 'marks' : '*shadesmkmk',
