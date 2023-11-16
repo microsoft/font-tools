@@ -28,19 +28,11 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 
 ver = 200
 
-# Unicode 15 requirements
-    # RTL distance adjustments /
+# TODO
     # Insertions inside sign area not total sign area? X
-    #   TCMs all [font, OT] /
-            # https://www.unicode.org/versions/Unicode15.0.0/ch11.pdf
-            # 2E24, 2E23
-            # 27E8, 27E9
-            # 7B, 7D
-            # 27E6, 27E7
-    #   TCMs RTL 
-    #   expanded enclosing glyph - when to expand? pres016 - expansion
-    #   block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
-    # validate self.pvar for minimal info and guard missing attributes.
+    # Expanded enclosing glyph - when to expand? pres016 - expansion
+    # Block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
+    # Validate self.pvar for minimal info and guard missing attributes.
 
 class EotHelper:
     def __init__(self, pvar):

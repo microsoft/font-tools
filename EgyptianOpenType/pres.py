@@ -152,26 +152,29 @@ pres = [
         {'sub':['tcrb'],'target':['tcrb2']},
         {'sub':['tcub'],'target':['tcub2']},
         {'sub':['tclb'],'target':['tclb2']}]},
-    # Lookup - corner tcbe1
-    {'name' : 'corner_tcbe1', 'marks' : '*tcb01',
-    'contexts' : [{'left':['tcb1s'],'right':[]}],
-    'details' : [
-        {'sub':['tcae'],'target':['tcae1']},
-        {'sub':['tcbe'],'target':['tcbe1']},
-        {'sub':['tcpe'],'target':['tcpe1']},
-        {'sub':['tcre'],'target':['tcre1']},
-        {'sub':['tcue'],'target':['tcue1']},
-        {'sub':['tcle'],'target':['tcle1']}]},
-    # Lookup - corner tcbe2
-    {'name' : 'corner_tcbe2', 'marks' : '*tcb02',
-    'contexts' : [{'left':['tcb2s'],'right':[]}],
-    'details' : [
-        {'sub':['tcae'],'target':['tcae2']},
-        {'sub':['tcbe'],'target':['tcbe2']},
-        {'sub':['tcpe'],'target':['tcpe2']},
-        {'sub':['tcre'],'target':['tcre2']},
-        {'sub':['tcue'],'target':['tcue2']},
-        {'sub':['tcle'],'target':['tcle2']}]},
+    # # Lookup - corner tcbe1
+    # This and the next lookup promote the closing tc to the next level
+    # in order to balance with an opening tc at the same level.
+    # syntacticaly this is impure so the lookup is disabled
+    # {'name' : 'corner_tcbe1', 'marks' : '*tcb01',
+    # 'contexts' : [{'left':['tcb1s'],'right':[]}],
+    # 'details' : [
+    #     {'sub':['tcae'],'target':['tcae1']},
+    #     {'sub':['tcbe'],'target':['tcbe1']},
+    #     {'sub':['tcpe'],'target':['tcpe1']},
+    #     {'sub':['tcre'],'target':['tcre1']},
+    #     {'sub':['tcue'],'target':['tcue1']},
+    #     {'sub':['tcle'],'target':['tcle1']}]},
+    # # Lookup - corner tcbe2
+    # {'name' : 'corner_tcbe2', 'marks' : '*tcb02',
+    # 'contexts' : [{'left':['tcb2s'],'right':[]}],
+    # 'details' : [
+    #     {'sub':['tcae'],'target':['tcae2']},
+    #     {'sub':['tcbe'],'target':['tcbe2']},
+    #     {'sub':['tcpe'],'target':['tcpe2']},
+    #     {'sub':['tcre'],'target':['tcre2']},
+    #     {'sub':['tcue'],'target':['tcue2']},
+    #     {'sub':['tcle'],'target':['tcle2']}]},
     # Lookup - tcb0
     {'name' : 'tcb0', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
