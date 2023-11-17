@@ -68,6 +68,26 @@ pres = [
         {'sub':['tcre'],'target':['tcre2']},
         {'sub':['tcue'],'target':['tcue2']},
         {'sub':['tcle'],'target':['tcle2']}]},
+    # Lookup - convert corner embedded tcb to level 1
+    {'name' : 'CornerLevel1_tcb', 'marks' : '',
+    'contexts' : [{'left':['ss'],'right':[]}],
+    'details' : [
+        {'sub':['tcab'],'target':['tcab1']},
+        {'sub':['tcbb'],'target':['tcbb1']},
+        {'sub':['tcpb'],'target':['tcpb1']},
+        {'sub':['tcrb'],'target':['tcrb1']},
+        {'sub':['tcub'],'target':['tcub1']},
+        {'sub':['tclb'],'target':['tclb1']}]},
+    # Lookup - convert corner embedded tcbe to level 1
+    {'name' : 'CornerLevel1_tce', 'marks' : '',
+    'contexts' : [{'left':[],'right':['se']}],
+    'details' : [
+        {'sub':['tcae'],'target':['tcae1']},
+        {'sub':['tcbe'],'target':['tcbe1']},
+        {'sub':['tcpe'],'target':['tcpe1']},
+        {'sub':['tcre'],'target':['tcre1']},
+        {'sub':['tcue'],'target':['tcue1']},
+        {'sub':['tcle'],'target':['tcle1']}]},
     # Lookup - merge level 2 embedding controls
     {'name' : 'mdcBE_merge2', 'marks' : 'controls_a',
     'contexts' : [{'left':[],'right':[]}],

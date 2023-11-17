@@ -8,7 +8,7 @@ pvar = {
     'langsystag' : "dflt",
     'reffontname' : "Segoe UI Historic", # Used in test file to show reference form relative to current version
     'fontfilename' : "Egyptian Text", # Font name
-    'fontsrc' : "../../fonts/et/U15_231111/egyptiantext-COLR.ttf", # Path to source font
+    'fontsrc' : "../../fonts/et/U15/egyptiantext-COLR.ttf", # Path to source font
     'fontout' : "eot.ttf", # Path to write output font
     'fontprior' : "egyptiantextU12.ttf", # Path to prior test font
     'sb'  : 105, # font side bearings
