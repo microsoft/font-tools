@@ -14,6 +14,7 @@ from featuredata import basetypes
 from featuredata import qcontrols
 from featuredata import punctuation
 from featuredata import internalligatures
+from featuredata import knockouts
 from featuredata import internalmirrors
 from featuredata import mirroring
 from featuredata import mirroredvariants
@@ -29,6 +30,7 @@ from fontTools.ttLib.tables._g_l_y_f import Glyph
 ver = 200
 
 # TODO
+    # Knock outs O13a /
     # Insertions inside sign area not total sign area? X
     # Expanded enclosing glyph - when to expand? pres016 - expansion
     # Block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
@@ -983,6 +985,14 @@ class EotHelper:
 
     #Structure
     def pres(self):
+        def loadknockoutvariants():
+            keys = knockouts.keys()
+            subpairs = []
+            for key in keys:
+                koobj = knockouts[key]
+                subpair = {'sub':[koobj['base']],'target':[koobj['target']] }
+                subpairs.append(subpair)
+            return subpairs
         def loadtsgsubpairs():
             keys = groupdata['characters_all']
             subpairs = []
@@ -1033,6 +1043,9 @@ class EotHelper:
         for featuredef in pres:
             lookupObj = featuredef
             lookupObj['feature'] = featuretag
+            if (lookupObj['name'] == 'knockoutvariants'):#DYNAMIC FEATURE 'mi' only for now
+                subpairs = loadknockoutvariants()
+                lookupObj['details'] = subpairs
             if (lookupObj['name'] == 'tsg'):#DYNAMIC FEATURE TSG
                 subpairs = loadtsgsubpairs()
                 lookupObj['details'] = subpairs
@@ -2030,7 +2043,7 @@ class EotHelper:
                     grouptype = 'GLYPH'
                 else:
                     grouptype = 'GLYPH'
-                    self.insertglyphs(listitem)
+                    self.insertglyph(listitem)
                     self.injectedglyphcount += 1
                 groupenum += grouptype+' "'+listitem+'" '
     def loadglyphdata(self):
@@ -2114,6 +2127,8 @@ class EotHelper:
                 group = 'SVar'
             elif (name in ['GB1','BF1','BQ1','dottedcircle','LF2','LQ2','LT2','LW2']): # treat these as hieroglyphs
                 group = 'Chr'
+            elif (name in knockouts):
+                group = 'Chr'
             else: #unmapped control characters for OTL
                 group = 'Ctrl'
             return group
@@ -2152,13 +2167,8 @@ class EotHelper:
                 glyph['type'] = 'B'
             if group in ['Chr','LigR']:
                 glyph['root'] = name
-            if group in ['Chr','Joiner','Mirror','SVar','LigR','LigV']:
+            if group in ['Chr','Joiner','Mirror','SVar','LigR','LigV','Ko']:
                 glyphObj = glyphTable[name]
-
-                # if glyph['name'] in ['A1','A1n']:
-                    # extremes = self.calcExtremes(glyphObj.getCoordinates(glyphTable))
-                    # print("ABOUT:" + name + str(extremes))
-
                 if name[0:2] in ['BF','BQ']:
                     if name == 'BF1':
                         glyph['maxh'] = self.pvar['hfu'] * 6
@@ -2214,11 +2224,13 @@ class EotHelper:
                     if hasattr(glyphObj, 'xMax'):
                         glyph['maxh'] = glyphObj.xMax * 2 # glyphs are zero centered
                     else:
-                        print("Error: xMax missing for "+str(glyph['name']+" "+glyph['group']))
+                        if glyph['name'] not in punctuation:
+                            self.errors.append("Error: xMax missing for "+str(glyph['name']+" "+glyph['group']))
                     if hasattr(glyphObj, 'yMax'):
                         glyph['maxv'] = glyphObj.yMax - self.pvar['vbase']
                     else:
-                        print("Error: yMax missing for "+str(glyph['name']))
+                        if glyph['name'] not in punctuation:
+                            self.errors.append("Error: yMax missing for "+str(glyph['name']))
             else :
                 glyph['maxh'] = 0
                 glyph['maxv'] = 0
@@ -2247,10 +2259,9 @@ class EotHelper:
                 self.maxhvsizes[hvsize] = 1
 
             self.glyphdata[name] = glyph
-    def insertglyphs(self,newglyph):
+    def insertglyph(self,newglyph):
         self.fontsrc['glyf'][newglyph] = Glyph()
         self.fontsrc['hmtx'][newglyph] = (0,0)
-        # print(self.fontsrc.getGlyphID(newglyph))
         return self.fontsrc.getGlyphID(newglyph)
     def loadgroups(self):
         def formatgroup(groupObj):
@@ -2290,7 +2301,7 @@ class EotHelper:
                         self.tshashes.append(tshash)
                         tsg = 'tsh'+(tshash)
                         groupdata['tsh'].append(tsg)
-                        gid = self.insertglyphs(tsg)
+                        gid = self.insertglyph(tsg)
                         glyph = {'id':gid,'name':tsg,'root':'','dec':0,'hex':0x0,'group':'','type':'M','maxh':0,'maxv':0,'ehuh':0,'ehuv':0,'tshash':''}
                         self.glyphdata[tsg] = glyph
                         self.injectedglyphcount += 1
@@ -5548,6 +5559,10 @@ class EotHelper:
         def mirrorquartershades():
             lookupObj = {'feature':'rtlm','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'mirrorquartershades'
+            lookupObj['details'].append({'sub':['dq1'],'target':['dq3']})
+            lookupObj['details'].append({'sub':['dq2'],'target':['dq4']})
+            lookupObj['details'].append({'sub':['dq3'],'target':['dq1']})
+            lookupObj['details'].append({'sub':['dq4'],'target':['dq2']})
             lookupObj['details'].append({'sub':['dq12'],'target':['dq34']})
             lookupObj['details'].append({'sub':['dq14'],'target':['dq23']})
             lookupObj['details'].append({'sub':['dq23'],'target':['dq14']})
@@ -6364,7 +6379,8 @@ class EotHelper:
             print('Compiling font...')
             dumpTTX('fontout_temp.ttf')
 
-            self.writeCMAP()
+            if self.pvar['variations'] == 1:
+                self.writeCMAP()
             self.writeVMTX()
             self.writeVHEA()
             self.writeTSIV()

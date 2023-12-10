@@ -2,6 +2,10 @@
 # egyptian opentype generator data
 
 pres = [
+    # DYNAMIC Lookup - base to target knock out variants
+    {'name' : 'knockoutvariants', 'marks' : '',
+    'contexts' : [{'left':[],'right':['mi']}], # 'mi' only for now
+    'details' : []},
     # Lookup - extensions outer dbl extensions begin outer
     {'name' : 'extensionsouterB', 'bases':'SKIP','marks' : 'extensioncontrols',
     'contexts' : [

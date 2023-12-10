@@ -420,6 +420,10 @@ basetypes = ['dottedcircle','VP',
 	'esbV','eseV','ewbV','eweV','eobV','eoeV','edbV','edeV','efbV','efeV','dfV'
 	]
 
+knockouts = {
+  'O13a' : {'base':'O13','target':'O13a','context':'mi'},
+}
+
 internalligatures = {
 	'G43a': 'G43.bs.X1',
 	'P9'  : 'P8.om.I9',
