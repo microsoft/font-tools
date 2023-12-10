@@ -1,3 +1,6 @@
+# Egyptian Text font
+A reference font demonstrating the user of Egyptian Hieroglyphic format controls is available [here](https://github.com/microsoft/font-tools/tree/main/EgyptianOpenType/font). This font is made available under the SIL Open Font License.
+
 # Egyptian OpenType
 This project parses an existing Egyptian Hieroglyphic font and generates a new font containing VOLT OpenType source code that can then be compiled using Microsoft's [Visual OpenType Layout Tool (VOLT)](https://learn.microsoft.com/en-us/typography/tools/volt/). Once compiled, the new font contains all of the OpenType logic needed to render Egyptian Hieroglyphic text with the [Unicode 15 format controls](http://unicode.org/charts/PDF/U13430.pdf). Correct rendering of the OpenType tables for blocks of Egyptian Hieroglyphs depends on font rendering via the [Universal Shaping Engine](https://learn.microsoft.com/en-us/typography/script-development/use) and its Hieroglyph cluster model:
 
