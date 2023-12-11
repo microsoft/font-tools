@@ -6016,13 +6016,16 @@ class EotHelper:
             details = {'sub':['efbV'],'target':['esbV']}
             lookupObj['details'].append(details)
             return lookupObj
+
         def extensionendcleanup():
             #Remove extension end controls by context
             #Filtered so shaded extensions don't block the cleanup
             lookupObj = {'feature':'psts','name':'','marks':'*extensionscleanup','contexts':[],'details':[]}
             lookupObj['name'] = 'extensionendcleanup'
-            details = {'sub':['r0eB','extensioncontrolse'],'target':['r0eB']}
-            lookupObj['details'].append(details)
+            for source in groupdata['extensioncontrolse']:
+                extend = source+'V'
+                details = {'sub':['r0eB',extend],'target':['r0eB']}
+                lookupObj['details'].append(details)
 
             return lookupObj
         def unusedcontrols():
@@ -6033,12 +6036,7 @@ class EotHelper:
             lookupObj['details'].append({'sub':['ti0A'],'target':['tiV']})
             lookupObj['details'].append({'sub':['mi0A'],'target':['miV']})
             lookupObj['details'].append({'sub':['bi0A'],'target':['biV']})
-            # lookupObj['details'].append({'sub':['ss','ss'],'target':['ss.ssV']})
             lookupObj['details'].append({'sub':['ss'],'target':['ssV']})
-            # lookupObj['details'].append({'sub':['ibs0B','sh0','it00','rc0'],'target':['bs']})
-            # lookupObj['details'].append({'sub':['ite0B','sh0','it00','rc0'],'target':['te']})
-            # lookupObj['details'].append({'sub':['ibe0B','sh0','it00','rc0'],'target':['be']})
-            # lookupObj['details'].append({'sub':['om0B' ,'sh0','it00','rc0'],'target':['om']})
 
             return lookupObj
 
@@ -6085,7 +6083,6 @@ class EotHelper:
             for lookupObj in lookupObjs:
                 lines.append(self.writefeature(lookupObj))
         if self.pvar['extensions']:
-            lines.extend(self.writefeature(extensionendcleanup()))
             lines.extend(self.writefeature(extensionswap()))
             lines.extend(self.writefeature(extensionsout()))
             lines.extend(self.writefeature(extensionsdbl()))
@@ -6093,6 +6090,7 @@ class EotHelper:
             lines.extend(self.writefeature(extensionssingle()))
             lines.extend(self.writefeature(extensionswalls()))
             lines.extend(self.writefeature(extensionbgncleanup()))
+            lines.extend(self.writefeature(extensionendcleanup()))
         lines.extend(self.writefeature(unusedcontrols()))
 
         return lines
