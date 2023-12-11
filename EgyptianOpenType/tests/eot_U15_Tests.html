@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Egyptian OpenType — U15 Tests</title>
+		<meta http-equiv='Content-Type' content='text/html; charset=UTF-8'/>
+		<style type='text/css'>
+			@font-face {
+				font-family: 'Egyptian Text';
+				src: url(../font/eot.ttf) format("truetype");}
+			body {
+				color: white;
+				background-color: black;
+				padding: 1em;
+				margin: 2em;
+			}
+			.egyptian {font-family: 'Egyptian Text'; font-size: 48px; line-height:1.1em;}
+			.h1 {color: white; font-size: 24pt; font-family: 'Segoe UI'; font-weight: 300; clear: left;}
+			.h2 {color: white; font-size: 18pt; font-family: 'Segoe UI'; font-weight: 300; clear: left;}
+			.label {font-family: 'Segoe UI'; font-weight: 300; font-size: 12px;}
+			.row {clear: left; color: black; padding: 2px;}
+			.nl {clear: left;}
+			.cell {margin: 1px;
+				font-family: 'Egyptian Text';
+				font-size: 60px;
+				line-height:75px;
+				float: left;
+				height:100px;
+				min-width: 75px;
+				background-color: #EEE;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div class='h1'>Egyptian OpenType — U12 Tests</div>
+		<div class='h2'>Insertions</div>
+		<div class='row'>
+			<div class='cell'>𓉐𓐹𓈖</div>
+			<div class='cell'>𓂓𓐺𓃀</div>
+			<div class='cell'>𓂘𓐻𓇓</div>
+		</div>
+		<div class='h2'>Enclosures</div>
+		<div class='row'>
+			<div class='cell'>𓍹𓀀𓁐𓍺</div>
+			<div class='cell'>𓍹𓐼𓀀𓁐𓐽𓍺</div>
+			<div class='cell nl'>𓑁𓐼𓀀𓁐𓐽𓍺𓑁</div>
+			<div class='cell nl'>𓑁𓍹𓐼𓀀𓁐𓐽𓑁</div>
+			<div class='cell nl'>𓍹𓐼𓀀𓍹𓐼𓁐𓐽𓍺𓁚𓐽𓍺</div>	
+		</div>
+		<div class='h2'>Mirror</div>
+		<div class='row'>
+			<div class='cell'>𓀀𓑀</div>
+			<div class='cell'>𓀀𓐱𓁐𓐰𓈖</div>
+			<div class='cell'>𓀀𓑀𓐱𓁐𓐰𓈖</div>
+		</div>
+		<div class='h2'>Rotations</div>
+		<div class='row'>
+			<div class='cell'>𓀀</div>
+			<div class='cell'>𓀀︀</div>
+			<div class='cell'>𓀀︁</div>
+			<div class='cell'>𓀀︂</div>
+			<div class='cell nl'>𓀀𓑀</div>
+			<div class='cell'>𓀀︀𓑀</div>
+			<div class='cell'>𓀀︁𓑀</div>
+			<div class='cell'>𓀀︂𓑀</div>
+			<div class='cell nl'>𓀀𓐱𓁐𓐰𓈖</div>
+			<div class='cell'>𓀀︀𓐱𓁐𓐰𓈖</div>
+			<div class='cell nl'>𓍷𓐹𓐷𓁷𓐰𓏛𓐸</div>
+			<div class='cell'>𓍷︀𓐹𓐷𓁷𓐰𓏛𓐸</div>
+			<div class='cell nl'>𓐙𓐰𓏏𓐰𓊤</div>
+			<div class='cell'>𓐙𓐰𓏏𓐰𓊤︂</div>
+		</div>
+		<div class='h2'>Blanks</div>
+		<div class='row'>
+			<div class='cell'>𓍹𓐼𓑁𓑁𓐽𓍺</div>
+			<div class='cell'>𓍹𓐼𓑂𓑂𓐽𓍺</div>
+			<div class='cell'>&#x13442;&#x13431;&#x13442;&#x13430;&#x13442;</div>
+		</div>
+		<div class='h2'>Lost signs</div>
+		<div class='row'>
+			<div class='cell'>𓍹𓐼𓑃𓑃𓐽𓍺</div>
+			<div class='cell'>𓍹𓐼𓑃︀𓑃︀𓐽𓍺</div>
+			<div class='cell'>&#x13443;&#x13431;&#x13443;&#x13430;&#x13443;</div>
+			<div class='cell nl'>𓀀𓐱𓑃𓐰𓈖</div>
+			<div class='cell'>𓑃𓐱𓑃𓐰𓈖</div>
+			<div class='cell'>𓑃︀𓐱𓑃︀𓐰𓈖</div>
+			<div class='cell'>𓑄𓐱𓑄𓐰𓈖</div>
+			<div class='cell'>𓑄︀𓐱𓑄︀𓐰𓈖</div>
+			<div class='cell'>𓑅𓐱𓐷𓀀𓐰𓈖𓐸</div>
+			<div class='cell'>𓑅︀𓐱𓐷𓀀𓐰𓈖𓐸</div>
+			<div class='cell'>𓀀𓐰𓑆</div>
+			<div class='cell'>𓀀𓐰𓑆︀</div>
+		</div>
+		<div class='h2'>Damage modifiers</div>
+		<div class='row'>
+			<div class='cell'>𓀀𓑇</div>
+			<div class='cell'>𓀀𓑈</div>
+			<div class='cell'>𓀀𓑉</div>
+			<div class='cell'>𓀀𓑊</div>
+			<div class='cell'>𓀀𓑋</div>
+			<div class='cell'>𓀀𓑌</div>
+			<div class='cell'>𓀀𓑍</div>
+			<div class='cell'>𓀀𓑎</div>
+			<div class='cell'>𓀀𓑏</div>
+			<div class='cell'>𓀀𓑐</div>
+			<div class='cell'>𓀀𓑑</div>
+			<div class='cell'>𓀀𓑒</div>
+			<div class='cell'>𓀀𓑓</div>
+			<div class='cell'>𓀀𓑔</div>
+			<div class='cell'>𓀀𓑕</div>
+			<div class='cell nl'>𓀀𓑀𓑕</div>
+			<div class='cell'>𓀀𓑇𓐱𓁐𓐰𓈖</div>
+			<div class='cell'>𓀀𓑈𓐱𓁐𓐰𓈖</div>
+			<div class='cell'>𓀀𓑊𓐱𓁐𓐰𓈖</div>
+			<div class='cell'>𓀀𓑎𓐱𓁐𓐰𓈖</div>
+			<div class='cell'>𓀀𓑕𓐱𓁐𓐰𓈖</div>
+			</div>
+	</body>
+</html>
