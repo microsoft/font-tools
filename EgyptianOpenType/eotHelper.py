@@ -6020,7 +6020,7 @@ class EotHelper:
         def extensionendcleanup():
             #Remove extension end controls by context
             #Filtered so shaded extensions don't block the cleanup
-            lookupObj = {'feature':'psts','name':'','marks':'*extensionscleanup','contexts':[],'details':[]}
+            lookupObj = {'feature':'psts','name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'extensionendcleanup'
             for source in groupdata['extensioncontrolse']:
                 extend = source+'V'
