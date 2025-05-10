@@ -6,22 +6,22 @@ This project parses an existing Egyptian Hieroglyphic font and generates a new f
 
 >`SB* G [VS] [HR] [HM] SE* ( J SB* G [VS] [HR] [HM] SE* )*`
 
-Details of the rendering expectations for the format controls are documented in the Uncode proposals which encoded the format controls:
+Details of the rendering expectations for the format controls are documented in the Unicode proposals which encoded the format controls:
  
  - Glass, Hafemann, Nederhof, Polis, Richmond, Rosmorduc and Schweitzer. 2017. “A method for encoding Egyptian quadrats in Unicode.” *Unicode Document Register for 2017*. [L2/17-112R](https://www.unicode.org/L2/L2017/17112r-quadrat-encoding.pdf).
  - Glass, Grotenhuis, Nederhof, Polis, Rosmorduc, and Werning. 2021. “Additional control characters for Ancient Egyptian hieroglyphic texts.” *Unicode Document Register for 2021*. [L2/21-208](https://www.unicode.org/L2/L2021/21208-egyptian-ctrl.pdf).
 
 ## OpenType strategy
-This project generates OpenType tables for a suitable font that acheives arbitrary block formation of Egyptian Hieroglyphs using the following strategy:
+This project generates OpenType tables for a suitable font that achieves  arbitrary block formation of Egyptian Hieroglyphs using the following strategy:
 
-1. Substitue any ligature glyphs. Conventionally, the project uses the &lt;haln&gt; feature to group lookups for this step.
+1. Substitute any ligature glyphs. Conventionally, the project uses the &lt;haln&gt; feature to group lookups for this step.
 2. Analyze the format controls and define the block structure using invisible glyphs as markers. The &lt;pres&gt; feature is used to group lookups for this step.
 3. Determine the size of the outer, level 0, structure and areas to host glyphs. The &lt;rlig&gt; feature is used to group lookups for this step.
 4. Determine the size of the intermediate, level 1, structure and areas to host glyphs. The &lt;blws&gt; feature is used to group lookups for this step.
 5. Determine the size of the inner, level 2, structure and areas to host glyphs. The &lt;abvs&gt; feature is used to group lookups for this step.
 6. Select the appropriate base glyph for the size and context. Also, select the largest available glyph that can fit in its hosting area. The &lt;psts&gt; feature is used to group lookups for this step.
 7. Do any required structural and glyph adjustments for Right-to-Left, Vertical and Hieratic text.
-8. Place an intial anchor on each base glyph. The &lt;mark&gt; feature is used to group lookups for this step.
+8. Place an initial anchor on each base glyph. The &lt;mark&gt; feature is used to group lookups for this step.
 9. Build up the block structure and place the sized hieroglyphs. The &lt;mkmk&gt; feature is used to group lookups for this step.
 10. The &lt;dist&gt; feature is used interspersed with &lt;mkmk&gt; feature to offset specific signs.
 
@@ -29,7 +29,7 @@ This project generates OpenType tables for a suitable font that acheives arbitra
 The project consists of the following core files:
 
 - **config.py** — specifies the per-font details such as font name, key dimensions etc.
-- **eotgen.py** — runs the project. It takes a commandline parameter to specify the config file to be used.
+- **eotgen.py** — runs the project.
 - **eotHelper.py** — the class file containing all the logic to process the font and generate the OpenType. It includes additional functions for generating font tests and keyboard data.
 - **featuredata.py** — contains static data for use in the project.
 - **insertions.py** — contains per-font data specifying the size and offsets of insertion areas.
@@ -56,7 +56,7 @@ The purpose of the basic format controls is to specify the arrangement of hierog
 The dimensions of the horizontal ['hfu'] and vertical ['vfu'] hieroglyph units need to be defined in font units in [config.py](/config.py). The grid dimensions must also be defined in hieroglyph units ['hhu'] and ['vhu']. The special horizontal dimension ['chu'] is used to constrain block formation to blocks narrower than the maximum. For example, the widest characters might be 8 units wide, but composite blocks will be at maximum 6 units wide. Characters wider than the block max do not participate in block composition at this time.
 
 ### Glyph outline conventions
-Hieroglyphs should be rendered with TrueType outlines. Signs must centered horizontally on the origin and have zero width. Signs should be offset vertically so that they sit on a baseline lower than the ASCII baseline. The vertical offset is defined by the property ['vbase'] in [config.py](/config.py). In order to size signs efficiently, it is desirable to have a mask layer in the font that renders the defined grid dimensions centered on the origin.
+Hieroglyphs should be rendered with TrueType outlines. Signs must be centered horizontally on the origin and have zero width. Signs should be offset vertically so that they sit on a baseline lower than the ASCII baseline. The vertical offset is defined by the property ['vbase'] in [config.py](/config.py). In order to size signs efficiently, it is desirable to have a mask layer in the font that renders the defined grid dimensions centered on the origin.
 
 <figure>
     <img src="png/eot_cg.png" width=160 alt="Centered Hieroglyphic grid">
@@ -67,12 +67,12 @@ With this centered grid, it is easy to see the dimensions of a sign placed corre
 
 <figure>
     <img src="png/eot_g1.png" width=360 alt="Sample showing G1 glyph on grid">
-    <figcaption><i>Sample showing G1 glyph on grid.</i></figcaption>
+    <figcaption><i>Sample showing G1 glyph on the centered grid.</i></figcaption>
 </figure>
 
 ### Core Egyptian Unicode Characters
 #### Egyptian Hieroglyphs
-The basic hierglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Character variants may be suffixed with a lowercase letter (e.g., G7a). As such, Hieroglyph character names conform to the regular expression:
+The basic hieroglyph signs with the exception of the signs which participate in enclosures (i.e., U+13000–13257, U+1325E–13285, U+1328A–13378, U+1337C–1342E). The font should include one or more Egyptian Hieroglyph characters. Some fonts will choose to include a subset of characters for stylistic, corpus, or other purposes. Characters should be named after their Gardiner names without padding zeros (e.g., G1). Character variants may be suffixed with a lowercase letter (e.g., G7a). As such, Hieroglyph character names conform to the regular expression:
 > ^[A-Z]+[0-9]+[a-m]?
 
 Note, at this time, there are no character variants requiring lower case extensions beyond l, i.e., 12 variants.
@@ -85,7 +85,7 @@ Note, at this time, there are no character variants requiring lower case extensi
 #### Enclosure ends
 The enclosure ends get special treatment. They do not have to be included, but if included they should be named as follows:
 
-| Sign | Code point | Name | Description |
+| Sign | Code point | Glyph name | Description |
 | ---- | ---------- | ---- | ----------- |
 | 𓉘 | U+13258 | hwtb | HWT enclosure begin |
 | 𓉙 | U+13259 | hwtbb | HWT enclosure bottom (corner) begin |
@@ -105,7 +105,7 @@ The enclosure ends get special treatment. They do not have to be included, but i
 #### Egyptian Hieroglyph Format Controls
 The format controls should have conventional visible forms for fallback purposes. Only a subset need be included. When included, they should be named as follows:
 
-| Sign | Code point | Name | Description |
+| Sign | Code point | Glyph name | Description |
 | ---- | ---------- | ---- | ----------- |
 | 𓐰 | U+13430 | vj | Vertical joiner |
 | 𓐱 | U+13431 | hj | Horizontal joiner |
@@ -194,20 +194,18 @@ See [Unicode Core Spec Chapter 11, Table 11-2](https://www.unicode.org/versions/
 
 The following brackets should be included if support for Egyptological transliteration is intended. These brackets may also participate in Hieroglyph cluster formation in supporting software.
 
-| Sign | Code point | Description |
-| ---- | ---------- | ----------- |
-| [ | U+005B | LEFT SQUARE BRACKET |
-| ] | U+005D | RIGHT SQUARE BRACKET |
-| ⸢ | U+2E22 | TOP LEFT HALF BRACKET |
-| ⸣ | U+2E23 | TOP RIGHT HALF BRACKET |
-| ⟨ | U+27E8 | MATHEMATICAL LEFT ANGLE BRACKET |
-| ⟩ | U+27E9 | MATHEMATICAL RIGHT ANGLE BRACKET |
-| { | U+007B | LEFT CURLY BRACKET |
-| } | U+007D | RIGHT CURLY BRACKET |
-| ⟦ | U+27E6 | MATHEMATICAL LEFT WHITE SQUARE BRACKET |
-| ⟧ | U+27E7 | MATHEMATICAL RIGHT WHITE SQUARE BRACKET |
-<!-- | ⸤ | U+2E24 | BOTTOM LEFT HALF BRACKET |
-| ⸥ | U+2E25 | BOTTOM RIGHT HALF BRACKET | -->
+| Sign | Code point | Glyph name |Description |
+| ---- | ---------- | ---------- |----------- |
+| [ | U+005B | tcbb | LEFT SQUARE BRACKET |
+| ] | U+005D | tcbe | RIGHT SQUARE BRACKET |
+| ⸢ | U+2E22 | tcub | TOP LEFT HALF BRACKET |
+| ⸣ | U+2E23 | tcue | TOP RIGHT HALF BRACKET |
+| ⟨ | U+27E8 | tcab | MATHEMATICAL LEFT ANGLE BRACKET |
+| ⟩ | U+27E9 | tcae | MATHEMATICAL RIGHT ANGLE BRACKET |
+| { | U+007B | tccb | LEFT CURLY BRACKET |
+| } | U+007D | tcce | RIGHT CURLY BRACKET |
+| ⟦ | U+27E6 | tcrb | MATHEMATICAL LEFT WHITE SQUARE BRACKET |
+| ⟧ | U+27E7 | tcre | MATHEMATICAL RIGHT WHITE SQUARE BRACKET |
 
 #### Directional controls and joiners
 when right-to-left layout support is planned, fonts should include glyphs for the directional controls and joiners:
@@ -256,13 +254,14 @@ This OpenType project depends on a large number of unmapped glyphs that can only
 
 #### Quadrat bases
 All Egyptian Hieroglyphic signs are treated as mark glyph in the OpenType project. The block calculation determines the appropriate width for the block and then selects an empty glyph to serve as the base on which the marks are placed. These are named "QB" followed by a digit for the width of the base:
+
 <figure>
     <img src="png/eot_qbs.png" width= 600 alt="Quadrat bases">
     <figcaption><i>Quadrat bases for widths 1 to 8.</i></figcaption>
 </figure>
 
 #### Enclosure pieces
-Cartouche enclosures are formed by replacing the quadrat bases with the cartouche base for the corresponding width.
+Cartouche enclosures are formed by replacing the quadrat bases with the cartouche base for the corresponding width. They are named "QC" followed by a digit for their width:
 
 <figure>
     <img src="png/eot_qc.png" width= 600 alt="Quadrat cartouche bases">
@@ -271,7 +270,7 @@ Cartouche enclosures are formed by replacing the quadrat bases with the cartouch
     </figcaption>
 </figure>
 
-The cartouche bases have rotated forms for vertical layout:
+The cartouche bases have rotated forms for vertical layout. The width of the column is unform so that the enclosing lines of the cartouche accommodate different quadrat widths within. The space for the quadrat width is centered within the enclosing lines. These forms append "V" to the corresponding name:
 
 <figure>
     <img src="png/eot_qcv.png" width= 600 alt="Cartouche vertical bases">
@@ -280,7 +279,7 @@ The cartouche bases have rotated forms for vertical layout:
     </figcaption>
 </figure>
 
-Walled bases are needed for the walled cartouches:
+Walled bases are needed for the walled cartouches. They are named "QW" followed by the digit for their width. They also have corresponding vertical forms.
 
 <figure>
     <img src="png/eot_qw.png" width= 600 alt="Walled cartouche bases">
@@ -289,7 +288,7 @@ Walled bases are needed for the walled cartouches:
     </figcaption>
 </figure>
 
-To support doubled cartouches, both double and outer cartouche bases are needed.
+To support doubled cartouches, both double and outer cartouche bases are needed. The outer cartouche bases are used for the quadrats between the ends of the outer quadrat and the ends of the inner quadrat. Only the section that contains the inner quadrat takes the double enclosure lines. The names are prefixed "QO" for the outer quadrat bases and "QD" for the doubled quadrat bases. Names take the digit for their respective widths:
 
 <figure>
     <img src="png/eot_doc.png" width= 600 alt="Doubled bases">
@@ -298,7 +297,7 @@ To support doubled cartouches, both double and outer cartouche bases are needed.
     </figcaption>
 </figure>
 
-For each cartouche endcap type, glyphs are needed for the three layouts: left-to-right; right-to-left; and vertical.
+For each cartouche endcap type, glyphs are needed for the three layouts: left-to-right; right-to-left; and vertical. The names are: "cbL" - cartouche being Left; "cbR" - cartouche begin Right; and "cbT" - cartouche begin Top.
 
 <figure>
     <img src="png/eot_b.png" width= 200 alt="End caps for each layout">
@@ -307,7 +306,7 @@ For each cartouche endcap type, glyphs are needed for the three layouts: left-to
     </figcaption>
 </figure>
 
-Corresponding endcaps are needed for the different cartouche types including the HWT enclosures.
+Corresponding endcaps are needed for the different cartouche types including the HWT enclosures. The names follow the same pattern.
 
 <figure>
     <img src="png/eot_hwt.png" width= 200 alt="HWT endcaps for each layout">
@@ -316,33 +315,148 @@ Corresponding endcaps are needed for the different cartouche types including the
     </figcaption>
 </figure>
 
-#### Generic boxes
-<!--  -->
+The end caps for the inner cartouche of the doubled cartouche must include the enclosure line for the outer cartouche:
+
+<figure>
+    <img src="png/eot_cdb.png" width= 200 alt="End caps for the inner cartouche of the doubled cartouche">
+    <figcaption>
+        <i>Inner cartouche endcaps.</i>
+    </figcaption>
+</figure>
+
+#### Guide boxes
+To assist typing complex quadrats the font injects guides to show where the next sign will be inserted following a control character. This is done by injecting a guide base "GB1" at the end of a sequence that terminates in a control character. The character "GB1" is then substituted into the appropriately sized form based on the quadrat's composition. It is important to include all size permutations of this character, including 6x6 which is used for overstrikes.
+
+<figure>
+    <img src="png/eot_guides.png" width= 350 alt="Quadrats with control guides">
+    <figcaption>
+        <i>Control guides assist with quadrat composition.</i>
+    </figcaption>
+</figure>
+
+Guide base size variants are named in the standard pattern, "GB1_" followed by the dimensions of the box, horizontal then vertical:
+
+<figure>
+    <img src="png/eot_gb.png" width= 600 alt="Guide box and size variants">
+    <figcaption>
+        <i>Guide box and size variants.</i>
+    </figcaption>
+</figure>
 
 #### Open segments
-<!--  -->
+Another input assist is the use of colored brackets to indicate when a segment has been opened with the segment begin character (U+13437) but which is not yet closed with a corresponding segment end character (U+13438). The colored brackets are sized to match the area of the target segment. The following illustration shows the build up of a complex quadrat with the open segment indicator showing until the segment end character is added to the sequence.
+
+<figure>
+    <img src="png/eot_seg.png" width= 600 alt="Quadrat build up with open segment">
+    <figcaption>
+        <i>Quadrat build up showing the open segment.</i>
+    </figcaption>
+</figure>
+
+Open segment glyphs are named in the pattern "es" (<i>extend segment</i>) followed by the size notation for the width and height of the glyph. Because a segment is used to nest a vertical group, there can be no valid segment that is a single unit height. Therefore, the open segment glyphs only need to support sizes from 66 to 21:
+
+<figure>
+    <img src="png/eot_segs.png" width= 600 alt="Quadrat build up with open segment">
+    <figcaption>
+        <i>Quadrat build up showing the open segment.</i>
+    </figcaption>
+</figure>
 
 #### Text critical marks
-<!--  -->
+Egyptological brackets may be used for text critical markup within a quadrat. They adapt in vertical size for the area boundary that they mark. Separate sets of bracket size variants are needed for each nesting level. As such, 18 glyphs are needed for the bracket open. The name convention is: "tcbb" for text critical bracket begin, followed by the level, and the vertical size:
+
+<figure>
+    <img src="png/eot_tcb.png" width= 350 alt="Text critical bracket begin size variations">
+    <figcaption>
+        <i>Text critical bracket begin size variations.</i>
+    </figcaption>
+</figure>
+
+Corresponding beginning and ending sets of size variants must be included in the font for each supported type of Egyptological bracket. The naming prefixes are as follows:
+
+| Sign | Code point | Prefix for size variants |
+| ---- | ---------- | ----------- |
+| [ | U+005B | tcbb (text critical bracket begin) |
+| ] | U+005D | tcbe (text critical bracket end) |
+| ⸢ | U+2E22 | tcub (text critical upper-half-bracket begin) |
+| ⸣ | U+2E23 | tcue (text critical upper-half-bracket end) |
+| ⟨ | U+27E8 | tcab (text critical angle-bracket begin) |
+| ⟩ | U+27E9 | tcae (text critical angle-bracket end) |
+| { | U+007B | tccb (text critical curly-bracket begin) |
+| } | U+007D | tcce (text critical curly-bracket end) |
+| ⟦ | U+27E6 | tcrb (text critical rasura-bracket begin) |
+| ⟧ | U+27E7 | tcre (text critical rasura-bracket end) |
 
 #### Lost sign size variants
-<!--  -->
 
-#### Lost sign expanded variants
-<!--  -->
+A cross-hatch or diagonal shading can fill an area where a sign has been lost. Four different characters are used to indicate these cases, they have different shaping characteristics as follows:
+
+| Code point | Glyph Name | Unicode Name |
+| ---------- | ---------- | ------------ |
+| U+13443 | LF1 | Lost sign full| 
+| U+13444 | LQ1 | Lost sign quarter |
+| U+13445 | LT1 | Lost sign tall |
+| U+13446 | LW1 | Lost sign wide |
+
+- LF1 adapts to fill the available size. As such, it is implemented with glyph size variants for each of the 36 possible sizes:
+
+<figure>
+    <img src="png/eot_lf.png" width= 600 alt="Lost full sign size variants">
+    <figcaption>
+        <i>Lost full sign size variants.</i>
+    </figcaption>
+</figure>
+
+- LQ1 denotes a "quarter"-sized lost sign having a conventional default size of 3 wide and 3 tall. When reduced, it always remains proportionate and so occurs in a limited set of sizes as follows:
+
+<figure>
+    <img src="png/eot_lq.png" width= 200 alt="Lost quarter sign size variants">
+    <figcaption>
+        <i>Lost quarter sign size variants.</i>
+    </figcaption>
+</figure>
+
+- LT1 denotes a lost tall sign having a conventional default size of 3 wide and 6 tall. When reduced it always remains taller than it is wide. It takes the following sizes:
+
+<figure>
+    <img src="png/eot_lt.png" width= 600 alt="Lost tall sign size variants">
+    <figcaption>
+        <i>Lost tall sign size variants.</i>
+    </figcaption>
+</figure>
+
+- LW1 denotes a lost wide sign having a conventional default size of 6 wide and 3 tall. When reduced it always remains wider than it is tall. It takes the following sizes:
+
+<figure>
+    <img src="png/eot_lw.png" width= 600 alt="Lost wide sign size variants">
+    <figcaption>
+        <i>Lost wide sign size variants.</i>
+    </figcaption>
+</figure>
+
+The lost signs have expanded variants denoted LF2, LQ2, LT2, LW2 (see above [Expanded variants](#expanded-variants) ) with corresponding size variations to support expanding the shading to fill the area boundary between signs.
 
 #### Damaged sign variants
-<!--  -->
+
+The damaged quarter controls modify a preceding sign. There are 15 visible permutations of the damage quarters. Signs can occur in 36 sizes for the composing quadrats. In addition, size modifiers can occur at 6 units tall for the wider, non-composing signs at width 7 and width 8. Therefore, the 15 damage controls can each occur in 38 possible sizes, consequently, 570 glyphs are needed to support applying any damage modifier as a modifier to any sign.
+Damage modifiers are named using the convention: "dq" followed by a digit for the quarter sequence and then the size separated by the underbar:
+
+<figure>
+    <img src="png/eot_dq.png" width= 600 alt="Damaged-quarter size variations">
+    <figcaption>
+        <i>Damaged-quarter size variations.</i>
+    </figcaption>
+</figure>
 
 #### Ligatures
-Ligatures can be defined on-demand to represent a particular combination with higher typographic fidelity than can be acheived with the dynamic construction. Ligatures must be named using a prefix "lig." followed by a period delimited sequence of glyphnames based on the glyph sequence they ligate. For example, glyph "lig.G43.te.X1" defines the ligature:
+Ligatures can be defined on-demand to represent a particular combination with higher typographic fidelity than can be achieved with the dynamic construction. Ligatures must be named using a prefix "lig." followed by a period delimited sequence of glyph names based on the glyph sequence they ligate. For example, glyph "lig.G43.te.X1" defines the ligature:
 <figure>
     <img src="png/eot_lig.png" width= 160 alt="Ligature of G43 and X1">
     <figcaption><i>Ligature of G43, top end insertion, and X1.</i></figcaption>
 </figure>
 
 #### Size variants
-Size variant glyphs are included in the font so that the OpenType logic can select the largest available glyph that will fit in the host area. For example, the hieroglyph G25 has a natural size 6x6. If this hieroglyph occurs in a block that has only a 4x4 area available to host G25, and the font contains a size variant of G25 called G25_44, it will select that variant to use when rendering the block. Consequently, a font should contain a range of size variant glyphs appropriate to each hieroglyph. There is no minimum requirement for the font to contain such variants. If the OpenType logic determines that a suitablely sized glyph is not available in a required size for a given base hieroglyph, it will fall back to a special glyph called "placeholder". The natural size of the placeholder glyph should be 1x1 so that it will fit in any supported size determined by the block structure logic.
+Size variant glyphs are included in the font so that the OpenType logic can select the largest available glyph that will fit in the host area. For example, the hieroglyph G25 has a natural size 6x6. If this hieroglyph occurs in a block that has only a 4x4 area available to host G25, and the font contains a size variant of G25 called G25_44, it will select that variant to use when rendering the block. Consequently, a font should contain a range of size variant glyphs appropriate to each hieroglyph. There is no minimum requirement for the font to contain such variants. If the OpenType logic determines that a suitably sized glyph is not available in a required size for a given base hieroglyph, it will fall back to a special glyph called "placeholder". The natural size of the placeholder glyph should be 1x1 so that it will fit in any supported size determined by the block structure logic.
 
 <figure>
     <img src="png/eot_g25_sv.png" alt="Size variants of G25">
@@ -362,9 +476,9 @@ Size variant glyphs are included in the font so that the OpenType logic can sele
 #### Mirror variants
 Mirrored variants are included in the font so that the OpenType logic can support both forced RTL layout, and the mirror control.
 - Forced RTL layout mirrors the entire run being forced. The mirroring applies to whole blocks and reflects both the block structure and individual signs. Signs that have horizontal symmetry do not mirror.
-- The mirror control applies to the immediately preceeding sign only, and does not affect block structures. Signs that have horizontal symmetry do not mirror and the mirror control remains visible in the glyph run.
+- The mirror control applies to the immediately preceding sign only, and does not affect block structures. Signs that have horizontal symmetry do not mirror and the mirror control remains visible in the glyph run.
 
 The signs that mirror horizontally are defined in [featuredata.py](/featuredata.py) mirroring.
  
-When both mirror variants and rotational variants are supported by a font, the corresponding set of mirrored forms for the rotational variants should also be included. The set of rotational variants that mirror is defined separately from the mirror variants, in [featuredata.py](/featuredata.py) mirroredvariants.
+When both mirror variants and rotational variants are supported by a font, the corresponding set of mirrored forms for the rotational variants should also be included. The set of rotational variants that mirror is defined separately from the mirror variants, in [featuredata.py](/featuredata.py) `mirroredvariants`.
 
