@@ -337,7 +337,7 @@ To assist typing complex quadrats the font injects guides to show where the next
 Guide base size variants are named in the standard pattern, "GB1_" followed by the dimensions of the box, horizontal then vertical:
 
 <figure>
-    <img src="png/eot_gb.png" width= 600 alt="Guide box and size variants">
+    <img src="png/eot_gb.png" alt="Guide box and size variants">
     <figcaption>
         <i>Guide box and size variants.</i>
     </figcaption>
@@ -353,20 +353,22 @@ Another input assist is the use of colored brackets to indicate when a segment h
     </figcaption>
 </figure>
 
+
 Open segment glyphs are named in the pattern "es" (<i>extend segment</i>) followed by the size notation for the width and height of the glyph. Because a segment is used to nest a vertical group, there can be no valid segment that is a single unit height. Therefore, the open segment glyphs only need to support sizes from 66 to 21:
 
 <figure>
-    <img src="png/eot_segs.png" width= 600 alt="Quadrat build up with open segment">
+    <img src="png/eot_segs.png" alt="Quadrat build up with open segment">
     <figcaption>
         <i>Quadrat build up showing the open segment.</i>
     </figcaption>
 </figure>
 
+
 #### Text critical marks
 Egyptological brackets may be used for text critical markup within a quadrat. They adapt in vertical size for the area boundary that they mark. Separate sets of bracket size variants are needed for each nesting level. As such, 18 glyphs are needed for the bracket open. The name convention is: "tcbb" for text critical bracket begin, followed by the level, and the vertical size:
 
 <figure>
-    <img src="png/eot_tcb.png" width= 350 alt="Text critical bracket begin size variations">
+    <img src="png/eot_tcb.png" width= 600 alt="Text critical bracket begin size variations">
     <figcaption>
         <i>Text critical bracket begin size variations.</i>
     </figcaption>
@@ -401,7 +403,7 @@ A cross-hatch or diagonal shading can fill an area where a sign has been lost. F
 - LF1 adapts to fill the available size. As such, it is implemented with glyph size variants for each of the 36 possible sizes:
 
 <figure>
-    <img src="png/eot_lf.png" width= 600 alt="Lost full sign size variants">
+    <img src="png/eot_lf.png" alt="Lost full sign size variants">
     <figcaption>
         <i>Lost full sign size variants.</i>
     </figcaption>
@@ -410,7 +412,7 @@ A cross-hatch or diagonal shading can fill an area where a sign has been lost. F
 - LQ1 denotes a "quarter"-sized lost sign having a conventional default size of 3 wide and 3 tall. When reduced, it always remains proportionate and so occurs in a limited set of sizes as follows:
 
 <figure>
-    <img src="png/eot_lq.png" width= 200 alt="Lost quarter sign size variants">
+    <img src="png/eot_lq.png" width= 350 alt="Lost quarter sign size variants">
     <figcaption>
         <i>Lost quarter sign size variants.</i>
     </figcaption>
@@ -419,7 +421,7 @@ A cross-hatch or diagonal shading can fill an area where a sign has been lost. F
 - LT1 denotes a lost tall sign having a conventional default size of 3 wide and 6 tall. When reduced it always remains taller than it is wide. It takes the following sizes:
 
 <figure>
-    <img src="png/eot_lt.png" width= 600 alt="Lost tall sign size variants">
+    <img src="png/eot_lt.png" alt="Lost tall sign size variants">
     <figcaption>
         <i>Lost tall sign size variants.</i>
     </figcaption>
@@ -428,7 +430,7 @@ A cross-hatch or diagonal shading can fill an area where a sign has been lost. F
 - LW1 denotes a lost wide sign having a conventional default size of 6 wide and 3 tall. When reduced it always remains wider than it is tall. It takes the following sizes:
 
 <figure>
-    <img src="png/eot_lw.png" width= 600 alt="Lost wide sign size variants">
+    <img src="png/eot_lw.png" alt="Lost wide sign size variants">
     <figcaption>
         <i>Lost wide sign size variants.</i>
     </figcaption>
@@ -442,7 +444,7 @@ The damaged quarter controls modify a preceding sign. There are 15 visible permu
 Damage modifiers are named using the convention: "dq" followed by a digit for the quarter sequence and then the size separated by the underbar:
 
 <figure>
-    <img src="png/eot_dq.png" width= 600 alt="Damaged-quarter size variations">
+    <img src="png/eot_dq.png" alt="Damaged-quarter size variations">
     <figcaption>
         <i>Damaged-quarter size variations.</i>
     </figcaption>
