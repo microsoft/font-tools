@@ -190,22 +190,24 @@ OpenType Egyptian Hieroglyphic fonts work best when they include Latin character
 **Note** — glyph names for these characters are unimportant as they are not included in the generation of OpenType layout tables. OpenType tables for the Latin range is outside of the scope of this project.
 
 #### Egyptological brackets
+See [Unicode Core Spec Chapter 11, Table 11-2](https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-11/#G47104)
+
 The following brackets should be included if support for Egyptological transliteration is intended. These brackets may also participate in Hieroglyph cluster formation in supporting software.
 
 | Sign | Code point | Description |
 | ---- | ---------- | ----------- |
 | [ | U+005B | LEFT SQUARE BRACKET |
 | ] | U+005D | RIGHT SQUARE BRACKET |
+| ⸢ | U+2E22 | TOP LEFT HALF BRACKET |
+| ⸣ | U+2E23 | TOP RIGHT HALF BRACKET |
+| ⟨ | U+27E8 | MATHEMATICAL LEFT ANGLE BRACKET |
+| ⟩ | U+27E9 | MATHEMATICAL RIGHT ANGLE BRACKET |
 | { | U+007B | LEFT CURLY BRACKET |
 | } | U+007D | RIGHT CURLY BRACKET |
 | ⟦ | U+27E6 | MATHEMATICAL LEFT WHITE SQUARE BRACKET |
 | ⟧ | U+27E7 | MATHEMATICAL RIGHT WHITE SQUARE BRACKET |
-| ⟨ | U+27E8 | MATHEMATICAL LEFT ANGLE BRACKET |
-| ⟩ | U+27E9 | MATHEMATICAL RIGHT ANGLE BRACKET |
-| ⸢ | U+2E22 | TOP LEFT HALF BRACKET |
-| ⸣ | U+2E23 | TOP RIGHT HALF BRACKET |
-| ⸤ | U+2E24 | BOTTOM LEFT HALF BRACKET |
-| ⸥ | U+2E25 | BOTTOM RIGHT HALF BRACKET |
+<!-- | ⸤ | U+2E24 | BOTTOM LEFT HALF BRACKET |
+| ⸥ | U+2E25 | BOTTOM RIGHT HALF BRACKET | -->
 
 #### Directional controls and joiners
 when right-to-left layout support is planned, fonts should include glyphs for the directional controls and joiners:
@@ -260,12 +262,78 @@ All Egyptian Hieroglyphic signs are treated as mark glyph in the OpenType projec
 </figure>
 
 #### Enclosure pieces
+Cartouche enclosures are formed by replacing the quadrat bases with the cartouche base for the corresponding width.
+
+<figure>
+    <img src="png/eot_qc.png" width= 600 alt="Quadrat cartouche bases">
+    <figcaption>
+        <i>Quadrat cartouche bases for widths 1 to 8.</i>
+    </figcaption>
+</figure>
+
+The cartouche bases have rotated forms for vertical layout:
+
+<figure>
+    <img src="png/eot_qcv.png" width= 600 alt="Cartouche vertical bases">
+    <figcaption>
+        <i>Quadrat cartouche bases for vertical layout.</i>
+    </figcaption>
+</figure>
+
+Walled bases are needed for the walled cartouches:
+
+<figure>
+    <img src="png/eot_qw.png" width= 600 alt="Walled cartouche bases">
+    <figcaption>
+        <i>Walled cartouche bases.</i>
+    </figcaption>
+</figure>
+
+To support doubled cartouches, both double and outer cartouche bases are needed.
+
+<figure>
+    <img src="png/eot_doc.png" width= 600 alt="Doubled bases">
+    <figcaption>
+        <i>Doubled bases.</i>
+    </figcaption>
+</figure>
+
+For each cartouche endcap type, glyphs are needed for the three layouts: left-to-right; right-to-left; and vertical.
+
+<figure>
+    <img src="png/eot_b.png" width= 200 alt="End caps for each layout">
+    <figcaption>
+        <i>LRT, RTL, and vertical endcaps.</i>
+    </figcaption>
+</figure>
+
+Corresponding endcaps are needed for the different cartouche types including the HWT enclosures.
+
+<figure>
+    <img src="png/eot_hwt.png" width= 200 alt="HWT endcaps for each layout">
+    <figcaption>
+        <i>LRT, RTL, and vertical HWT endcaps.</i>
+    </figcaption>
+</figure>
+
 #### Generic boxes
+<!--  -->
+
 #### Open segments
+<!--  -->
+
 #### Text critical marks
+<!--  -->
+
 #### Lost sign size variants
+<!--  -->
+
 #### Lost sign expanded variants
+<!--  -->
+
 #### Damaged sign variants
+<!--  -->
+
 #### Ligatures
 Ligatures can be defined on-demand to represent a particular combination with higher typographic fidelity than can be acheived with the dynamic construction. Ligatures must be named using a prefix "lig." followed by a period delimited sequence of glyphnames based on the glyph sequence they ligate. For example, glyph "lig.G43.te.X1" defines the ligature:
 <figure>

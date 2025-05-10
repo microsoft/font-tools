@@ -170,7 +170,7 @@ class EotHelper:
                 return                
             def genTable():
                 testfile = open('testsequences.txt',"r")
-                widetests = ['Enclosures','Phrases','Invalid Phrases','Internal ligatures','Max cluster size','Invalid']
+                widetests = ['Enclosures','Phrases','Invalid Phrases','Internal ligatures','Max cluster size','Invalid','TCMs']
                 self.wide = False
                 lineno = 1
                 for line in testfile:
