@@ -103,6 +103,8 @@ The enclosure ends get special treatment. They do not have to be included, but i
 | 𓐯 | U+1342F | crb | Cartouche reversed begin |
 
 #### Egyptian Hieroglyph Format Controls
+See [Unicode block U+13430–U+1345F](https://unicode.org/charts/PDF/U13430.pdf)
+
 The format controls should have conventional visible forms for fallback purposes. Only a subset need be included. When included, they should be named as follows:
 
 | Sign | Code point | Glyph name | Description |
