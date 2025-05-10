@@ -19,6 +19,14 @@
 / %hwtfb O1 hwtfe
 / %cwb A1 hj B1 vj Z2 cwe
 
+#TCMs
+A1 hj tcub B1 tcue vj N37
+A1 hj tcbb B1 tcbe vj N37
+A1 hj tcpb B1 tcpe vj N37
+/ A1 hj braceleft B1 braceright vj N37
+A1 hj tcrb B1 tcre vj N37
+L1 tcbb D21 vj X1 hj tcbb Z2 ss V30 vj X1 se tcbe
+
 #Basic
 %A1                      
 %A1 vj O1                
