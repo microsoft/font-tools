@@ -2261,6 +2261,7 @@ class EotHelper:
             self.glyphdata[name] = glyph
     def insertglyph(self,newglyph):
         self.fontsrc['glyf'][newglyph] = Glyph()
+        self.fontsrc._buildReverseGlyphOrderDict()
         self.fontsrc['hmtx'][newglyph] = (0,0)
         return self.fontsrc.getGlyphID(newglyph)
     def loadgroups(self):
