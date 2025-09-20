@@ -419,13 +419,21 @@ class EotHelper:
         def parseVariationLine(line):
             def lookupVSType(vs,description):
                 vsType = 'x' # no rotation
-                if vs in ['FE00','FE01','FE02']:
+                if vs in ['FE00','FE01','FE02','FE03','FE04','FE05','FE06']:
                     if vs == 'FE00':
                         vsType = 'n' #  90 degree rotation
                     if vs == 'FE01':
                         vsType = 'o' # 180 degree rotation
                     if vs == 'FE02':
                         vsType = 't' # 270 degree rotation
+                    if vs == 'FE03':
+                        vsType = 'f' # 45 degree rotation
+                    if vs == 'FE04':
+                        vsType = 'm' # 135 degree rotation
+                    if vs == 'FE05':
+                        vsType = 'q' # 225 degree rotation
+                    if vs == 'FE06':
+                        vsType = 'u' # 315 degree rotation
                     if re.match(r'^.*expanded.*$',description,flags=re.IGNORECASE):
                         vsType = 'x'
                 else:
@@ -462,9 +470,13 @@ class EotHelper:
                             self.variations.append(varObj)
                             i += 1
             if self.defaultA1 == False:
-                self.variations.insert(0,{'base': '13000', 'vs': 'FE02', 'type': 't'})
-                self.variations.insert(0,{'base': '13000', 'vs': 'FE01', 'type': 'o'})
-                self.variations.insert(0,{'base': '13000', 'vs': 'FE00', 'type': 'n'})
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE00', 'type': 'n'}) # 90 degree rotation
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE01', 'type': 'o'}) # 180 degree rotation
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE02', 'type': 't'}) # 270 degree rotation
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE03', 'type': 'f'}) # 45 degree rotation
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE04', 'type': 'm'}) # 135 degree rotation
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE05', 'type': 'q'}) # 225 degree rotation
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE06', 'type': 'u'}) # 315 degree rotation
 
             print('Loaded '+str(i)+' variations from StandardizedVariants.txt')
 
@@ -606,17 +618,42 @@ class EotHelper:
             oy = round(y - (3* offset))
             tx = round((y/2))
             ty = ((round(x/2) * -1) + 568) * -1
+            
+            # Calculate values for 45-degree rotations
+            cos45 = 0.7071067811865476  # cos(45°) = √2/2
+            sin45 = 0.7071067811865476  # sin(45°) = √2/2
+            
+            # 45 degrees: cos(45°), sin(45°), -sin(45°), cos(45°)
+            fx = round((x * cos45 - y * sin45) / 2)
+            fy = round((x * sin45 + y * cos45) / 2)
+            
+            # 135 degrees: -sin(45°), cos(45°), -cos(45°), -sin(45°)
+            mx = round((-x * sin45 + y * cos45) / 2)
+            my = round((-x * cos45 - y * sin45) / 2 + 568)
+            
+            # 225 degrees: -cos(45°), -sin(45°), sin(45°), -cos(45°)
+            qx = round((-x * cos45 + y * sin45) / 2 + x)
+            qy = round((-x * sin45 - y * cos45) / 2 + y)
+            
+            # 315 degrees: sin(45°), -cos(45°), cos(45°), sin(45°)
+            ux = round((x * sin45 + y * cos45) / 2)
+            uy = round((x * cos45 - y * sin45) / 2 + 568)
 
             tlookup = {
                 'n':'@0, -1, 1, 0, '+str(nx)+', '+str(ny),
                 'o':'@-1, 0, 0, -1, '+str(x)+', '+str(oy),
                 't':'@0, 1, -1, 0, '+str(tx)+', '+str(ty),
+                'f':'@'+str(cos45)+', '+str(sin45)+', '+str(-sin45)+', '+str(cos45)+', '+str(fx)+', '+str(fy),
+                'm':'@'+str(-sin45)+', '+str(cos45)+', '+str(-cos45)+', '+str(-sin45)+', '+str(mx)+', '+str(my),
+                'q':'@'+str(-cos45)+', '+str(-sin45)+', '+str(sin45)+', '+str(-cos45)+', '+str(qx)+', '+str(qy),
+                'u':'@'+str(sin45)+', '+str(-cos45)+', '+str(cos45)+', '+str(sin45)+', '+str(ux)+', '+str(uy),
             }
+
             if string in tlookup:
                 return tlookup[string]
             pass
         def sizeLookup(type,size):
-            if type in ['n','t']:
+            if type in ['n','t','f','m','q','u']:
                 size = size[1] + size[0]
             return size
         recipes = []
@@ -665,6 +702,10 @@ class EotHelper:
                 'n': [' ','/90','U+FE00'],
                 'o': ['','/180','U+FE01'],
                 't': ['','/270','U+FE02'],
+                'f': ['','/45','U+FE03'],
+                'm': ['','/135','U+FE04'],
+                'q': ['','/225','U+FE05'],
+                'u': ['','/315','U+FE06'],
             }
             if string in tlookup:
                 return tlookup[string]
