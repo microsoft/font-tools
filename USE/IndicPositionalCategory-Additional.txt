@@ -51,7 +51,7 @@ A9BE          ; Right   # Mc      JAVANESE CONSONANT SIGN PENGKAL # Reduced from
 # Indic_Positional_Category=Top
 0F74          ; Top     # Mn       TIBETAN VOWEL SIGN U # Not really above, but need to override to fit into Universal model
 1A18          ; Top     # Mn       BUGINESE VOWEL SIGN U # Workaround to allow below to occur before above by treating all below marks as above
-AA35          ; Top     # Mn       CHAM CONSONANT SIGN
+AA35          ; Top     # Mn       CHAM CONSONANT SIGN
 AAB4          ; Top     # Mn       TAI VIET VOWEL U # Override: ccc controls order, USE issue #58
 1112A..1112B  ; Top     # Mn   [2] CHAKMA VOWEL SIGN U..CHAKMA VOWEL SIGN UU  # see USE issue #25
 11131..11132  ; Top     # Mn   [2] CHAKMA O MARK..CHAKMA AU MARK  # see USE issue #25
@@ -127,3 +127,4 @@ AAB4          ; Top     # Mn       TAI VIET VOWEL U # Override: ccc controls ord
 180B..180D   ; NA        # Mn  [3] MONGOLIAN FREE VARIATION SELECTOR ONE..MONGOLIAN FREE VARIATION SELECTOR THREE
 180F         ; NA        # Mn      MONGOLIAN FREE VARIATION SELECTOR FOUR
 2D7F         ; NA        # Mn      TIFINAGH CONSONANT JOINER
+
