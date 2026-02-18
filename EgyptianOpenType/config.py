@@ -14,7 +14,7 @@ pvar = {
     'sb'  : 105, # font side bearings
     'hfu' : 315, # horizontal, font units per hieroglyph unit (1372 per 6 hieroglyph units)
     'vfu' : 310, # vertical, font units per hieroglyph unit (1358 per 6 hieroglyph units)
-    'vbase' : -284, # vertical baseline for hieroglyphs in font units 
+    'vbase' : -284, # vertical baseline for hieroglyphs in font units
     'hhu' : 8, # horizontal, hieroglyph units
     'chu' : 6, # composite horizontal units (i.e., excludes wide non-composing widths)
     'vhu' : 6, # vertical, hieroglyph units
@@ -78,14 +78,14 @@ pvar = {
                         78915,78916,78917,78918,78919,78920,78921,78922,78923,78924,
                         78925,78926,78927,78928,78929,78930,78931,78932,78933,
                         91,93],
-    'internalligatures'  : 1,  
+    'internalligatures'  : 1,
     'extensions' : 1,
     'variations' : 1,
     'offsets'    : 1,
     'expansions' : 0, # see pr021_expansion_A
     'tcs' : 1,
     'baseline' : 1, #align singletons to baseline for Hieratic
-    'mirror'  : 1,  
+    'mirror'  : 1,
     'vertical': 1,
     'glyphproperties' : 1,
     'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}

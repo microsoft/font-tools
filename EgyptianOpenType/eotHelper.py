@@ -62,9 +62,13 @@ class EotHelper:
         self.pstslines = []
         self.ss01lines = []
         self.rliglines = []
+        self.rotated045 = []
         self.rotated090 = []
+        self.rotated135 = []
         self.rotated180 = []
+        self.rotated225 = []
         self.rotated270 = []
+        self.rotated315 = []
         self.vrt2lines = []
         self.sizekeys = []
         self.targetsizes = {}
@@ -74,7 +78,7 @@ class EotHelper:
         self.ligatures_all = []
         self.maxhvsizes = {}
         print(pvar['fontsrc'])
-    
+
     def initializeVTP(self):
         """Initialize the Volt OpenType project for the currently instantiated class."""
         def setdefaultfeatures():
@@ -167,7 +171,7 @@ class EotHelper:
                 elif testscope == 'F':
                     subtitle = 'Failing'
                 tl("\t\t\t<h3>["+subtitle+" test cases]</h3>\n")
-                return                
+                return
             def genTable():
                 testfile = open('testsequences.txt',"r")
                 widetests = ['Enclosures','Phrases','Invalid Phrases','Internal ligatures','Max cluster size','Invalid','TCMs']
@@ -205,7 +209,7 @@ class EotHelper:
             def genRow(lineno,line,ps):
                 tl("\t\t\t<div class='row'>\n")
                 genLabel(str(lineno)+'.','cellN')
-                glyphseq = re.sub(r'\s+\(.*','',line)    
+                glyphseq = re.sub(r'\s+\(.*','',line)
                 seq = glyphseq.split()
                 if len(seq) >= 1:
                     genLabel(glyphseq,'cellL')
@@ -269,7 +273,7 @@ class EotHelper:
                 return
 
             startPage()
-            genTable()                
+            genTable()
             endPage()
 
             return
@@ -348,7 +352,7 @@ class EotHelper:
                     if ov[0:1] == 'x':
                         offset['tt'] = 'x'
                         offset['bd'] = bxy
-                        offset['id'] = ixy 
+                        offset['id'] = ixy
                         offset['om'] = int(ov[1:])/20
                         offset['os'] = int(offset['om'] * (self.pvar['hfu'] * self.pvar['chu']))
                     elif ov[0:1] == 'y':
@@ -427,7 +431,7 @@ class EotHelper:
                     if vs == 'FE02':
                         vsType = 't' # 270 degree rotation
                     if vs == 'FE03':
-                        vsType = 'f' # 45 degree rotation
+                        vsType = 'l' # 30-45 degree rotation
                     if vs == 'FE04':
                         vsType = 'm' # 135 degree rotation
                     if vs == 'FE05':
@@ -438,7 +442,7 @@ class EotHelper:
                         vsType = 'x'
                 else:
                     print ('Unsupported variation selector in StandardizedVariants.txt')
-                
+
                 return vsType
             varObj = {'base':'','vs':'','type':''}
             parts = line.split(';')
@@ -473,7 +477,7 @@ class EotHelper:
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE00', 'type': 'n'}) # 90 degree rotation
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE01', 'type': 'o'}) # 180 degree rotation
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE02', 'type': 't'}) # 270 degree rotation
-                self.variations.insert(0,{'base': '13000', 'vs': 'FE03', 'type': 'f'}) # 45 degree rotation
+                self.variations.insert(0,{'base': '13000', 'vs': 'FE03', 'type': 'l'}) # 45 degree rotation
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE04', 'type': 'm'}) # 135 degree rotation
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE05', 'type': 'q'}) # 225 degree rotation
                 self.variations.insert(0,{'base': '13000', 'vs': 'FE06', 'type': 'u'}) # 315 degree rotation
@@ -588,7 +592,7 @@ class EotHelper:
             lines = []
             for key in self.glyphdata:
                 if (key == '.notdef'):
-                    key = '\#0'
+                    key = '\\#0'
                 if (key == '.null'):
                     key = 'null'
                 if (key in verticalmetrics):
@@ -618,23 +622,23 @@ class EotHelper:
             oy = round(y - (3* offset))
             tx = round((y/2))
             ty = ((round(x/2) * -1) + 568) * -1
-            
+
             # Calculate values for 45-degree rotations
             cos45 = 0.7071067811865476  # cos(45°) = √2/2
             sin45 = 0.7071067811865476  # sin(45°) = √2/2
-            
+
             # 45 degrees: cos(45°), sin(45°), -sin(45°), cos(45°)
             fx = round((x * cos45 - y * sin45) / 2)
             fy = round((x * sin45 + y * cos45) / 2)
-            
+
             # 135 degrees: -sin(45°), cos(45°), -cos(45°), -sin(45°)
             mx = round((-x * sin45 + y * cos45) / 2)
             my = round((-x * cos45 - y * sin45) / 2 + 568)
-            
+
             # 225 degrees: -cos(45°), -sin(45°), sin(45°), -cos(45°)
             qx = round((-x * cos45 + y * sin45) / 2 + x)
             qy = round((-x * sin45 - y * cos45) / 2 + y)
-            
+
             # 315 degrees: sin(45°), -cos(45°), cos(45°), sin(45°)
             ux = round((x * sin45 + y * cos45) / 2)
             uy = round((x * cos45 - y * sin45) / 2 + 568)
@@ -643,7 +647,7 @@ class EotHelper:
                 'n':'@0, -1, 1, 0, '+str(nx)+', '+str(ny),
                 'o':'@-1, 0, 0, -1, '+str(x)+', '+str(oy),
                 't':'@0, 1, -1, 0, '+str(tx)+', '+str(ty),
-                'f':'@'+str(cos45)+', '+str(sin45)+', '+str(-sin45)+', '+str(cos45)+', '+str(fx)+', '+str(fy),
+                'l':'@'+str(cos45)+', '+str(sin45)+', '+str(-sin45)+', '+str(cos45)+', '+str(fx)+', '+str(fy),
                 'm':'@'+str(-sin45)+', '+str(cos45)+', '+str(-cos45)+', '+str(-sin45)+', '+str(mx)+', '+str(my),
                 'q':'@'+str(-cos45)+', '+str(-sin45)+', '+str(sin45)+', '+str(-cos45)+', '+str(qx)+', '+str(qy),
                 'u':'@'+str(sin45)+', '+str(-cos45)+', '+str(cos45)+', '+str(sin45)+', '+str(ux)+', '+str(uy),
@@ -653,7 +657,7 @@ class EotHelper:
                 return tlookup[string]
             pass
         def sizeLookup(type,size):
-            if type in ['n','t','f','m','q','u']:
+            if type in ['n','t','l','m','q','u']:
                 size = size[1] + size[0]
             return size
         recipes = []
@@ -702,7 +706,7 @@ class EotHelper:
                 'n': [' ','/90','U+FE00'],
                 'o': ['','/180','U+FE01'],
                 't': ['','/270','U+FE02'],
-                'f': ['','/45','U+FE03'],
+                'l': ['','/45' ,'U+FE03'],
                 'm': ['','/135','U+FE04'],
                 'q': ['','/225','U+FE05'],
                 'u': ['','/315','U+FE06'],
@@ -724,7 +728,7 @@ class EotHelper:
                     cycles[base].append(t[2])
                 else:
                     cycles[base] = [t[2]]
-           
+
                 i += 1
 
 
@@ -786,7 +790,7 @@ class EotHelper:
         i = 0
 
         # list mirrorable base glyphs
-        for basename in self.sort_alphanumeric(mirroredvariants):            
+        for basename in self.sort_alphanumeric(mirroredvariants):
             if basename in self.glyphdata:
                 obj = self.glyphdata[basename]
                 recipes.append(basename + 'R' + ' = ' + basename + transform)
@@ -954,7 +958,7 @@ class EotHelper:
         for key, value in stats.items():
             if key in ['groupdetails','lookupdetails','tagdetails']:
                 for k,v in value.items():
-                    outputfile.write('\t' + k + '\t' + str(v) + "\n")    
+                    outputfile.write('\t' + k + '\t' + str(v) + "\n")
             elif key == 'maxgroup':
                 outputfile.write('\t' + value[1] + '\t' + str(value[0]) + "\n")
             else:
@@ -1275,7 +1279,7 @@ class EotHelper:
             # process self.offsets when name = 'offsets1'
             # foreach hash make a lookup that does the xy offset to itXY proportionate to hv in context of each sign
             # and each insertion size descending from the max attested size of that insertion
-                # QB6 r0v6 c0h6 o66 m0 ***G25 bs22 it22*** r1v2 c1h2 s22 m0 X1_21 c1eA r1eB c0eA r0eB 
+                # QB6 r0v6 c0h6 o66 m0 ***G25 bs22 it22*** r1v2 c1h2 s22 m0 X1_21 c1eA r1eB c0eA r0eB
             # process self.offsets in here when name = 'offsets2'
             # do the same for offsets2 for bs2, be2 etc.
 
@@ -1922,7 +1926,7 @@ class EotHelper:
         details = {'aname':'MARK_bi','xtype':'ZERO','ytype':'ZERO','recursive':0}
         anchorgroup(group,[group],details)
 
-        # center        
+        # center
         preformatanchor('MARK_center','m0','ZERO','ZERO')
 
         group = 'insertionsizes1'
@@ -2039,7 +2043,7 @@ class EotHelper:
             self.writelines(self.anchorlines)
             print ('ANCHORS written')
 
-### CODA 
+### CODA
     def coda(self):
         self.codalines = []
         def al(line):
@@ -2075,7 +2079,7 @@ class EotHelper:
             grplist = sorted(groupdata[key],\
                 key=lambda item: (int(item.partition(' ')[0])\
                             if item[0].isdigit() else float('inf'), item))
-            groupenum = ''            
+            groupenum = ''
             for listitem in grplist:
                 grouptype = 'GLYPH'
                 if listitem in groupnames:
@@ -2099,6 +2103,14 @@ class EotHelper:
             oneeightyS = re.search(r'^[A-Z]+[0-9]+[a-z]?o_[0-9][0-9]$',name)
             twoseventyC= re.search(r'^[A-Z]+[0-9]+[a-z]?t$',name)
             twoseventyS= re.search(r'^[A-Z]+[0-9]+[a-z]?t_[0-9][0-9]$',name)
+            fortyfiveC = re.search(r'^[A-Z]+[0-9]+[a-z]?l$',name)
+            fortyfiveS = re.search(r'^[A-Z]+[0-9]+[a-z]?l_[0-9][0-9]$',name)
+            onethirtyfiveC = re.search(r'^[A-Z]+[0-9]+[a-z]?m$',name)
+            onethirtyfiveS = re.search(r'^[A-Z]+[0-9]+[a-z]?m_[0-9][0-9]$',name)
+            twotwentyfiveC = re.search(r'^[A-Z]+[0-9]+[a-z]?q$',name)
+            twotwentyfiveS = re.search(r'^[A-Z]+[0-9]+[a-z]?q_[0-9][0-9]$',name)
+            threefifteenC = re.search(r'^[A-Z]+[0-9]+[a-z]?u$',name)
+            threefifteenS = re.search(r'^[A-Z]+[0-9]+[a-z]?u_[0-9][0-9]$',name)
             shade      = re.search(r'^LS_[1-8][1-6]$',name)
             qshade     = re.search(r'DQ[0-9]\_[0-9]+',name)
             ligature   = re.search(r'^lig.*[^R]$',name)
@@ -2113,7 +2125,7 @@ class EotHelper:
                     group = 'Chr'
                 elif name in punctuation:
                     group = 'Cmn'
-                else:    
+                else:
                     group = 'Chr' #pick up glyphs outside Gardiner set
             elif dec > 0 and dec <= 65535: #mapped BMP characters
                 if name in punctuation:
@@ -2148,6 +2160,30 @@ class EotHelper:
                 group = 'Chr'
                 if name not in self.rotated180:
                     self.rotated180.append(name)
+            elif (fortyfiveC): #name is a rotated glyph and includes l flag
+                group = 'Chr'
+                if name not in self.rotated045:
+                    self.rotated045.append(name)
+            elif (fortyfiveS): #name is a rotated size variant and includes l flag
+                group = 'SVar'
+            elif (onethirtyfiveC): #name is a rotated glyph and includes m flag
+                group = 'Chr'
+                if name not in self.rotated135:
+                    self.rotated135.append(name)
+            elif (onethirtyfiveS): #name is a rotated size variant and includes m flag
+                group = 'SVar'
+            elif (twotwentyfiveC): #name is a rotated glyph and includes q flag
+                group = 'Chr'
+                if name not in self.rotated225:
+                    self.rotated225.append(name)
+            elif (twotwentyfiveS): #name is a rotated size variant and includes q flag
+                group = 'SVar'
+            elif (threefifteenC): #name is a rotated glyph and includes u flag
+                group = 'Chr'
+                if name not in self.rotated315:
+                    self.rotated315.append(name)
+            elif (threefifteenS): #name is a rotated size variant and includes u flag
+                group = 'SVar'
             elif (oneeightyS): #name is a rotated glyph and includes o flag
                 group = 'SVar'
             elif (twoseventyC): #name is a rotated glyph and includes t flag
@@ -2183,7 +2219,7 @@ class EotHelper:
             if name in cmap.values():
                 gdec = list(cmap.keys())[list(cmap.values()).index(name)]
                 glyph['dec'] = gdec
-                glyph['hex'] = hex(gdec)                
+                glyph['hex'] = hex(gdec)
                 if self.pvar['useproxycontrols']:
                     # suppress original proxy values for non controls
                     if gdec in self.pvar['proxycontrols']:
@@ -2277,7 +2313,7 @@ class EotHelper:
                 glyph['maxv'] = 0
             glyph['ehuh'] = int(math.ceil((float(glyph['maxh'])-self.pvar['issp'])/(float(self.pvar['hfu']))))
             if glyph['ehuh'] > self.pvar['hhu']:
-                self.errors.append('Too wide [eh104]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuh'])+'.')           
+                self.errors.append('Too wide [eh104]: '+str(glyph['id'])+' '+glyph['name']+', >>> '+str(glyph['ehuh'])+'.')
             glyph['ehuv'] = int(math.ceil((float(glyph['maxv'])-self.pvar['issp'])/(float(self.pvar['vfu']))))
             if glyph['ehuv'] > self.pvar['vhu']:
                 if glyph['name'] not in qcontrols:
@@ -2328,6 +2364,7 @@ class EotHelper:
             else:
                 sizes = [ehv]
             self.targetsizes[root] = sizes
+            ehvs[key] = ehv
         def hashtargetsizes():
             groupdata['tsh'] = []
             for key in self.targetsizes:
@@ -2353,7 +2390,7 @@ class EotHelper:
             print ('Saving font...')
             if self.pvar['test']['font'] == 1:
                 self.fontsave = 'Font save suppressed'
-            else: 
+            else:
                 if self.injectedglyphcount > 0:
                     self.fontsrc.save('out/fontout_temp.ttf')
                     self.fontsrc.getBestCmap
@@ -2380,6 +2417,7 @@ class EotHelper:
 
         for key in self.glyphdata:
             ggroup = self.glyphdata[key]['group']
+
             if len(groupdata[glyphset]) > 4000:
                 glyphset = nextGlyphset(glyphset)
                 groupdata[glyphset] = []
@@ -2387,7 +2425,7 @@ class EotHelper:
 
             # sizevariants groups
             if ggroup in ['SVar','LigV']:
-                groupdata['glyphs_all'].append(key)                    
+                groupdata['glyphs_all'].append(key)
                 groupdata[glyphset].append(key)
                 loadtargetsizes(key)
 
@@ -2422,7 +2460,7 @@ class EotHelper:
         for key in groupnames:
             if key not in internalgroups:
                 grplist = self.sort_alphanumeric(groupdata[key])
-                groupenum = ''            
+                groupenum = ''
                 groupObj = {}
                 for listitem in grplist:
                     grouptype = 'GLYPH'
@@ -2470,7 +2508,7 @@ class EotHelper:
         writefile = open(self.testfile,"w")
 
         for line in lines:
-            writefile.write(line)        
+            writefile.write(line)
         return
     def writeCMAP14File(self,lines,type):
         self.cmap14file = self.compactfontfilename+'.cmap'+type
@@ -2529,7 +2567,7 @@ class EotHelper:
 
         i = 0
         for error in self.errors:
-            errorfile.write(error+"\n")        
+            errorfile.write(error+"\n")
             i += 1
 
         if i > 0:
@@ -2561,8 +2599,8 @@ class EotHelper:
             index = str(index).zfill(3)
             lookupname = prefix + index + '_' + name + marktag
             self.features[feature].append(lookupname)
-            return lookupname        
-        
+            return lookupname
+
         #lookup
         name = lookupObj['name']
         feature = lookupObj['feature']
@@ -2585,7 +2623,7 @@ class EotHelper:
             if marks == 'SKIP':
                 marks = 'SKIP_MARKS'
                 marktag = '_S'
-            else: 
+            else:
                 if marks[0:1] == '*':
                     marks = ' PROCESS_MARKS MARK_GLYPH_SET "'+marks.replace('*','')+'"'
                 else:
@@ -2642,7 +2680,7 @@ class EotHelper:
         line = 'DEF_LOOKUP "'+lookupname+'" '+bases+' '+marks+' DIRECTION LTR'+reversal+"\n"
         line += contexts
 
-        #substitutions        
+        #substitutions
         if lookuptype == 'GSUB':
             subpairs = lookupObj['details']
             substitutions = ''
@@ -2660,14 +2698,14 @@ class EotHelper:
             line += substitutions
             line += 'END_SUBSTITUTION'+"\n"
 
-        #positionings        
+        #positionings
         elif lookuptype == 'GPOS':
             posdetails = lookupObj['details']
             positionings = ''
             prvattach = ''
             if name[0:4] == 'dist':
                 for posdetail in posdetails:
-                    adjust = formatelement(posdetail['adjust'])                    
+                    adjust = formatelement(posdetail['adjust'])
                     dx = posdetail['dx']
                     if not dx == 0:
                         dx = ' DX '+str(dx)
@@ -2708,9 +2746,9 @@ class EotHelper:
     def writelines(self,lines):
         writefile = open(self.writefile,"a")
 
-        
+
         for line in lines:
-            writefile.write(line)        
+            writefile.write(line)
         return
     def writeGlyphProperties(self):
         if 'glyphproperties' in self.pvar:
@@ -2749,8 +2787,8 @@ class EotHelper:
                         line = glyphdata['name']+"\t"+str(glyphdata['hex'])+"\t"+str(glyphdata['ehuh'])+str(glyphdata['ehuv'])+"\n"
                         i += 1
                         writefile.write(line)
-                print('Wrote '+str(i)+' glyph properties to glyph_properties.txt')    
-        
+                print('Wrote '+str(i)+' glyph properties to glyph_properties.txt')
+
         return
     # def calcExtremes(self,coordinates):
     #     xs = []
@@ -2763,7 +2801,7 @@ class EotHelper:
     #     return packet
 
 # L I G A T U R E S
-    def GSUBligatures(self):  
+    def GSUBligatures(self):
         def genligatures():
             def genligatureLookups(groupedligatures):
                 def genligature(srtcontrol,targets):
@@ -2782,7 +2820,7 @@ class EotHelper:
                             contexts.append({'left':[],         'right':['om']})
                         elif control == 'hj':
                             # 2.	L = E h E
-                            # 	E h E -> L ^ ([corners,om]|)	
+                            # 	E h E -> L ^ ([corners,om]|)
                             # 	E h E -> L ^ (|[corners,om])
                             contexts.append({'left':['corners'],'right':[]})
                             contexts.append({'left':['om'],     'right':[]})
@@ -2790,16 +2828,16 @@ class EotHelper:
                             contexts.append({'left':[],         'right':['om']})
                         elif control == 'ts':
                             # 3.	L = E ts E
-                            # 	E te E -> L ^ ([corners,om]|) 
-                            # 	E te E -> L ^ (|ts,om) 
+                            # 	E te E -> L ^ ([corners,om]|)
+                            # 	E te E -> L ^ (|ts,om)
                             contexts.append({'left':['corners'],'right':[]})
                             contexts.append({'left':['om'],     'right':[]})
                             contexts.append({'left':[],         'right':['ts']})
                             contexts.append({'left':[],         'right':['om']})
                         elif control == 'bs':
                             # 4.	L = E bs E
-                            # 	E te E -> L ^ ([corners,om]|) 
-                            # 	E te E -> L ^ (|ts,bs,om) 
+                            # 	E te E -> L ^ ([corners,om]|)
+                            # 	E te E -> L ^ (|ts,bs,om)
                             contexts.append({'left':['corners'],'right':[]})
                             contexts.append({'left':['om'],     'right':[]})
                             contexts.append({'left':[],         'right':['ts']})
@@ -2807,8 +2845,8 @@ class EotHelper:
                             contexts.append({'left':[],         'right':['om']})
                         elif control == 'te':
                             # 5.	L = E te E
-                            # 	E te E -> L ^ ([corners,om]|) 
-                            # 	E te E -> L ^ (|ts,bs,te,om) 
+                            # 	E te E -> L ^ ([corners,om]|)
+                            # 	E te E -> L ^ (|ts,bs,te,om)
                             contexts.append({'left':['corners'],'right':[]})
                             contexts.append({'left':['om'],     'right':[]})
                             contexts.append({'left':[],         'right':['ts']})
@@ -2817,21 +2855,25 @@ class EotHelper:
                             contexts.append({'left':[],         'right':['om']})
                         elif control == 'be':
                             # 6.	L = E be E
-                            # 	E te E -> L ^ ([corners,om]|) 
-                            # 	E te E -> L ^ (|ts,bs,te,be,om) 
+                            # 	E te E -> L ^ ([corners,om]|)
+                            # 	E te E -> L ^ (|ts,bs,te,be,om)
                             contexts.append({'left':['corners'],'right':[]})
                             contexts.append({'left':['om'],     'right':[]})
                             contexts.append({'left':[],         'right':['corners']})
                             contexts.append({'left':[],         'right':['om']})
                         elif control == 'om':
-                            # 7.	L = E om E                   
+                            # 7.	L = E om E
                             # 	E om E -> L ^ (om|)
                             # 	E om E -> L ^ (|om)
                             contexts.append({'left':['om'],     'right':[]})
                             contexts.append({'left':[],         'right':['om']})
+                        elif control in ('mi','ti','bi'):
+                            # 7.	No context limitation for mi,ti,bi, because
+                            # these are the least likely to cause control precedence
+                            contexts.append({'left':[],         'right':[]})
                         else:
                             # control is 'multi', so rule is separate per ligature length:
-                            # 7.	L = E om E                   
+                            # 7.	L = E om E
                             # 	E om E -> L ^ (om|)
                             # 	E om E -> L ^ (|om)
                             contexts.append({'left':['hj'],     'right':[]})
@@ -2841,7 +2883,7 @@ class EotHelper:
                             contexts.append({'left':[],         'right':['corners']})
                             contexts.append({'left':[],         'right':['om']})
 
-                        return contexts                        
+                        return contexts
                     def genSub(target):
                         subname = target[4:]
                         return subname.split('.')
@@ -2886,7 +2928,7 @@ class EotHelper:
                             idx = qcontrols.index(control)
                             srtcontrol = str(idx)+control
                             if srtcontrol not in groupedligatures:
-                                groupedligatures[srtcontrol] = []    
+                                groupedligatures[srtcontrol] = []
 
                             groupedligatures[srtcontrol].append(name)
 
@@ -2900,7 +2942,7 @@ class EotHelper:
                             srtkey = z2a[len(components)-5]
                         liglen = '0a'+srtkey
                         if liglen not in groupedligatures:
-                            groupedligatures[liglen] = []    
+                            groupedligatures[liglen] = []
                         groupedligatures[liglen].append(name)
 
             return genligatureLookups(groupedligatures)
@@ -2927,7 +2969,7 @@ class EotHelper:
                 contexts.append({'left':[],         'right':['hj']})
                 contexts.append({'left':[],         'right':['corners']})
                 contexts.append({'left':[],         'right':['om']})
-                return contexts 
+                return contexts
             def genSub(sub):
                 return sub.split('.')
             def loadLigatureLenghts():
@@ -3000,7 +3042,7 @@ class EotHelper:
 
         return lines
     def GSUBcountcols(self,level): #hvm-
-        #split et tokens to eh and ev values 
+        #split et tokens to eh and ev values
         #insert target width maker at the start of each level column
         def converthvmarkers(level):
             #Convert et token to width and height markers
@@ -3035,7 +3077,7 @@ class EotHelper:
                 minv = self.pvar['insertionheightmin'][level]
                 details = {'sub':['mt'+str(minh)+str(minv)],'target':['eh'+str(minh),'mn'+str(minh),'ev'+str(minv)]}
                 lookupObj['details'].append(details)
-                
+
             return lookupObj
         def cornerminsize(level):
             def insertionmarkers(level):
@@ -3212,7 +3254,7 @@ class EotHelper:
                 lookupObjs.append(lookupObj)
                 cycle += 1
             lookupObj = lastcounter()
-            lookupObjs.append(lookupObj)            
+            lookupObjs.append(lookupObj)
             return lookupObjs
 
         featuretag = self.setfeaturetag(level)
@@ -3355,7 +3397,7 @@ class EotHelper:
                         basesize = list(obj.keys())[0]
                         bh = int(str(basesize)[0:1])
                         bv = int(str(basesize)[1:2])
-                        
+
                         defsize = obj[basesize]
                         dh = int(str(defsize)[0:1])
                         dv = int(str(defsize)[1:2])
@@ -3385,12 +3427,12 @@ class EotHelper:
                                     obj[sizekey] = str(th)+str(tv)
 
                                 iv -= 1
-                            ih -= 1                                
+                            ih -= 1
                         return obj
                     if ic == 'ad':
                         ics = ['ts','ti']
                     else:
-                        ics = [ic]                    
+                        ics = [ic]
                     details = []
                     if len(obj) > 0:
                         for key in obj:
@@ -3432,7 +3474,7 @@ class EotHelper:
                                 lookupObj['marks']    = markset
                                 lookupObj['contexts'] = contexts
                                 lookupObj['details']  = details
-                                if len(details) > 0: 
+                                if len(details) > 0:
                                     objs.append(lookupObj)
                             cycle += 1
 
@@ -3550,7 +3592,7 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def insertionmaxperrow(level): 
+        def insertionmaxperrow(level):
             # Calculate max width per row and inject after current total width before a delta marker
             # (it33 ima|dv0) ch# -> ch# rm
 
@@ -3596,7 +3638,7 @@ class EotHelper:
             return lookupObj
         # def targetmax(level):
         #     # For levels 1 and 2, copy target width from insertion size
-        #     # 
+        #     #
         #     lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
         #     lookupObj['name'] = 'ins-H-target-'+str(level)
 
@@ -3605,7 +3647,7 @@ class EotHelper:
         #     left = 'it'+str(maxh)+str(maxv)
         #     context = {'left':[left],'right':[]}
         #     lookupObj['contexts'].append(context)
-                
+
         #     i = self.pvar['chu']
         #     while i > maxh:
         #         details = {'sub':['rm'+str(i)],'target':['rm'+str(maxh)]}
@@ -3656,8 +3698,8 @@ class EotHelper:
                         details = {'sub':[prefix+str(h)+str(v),'rm'+str(r)],'target':[prefix+str(t)+str(v)]}
                         lookupObj['details'].append(details)
                         v -= 1
-                    h -= 1                
-                r -= 1                
+                    h -= 1
+                r -= 1
 
             details = {'sub':['im0'],'target':['dv0']}
             lookupObj['details'].append(details)
@@ -3704,8 +3746,8 @@ class EotHelper:
             i = self.pvar['hhu'] #Max oversize width
             c = self.pvar['chu'] #Max clustering width
 
-            if i > c : 
-                while i > c: 
+            if i > c :
+                while i > c:
                     ch = 'ch'+str(i)
                     rm = 'rm'+str(i)
                     details = {'sub':[ch],'target':[ch,rm,'dv0']}
@@ -3713,16 +3755,16 @@ class EotHelper:
                     i = i - 1
             else:
                 return
-            
+
             return lookupObj
 
-        def maxperrow(level): #14 
+        def maxperrow(level): #14
             # Calculate max width per row and inject after current total width.
             # Also inject dv0 as placeholder per row.
             max = self.pvar['maxperlevel'][level]
             lookupObjs = []
             t = self.pvar['targetwidthmax'][level]
-            tmin = t 
+            tmin = t
             while t >= tmin:
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'max-H-row-'+str(t)+'-'+str(level)
@@ -3746,7 +3788,7 @@ class EotHelper:
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'max-H-blockstart-'+str(level)
             if (level > 0):
-                lookupObj['contexts'] = [{'left':[],'right':['shapewidths']}]                
+                lookupObj['contexts'] = [{'left':[],'right':['shapewidths']}]
             if level == 0:
                 blockstart = 'Qi'
                 details = {'sub':[blockstart],'target':[blockstart,'rc0']}
@@ -3767,7 +3809,7 @@ class EotHelper:
             lookupObj['details'].append(details)
 
             return lookupObj
-        def embeddedmaxperrow(level): 
+        def embeddedmaxperrow(level):
             # Calculate max width per row and inject after current total width before a delta marker
             # (|dv0) ch# -> ch# rm
             max = self.pvar['maxperlevel'][level]
@@ -3793,8 +3835,8 @@ class EotHelper:
             # For level 0, let the calculated row max through
             # rm{1-6} (|sh{6}) -> no changes
             # For levels 1 and 2, force the target max size
-            # 1: rm{1-6} sh{(2-5)} -> rm$1 sh$1             
-            # 2: rm{1-6} sh{(2-3)} -> rm$1 sh$1 
+            # 1: rm{1-6} sh{(2-5)} -> rm$1 sh$1
+            # 2: rm{1-6} sh{(2-3)} -> rm$1 sh$1
             lookupObjs = []
             if (level > 0):
                 ol = level - 1
@@ -3827,7 +3869,7 @@ class EotHelper:
                 while i <= self.pvar['hhu']:
                     details = {'sub':['rm'+str(i)],'target':['sh'+str(i)]}
                     lookupObj['details'].append(details)
-                    i += 1                
+                    i += 1
             else:
                 ol = level - 1
                 blockstart = 'c'+str(ol)+'bA'
@@ -3836,15 +3878,15 @@ class EotHelper:
                 while i <= self.pvar['targetwidthmax'][level]:
                     details = {'sub':[blockstart,'rm'+str(i)],'target':[blockstart]}
                     lookupObj['details'].append(details)
-                    i += 1                
+                    i += 1
                 details = {'sub':[blockstart,'rc0'],'target':[blockstart]}
                 lookupObj['details'].append(details)
                 for insertion in groupdata['insertionsizes'+str(level)]:
                     details = {'sub':[insertion,'rc0'],'target':[insertion]}
                     lookupObj['details'].append(details)
-            
+
             return lookupObj
-        def unbalancedblockstartcleanup(level): 
+        def unbalancedblockstartcleanup(level):
             # Clean up the row count token (rm#) after the unbalanced token
             # Not needed at level 1
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -3869,7 +3911,7 @@ class EotHelper:
             while i <= self.pvar['targetwidthmax'][innerlevel]:
                 details = {'sub':['eh'+str(i)],'target':['sh'+str(i)]}
                 lookupObj['details'].append(details)
-                i += 1                
+                i += 1
             return lookupObj
         featuretag = self.setfeaturetag(level)
 
@@ -3895,7 +3937,7 @@ class EotHelper:
             lookupObjs.append(swapembedded(level))
 
         return lookupObjs
-    def GSUBreduceWidth(self,lookupObj,level): #red-       
+    def GSUBreduceWidth(self,lookupObj,level): #red-
         def decrementloop(level):
             # This is a three stage sequence. 1. swap current target to a separate class to ensure visibility between
             # delta and target size. 2. substitute the target token to the lower sized value and add a token. 3. Use
@@ -3933,7 +3975,7 @@ class EotHelper:
                 while c < tmax:
                     detail = ['deltas']
                     d = 0
-                    while d < c:                         
+                    while d < c:
                         detail.append(sub)
                         d += 1
                     details = {'left':detail,'right':[]}
@@ -3952,18 +3994,18 @@ class EotHelper:
                 return lookupObj
             def decrement(level,cycle):
                 # Need to be able to decrement parallel cells
-                # Parallel columns are applicable to decremental values with 
+                # Parallel columns are applicable to decremental values with
                 # a max of 6h and min of 2h
                 deltamax = self.pvar['deltamax']
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
                 lookupObj['name'] = 'red-H-decrement'+str(cycle)+'-'+str(level)
                 lookupObj['marks'] = '*deltas_allH'+str(level)
                 details = []
-                i = deltamax[level] # the max delta for the given level 
+                i = deltamax[level] # the max delta for the given level
                 while i >= 1: # iterate down the delta levels
                     # j = colspersum[level][i] # the number of possible columns
                     j = self.pvar['targetwidthmax'][level] # the number of possible columns
-                    while j >= 1: # iterate down for each possible column depth 
+                    while j >= 1: # iterate down for each possible column depth
                         subs = ['dv'+str(i)] # initial sub is the current delta value
                         k = j # append dd1 value for each column
                         while k >= 1:
@@ -3973,14 +4015,14 @@ class EotHelper:
                         if l >= 0: # delta still positive or zero
                             target = 'dv'+str(i-j)
                         else: # delta becomes negative
-                            target = 'dn'+str(j-i)                        
+                            target = 'dn'+str(j-i)
                         detail = {'sub':subs,'target':[target]}
                         details.append(detail)
                         j = j - 1
                     i = i - 1
                 lookupObj['details'] = details
                 return lookupObj
-            
+
             lookupObjs = []
             series = self.pvar['redh'][level]
 
@@ -3997,7 +4039,7 @@ class EotHelper:
             lookupObj['name'] = 'red-H-unswap-'+str(level)
             i = 6
             details = []
-            while i > 1:                
+            while i > 1:
                 sub = 'th'+str(i)
                 target = 'eh'+str(i)
                 details.append({'sub':[sub],'target':[target]})
@@ -4040,10 +4082,10 @@ class EotHelper:
         # increase the width of cells less than the max width
         #       delta  distribution
         # cols          h1  h2      h3              h4                         h5
-        # trg6	dv5   	5				
-        # trg5	dv4   	4	2<0>2			
-        # trg4	dv3   	3	1<1>1   1<0>1<0>1		
-        # trg3	dv2   	2	1<0>1	0<1>0<1>0	    0<0.67>0<0.67>0	
+        # trg6	dv5   	5
+        # trg5	dv4   	4	2<0>2
+        # trg4	dv3   	3	1<1>1   1<0>1<0>1
+        # trg3	dv2   	2	1<0>1	0<1>0<1>0	    0<0.67>0<0.67>0
         # trg2	dv1   	1	0<1>0	0<0.5>0<0.5>0	0<0.33>0<0.33>0<0.33>0     0<0.25>0<0.25>0
 
         # [dv{1-5}] h1 eh{1-5} -> eh$1+$2 (per col), csp0 -> csp{h-1/dv}
@@ -4080,13 +4122,13 @@ class EotHelper:
             return lookupObjs
         def insertrowboundary(level):
             #Insert a boundary marker in the deltas_cells class to prevent incrementing across rows
-            # r{0-2}eB > r$1eB 
+            # r{0-2}eB > r$1eB
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'nrm-H-insertrowboundary-'+str(level)
             rowend = 'r'+str(level)+'eA'
             details = {'sub':[rowend],'target':[rowend,'enb']}
             lookupObj['details'].append(details)
-            
+
             return lookupObj
         def insertdeltatokens(level):
             def distribute(level,columns,col,spc):
@@ -4116,7 +4158,7 @@ class EotHelper:
             delta = 1
             while delta < self.pvar['targetwidthmax'][level]:
                 columns = 1
-                while columns < self.pvar['targetwidthmax'][level]:                    
+                while columns < self.pvar['targetwidthmax'][level]:
                     h = delta + columns
                     if h <= self.pvar['targetwidthmax'][level]: #sum of delta + columns
                         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -4126,7 +4168,7 @@ class EotHelper:
                         lookupObj['contexts'].append(contexts)
 
                         obj = distribution(delta,columns)
-                        col = obj['col']         
+                        col = obj['col']
                         spc = obj['spc']
                         distribute(level,columns,col,spc)
 
@@ -4214,7 +4256,7 @@ class EotHelper:
         #         details = {'sub':[sh,dv],'target':[th]}
         #         lookupObj['details'].append(details)
         #         i = i - 1
-            
+
         #     return lookupObj
         def cleanupDNDV(level):
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -4225,7 +4267,7 @@ class EotHelper:
                 details = {'sub':['Qi','dv'+str(i)],'target':['Qi']}
                 lookupObj['details'].append(details)
                 i += 1
-            
+
             return lookupObj
         def swapsizehforshape(level):
             # SWAP TO SH TO AVOID CONTACT IN SUBSEQUENT LAYER PROCESSING
@@ -4327,7 +4369,7 @@ class EotHelper:
             while i <= self.pvar['targetwidthmax'][level]:
                 details = {'sub':['eh'+str(i)],'target':['sh'+str(i)]}
                 lookupObj['details'].append(details)
-                i += 1                
+                i += 1
 
             return lookupObj
         def cleanupDV(level):
@@ -4349,7 +4391,7 @@ class EotHelper:
             while i <= self.pvar['targetwidthmax'][level]:
                 details = {'sub':['rm'+str(i),'r'+str(level)+'bA'],'target':['r'+str(level)+'bA']}
                 lookupObj['details'].append(details)
-                i += 1                
+                i += 1
             return lookupObj
 
         featuretag = self.setfeaturetag(level)
@@ -4430,7 +4472,7 @@ class EotHelper:
         while cycle <= cpl:
             lookupObjs.append(counter(level,cycle))
             cycle += 1
-        lookupObjs.append(lastcounter())            
+        lookupObjs.append(lastcounter())
 
         return lookupObjs
     def insertrowmaxmarker(self,level,name): #24
@@ -4558,7 +4600,7 @@ class EotHelper:
         lookupObj['name'] = name+'-H-rowexcess-'+str(level)
 
         #The rm value is between or within tmin/tmax
-        tmin = self.pvar['targetwidthmin'][level] 
+        tmin = self.pvar['targetwidthmin'][level]
         tmax = self.pvar['chu']
 
         i = tmin # target size
@@ -4685,7 +4727,7 @@ class EotHelper:
                 ctxt = 0
             else:
                 ctxt = 1
-            
+
             objs = []
             i = self.pvar['targetheightmin'][level]
             while i <= self.pvar['vhu']:
@@ -4728,7 +4770,7 @@ class EotHelper:
                 lookupObj['details'].append(details)
                 i += 1
             if level > 0:
-                outer = level - 1 
+                outer = level - 1
                 details = {'sub':['c'+str(outer)+'bA'],'target':['cvb','c'+str(outer)+'bA']}
                 lookupObj['details'].append(details)
                 if level >= 1:
@@ -4782,7 +4824,7 @@ class EotHelper:
                 lookupObjs.append(lookupObj)
                 cycle += 1
             lookupObj = lastcounter()
-            lookupObjs.append(lookupObj)            
+            lookupObjs.append(lookupObj)
 
             return lookupObjs
         def maxperrow(level):
@@ -4872,10 +4914,10 @@ class EotHelper:
                 lookupObjs.append(lookupObj)
                 cycle += 1
             lookupObj = lastcounter()
-            lookupObjs.append(lookupObj)            
+            lookupObjs.append(lookupObj)
             if level > 0:
                 lookupObj = countercleanup()
-                lookupObjs.append(lookupObj)            
+                lookupObjs.append(lookupObj)
             return lookupObjs
 
         featuretag = self.setfeaturetag(level)
@@ -4885,7 +4927,7 @@ class EotHelper:
         lookupObjs.extend(objs)
 
         return lookupObjs
-    def GSUBreduceHeight(self,level):       
+    def GSUBreduceHeight(self,level):
         def insertminheighttoken(level):
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'red-V-mintoken-'+str(level)
@@ -4959,7 +5001,7 @@ class EotHelper:
                 while c < self.pvar['vhu']:
                     detail = ['deltas']
                     d = 0
-                    while d < c:                         
+                    while d < c:
                         detail.append(sub)
                         d += 1
                     details = {'left':detail,'right':[]}
@@ -4978,7 +5020,7 @@ class EotHelper:
                 return lookupObj
             def decrement(level,cycle):
                 # Need to be able to decrement parallel cells
-                # Parallel columns are applicable to decremental values with 
+                # Parallel columns are applicable to decremental values with
                 # a max of 6v and min of 2v
                 deltamax = self.pvar['deltamax']
                 lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -4988,7 +5030,7 @@ class EotHelper:
                 i = deltamax[level]
                 while i >= 1:
                     j = self.pvar['targetheightmax'][level] # the number of possible columns
-                    while j >= 1: # iterate down for each possible row depth 
+                    while j >= 1: # iterate down for each possible row depth
                         subs = ['dv'+str(i)] # initial sub is the current delta value
                         k = j # append dd1 value for each column
                         while k >= 1:
@@ -4998,20 +5040,20 @@ class EotHelper:
                         if l >= 0: # delta still positive or zero
                             target = 'dv'+str(i-j)
                         else: # delta becomes negative
-                            target = 'ds'+str(j-i)                        
+                            target = 'ds'+str(j-i)
                         detail = {'sub':subs,'target':[target]}
                         details.append(detail)
                         j = j - 1
                     i = i - 1
                 lookupObj['details'] = details
                 return lookupObj
-            
+
             lookupObjs = []
             series = self.pvar['redv'][level]
 
             for cycle in series:
                 obj = swap(level,cycle)
-                lookupObjs.append(obj)  
+                lookupObjs.append(obj)
                 obj = shrink(level,cycle)
                 lookupObjs.append(obj)
                 obj = swapDD(level,cycle)
@@ -5026,7 +5068,7 @@ class EotHelper:
             lookupObj['name'] = 'red-V-unswap-'+str(level)
             i = 6
             details = []
-            while i > 1:                
+            while i > 1:
                 sub = 'th'+str(i)
                 target = 'rm'+str(i)
                 details.append({'sub':[sub],'target':[target]})
@@ -5063,7 +5105,7 @@ class EotHelper:
                 lookupObj['name'] = 'red-V-rcswap-'+str(level)
                 i = 1
                 details = []
-                while i <= self.pvar['vhu']:                
+                while i <= self.pvar['vhu']:
                     sub = 'ev'+str(i)
                     target = 'rc0'
                     details.append({'sub':[sub],'target':[target]})
@@ -5149,7 +5191,7 @@ class EotHelper:
                     c = a/b
                     d = str(c)[0:1]
                     e = int(str(c)[2:3])
-                    if e > 0: 
+                    if e > 0:
                         e = int(str(c)[2:4])
                     obj['target'] = 'ds' + d + 'p' + str(e)
                 return obj
@@ -5158,7 +5200,7 @@ class EotHelper:
             delta = 1
             while delta < self.pvar['targetheightmax'][level]: #6,5,3
                 rows = 1
-                while rows < self.pvar['targetheightmax'][level]: #6,5,3                
+                while rows < self.pvar['targetheightmax'][level]: #6,5,3
                     h = delta + rows
                     if h <= self.pvar['targetheightmax'][level]: #sum of delta + rows
                         lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
@@ -5166,7 +5208,7 @@ class EotHelper:
                         lookupObj['marks'] = 'verticals2'
 
                         obj = distribution(delta,rows)
-                        target = obj['target']         
+                        target = obj['target']
                         distribute(level,delta,rows,target)
 
                         objs.append(lookupObj)
@@ -5197,20 +5239,20 @@ class EotHelper:
                     objs = []
                     j = 1
                     k = j + swapcycle
-                    while k <= self.pvar['vhu']: 
+                    while k <= self.pvar['vhu']:
                         obj = contextcycle(j, k, level)
                         objs.append(obj)
                         j += 1
                         k += 1
-                    
+
                     return objs
 
                 docycleobjs = []
                 i = 1
                 while i < self.pvar['vhu']:
-                    obj = swap(i,level)                    
+                    obj = swap(i,level)
                     docycleobjs.append(obj)
-                    objs = cycle(i,level)                    
+                    objs = cycle(i,level)
                     docycleobjs.extend(objs)
                     i += 1
 
@@ -5220,7 +5262,7 @@ class EotHelper:
                 lookupObj['name'] = 'nrm-V-unswap-'+str(level)
                 i = 1
                 details = []
-                while i < self.pvar['vhu']:                
+                while i < self.pvar['vhu']:
                     sub = 'xv'+str(i)
                     target = 'sv'+str(i)
                     details.append({'sub':[sub],'target':[target]})
@@ -5314,7 +5356,7 @@ class EotHelper:
 
             return lookupObj
         def expandHeight(level):
-            # expand the row max height by remaining rp value 
+            # expand the row max height by remaining rp value
             # rp{1-5} rm{1-5} -> rm$1+$2
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'nrm-V-expandHeight-'+str(level)
@@ -5323,7 +5365,7 @@ class EotHelper:
             while i <= self.pvar['targetheightmax'][level]:
                 j = 1
                 k = i + j
-                while k <= self.pvar['targetheightmax'][level]:  
+                while k <= self.pvar['targetheightmax'][level]:
                     details = {'sub':['rp'+str(i),'rm'+str(j)],'target':['rm'+str(k)]}
                     lookupObj['details'].append(details)
                     j += 1
@@ -5894,7 +5936,7 @@ class EotHelper:
                     glyph = self.glyphdata[key]
                     if glyph['group'] in ['Chr','LigR']:
                         if glyph['hex'] != '0x25cc':
-                            name = glyph['name']                        
+                            name = glyph['name']
                             subpair = {'sub':['et00',name],'target':['placeholder'] }
                             subpairs.append(subpair)
                 return subpairs
@@ -6154,7 +6196,7 @@ class EotHelper:
         lines = []
         if self.pvar['baseline']:
             lookupObj = swapglyphanchor()
-            lines.extend(self.writefeature(lookupObj))            
+            lines.extend(self.writefeature(lookupObj))
         return lines
 
 # R T L M
@@ -6246,7 +6288,7 @@ class EotHelper:
                 if len(groupdata['mirror_all']) > 6000:
                     print("****Warning, number of glyphs in group mirror_all exceeds 6,000; VOLT may not compile.****")
                 for mirrorglyph in groupdata['mirror_all']:
-                    baseglyph = mirrorglyph[0:-1] 
+                    baseglyph = mirrorglyph[0:-1]
                     if baseglyph in groupdata['glyphs_all']:
                         subpair = {'sub':[baseglyph],'target':[mirrorglyph] }
                         subpairs.append(subpair)
@@ -6273,7 +6315,7 @@ class EotHelper:
                             subpairs.append(subpair)
                 # dynamic mirror pairs
                 for mirrorglyph in groupdata['mirror_all']:
-                    baseglyph = mirrorglyph[0:-1] 
+                    baseglyph = mirrorglyph[0:-1]
                     if baseglyph in groupdata['glyphs_all']:
                         subpair = {'sub':[baseglyph,'mr'],'target':[mirrorglyph] }
                         subpairs.append(subpair)
@@ -6292,7 +6334,7 @@ class EotHelper:
                 subpairs = []
                 # dynamic mirror pairs
                 for mirrorglyph in groupdata['mirror_all']:
-                    baseglyph = mirrorglyph[0:-1] 
+                    baseglyph = mirrorglyph[0:-1]
                     if baseglyph in groupdata['glyphs_all']:
                         subpair = {'sub':[mirrorglyph,'mr'],'target':[baseglyph] }
                         subpairs.append(subpair)
@@ -6314,7 +6356,7 @@ class EotHelper:
         lines = []
         if self.pvar['mirror']:
             lookupObj = swaprtlstems()
-            lines.extend(self.writefeature(lookupObj))            
+            lines.extend(self.writefeature(lookupObj))
             lookupObj = swaprtlextensions()
             lines.extend(self.writefeature(lookupObj))
             lookupObj = swaprtltcms()
@@ -6358,25 +6400,25 @@ class EotHelper:
                 qcV = groupdata['quadratWallsV'][index]
                 details = {'sub':[qcH],'target':[qcV]}
                 lookupObj['details'].append(details)
-    
+
             for qcH in groupdata['quadratOuters']:
                 index = groupdata['quadratOuters'].index(qcH)
                 qcV = groupdata['quadratOutersV'][index]
                 details = {'sub':[qcH],'target':[qcV]}
                 lookupObj['details'].append(details)
-    
+
             for qcH in groupdata['quadratDoubles']:
                 index = groupdata['quadratDoubles'].index(qcH)
                 qcV = groupdata['quadratDoublesV'][index]
                 details = {'sub':[qcH],'target':[qcV]}
                 lookupObj['details'].append(details)
-    
+
             for qcH in groupdata['quadratFortifieds']:
                 index = groupdata['quadratFortifieds'].index(qcH)
                 qcV = groupdata['quadratFortifiedsV'][index]
                 details = {'sub':[qcH],'target':[qcV]}
                 lookupObj['details'].append(details)
-    
+
             return lookupObj
 
         lines = []
@@ -6399,7 +6441,7 @@ class EotHelper:
             names = ['_h_e_a_d','_h_h_e_a','_h_m_t_x','_m_a_x_p','GlyphOrder','O_S_2f_2','_l_o_c_a',
                     '_c_m_a_p','_g_l_y_f','_n_a_m_e','_p_o_s_t','_v_h_e_a','_v_m_t_x',
                     'C_O_L_R_','C_P_A_L_','D_S_I_G_','t_s_i_v_']
-            
+
             checkAndRemove('fontout_temp.ttf')
             for name in names:
                 name = 'eot.'+name+'.ttx'

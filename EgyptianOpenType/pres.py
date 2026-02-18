@@ -220,9 +220,9 @@ pres = [
     'contexts' : [{'left':[],'right':[]}],
     'details' : []},
     # Lookup - expand bases with insertions TODO: auto expand based on glyph name trigger
-    {'name' : 'expansion', 'marks' : '',
-    'contexts' : [{'left':[],'right':['tsh665655544544332211','D32','Qf','bi0A']}],
-    'details' : [{'sub':['et56'],'target':['et66']}]},
+    # {'name' : 'expansion', 'marks' : '',
+    # 'contexts' : [{'left':[],'right':['tsh66-56-55-54-45-44-33-22-11','D32','Qf','bi0A']}],
+    # 'details' : [{'sub':['et56'],'target':['et66']}]},
     # Lookup - accommodate base modifiers
     {'name' : 'Qf_insert', 'marks' : '',
     'contexts' : [{'left':['Qf'],'right':[]}],
@@ -405,7 +405,7 @@ pres = [
         {'sub':['mi1A'], 'target':['mi1B' ]},
         {'sub':['bi1A'], 'target':['bi1B' ]},
     ]},
-    # Lookup - unbalanced embedding 
+    # Lookup - unbalanced embedding
     {'name' : 'unbal-embedding', 'marks' : '',
     'contexts' : [{'left':[],'right':['su']}],
     'details' : [
@@ -465,7 +465,7 @@ pres = [
     {'name' : 'r2begin_tce1', 'marks' : '*parenstce1',
     'contexts' : [{'left':['r2bA'],'right':['r0eA']}],
     'details' : [{'sub':['tce1s'],'target':['r2eA','tce1s']}]},
-    # Lookup - insert up-level row begins before level 2 end 
+    # Lookup - insert up-level row begins before level 2 end
     {'name' : 'r2end', 'marks' : 'parens',
     'contexts' : [{'left':[],'right':['r2eA']}],
     'details' : [
@@ -480,32 +480,32 @@ pres = [
     {'name' : 'r1begin_tce0', 'marks' : '*parenstce0',
     'contexts' : [{'left':['r1bA'],'right':['r0eA']}],
     'details' : [{'sub':['tce0s'],'target':['r1eA','tce0s']}]},
-    # Lookup - insert up-level row begin before level 1 end 
+    # Lookup - insert up-level row begin before level 1 end
     {'name' : 'r1end_tcb0', 'marks' : '*parenstcb0',
     'contexts' : [
         {'left':['r0bA'],'right':['r1eA']},
         {'left':['r0bA'],'right':['c1eA']}
     ],
     'details' : [{'sub':['tcb0s'],'target':['tcb0s','r1bA']}]},
-    # Lookup - insert up-level row begin before level 1 end 
+    # Lookup - insert up-level row begin before level 1 end
     {'name' : 'r1end', 'marks' : 'parens',
     'contexts' : [
         {'left':[],'right':['r1eA']},
         {'left':[],'right':['c1eA']}
     ],
     'details' : [{'sub':['r0bA'],'target':['r0bA','r1bA']}]},
-    # Lookup - insert level 1 row end before level 0 col end 
+    # Lookup - insert level 1 row end before level 0 col end
     {'name' : 'r1end', 'marks' : 'parens',
     'contexts' : [{'left':['r1bA'],'right':[]}],
     'details' : [{'sub':['c0eA'],'target':['r1eA','c0eA']}]},
-    # Lookup - insert level 1 row begin after level 0 col begin 
+    # Lookup - insert level 1 row begin after level 0 col begin
     {'name' : 'r1end', 'marks' : 'parens',
     'contexts' : [
         {'left':[],'right':['r1eA']},
         {'left':[],'right':['r2bA']}
     ],
     'details' : [{'sub':['c0bA'],'target':['c0bA','r1bA']}]},
-    # Lookup - insert column begin and end 
+    # Lookup - insert column begin and end
     {'name' : 'c012', 'marks' : '',
     'contexts' : [{'left':[],'right':[]}],
     'details' : [
@@ -516,27 +516,27 @@ pres = [
         {'sub':['r1eA'],'target':['c1eA','r1eA']},
         {'sub':['r2eA'],'target':['c2eA','r2eA']},
     ]},
-    # Lookup - row 0 begin cleanup 
+    # Lookup - row 0 begin cleanup
     {'name' : 'r0b_cleanup', 'marks' : '',
     'contexts' : [{'left':['hj0A'],'right':[]}],
     'details' : [{'sub':['r0bA','c0bA'],'target':['c0bA']}]},
-    # Lookup - row 0 end cleanup 
+    # Lookup - row 0 end cleanup
     {'name' : 'r0e_cleanup', 'marks' : '',
     'contexts' : [{'left':[],'right':['hj0A']}],
     'details' : [{'sub':['c0eA','r0eA'],'target':['c0eA']}]},
-    # Lookup - row 1 begin cleanup 
+    # Lookup - row 1 begin cleanup
     {'name' : 'r1b_cleanup', 'marks' : '',
     'contexts' : [{'left':['hj1A'],'right':[]}],
     'details' : [{'sub':['r1bA','c1bA'],'target':['c1bA']}]},
-    # Lookup - row 1 end cleanup 
+    # Lookup - row 1 end cleanup
     {'name' : 'r1e_cleanup', 'marks' : '',
     'contexts' : [{'left':[],'right':['hj1A']}],
     'details' : [{'sub':['c1eA','r1eA'],'target':['c1eA']}]},
-    # Lookup - row 2 begin cleanup 
+    # Lookup - row 2 begin cleanup
     {'name' : 'r2b_cleanup', 'marks' : '',
     'contexts' : [{'left':['hj2A'],'right':[]}],
     'details' : [{'sub':['r2bA','c2bA'],'target':['c2bA']}]},
-    # Lookup - row 2 end cleanup 
+    # Lookup - row 2 end cleanup
     {'name' : 'r2e_cleanup', 'marks' : '',
     'contexts' : [{'left':[],'right':['hj2A']}],
     'details' : [{'sub':['c2eA','r2eA'],'target':['c2eA']}]},
@@ -547,13 +547,13 @@ pres = [
         {'left':[],'right':['ub','r2bA']}
     ],
     'details' : [{'sub':['c1bA'],'target':['c1bA','mt22']}]},
-    # Lookup - insert level 1 min default size 
+    # Lookup - insert level 1 min default size
     {'name' : 'default_size_level1', 'marks' : '',
     'contexts' : [
         {'left':[],'right':['r1bA']},
     ],
     'details' : [{'sub':['c0bA'],'target':['c0bA','mt43']}]},
-    # Lookup - insert level 1 min default size tcbb 
+    # Lookup - insert level 1 min default size tcbb
     {'name' : 'default_size_level1_tcb', 'marks' : '',
     'contexts' : [
         {'left':['c0bA'],'right':['r1bA']},
