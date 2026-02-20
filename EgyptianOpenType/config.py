@@ -88,5 +88,22 @@ pvar = {
     'mirror'  : 1,
     'vertical': 1,
     'glyphproperties' : 1,
-    'test' : {'font':0,'gdef':0,'groups':0,'haln':0,'pres':0,'abvs':0,'blws':0,'rlig':0,'psts':0,'ss01':0,'rtlm':0,'vrt2':0,'gpos':0,'langsys':0,'anchors':0,'coda':0}
+    'test' : {
+        'font':0,
+        'gdef':0,
+        'groups':0,
+        'haln':0,
+        'pres':0,
+        'abvs':0,
+        'blws':0,
+        'rlig':0,
+        'psts':0,
+        'ss01':0,
+        'rtlm':0,
+        'vrt2':0,
+        'gpos':0,
+        'langsys':0,
+        'anchors':0,
+        'coda':0
+    }
 }

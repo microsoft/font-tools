@@ -32,6 +32,8 @@ ver = 200
 # TODO
     # Knock outs O13a /
     # Insertions inside sign area not total sign area? X
+    # 1.5 unit heights
+    # rtl
     # Expanded enclosing glyph - when to expand? pres016 - expansion
     # Block illegal sequences (vertical group before OM; atomic shades in OM; sign shade after blank)
     # Validate self.pvar for minimal info and guard missing attributes.
@@ -44,6 +46,7 @@ class EotHelper:
         self.pvar = pvar
         self.fontsrc = TTFont(pvar['fontsrc'])
         self.startingGlyphNames = []
+        self.offsetchars = []
         self.loadInsertionContextsAndGroups()
         self.compactfontfilename = re.sub(' ','',self.pvar['fontfilename'])+'_'+str(ver)
         self.abvslines = []
@@ -354,15 +357,24 @@ class EotHelper:
                         offset['bd'] = bxy
                         offset['id'] = ixy
                         offset['om'] = int(ov[1:])/20
-                        offset['os'] = int(offset['om'] * (self.pvar['hfu'] * self.pvar['chu']))
+                        os = int(offset['om'] * (self.pvar['hfu'] * self.pvar['chu']))
+                        if it in ('te','be'):
+                            os = os * -1
+                        offset['os'] = os
                     elif ov[0:1] == 'y':
                         offset['tt'] = 'y'
                         offset['bd'] = bxy
                         offset['id'] = ixy
                         offset['om'] = int(ov[1:])/20
-                        offset['os'] = int(offset['om'] * (self.pvar['vfu'] * self.pvar['vhu']))
+                        os = int(offset['om'] * (self.pvar['vfu'] * self.pvar['vhu']))
+                        if it in ('ts','te','ti'):
+                            os = os * -1
+                        offset['os'] = os
                     offset['hash'] = str(offset['tt'])+str(offset['os'])
-                    # print(offset)
+
+                    # if sign in ('S14'):
+                        # print(offset)
+
                     return offset
                 def storeoffsets(o):
                     h = o['hash']
@@ -417,6 +429,10 @@ class EotHelper:
         for ins in self.insertionmappings:
             self.insertionmappings[ins] = getinsertionObj(ins)
         groupdata['insertions_all'] = self.insertionsall
+
+        for k in self.insertionsall:
+            self.offsetchars.append(k)
+
         pass
 
     def loadVariationDatabase(self):
@@ -1259,13 +1275,12 @@ class EotHelper:
                 return contexts
             def gendetails(offset):
                 details = []
+
                 ins = 'it'+str(offset['id'])
                 if ins not in usedoffsets:
                     if offset['tt'] == 'x':
                         dx = int(offset['os'])
                         dy = 0
-                        if offset['it'] in ('te','be'):
-                            dx = dx * -1
                     if offset['tt'] == 'y':
                         dx = 0
                         dy = int(offset['os'])
@@ -1292,12 +1307,15 @@ class EotHelper:
             # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G18'], 'hash': 'y186'}
             # {'it': 'bs', 'tt': 'y', 'bd': '6', 'id': '2', 'om': 0.1, 'os': 186, 'signs': ['G2'], 'hash': 'y186'}
 
-            lookupObj = {'name':'dist_offset_'+key,'marks':'','contexts':[],'details':[]}
+            lookupObj = {'name':'dist_offset_'+key,'marks':'dist_offsets','contexts':[],'details':[]}
             usedoffsets = []
             for o in offset:
                 lookupObj['contexts'].extend(gencontexts(o))
                 lookupObj['details'].extend(gendetails(o))
             return lookupObj
+
+
+
         def distanceoffsets(level):
             lookupObjs = []
             if level == 1:
@@ -2442,6 +2460,10 @@ class EotHelper:
                 if not key in qcontrols:
                     groupdata['mirror_all'].append(key)
 
+            # insertions
+            if (key in self.offsetchars):
+                groupdata['offsetchars'].append(key)
+
         hashtargetsizes()
         savefont()
         ehvkeys = sorted(ehvs)
@@ -2790,15 +2812,6 @@ class EotHelper:
                 print('Wrote '+str(i)+' glyph properties to glyph_properties.txt')
 
         return
-    # def calcExtremes(self,coordinates):
-    #     xs = []
-    #     ys = []
-    #     for x,y in coordinates[0]:
-    #         xs.append(x)
-    #         ys.append(y)
-    #     packet = {'xMin':min(xs),'xMax':max(xs),'yMin':min(ys),'yMax':max(ys)}
-
-    #     return packet
 
 # L I G A T U R E S
     def GSUBligatures(self):
@@ -5426,6 +5439,9 @@ class EotHelper:
             lookupObj = {'feature':featuretag,'name':'','marks':'','contexts':[],'details':[]}
             lookupObj['name'] = 'nrm-V-remove_cleanup-'+str(level)
 
+            anchor = 'r'+str(level)+'eA'
+            details = {'sub':[anchor,'cleanup'],'target':[anchor]}
+            lookupObj['details'].append(details)
             i = 1
             while i <= self.pvar['vhu']:
                 details = {'sub':['cleanup','r'+str(level)+'v'+str(i)],'target':['r'+str(level)+'v'+str(i)]}

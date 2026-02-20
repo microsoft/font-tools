@@ -8,7 +8,7 @@ punctuation = ['tcab','tcae','tcbb','tcbe','tcpb','tcpe','tcrb','tcre','tcub','t
 
 featurename = {
 	'abvs' : {'prefix':'ab','name':'Above-base Substitutions','type':'GSUB'},
-	'blws' : {'prefix':'bl','name':'Below-base Substitutions','type':'GSUB'},	
+	'blws' : {'prefix':'bl','name':'Below-base Substitutions','type':'GSUB'},
 	'haln' : {'prefix':'ha','name':'Halant Forms','type':'GSUB'},
 	'mark' : {'prefix':'ma','name':'Mark Positioning','type':'GPOS'},
 	'mkmk' : {'prefix':'mk','name':'Mark to Mark Positioning','type':'GPOS'},
@@ -52,6 +52,7 @@ groupdata = {
 	'deltas_allH0' : ['deltas_all','r0eA'],
 	'deltas_allH1' : ['deltas_all','r1eA'],
 	'deltas_allH2' : ['deltas_all','r2eA'],
+	'dist_offsets' : ['offsetchars','insertionsizes1','shapes_ts','shapes_bs','shapes_te','shapes_be','shapes_ti','shapes_mi','shapes_bi'], # Incomplete group, for testing only
 	'dCells' : ['dc0','dc1','dc2','dc3','dc4','dc5'],
 	'dq_core': ['dq1','dq12','dq123','dq1234','dq124','dq13','dq134','dq14','dq2','dq23','dq234','dq24','dq3','dq34','dq4'],
 	'dq_h' : [
@@ -101,7 +102,7 @@ groupdata = {
 	'insertionsizes1R' : [ 'it11R' ,'it12R' ,'it13R' ,'it14R' ,'it15R' ,'it16R' ,'it21R' ,'it22R' ,'it23R' ,'it24R' ,'it25R' ,'it26R' ,'it31R' ,'it32R' ,'it33R' ,'it34R' ,'it35R' ,'it36R' ,'it41R' ,'it42R' ,'it43R' ,'it44R' ,'it45R' ,'it46R' ,'it51R' ,'it52R' ,'it53R' ,'it54R' ,'it55R' ,'it56R' ,'it61R' ,'it62R' ,'it63R' ,'it64R' ,'it65R' ,'it66R'],
 	'insertionsizes2'  : [ 'it211' ,'it212' ,'it213' ,'it214' ,'it215' ,'it216' ,'it221' ,'it222' ,'it223' ,'it224' ,'it225' ,'it226' ,'it231' ,'it232' ,'it233' ,'it234' ,'it235' ,'it236' ,'it241' ,'it242' ,'it243' ,'it244' ,'it245' ,'it246' ,'it251' ,'it252' ,'it253' ,'it254' ,'it255' ,'it256' ,'it261' ,'it262' ,'it263' ,'it264' ,'it265' ,'it266'],
 	'insertionsizes2R' : [ 'it211R','it212R','it213R','it214R','it215R','it216R','it221R','it222R','it223R','it224R','it225R','it226R','it231R','it232R','it233R','it234R','it235R','it236R','it241R','it242R','it243R','it244R','it245R','it246R','it251R','it252R','it253R','it254R','it255R','it256R','it261R','it262R','it263R','it264R','it265R','it266R'],
-	'insertions' : ['insertionmarkers','insertionsizes1a'],
+	'insertions' : ['insertionmarkers','insertionsizes1a'],# insertions1a is not a group!
 	# 'minsizes' : [ 'mt11','mt12','mt13','mt14','mt15','mt16','mt21','mt22','mt23','mt24','mt25','mt26','mt31','mt32','mt33','mt34','mt35','mt36','mt41','mt42','mt43','mt44','mt45','mt46','mt51','mt52','mt53','mt54','mt55','mt56','mt61','mt62','mt63','mt64','mt65','mt66', 'su'],
 	'insertions_all'    : [],
 	'mirror_all'    : [],
@@ -109,6 +110,7 @@ groupdata = {
 	'multicorners1' : ['shapes_ts','shapes_bs','shapes_te','shapes_be','it00','cornerglyphs','c0eA'],
 	'multicorners2' : ['shapes_ts2','shapes_bs2','shapes_te2','shapes_be2','it00','cornerglyphs','c1eA'],
 	'normalize'     : ['dn1','dn2','dn3','dn4','dn5','hn1','hn2','hn3','hn4','hn5'],
+    'offsetchars'   : [], # populated dynamically based on insertions.py by eotHelper
 	'parens'        : ['parens_h','parens_v','corners0a','corners1a','om0A'],
 	'parenstcb0'   : ['parens','tcab0','tcbb0','tcpb0','tcrb0','tcub0','tclb0'],
 	'parenstce0'   : ['parens','tcab0','tcbe0','tcpb0','tcrb0','tcub0','tclb0'],
@@ -387,7 +389,7 @@ groupdata = {
 	'tsh'        : [],
 	'verticals2' : ['v1','v2','v3','v4','v5','v6','deltas_sp'],
 	'genericbases' : ['dottedcircle']
-} 
+}
 
 internalgroups = ['characters_all','controls_ng','corners0bNotOM','corners1bNotOM','ev_all','extensionendsL',
   'extensionendsR','extensionendsV','fillbases','genericbases','glyphs_all','groupCounters','horizontals2','insertionsizes',
@@ -509,7 +511,7 @@ mirroredvariants = {'A1n','A1o','A1t','D27n','D27an','D47o','F16n','F23t','F28n'
   'N35t','O6o','O31n','O31o','P8t','S10n','S18n','S18t','S20t','S33t','S37t','S42t','S43t','T2o',
   'T8t','T8at','T9t','T9at','T10t','T16n','T16o','T16at','T21o','T21t','T22n','T22o','T35o','T35t',
   'U7n','U8n','U22t','U42t','V7at','V12at','V19t','W1t','W2t','W14t','Y2t','Z7n','Z10n','J11n',
-  'J11o','J11t','J21n','J30t'  
+  'J11o','J11t','J21n','J30t'
 }
 
 verticalmetrics = {

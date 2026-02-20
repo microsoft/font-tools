@@ -64,7 +64,10 @@ pres = [
         {'sub':['tclb'],'target':['tclb2']}]},
     # Lookup - convert embedded tce to level 2
     {'name' : 'Level2_tce', 'marks' : '*tce12',
-    'contexts' : [{'left':['ss','ss'],'right':['se','se']}],
+    'contexts' : [
+        {'left':['ss','ss'],'right':['se','se']},
+        {'left':['ss','ss','tcb2s'],'right':['se','se']}
+        ],
     'details' : [
         {'sub':['tcae'],'target':['tcae2']},
         {'sub':['tcbe'],'target':['tcbe2']},
@@ -130,7 +133,10 @@ pres = [
         {'sub':['tclb'],'target':['tclb1']}]},
     # Lookup - convert embedded tcbe to level 1
     {'name' : 'Level1_tce', 'marks' : '*tce12',
-    'contexts' : [{'left':['ss'],'right':['se']}],
+    'contexts' : [
+        {'left':['ss'],'right':['se']},
+        {'left':['ss','tcb1s'],'right':['se']}
+        ],
     'details' : [
         {'sub':['tcae'],'target':['tcae1']},
         {'sub':['tcbe'],'target':['tcbe1']},
