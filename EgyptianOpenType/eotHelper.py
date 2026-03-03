@@ -747,7 +747,6 @@ class EotHelper:
 
                 i += 1
 
-
         if i > 0:
             transforms.append("")
             transforms.append("c Variation cycles")
@@ -765,6 +764,70 @@ class EotHelper:
         filename = 'keymanRotationTransforms.txt'
         file = open('out/'+filename,"w")
         file.write("c Variations\n")
+        for line in transforms:
+            file.write(line+"\n")
+        print(str(i) + ' transformation and ' + str(j) + ' cycles written')
+        pass
+
+    def writeLdmlRotations(self):
+        def transformlookup(string):
+            tlookup = {
+                'l': [' ', '/45', '\\u{FE03}','0'],
+                'n': [' ', '/90', '\\u{FE00}','1'],
+                'm': ['', '/135', '\\u{FE04}','2'],
+                'o': ['', '/180', '\\u{FE01}','3'],
+                'q': ['', '/225', '\\u{FE05}','4'],
+                't': ['', '/270', '\\u{FE02}','5'],
+                'u': ['', '/315', '\\u{FE06}','6'],
+            }
+            if string in tlookup:
+                return tlookup[string]
+            pass
+        transforms = []
+        cycles = {}
+        i = 0
+        j = 0
+
+        transforms.append("\t\t\t\t<!-- ✅️ Variations — updated for Unicode 17 -->")
+        transforms.append("\t\t\t\t<transformGroup>")
+        transforms.append("\t\t\t\t\t<!-- Variations see https://www.unicode.org/Public/UCD/latest/ucd/StandardizedVariants.txt-->")
+
+        for varObj in self.variations:
+            base = '\\u{'+varObj['base']+'}'
+            t = transformlookup(varObj['type'])
+            if t:
+                transforms.append("\t\t\t\t\t<transform from=\""+base+t[1]+"\\m{C}\""+t[0]+"  to=\""+base+t[2]+"\" />")
+                if base in cycles:
+                    cycles[base].append({'sort': t[3], 'value': t[2]})
+                else:
+                    cycles[base] = [{'sort': t[3], 'value': t[2]}]
+                i += 1
+
+        transforms.append("\t\t\t\t</transformGroup>")
+
+        if i > 0:
+            transforms.append("")
+            transforms.append("\t\t\t\t<!-- Variation cycles -->")
+            transforms.append("\t\t\t\t<transformGroup>")
+
+            for key in sorted(cycles):
+                cycle = sorted(cycles[key], key=lambda x: int(x['sort']))
+                prv = ''
+                for c in cycle:
+                    v = c['value']
+                    pad = '        ' if not prv else ''
+                    transforms.append(f"\t\t\t\t\t<transform from=\"{key}{prv}\\m{{rotate}}\"{pad} to=\"{key}{v}\" />")
+                    prv = v
+                    j += 1
+                # Closing cycle rule
+                pad = '        ' if not prv else ''
+                transforms.append(f"\t\t\t\t\t<transform from=\"{key}{prv}\\m{{rotate}}\"{pad} to=\"{key}\" />")
+                j += 1
+
+        transforms.append("\t\t\t\t</transformGroup>")
+
+        filename = 'LdmlRotationTransforms.txt'
+        file = open('out/'+filename,"w",encoding='utf-8')
         for line in transforms:
             file.write(line+"\n")
         print(str(i) + ' transformation and ' + str(j) + ' cycles written')

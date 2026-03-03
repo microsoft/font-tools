@@ -13,7 +13,7 @@ if len(sys.argv) > 1:
         print('Using config: '+fontconfig)
         exec('from '+fontconfig+' import pvar')
         d = False
-if (d): 
+if (d):
     print ('Using default config')
     from config import pvar
 
@@ -21,9 +21,10 @@ eothelper = EotHelper(pvar)
 eothelper.initializeVTP()
 eothelper.createErrorFile()
 eothelper.loadVariationDatabase()
-eothelper.writeKeymanRotations()
-eothelper.writeRotationRecipes(1)
+# eothelper.writeKeymanRotations()
+eothelper.writeLdmlRotations()
+# eothelper.writeRotationRecipes(1)
 # eothelper.writeMirrorRecipes(1)
-eothelper.writeMirroredRotations(1)
+# eothelper.writeMirroredRotations(1)
 # eothelper.writeGlyphProperties()
 eothelper.writeerrors()
