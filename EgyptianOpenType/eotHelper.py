@@ -2685,6 +2685,66 @@ class EotHelper:
             lookupname = prefix + index + '_' + name + marktag
             self.features[feature].append(lookupname)
             return lookupname
+        def getlookupType(sub,target):
+            subc = len(sub)
+            targetc = len(target)
+
+            if subc == 1 and targetc == 1:
+                return 1 # GSUB Type 1 single substitution
+            if subc == 1 and targetc > 1:
+                return 2 # GSUB Type 2 multiple substitution
+            if subc > 1 and targetc == 1:
+                return 4 # GSUB Type 4 ligature substitution
+
+            return -1
+        def expandGroupMembers(group, visited=None):
+            if visited is None:
+                visited = set()
+            if group in visited:
+                print('Warning: Circular group reference detected: ' + group)
+                return []
+            visited.add(group)
+            groupmembers = []
+            if group in groupdata:
+                for member in groupdata[group]:
+                    if member in groupdata:
+                        expanded = expandGroupMembers(member, visited)
+                        for item in expanded:
+                            if item not in groupmembers:
+                                groupmembers.append(item)
+                    else:
+                        if member not in groupmembers:
+                            groupmembers.append(member)
+            return groupmembers
+        def reformatSubpairs(sub, i, expanded):
+            returnobj = []
+            base_sub = sub.copy()
+            for subel in expanded:
+                sub_variant = base_sub.copy()
+                sub_variant[i] = subel
+                pair = {'sub':sub_variant,'target':[subel]}
+                returnobj.append(pair)
+                # print('Reformatted ligature substitution: '+str(subpair))
+            return returnobj
+        def reformatLookup(subpair):
+            returnobj = {'reformat':False,'subpairs':[]}
+            sub = subpair['sub']
+            target = subpair['target']
+            type = getlookupType(sub, target)
+            if type == 4:
+                i = 0
+                # A B -> A
+                for subelement in sub:
+                    members = expandGroupMembers(subelement)
+                    # A
+                    if subelement == target[0]:
+                        if subelement in groupdata:
+                            returnobj['reformat'] = True
+                            returnobj['subpairs'] = reformatSubpairs(sub, i, members)
+                    # B
+
+                    i += 1
+            return returnobj
 
         #lookup
         name = lookupObj['name']
@@ -2769,14 +2829,31 @@ class EotHelper:
         if lookuptype == 'GSUB':
             subpairs = lookupObj['details']
             substitutions = ''
+            newsubpairs = []
+            # reformated = False
             for subpair in subpairs:
+                reformat = reformatLookup(subpair)
+                if reformat['reformat']:
+                    newsubpairs.extend(reformat['subpairs'])
+                    # reformated = True
+                else:
+                    newsubpairs.append(subpair)
+
+            # if reformated:
+            #     print('Name: ' + lookupname)
+            #     print('\tOriginal subpairs: '+str(subpairs))
+            #     print("\n")
+            #     print('\tReformatted subpairs: '+str(newsubpairs))
+            #     print("\n\n\n\n")
+
+            for subpair in newsubpairs:
                 subsource = formatelement(subpair['sub'])
                 if subsource == '-1':
                     print("\t"+'Subsource missing: '+name+' : '+str(subpair['sub']))
                 subtarget = formatelement(subpair['target'])
-                #if subtarget == '-1':
-                    #print("\t"+'Subtarget missing: '+name)
-                    #Generates too many tsg values as errors, but these are OK.
+                if subtarget == '-1':
+                    print("\t"+'Subtarget missing: '+name +' : '+str(subpair['target']))
+                    # Generates too many tsg values as errors, but these are OK.
                 substitutions += ' SUB'+" "+str(subsource)+"\n"+' WITH'+" "+str(subtarget)+"\n"+'END_SUB'+"\n"
 
             line += 'AS_SUBSTITUTION'+"\n"
